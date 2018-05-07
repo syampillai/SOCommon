@@ -1,0 +1,511 @@
+package com.storedobject.common;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FilterInputStream;
+import java.io.FilterOutputStream;
+import java.io.FilterReader;
+import java.io.FilterWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+/**
+ * Generic Input/Output routines.
+ * All 'get' methods return 'buffered' streams/readers/writers. 'Double buffering' is avoided.
+ * Conversion between streams and reader/writer are with UTF-8 encoding
+ */
+public class IO {
+
+    public static final Charset UTF8 = Charset.forName("UTF-8");
+
+    /**
+     * Copy one stream to another. Both the streams will be closed.
+     * @param input Source stream
+     * @param output Destination stream
+     * @throws IOException I/O exception
+     */
+    public static void copy(InputStream input, OutputStream output) throws IOException {
+        try(InputStream in = get(input); OutputStream out = get(output)) {
+            byte[] buf = new byte[2048];
+            int r;
+            while((r = in.read(buf)) != -1) {
+                out.write(buf, 0, r);
+            }
+        }
+    }
+
+    /**
+     * Copy one stream to another
+     * @param input Source stream
+     * @param output Destination stream
+     * @param close Whether to close the streams or not
+     * @throws IOException I/O exception
+     */
+    public static void copy(InputStream input, OutputStream output, boolean close) throws IOException {
+        if(close) {
+            copy(input, output);
+        } else {
+            copy(new NoCloseInputStream(input), new NoCloseOutputStream(output));
+        }
+    }
+
+    private static class NoCloseInputStream extends FilterInputStream {
+
+        protected NoCloseInputStream(InputStream in) {
+            super(in);
+        }
+
+        @Override
+        public void close() throws IOException {
+        }
+    }
+
+    private static class NoCloseOutputStream extends FilterOutputStream {
+
+        protected NoCloseOutputStream(OutputStream out) {
+            super(out);
+        }
+
+        @Override
+        public void close() throws IOException {
+        }
+    }
+
+    /**
+     * Copy from reader to writer. Both reader and writer will be closed.
+     * @param reader Reader
+     * @param writer Writer
+     * @throws IOException I/O exception
+     */
+    public static void copy(Reader reader, Writer writer) throws IOException {
+        int c;
+        try(BufferedReader r = get(reader); BufferedWriter w = get(writer)) {
+            while((c = r.read()) != -1) {
+                w.write(c);
+            }
+        }
+    }
+
+    /**
+     * Copy from reader to writer. Both reader and writer will be closed.
+     * @param reader Reader
+     * @param writer Writer
+     * @param close Whether to close the reader/writer or not
+     * @throws IOException I/O exception
+     */
+    public static void copy(Reader reader, Writer writer, boolean close) throws IOException {
+        if(close) {
+            copy(reader, writer);
+        } else {
+            copy(new NoCloseReader(reader), new NoCloseWriter(writer));
+        }
+    }
+
+    private static class NoCloseReader extends FilterReader {
+
+        protected NoCloseReader(Reader in) {
+            super(in);
+        }
+
+        @Override
+        public void close() throws IOException {
+        }
+    }
+
+    private static class NoCloseWriter extends FilterWriter {
+
+        protected NoCloseWriter(Writer out) {
+            super(out);
+        }
+
+        @Override
+        public void close() throws IOException {
+        }
+    }
+
+    /**
+     * Convert a stream to a buffered stream
+     * @param in Stream to convert
+     * @return Buffered stream
+     */
+    public static BufferedInputStream get(InputStream in) {
+        if(in == null || in instanceof BufferedInputStream) {
+            return (BufferedInputStream)in;
+        }
+        return new BufferedInputStream(in);
+    }
+
+    /**
+     * Convert a stream to a buffered stream
+     * @param out Stream to convert
+     * @return Buffered stream
+     */
+    public static BufferedOutputStream get(OutputStream out) {
+        if(out == null || out instanceof BufferedOutputStream) {
+            return (BufferedOutputStream)out;
+        }
+        return new BufferedOutputStream(out);
+    }
+
+    /**
+     * Convert a stream to a buffered UTF-8 reader
+     * @param in Stream to convert
+     * @return Buffered reader
+     */
+    public static BufferedReader getReader(InputStream in) {
+        try {
+            return new BufferedReader(new InputStreamReader(in, UTF8));
+        } catch(Throwable e) {
+        }
+        return null;
+    }
+
+    /**
+     * Convert a stream to a buffered UTF-8 writer
+     * @param out Stream to convert
+     * @return Buffered writer
+     */
+    public static BufferedWriter getWriter(OutputStream out) {
+        try {
+            return new BufferedWriter(new OutputStreamWriter(out, UTF8));
+        } catch(Throwable e) {
+        }
+        return null;
+    }
+
+    /**
+     * Convert a reader to a buffered reader
+     * @param in Reader to convert
+     * @return Buffered reader
+     */
+    public static BufferedReader get(Reader in) {
+        if(in == null || in instanceof BufferedReader) {
+            return (BufferedReader)in;
+        }
+        return new BufferedReader(in);
+    }
+
+    /**
+     * Convert a writer to a buffered writer
+     * @param out Writer to convert
+     * @return Buffered writer
+     */
+    public static BufferedWriter get(Writer out) {
+        if(out == null || out instanceof BufferedWriter) {
+            return (BufferedWriter)out;
+        }
+        return new BufferedWriter(out);
+    }
+
+    /**
+     * Convert a stream to a buffered data stream
+     * @param in Stream to convert
+     * @return Buffered data stream
+     */
+    public static DataInputStream getData(InputStream in) {
+        return new DataInputStream(get(in));
+    }
+
+    /**
+     * Convert a stream to a buffered data stream
+     * @param out Stream to convert
+     * @return Buffered data stream
+     */
+    public static DataOutputStream getData(OutputStream out) {
+        return new DataOutputStream(get(out));
+    }
+
+    /**
+     * Create a buffered stream from the file
+     * @param fileName Name of the file
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedInputStream getInput(String fileName) throws IOException {
+        return getInput(getPath(fileName));
+    }
+
+    /**
+     * Get the path class for the file name passed.
+     * @param fileName Name of the file (with directory separators if any)
+     * @return Path
+     */
+    public static Path getPath(String fileName) {
+        return FileSystems.getDefault().getPath(fileName);
+    }
+
+    /**
+     * Create a buffered stream from the file
+     * @param file File
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedInputStream getInput(File file) throws IOException {
+        return getInput(file.toPath());
+    }
+
+    /**
+     * Create a buffered stream from the path
+     * @param path Path
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedInputStream getInput(Path path) throws IOException {
+        return get(Files.newInputStream(path));
+    }
+
+    /**
+     * Create a buffered stream to write for the file
+     * @param fileName Name of the file
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedOutputStream getOutput(String fileName) throws IOException {
+        return getOutput(getPath(fileName));
+    }
+
+    /**
+     * Create a buffered stream to write for the file
+     * @param file File
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedOutputStream getOutput(File file) throws IOException {
+        return getOutput(file.toPath());
+    }
+
+    /**
+     * Create a buffered stream to write for the file
+     * @param path Path
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedOutputStream getOutput(Path path) throws IOException {
+        return get(Files.newOutputStream(path));
+    }
+
+    /**
+     * Create a buffered data stream from the file
+     * @param fileName Name of the file
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static DataInputStream getDataInput(String fileName) throws IOException {
+        return getDataInput(getPath(fileName));
+    }
+
+    /**
+     * Create a buffered data stream from the file
+     * @param file File
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static DataInputStream getDataInput(File file) throws IOException {
+        return getDataInput(file.toPath());
+    }
+
+    /**
+     * Create a buffered data stream from the file
+     * @param path Path
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static DataInputStream getDataInput(Path path) throws IOException {
+        return getData(Files.newInputStream(path));
+    }
+
+    /**
+     * Create a buffered data stream to write for the file
+     * @param fileName Name of the file
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static DataOutputStream getDataOutput(String fileName) throws IOException {
+        return getDataOutput(getPath(fileName));
+    }
+
+    /**
+     * Create a buffered data stream to write for the file
+     * @param file File
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static DataOutputStream getDataOutput(File file) throws IOException {
+        return getDataOutput(file.toPath());
+    }
+
+    /**
+     * Create a buffered data stream to write for the path
+     * @param path Path
+     * @return Buffered stream
+     * @throws IOException if I/O error occurs.
+     */
+    public static DataOutputStream getDataOutput(Path path) throws IOException {
+        return getData(Files.newOutputStream(path));
+    }
+
+    /**
+     * Create a buffered reader from the file
+     * @param fileName Name of the file
+     * @return Buffered reader
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedReader getReader(String fileName) throws IOException {
+        return getReader(getPath(fileName));
+    }
+
+    /**
+     * Create a buffered reader from the file
+     * @param file File
+     * @return Buffered reader
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedReader getReader(File file) throws IOException {
+        return getReader(file.toPath());
+    }
+
+    /**
+     * Create a buffered reader from the path
+     * @param path Path
+     * @return Buffered reader
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedReader getReader(Path path) throws IOException {
+        return Files.newBufferedReader(path);
+    }
+
+    /**
+     * Create a buffered writer to write for the file
+     * @param fileName Name of the file
+     * @return Buffered writer
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedWriter getWriter(String fileName) throws IOException {
+        return getWriter(getPath(fileName));
+    }
+
+    /**
+     * Create a buffered writer to write for the file
+     * @param file File
+     * @return Buffered writer
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedWriter getWriter(File file) throws IOException {
+        return getWriter(file.toPath());
+    }
+
+    /**
+     * Create a buffered writer to write for the path
+     * @param path Path
+     * @return Buffered writer
+     * @throws IOException if I/O error occurs.
+     */
+    public static BufferedWriter getWriter(Path path) throws IOException {
+        return Files.newBufferedWriter(path);
+    }
+
+    private static NullInputStream nullIn;
+    private static NullOutputStream nullOut;
+
+    private static class NullInputStream extends InputStream {
+        @Override
+        public int read() throws IOException {
+            return -1;
+        }
+
+        @Override
+        public int read(byte[] b) throws IOException {
+            return -1;
+        }
+
+        @Override
+        public int read(byte[] b, int off, int len) throws IOException {
+            return -1;
+        }
+
+        @Override
+        public int available() throws IOException {
+            return 0;
+        }
+
+        @Override
+        public void close() throws IOException {
+        }
+    }
+
+    private static class NullOutputStream extends OutputStream {
+
+        @Override
+        public void write(int b) throws IOException {
+        }
+
+        @Override
+        public void write(byte[] b) throws IOException {
+        }
+
+        @Override
+        public void write(byte[] b, int off, int len) throws IOException {
+        }
+
+        @Override
+        public void close() throws IOException {
+        }
+    }
+
+    /**
+     * Create a null input stream. A read from this stream always returns EOF (-1).
+     * @return Null input stream
+     */
+    public static InputStream nullInput() {
+        if(nullIn == null) {
+            nullIn = new NullInputStream();
+        }
+        return nullIn;
+    }
+
+    /**
+     * Create a null output stream. Anything written to this stream just disappears.
+     * @return Null output stream
+     */
+    public static OutputStream nullOutput() {
+        if(nullOut == null) {
+            nullOut = new NullOutputStream();
+        }
+        return nullOut;
+    }
+
+    /**
+     * Connect an output stream to an input stream so that the input stream is closed when the output stream is closed.
+     * @param out Output stream
+     * @param in Input stream to connect to
+     * @return Modified output stream
+     */
+    public static OutputStream connect(OutputStream out, InputStream in) {
+        return new FilterOutputStream(out) {
+            public void close() {
+                try {
+                    out.close();
+                } catch(IOException e) {
+                }
+                try {
+                    in.close();
+                } catch(IOException e) {
+                }
+            }
+        };
+    }
+}

@@ -1,0 +1,112 @@
+package com.storedobject.common;
+
+@SuppressWarnings("serial")
+public class SORuntimeException extends RuntimeException {
+
+    public SORuntimeException() {
+        super();
+    }
+
+    public SORuntimeException(String message) {
+        super(message);
+    }
+
+    public SORuntimeException(Throwable cause) {
+        super(cause);
+    }
+
+    public SORuntimeException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public String getMessage() {
+        String s = null;
+        Throwable t = this;
+        while(t.getCause() != null) {
+            t = t.getCause();
+        }
+        String m = super.getMessage();
+        if(t == this) {
+            s = m;
+            m = null;
+        } else {
+            s = t.getMessage();
+        }
+        String c = t.getClass().getName();
+        if(s == null) {
+            s = getCustomMessage();
+        }
+        if(m != null) {
+            if(s == null) {
+                s = m;
+            } else {
+                s = m + "\n" + s;
+            }
+        }
+        c = c.substring(c.lastIndexOf('.')+1).replace('_', ' ');
+        if(c.indexOf('$') > 0) {
+            c = c.substring(c.indexOf('$') + 1);
+        }
+        if(c.equals("SORuntimeException") || c.equals("SOError")) {
+            return s == null ? "Runtime Error" : s;
+        }
+        return s == null ? c : (c + " (" + s + ")");
+    }
+
+    protected String getCustomMessage() {
+        return null;
+    }
+
+    public String toString() {
+        return getMessage();
+    }
+
+    public String getTrace() {
+        return getTrace(getCause() == null ? this : getCause(), false);
+    }
+
+    public static String getTrace(Throwable t) {
+        return getTrace(t, false);
+    }
+
+    public static String getTrace(Throwable t, boolean full) {
+        if(!full) {
+            while(t.getCause() != null) {
+                t = t.getCause();
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while(t != null) {
+            sb.append(t.getClass().getName()).append(": ");
+            if(t.getMessage() != null) {
+                sb.append(t.getMessage());
+            }
+            sb.append('\n');
+            StackTraceElement[] ste = t.getStackTrace();
+            for(StackTraceElement s: ste) {
+                sb.append('\t').append(s).append('\n');
+            }
+            t = t.getCause();
+            if(t != null) {
+                sb.append("Caused by:\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    public static String getTrace(Thread thread) {
+        return getTrace(thread, "Stack Trace");
+    }
+
+    public static String getTrace(Thread thread, String title) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(title).append('\n');
+        StackTraceElement[] ste = thread.getStackTrace();
+        StackTraceElement s;
+        for(int i = 1; i < ste.length; i++) {
+            s = ste[i];
+            sb.append('\t').append(s).append('\n');
+        }
+        return sb.toString();
+    }
+}
