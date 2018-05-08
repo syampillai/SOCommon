@@ -13,9 +13,11 @@
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-    <name>SO Common</name>
-    <description>Common utility classes</description>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>SO Common utility classes</description>
+    <url>https://github.com/syampillai/SOCommon</url>
 
     <licenses>
         <license>
@@ -29,9 +31,12 @@
         <developer>
             <name>Syam Pillai</name>
             <email>syam@engravgroup.com</email>
+            <organization>Syam Pillai</organization>
+            <organizationUrl>https://github.com/syampillai</organizationUrl>
         </developer>
     </developers>
-         
+
+    <!--
     <dependencies>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
@@ -44,25 +49,25 @@
             <version>1.6.8</version>
         </dependency>
     </dependencies>
+    -->
 
     <scm>
-        <connection>scm:git:https://github.com/syampillai/SOCommon.git</connection>
-        <url>https://github.com/syampillai/SOCommon</url>
+        <connection>scm:git:git://github.com/syampillai/SOCommon.git</connection>
+        <developerConnection>scm:git:ssh://github.com/syampillai/SOCommon.git</developerConnection>
+        <url>https://github.com/syampillai/SOCommon/tree/master</url>
     </scm>
 
     <distributionManagement>
-        <site>
-            <id>api.wiki</id>
-            <url>https://github.com/syampillai/SOCommon/wiki</url>
-        </site>
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <!--
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+        -->
     </distributionManagement>
 
     <profiles>
