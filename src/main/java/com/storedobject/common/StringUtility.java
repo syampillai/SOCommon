@@ -129,6 +129,7 @@ public class StringUtility {
      * Tag each element of a String list if it is a duplicate. For example, if the list is [ "Name", "ShortName", "Name", "Test", "Name" ], it will become
      * [ "Name", "ShortName", "Name (2)", "Test", "Name (3)" ]. Null values will be untouched.
      * @param s String list to be tagged
+     * @return Tagged list (Same instance of the list is returned)
      */
     public static java.util.List<String> tagDuplicates(java.util.List<String> s) {
         int i, j, tag;
@@ -1132,7 +1133,7 @@ public class StringUtility {
             } else {
                 if(c == quote) {
                     quote = 0;
-                    s.append(text.substring(p, n + 1));
+                    s.append(text, p, n + 1);
                     p = n + 1;
                 }
             }
