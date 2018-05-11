@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * String utility functions
@@ -980,7 +980,7 @@ public class StringUtility {
                 return null;
             }
         }
-        Vector<Integer> v = new Vector<Integer>();
+        ArrayList<Integer> v = new ArrayList<Integer>();
         String t[] = s.split(",");
         for(i=0; i<t.length; i++) {
             s = t[i];
@@ -1986,7 +1986,7 @@ public class StringUtility {
         if(line == null || line.length() == 0) {
             return null;
         }
-        Vector<String> v = new Vector<String>();
+        ArrayList<String> v = new ArrayList<String>();
         CSVField f;
         int p, i = 0;
         boolean more = false;
