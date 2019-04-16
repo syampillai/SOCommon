@@ -24,7 +24,7 @@ package com.storedobject.common;
 public interface Displayable {
 
     /**
-     * Convert to a displayable string. The default implementation returns the {@link #toString()} value.
+     * Convert to a displayable string. The default implementation returns the {@link Object#toString()} value.
      *
      * @return A displayable string.
      */

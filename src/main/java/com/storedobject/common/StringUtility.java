@@ -1271,8 +1271,6 @@ public class StringUtility {
      * @param objects Array of any object copy.
      * @return Copy of the array as string array. If the input is null, output will also be null.
      * Null elements in the source array will generate null element in the output array.
-     *
-     * @return Array
      */
     public static String[] copy(Object[] objects) {
         if(objects == null) {
@@ -1292,8 +1290,6 @@ public class StringUtility {
      * @param s Array to be converted.
      * @return character array created by taking the first characters of the String array. For null values and values of length zeros,
      * a space is set for the corresponding character values.
-     *
-     * @return Array
      */
     public static char[] toCharArray(String[] s) {
         if(s == null) {

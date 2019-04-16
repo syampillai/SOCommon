@@ -25,7 +25,7 @@ package com.storedobject.common;
 public interface Storable {
 
     /**
-     * Get the storable value. Bu default, {@link #toString()} is retuned.
+     * Get the storable value. Bu default, {@link Object#toString()} is retuned.
      *
      * @return Storable value as a string.
      */

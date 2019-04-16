@@ -87,12 +87,10 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-        <!--
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-        -->
     </distributionManagement>
 
     <profiles>
@@ -144,6 +142,10 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                            <quiet>true</quiet>
+                        </configuration>
                     </plugin>
                     <!-- To sign the artifacts -->
                     <plugin>
