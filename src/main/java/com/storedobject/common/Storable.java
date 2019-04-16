@@ -14,6 +14,22 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+/**
+ * This interface defines a string value for anthing to store it somewhere, typically, in databases. Storable value
+ * should contain all the information required to re-construct the object's instance.
+ *
+ * @author Syam
+ */
+public interface Storable {
+
+    /**
+     * Get the storable value. Bu default, {@link #toString()} is retuned.
+     *
+     * @return Storable value as a string.
+     */
+    default String getStorableValue() {
+        return toString();
+    }
+}

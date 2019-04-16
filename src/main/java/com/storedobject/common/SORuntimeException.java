@@ -16,7 +16,6 @@
 
 package com.storedobject.common;
 
-@SuppressWarnings("serial")
 public class SORuntimeException extends RuntimeException {
 
     public SORuntimeException() {
@@ -36,7 +35,7 @@ public class SORuntimeException extends RuntimeException {
     }
 
     public String getMessage() {
-        String s = null;
+        String s;
         Throwable t = this;
         while(t.getCause() != null) {
             t = t.getCause();

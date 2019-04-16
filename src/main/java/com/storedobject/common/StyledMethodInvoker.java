@@ -14,6 +14,23 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+public abstract class StyledMethodInvoker extends CustomMethodInvoker {
+
+    public StyledMethodInvoker() {
+    }
+
+    public final StyledBuilder invoke(Object object) {
+        return build(object, createBuilder());
+    }
+
+    @Override
+    public Class<?> getReturnType() {
+        return StyledBuilder.class;
+    }
+
+    public abstract StyledBuilder createBuilder();
+
+    public abstract StyledBuilder build(Object object, StyledBuilder builder);
+}

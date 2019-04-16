@@ -14,6 +14,30 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+public class LongRange extends Range<Long> {
+
+    public LongRange() {
+        this(0L, 0L);
+    }
+
+    public LongRange(Long from, Long to) {
+        super(from, to);
+    }
+
+    @Override
+    protected Long clone(Long data) {
+        return data == null ? new Long(0) : data;
+    }
+
+    @Override
+    protected boolean same(Long one, Long two) {
+        return one.longValue() == two.longValue();
+    }
+
+    @Override
+    protected long value(Long data) {
+        return data;
+    }
+}

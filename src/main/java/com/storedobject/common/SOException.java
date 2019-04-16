@@ -19,7 +19,6 @@ package com.storedobject.common;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-@SuppressWarnings("serial")
 public class SOException extends Exception {
 
     public SOException() {

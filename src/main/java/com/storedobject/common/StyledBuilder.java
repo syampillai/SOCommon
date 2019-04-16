@@ -14,6 +14,31 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+public interface StyledBuilder {
+
+    StyledBuilder append(Object object);
+
+    default StyledBuilder append(Object object, String color) {
+        return append(object);
+    }
+
+    default StyledBuilder append(Object object, String... styles) {
+        return append(object);
+    }
+
+    boolean isEmpty();
+
+    default StyledBuilder newLine() {
+        return newLine(false);
+    }
+
+    StyledBuilder newLine(boolean forceIt);
+
+    default StyledBuilder update() {
+        return this;
+    }
+
+    StyledBuilder clearContent();
+}

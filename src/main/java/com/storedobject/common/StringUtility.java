@@ -21,16 +21,15 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
+import java.text.NumberFormat;
+import java.util.*;
 
 /**
- * String utility functions
+ * String utility functions.
+ *
+ * @author Syam
  */
 public class StringUtility {
 
@@ -39,7 +38,7 @@ public class StringUtility {
      * @param s String array to be converted.
      * @return Array
      */
-    public static String[] toLowerCase(String s[]) {
+    public static String[] toLowerCase(String[] s) {
         if(s == null) {
             return s;
         }
@@ -56,7 +55,7 @@ public class StringUtility {
      * @param s String array to be converted.
      * @return Array
      */
-    public static String[] toUpperCase(String s[]) {
+    public static String[] toUpperCase(String[] s) {
         if(s == null) {
             return s;
         }
@@ -73,7 +72,7 @@ public class StringUtility {
      * @param s Char array to be converted.
      * @return Array
      */
-    public static char[] toLowerCase(char s[]) {
+    public static char[] toLowerCase(char[] s) {
         if(s == null) {
             return s;
         }
@@ -88,7 +87,7 @@ public class StringUtility {
      * @param s Char array to be converted.
      * @return Array
      */
-    public static char[] toUpperCase(char s[]) {
+    public static char[] toUpperCase(char[] s) {
         if(s == null) {
             return s;
         }
@@ -104,7 +103,7 @@ public class StringUtility {
      * @param s String array to be tagged
      * @return Array
      */
-    public static String[] tagDuplicates(String s[]) {
+    public static String[] tagDuplicates(String[] s) {
         int i, j, tag;
         String t;
         for(i = 1; i < s.length; i++) {
@@ -129,7 +128,7 @@ public class StringUtility {
      * Tag each element of a String list if it is a duplicate. For example, if the list is [ "Name", "ShortName", "Name", "Test", "Name" ], it will become
      * [ "Name", "ShortName", "Name (2)", "Test", "Name (3)" ]. Null values will be untouched.
      * @param s String list to be tagged
-     * @return Tagged list (Same instance of the list is returned)
+     * @return Array
      */
     public static java.util.List<String> tagDuplicates(java.util.List<String> s) {
         int i, j, tag;
@@ -158,7 +157,7 @@ public class StringUtility {
      * @return String array.
      */
     public static String[] toArray(java.util.List<?> list) {
-        String s[] = new String[list.size()];
+        String[] s = new String[list.size()];
         int i = 0;
         for(Object obj: list) {
             s[i++] = obj == null ? "" : obj.toString();
@@ -171,7 +170,7 @@ public class StringUtility {
      * @param s String array to be trimmed
      * @return Array
      */
-    public static String[] trim(String s[]) {
+    public static String[] trim(String[] s) {
         for(int i=0; i<s.length; i++) {
             s[i] = s[i] == null ? "" : s[i].trim();
         }
@@ -183,7 +182,7 @@ public class StringUtility {
      * @param s String array to be trimmed
      * @return Array
      */
-    public static String[] trimRight(String s[]) {
+    public static String[] trimRight(String[] s) {
         for(int i=0; i<s.length; i++) {
             s[i] = s[i] == null ? "" : trimRight(s[i]);
         }
@@ -195,7 +194,7 @@ public class StringUtility {
      * @param s String array to be trimmed
      * @return Array
      */
-    public static String[] trimLeft(String s[]) {
+    public static String[] trimLeft(String[] s) {
         for(int i=0; i<s.length; i++) {
             s[i] = s[i] == null ? "" : trimLeft(s[i]);
         }
@@ -237,12 +236,12 @@ public class StringUtility {
      * @return The result String
      */
     public static String replicate(String s, int times) {
-        String x = "";
+        StringBuilder x = new StringBuilder();
         while(times > 0) {
-            x += s;
+            x.append(s);
             --times;
         }
-        return x;
+        return x.toString();
     }
 
     /**
@@ -393,7 +392,7 @@ public class StringUtility {
      * @param s String array to be packed.
      * @return Converted array value after removing all white spaces from the elements.
      */
-    public static String[] pack(String s[]) {
+    public static String[] pack(String[] s) {
         if(s == null) {
             return null;
         }
@@ -409,7 +408,7 @@ public class StringUtility {
      * @param s String array from which null values need to be removed.
      * @return Converted array containing no null values. Array length may shrink because of the removals.
      */
-    public static String[] removeNulls(String s[]) {
+    public static String[] removeNulls(String[] s) {
         if(s == null) {
             return null;
         }
@@ -419,7 +418,7 @@ public class StringUtility {
                 ++n;
             }
         }
-        String v[] = new String[n];
+        String[] v = new String[n];
         n = 0;
         for(String t: s) {
             if(t != null) {
@@ -614,7 +613,7 @@ public class StringUtility {
      * @param a String array to be converted.
      * @return Array
      */
-    public static String[] firstCaps(String a[]) {
+    public static String[] firstCaps(String[] a) {
         if(a == null) {
             return a;
         }
@@ -737,7 +736,7 @@ public class StringUtility {
         if(s.endsWith("\"")) {
             s = s.substring(0, s.length() - 1);
         }
-        if(isWhite(s)) {
+        if(isWhite(s) || s.contains(" ")) {
             return s;
         }
         char c;
@@ -888,7 +887,8 @@ public class StringUtility {
      * @return Range string
      */
     public static String toRangeString(Collection<Integer> list) {
-        int i = 0, n[] = new int[list.size()];
+        int i = 0;
+        int[] n = new int[list.size()];
         for(Integer v: list) {
             n[i++] = v;
         }
@@ -901,7 +901,7 @@ public class StringUtility {
      * @param n int array of numbers to be converted.
      * @return Range string
      */
-    public static String toRangeString(int n[]) {
+    public static String toRangeString(int[] n) {
         if(n == null || n.length == 0) {
             return "";
         }
@@ -981,7 +981,7 @@ public class StringUtility {
             }
         }
         ArrayList<Integer> v = new ArrayList<Integer>();
-        String t[] = s.split(",");
+        String[] t = s.split(",");
         for(i=0; i<t.length; i++) {
             s = t[i];
             try {
@@ -996,10 +996,10 @@ public class StringUtility {
                 } else {
                     v.add(Integer.parseInt(s));
                 }
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
         }
-        int n[] = new int[v.size()];
+        int[] n = new int[v.size()];
         for(i=0; i<n.length; i++) {
             n[i] = (v.get(i)).intValue();
         }
@@ -1274,11 +1274,11 @@ public class StringUtility {
      *
      * @return Array
      */
-    public static String[] copy(Object objects[]) {
+    public static String[] copy(Object[] objects) {
         if(objects == null) {
             return null;
         }
-        String t[] = new String[objects.length];
+        String[] t = new String[objects.length];
         int i = 0;
         for(Object object: objects) {
             t[i++] = object == null ? null : object.toString();
@@ -1295,11 +1295,11 @@ public class StringUtility {
      *
      * @return Array
      */
-    public static char[] toCharArray(String s[]) {
+    public static char[] toCharArray(String[] s) {
         if(s == null) {
             return null;
         }
-        char t[] = new char[s.length];
+        char[] t = new char[s.length];
         for(int i = 0; i < s.length; i++) {
             t[i] = s[i] == null || s[i].length() == 0 ? ' ' : s[i].charAt(0);
         }
@@ -1314,11 +1314,11 @@ public class StringUtility {
      * @param index Index
      * @return Resultant array with length greater than the length of the array passed.
      */
-    public static String[] insert(String a[], String element, int index) {
+    public static String[] insert(String[] a, String element, int index) {
         if(a == null || index >= a.length) {
             return append(a, element);
         }
-        String t[] = new String[a.length + 1];
+        String[] t = new String[a.length + 1];
         if(index >= t.length) {
             index = t.length - 1;
         }
@@ -1342,8 +1342,8 @@ public class StringUtility {
      * @return Resultant array with length greater than the length of the array passed.
      *
      */
-    public static String[] append(String a[], String element) {
-        String t[] = new String[a == null ? 1 : a.length + 1];
+    public static String[] append(String[] a, String element) {
+        String[] t = new String[a == null ? 1 : a.length + 1];
         if(a != null && a.length > 0) {
             System.arraycopy(a, 0, t, 0, a.length);
         }
@@ -1359,14 +1359,14 @@ public class StringUtility {
      * @return Resultant array.
      *
      */
-    public static String[] remove(String a[], String element) {
+    public static String[] remove(String[] a, String element) {
         if(a == null) {
             return null;
         }
         int i;
         for(i = 0; i < a.length; i++) {
             if(a[i].equals(element)) {
-                String t[] = new String[a.length - 1];
+                String[] t = new String[a.length - 1];
                 if(t.length == 0) {
                     return t;
                 }
@@ -1389,7 +1389,7 @@ public class StringUtility {
      * @return Resultant array.
      *
      */
-    public static String[] removeAll(String a[], String element) {
+    public static String[] removeAll(String[] a, String element) {
         if(element == null) {
             return removeNulls(a);
         }
@@ -1406,7 +1406,7 @@ public class StringUtility {
      * @param second Second string.
      * @return Concatenated string.
      */
-    public static String[] concat(String first[], String second[]) {
+    public static String[] concat(String[] first, String[] second) {
         if(first == null && second == null) {
             return new String[0];
         }
@@ -1416,7 +1416,7 @@ public class StringUtility {
         if(second == null || second.length == 0) {
             return first;
         }
-        String s[] = new String[first.length + second.length];
+        String[] s = new String[first.length + second.length];
         int i = 0;
         for(String t: first) {
             s[i++] = t;
@@ -1435,7 +1435,7 @@ public class StringUtility {
      * @return First index of the element. -1 is returned if the array is null or the element is not found.
      *
      */
-    public static int indexOf(String a[], String element) {
+    public static int indexOf(String[] a, String element) {
         return indexOf(a, element, 0);
     }
 
@@ -1448,7 +1448,7 @@ public class StringUtility {
      * @return First index of the element. -1 is returned if the array is null or the element is not found.
      *
      */
-    public static int indexOf(String a[], String element, int from) {
+    public static int indexOf(String[] a, String element, int from) {
         return a == null ? -1 : indexOf(a, element, from, a.length);
     }
 
@@ -1462,7 +1462,7 @@ public class StringUtility {
      * @return First index of the element. -1 is returned if the array is null or the element is not found.
      *
      */
-    public static int indexOf(String a[], String element, int from, int to) {
+    public static int indexOf(String[] a, String element, int from, int to) {
         if(a == null) {
             return -1;
         }
@@ -1531,9 +1531,9 @@ public class StringUtility {
      *
      * @param args Argument list as string array.
      * @return Properties containing all the argument values passed as the array.
-     * @throws Invalid_Value if anything in the argument does not look like a "command line" parameter.
+     * @throws SOException if anything in the argument does not look like a "command line" parameter.
      */
-    public static Properties parseToProperties(String args[]) throws Invalid_Value {
+    public static Properties parseToProperties(String[] args) throws SOException {
         Properties p = new MultipleKeysProperties();
         if(args == null || args.length == 0) {
             return p;
@@ -1561,7 +1561,7 @@ public class StringUtility {
                     p.put(key, "1");
                 } else {
                     if(key == null) {
-                        throw new Invalid_Value(args[i]);
+                        throw new SOException("Invalid_Value '" + args[i] + "'");
                     }
                     p.put(key, args[i]);
                     key = null;
@@ -1572,7 +1572,7 @@ public class StringUtility {
             if(i >= args.length) {
                 i = args.length - 1;
             }
-            throw new Invalid_Value(args[i]);
+            throw new SOException("Invalid_Value '" + args[i] + "'");
         }
         return p;
     }
@@ -1585,7 +1585,8 @@ public class StringUtility {
             if(key.indexOf(',') < 0) {
                 return super.getProperty(key);
             }
-            String v, keys[] = key.split(",");
+            String v;
+            String[] keys = key.split(",");
             for(String k: keys) {
                 v = super.getProperty(k.trim());
                 if(v != null) {
@@ -1625,9 +1626,9 @@ public class StringUtility {
         } else if(m == 0) {
             return n;
         }
-        int p[] = new int[n+1]; //'previous' cost array, horizontally
-        int d[] = new int[n+1]; // cost array, horizontally
-        int _d[]; //placeholder to assist in swapping p and d
+        int[] p = new int[n + 1]; //'previous' cost array, horizontally
+        int[] d = new int[n + 1]; // cost array, horizontally
+        int[] _d; //placeholder to assist in swapping p and d
         // indexes into strings s and t
         int i; // iterates through s
         int j; // iterates through t
@@ -1701,6 +1702,361 @@ public class StringUtility {
     }
 
     /**
+     * Formats a double value as a numeric string with thousands separation. Up to 14 fractional digits will be considered.
+     *
+     * @param value Double value to be converted.
+     * @return Formatted value
+     */
+    public static String format(double value) {
+        return format(value, -1, false);
+    }
+
+    /**
+     * Formats a double value as a numeric string. Up to 14 fractional digits will be considered.
+     *
+     * @param value Double value to be converted.
+     * @param separated True if thousands separation is needed in the output.
+     * @return Formatted value
+     */
+    public static String format(double value, boolean separated) {
+        return format(value, -1, separated);
+    }
+
+    /**
+     * Formats a double value as a numeric string with thousands separation.
+     *
+     * @param value Double value to be converted.
+     * @param decimals Number of decimals required in the output string. Passing -1 causes all non-zero decimals up to
+     * 14 positions to be incorporated.
+     * @return Formatted value
+     */
+    public static String format(double value, int decimals) {
+        return format(value, decimals, true);
+    }
+
+    private static final NumberFormat format = NumberFormat.getNumberInstance();
+    static {
+        format.setMaximumIntegerDigits(30);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Formats a double value as a numeric string with thousands separation.
+     *
+     * @param value Double value to be converted.
+     * @param decimals Number of decimals required in the output string. Passing -1 causes all non-zero decimals up to
+     * 14 positions to be incorporated.
+     * @param separated True if thousands separation is needed in the output.
+     * @return Formatted value
+     */
+    public static String format(double value, int decimals, boolean separated) {
+        boolean negative = value < 0;
+        if(negative) {
+            value = -value;
+        }
+        if(decimals < 0) {
+            format.setMinimumFractionDigits(decimals < -1 ? -decimals : 14);
+            format.setMaximumFractionDigits(decimals < -1 ? -decimals : 14);
+        } else {
+            format.setMinimumFractionDigits(decimals);
+            format.setMaximumFractionDigits(decimals);
+        }
+        String s = format.format(value);
+        if(decimals < 0) {
+            if(s.indexOf('.') >= 0) {
+                while(s.endsWith("0") && !s.endsWith(".0")) {
+                    s = s.substring(0, s.length() - 1);
+                }
+            }
+            return (negative ? "-" : "") + format(s, s.endsWith(".0") ? 0 : s.length() - s.indexOf('.') - 1, separated);
+        }
+        return (negative ? "-" : "") + format(s, decimals, separated);
+    }
+
+    /**
+     * Formats a string as a numeric string with thousands separation.
+     *
+     * @param s String of digits (can contain a decimal point).
+     * @param decimals Number of decimals required in the output string.
+     * @param separated True if thousands separation is needed in the output.
+     * @return Formatted value
+     */
+    public static String format(String s, int decimals, boolean separated) {
+        if(s == null) {
+            s = "0";
+        }
+        if(s.startsWith("+")) {
+            s = s.substring(1);
+        } else if(s.endsWith("+")) {
+            s = s.substring(0, s.length()-1);
+        }
+        int neg = 0;
+        if(s.startsWith("-")) {
+            neg = 1;
+            s = s.substring(1);
+        } else if(s.endsWith("-")) {
+            neg = 2;
+            s = s.substring(0, s.length()-1);
+        } else if(s.endsWith("DB")) {
+            neg = 3;
+            s = s.substring(0, s.length()-2).trim();
+        } else if(s.endsWith("CR")) {
+            neg = 4;
+            s = s.substring(0, s.length()-2).trim();
+        }
+        StringBuffer sb = new StringBuffer();
+        char c;
+        boolean decimalFound = false;
+        for(int i = 0; i < s.length(); i++) {
+            c = s.charAt(i);
+            if(c == '.') {
+                if(decimalFound) {
+                    break;
+                }
+                decimalFound = true;
+            } else if(!Character.isDigit(c)) {
+                if(c == ',') {
+                    continue;
+                }
+                break;
+            }
+            sb.append(c);
+        }
+        s = sb.toString();
+        int d = decimals;
+        int p = s.indexOf('.');
+        String decimalDigits = null;
+        if(d < 0 && p >= 0) {
+            decimalDigits = s.substring(p);
+            s = s.substring(0, p);
+            while(true) {
+                if(decimalDigits.length() <= 1) {
+                    decimalDigits = null;
+                    break;
+                }
+                if(decimalDigits.endsWith("0")) {
+                    decimalDigits = decimalDigits.substring(0, decimalDigits.length() - 1);
+                } else {
+                    break;
+                }
+            }
+            p = -1;
+        }
+        String t;
+        if(p >= 0) {
+            t = s.substring(p);
+            if(p > 0) {
+                s = s.substring(0, p);
+            } else {
+                s = "0";
+            }
+        } else {
+            t = ".";
+        }
+        if(d == 0) {
+            t = "";
+        } else {
+            d -= t.length();
+            ++d;
+            while(d > 0) {
+                t += "0";
+                --d;
+            }
+            if(t.length() > (decimals+1)) {
+                t = t.substring(0, decimals+1);
+            }
+        }
+        while(separated) {
+            p = s.length() - 3;
+            if(p <= 0) {
+                break;
+            }
+            t = "," + s.substring(p) + t;
+            s = s.substring(0, p);
+        }
+        s += t;
+        if(decimalDigits != null) {
+            s += decimalDigits;
+        }
+        switch(neg) {
+            case 1:
+                s = "-" + s;
+                break;
+
+            case 2:
+                s += "-";
+                break;
+
+            case 3:
+                s += " DB";
+                break;
+
+            case 4:
+                s += " CR";
+                break;
+        }
+        return s;
+    }
+
+    private static String[] set1 = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+    private static String[] set2 = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
+    private static String[] set3 = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+
+    /**
+     * Internal function to convert a 3 digit number to words. It will return empty string for zero.
+     * @param digit A 3 digit number as string
+     * @return 3 digit number in words.
+     */
+    private static String words3(String digit) {
+        while(digit.length() < 3) {
+            digit = "0" + digit;
+        }
+        char c0 = digit.charAt(0), c1 = digit.charAt(1), c2 = digit.charAt(2);
+        String v = "";
+        if(c0 != '0') {
+            v = set1[c0 - '1'] + " hundred";
+            if((c1 != '0') || (c2 != '0')) {
+                v += " and ";
+            }
+        }
+        if(c1 != '0') {
+            if(c1 == '1') {
+                v += set2[c2 - '0'];
+                return v;
+            } else {
+                v += set3[c1 - '2'];
+            }
+            if(c2 != '0') {
+                v += " " ;
+            }
+        }
+        if( c2 != '0' ) {
+            v += set1[c2 - '1'];
+        }
+        return v;
+    }
+
+    private final static String zero = "zero";
+
+    /**
+     * Converts a numeric value into words. Decimal portion and negative part will be ignored
+     * @param value Value
+     * @return Value in words
+     */
+    public static String words(BigDecimal value) {
+        return value == null ? zero : words(value.toBigInteger());
+    }
+
+    /**
+     * Converts a numeric value into words. Negative part will be ignored
+     * @param value Value
+     * @return Value in words
+     */
+    public static String words(BigInteger value) {
+        if(value == null) {
+            return zero;
+        }
+        if(value.signum() < 0) {
+            value = value.negate();
+        }
+        return words(value.toString());
+    }
+
+    /**
+     * Converts a numeric value into words in Indian format. Decimal portion and negative part will be ignored
+     * @param value Value
+     * @return Value in words in Indian format
+     */
+    public static String wordsIndian(BigDecimal value) {
+        return value == null ? zero : wordsIndian(value.toBigInteger());
+    }
+
+    /**
+     * Converts a numeric value into words in Indian format. Decimal portion and negative part will be ignored
+     * @param value Value
+     * @return Value in words in Indian format
+     */
+    public static String wordsIndian(BigInteger value) {
+        if(value == null) {
+            return zero;
+        }
+        if(value.signum() < 0) {
+            value = value.negate();
+        }
+        return wordsIndian(value.toString()).replace(",", "");
+    }
+
+    private final static String[] crores = new String[]{"", " thousand", " lakhs", " crores"};
+    private final static String[] millions = new String[]{"", " thousand", " million", " billion", " trillion",
+            " quadrillion", " quintillion", " sextillion", " septillion"};
+
+    /**
+     * Internal method to convert a numerical non-empty string to words.
+     * @param s Numerial non-empty string
+     * @return Words
+     */
+    private static String words(String s) {
+        if(s.length() > (3 * millions.length)) {
+            int n = s.length() - (millions.length - 1) * 3;
+            return words(s.substring(0, n)) + millions[millions.length - 1] + ", " + words(s.substring(n));
+        }
+        if(s.equals("0")) {
+            return zero;
+        }
+        if(s.length() <= 3) {
+            return words3(s);
+        }
+        return words(s, 0);
+    }
+
+    private static String words(String s, int i) {
+        String w;
+        if(s.length() <= 3) {
+            w = words3(s);
+            return w.isEmpty() ? w : (w + millions[i]);
+        }
+        String p = words(s.substring(0, s.length() - 3), i + 1);
+        w = words(s.substring(s.length() - 3));
+        if(w.isEmpty()) {
+            return p;
+        }
+        return p + ", " + w + millions[i];
+    }
+
+    /**
+     * Internal method to convert a numerical non-empty string to words in Indian style.
+     * @param s Numerial non-empty string
+     * @return Words
+     */
+    private static String wordsIndian(String s) {
+        if(s.length() > (3 * (crores.length - 1) + 2)) {
+            int n = s.length() - ((crores.length - 2) * 2 + 3);
+            return wordsIndian(s.substring(0, n)) + crores[crores.length - 1] + ", " + wordsIndian(s.substring(n));
+        }
+        if(s.equals("0")) {
+            return zero;
+        }
+        if(s.length() <= 3) {
+            return words3(s);
+        }
+        return wordsIndian(s, 0);
+    }
+
+    private static String wordsIndian(String s, int i) {
+        String w;
+        if(s.length() <= 2) {
+            w = words3(s);
+            return w.isEmpty() ? w : (w + crores[i]);
+        }
+        String p = wordsIndian(s.substring(0, s.length() - (i == 0 ? 3 : 2)), i + 1);
+        w = wordsIndian(s.substring(s.length() - (i == 0 ? 3 : 2)));
+        if(w.isEmpty()) {
+            return p;
+        }
+        return p + ", " + w + crores[i];
+    }
+
+    /**
      * See if 2 character sequences contain same sequence of characters
      *
      * @param one First character sequence.
@@ -1751,6 +2107,15 @@ public class StringUtility {
         if(message instanceof String) {
             return (String)message;
         }
+        if(message instanceof Displayable) {
+            return ((Displayable)message).toDisplay();
+        }
+        if(message instanceof java.util.Date) {
+            return DateUtility.format((java.util.Date)message);
+        }
+        if(message instanceof Boolean) {
+            return (Boolean) message ? "Yes" : "No";
+        }
         if(message instanceof Throwable) {
             if(!(message instanceof SOException || message instanceof SORuntimeException)) {
                 message = new SORuntimeException((Throwable)message);
@@ -1759,162 +2124,16 @@ public class StringUtility {
         return toString(message.toString());
     }
 
-    private static String[] set1 = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-    private static String[] set2 = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
-    private static String[] set3 = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
-
-    // Internal function to convert a 3 digit number to words. It will return empty string for zero.
-    static String words3(String digit) {
-        while(digit.length() < 3) {
-            digit = "0" + digit;
-        }
-        char c0 = digit.charAt(0), c1 = digit.charAt(1), c2 = digit.charAt(2);
-        String v = "";
-        if(c0 != '0') {
-            v = set1[c0 - '1'] + " hundred";
-            if((c1 != '0') || (c2 != '0')) {
-                v += " and ";
-            }
-        }
-        if(c1 != '0') {
-            if(c1 == '1') {
-                v += set2[c2 - '0'];
-                return v;
-            } else {
-                v += set3[c1 - '2'];
-            }
-            if(c2 != '0') {
-                v += " " ;
-            }
-        }
-        if( c2 != '0' ) {
-            v += set1[c2 - '1'];
-        }
-        return v;
-    }
-
-    private final static String zero = "zero";
-
-    /**
-     * Converts a numeric value into words. Decimal portion and negative part will be ignored
-     * @param value Value
-     * @return Value in words
-     */
-    public static String words(BigDecimal value) {
-        return value == null ? zero : words(value.toBigInteger());
-    }
-
-    /**
-     * Converts a numeric value into words. Decimal portion and negative part will be ignored
-     * @param value Value
-     * @return Value in words
-     */
-    public static String words(BigInteger value) {
-        if(value == null) {
-            return zero;
-        }
-        if(value.signum() < 0) {
-            value = value.negate();
-        }
-        return words(value.toString());
-    }
-
-    /**
-     * Converts a numeric value into words in Indian format. Decimal portion and negative part will be ignored
-     * @param value Value
-     * @return Value in words in Indian format
-     */
-    public static String wordsIndian(BigDecimal value) {
-        return value == null ? zero : wordsIndian(value.toBigInteger());
-    }
-
-    /**
-     * Converts a numeric value into words in Indian format. Decimal portion and negative part will be ignored
-     * @param value Value
-     * @return Value in words in Indian format
-     */
-    public static String wordsIndian(BigInteger value) {
-        if(value == null) {
-            return zero;
-        }
-        if(value.signum() < 0) {
-            value = value.negate();
-        }
-        return wordsIndian(value.toString()).replace(",", "");
-    }
-
-    private final static String crores[] = new String[] { "", " thousand", " lakhs", " crores" };
-    private final static String millions[] = new String[] { "", " thousand", " million", " billion", " trillion",
-            " quadrillion", " quintillion", " sextillion",  " septillion" };
-
-    // Internal method to convert a numerical non-empty string to words
-    static String words(String s) {
-        if(s.length() > (3 * millions.length)) {
-            int n = s.length() - (millions.length - 1) * 3;
-            return words(s.substring(0, n)) + millions[millions.length - 1] + ", " + words(s.substring(n));
-        }
-        if(s.equals("0")) {
-            return zero;
-        }
-        if(s.length() <= 3) {
-            return words3(s);
-        }
-        return words(s, 0);
-    }
-
-    private static String words(String s, int i) {
-        String w;
-        if(s.length() <= 3) {
-            w = words3(s);
-            return w.isEmpty() ? w : (w + millions[i]);
-        }
-        String p = words(s.substring(0, s.length() - 3), i + 1);
-        w = words(s.substring(s.length() - 3));
-        if(w.isEmpty()) {
-            return p;
-        }
-        return p + ", " + w + millions[i];
-    }
-
-    // Internal method to convert a numerical non-empty string to words (Indian style)
-    static String wordsIndian(String s) {
-        if(s.length() > (3 * (crores.length - 1) + 2)) {
-            int n = s.length() - ((crores.length - 2) * 2 + 3);
-            return wordsIndian(s.substring(0, n)) + crores[crores.length - 1] + ", " + wordsIndian(s.substring(n));
-        }
-        if(s.equals("0")) {
-            return zero;
-        }
-        if(s.length() <= 3) {
-            return words3(s);
-        }
-        return wordsIndian(s, 0);
-    }
-
-    private static String wordsIndian(String s, int i) {
-        String w;
-        if(s.length() <= 2) {
-            w = words3(s);
-            return w.isEmpty() ? w : (w + crores[i]);
-        }
-        String p = wordsIndian(s.substring(0, s.length() - (i == 0 ? 3 : 2)), i + 1);
-        w = wordsIndian(s.substring(s.length() - (i == 0 ? 3 : 2)));
-        if(w.isEmpty()) {
-            return p;
-        }
-        return p + ", " + w + crores[i];
-    }
-
-    public static String toString(InputStream stream) {
+    public static String toString(InputStream stream) throws Exception {
         return toString(IO.getReader(stream));
     }
 
-    public static String toString(Reader reader) {
+    public static String toString(Reader reader) throws Exception {
         StringCollector sc = new StringCollector(reader);
         String s = sc.getString();
         Exception e = sc.getException();
         if(e != null) {
-            throw new SORuntimeException("Error reading stream, read upto [" + s + "]");
+            throw e;
         }
         return s;
     }
@@ -2090,18 +2309,16 @@ public class StringUtility {
         return s.toString();
     }
 
-    public static <T extends java.util.List<String>> T collect(T list, String items[]) {
+    public static <T extends java.util.List<String>> T collect(T list, String[] items) {
         return collect(list, new StringList(items));
     }
 
     public static <T extends java.util.List<String>> T collect(T list, StringList items) {
-        for(String s: items) {
-            list.add(s);
-        }
+        list.addAll(items);
         return list;
     }
 
-    private static final char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    private static final char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
      * MD5 encryption
@@ -2116,8 +2333,8 @@ public class StringUtility {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(source);
-            byte temp[] = md.digest();
-            char str[] = new char[16 * 2];
+            byte[] temp = md.digest();
+            char[] str = new char[16 * 2];
             int k = 0;
             for (int i = 0; i < 16; i++) {
                 byte byte0 = temp[i];

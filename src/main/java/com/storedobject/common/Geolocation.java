@@ -19,9 +19,11 @@ package com.storedobject.common;
 import java.math.BigDecimal;
 
 /**
- * Representation of Geolocation
+ * Representation of Geolocation.
+ *
+ * @author Syam
  */
-public class Geolocation {
+public class Geolocation implements Storable {
 
     private static final int SECONDS_90 = 324000, SECONDS_180 = 648000, SECONDS_360 = 1296000;
     private static final BigDecimal BIG_60 = new BigDecimal(60);
@@ -43,6 +45,7 @@ public class Geolocation {
         set(latitudeInSeconds, longitudeInSeconds, altitudeInMeters);
     }
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public Geolocation(Geolocation location) {
         set(location);
     }
@@ -51,6 +54,10 @@ public class Geolocation {
                        int longitudeDegrees, int longitudeMinutes, int longitudeSeconds, char longitudeDirection) {
         set(latitudeDegrees, latitudeMinutes, latitudeSeconds, latitudeDirection,
                 longitudeDegrees, longitudeMinutes, longitudeSeconds, longitudeDirection);
+    }
+
+    public Geolocation(double latitudeInDegrees, char latitudeDirection, double longitudeInDegrees, char longitudeDirection) {
+        this(new BigDecimal(latitudeInDegrees), latitudeDirection, new BigDecimal(longitudeInDegrees), longitudeDirection);
     }
 
     public Geolocation(BigDecimal latitudeInDegrees, char latitudeDirection, BigDecimal longitudeInDegrees, char longitudeDirection) {
@@ -152,6 +159,7 @@ public class Geolocation {
 
     public void set(String latitude, String longitude) {
         char c1, c2;
+        //noinspection LoopStatementThatDoesntLoop
         while(true) { // Recognize standard patterns
             if(latitude.endsWith("N") || latitude.endsWith("S")) {
                 c1 = latitude.charAt(latitude.length() - 1);
@@ -216,6 +224,7 @@ public class Geolocation {
                 }
             } catch(Throwable e1) {
                 try {
+                    //noinspection ConstantConditions
                     set(new BigDecimal(list.get(0)),new BigDecimal(list.get(1)));
                     if(list.size() == 3) {
                         altitude = new BigDecimal(list.get(2)).intValue();
@@ -285,7 +294,7 @@ public class Geolocation {
             }
             return;
         }
-        if(commas == 0 || commas == 1 || commas == 2) {
+        if(commas == 0 || commas == 2) {
             set(value, "");
             return;
         }
@@ -304,7 +313,6 @@ public class Geolocation {
                 }
             }
             p2 = p1;
-        } else if(p1 == 0) {
         }
         if(p2 < 0) {
             error(object);
@@ -362,16 +370,16 @@ public class Geolocation {
 
     private static String purge(String v) {
         while(v.contains("  ")) {
-            v.replace("  ", " ");
+            v = v.replace("  ", " ");
         }
         while(v.contains(" " + DEGREE)) {
-            v.replace(" " + DEGREE, "" + DEGREE);
+            v = v.replace(" " + DEGREE, "" + DEGREE);
         }
         while(v.contains(" " + MINUTE)) {
-            v.replace(" " + MINUTE, "" + MINUTE);
+            v = v.replace(" " + MINUTE, "" + MINUTE);
         }
         while(v.contains(" " + SECOND)) {
-            v.replace(" " + SECOND, "" + SECOND);
+            v = v.replace(" " + SECOND, "" + SECOND);
         }
         return v.trim().toUpperCase();
     }
@@ -397,11 +405,11 @@ public class Geolocation {
                     return (n / 100) * 3600 + (n % 100) * 60;
                 }
                 return n * 3600;
-            } catch(Throwable e) {
+            } catch(Throwable ignored) {
             }
             try {
                 return convert(new BigDecimal(v));
-            } catch(Throwable e) {
+            } catch(Throwable ignored) {
             }
             error(original);
         }
@@ -522,7 +530,7 @@ public class Geolocation {
 
     @Override
     public String toString() {
-        int a[] = array(latitude, longitude);
+        int[] a = array(latitude, longitude);
         StringBuilder s = new StringBuilder();
         s.append(a[0]).append(DEGREE);
         if(a[1] > 0 || a[2] > 0) {
@@ -549,7 +557,7 @@ public class Geolocation {
         if(!aviationStandard) {
             return toString();
         }
-        int a[] = array(latitude, longitude);
+        int[] a = array(latitude, longitude);
         StringBuilder s = new StringBuilder();
         if(a[0] < 10) {
             s.append('0');
@@ -584,6 +592,14 @@ public class Geolocation {
             v = ": " + v;
         }
         throw new SORuntimeException("Invalid Geographic Location Value" + v);
+    }
+
+    public void setLatitudeDegree(double latitudeInDegrees) {
+        setLatitude((int)(latitudeInDegrees * 3600.0));
+    }
+
+    public void setLongitudeDegree(double longitudeInDegrees) {
+        setLongitude((int)(longitudeInDegrees * 3600.0));
     }
 
     public int getLatitude() {
@@ -624,6 +640,11 @@ public class Geolocation {
 
     public void setAltitude(int altitudeInMeters) {
         this.altitude = altitudeInMeters;
+    }
+
+    @Override
+    public String getStorableValue() {
+        return "ROW(" + latitude + "," + longitude + "," + altitude + ")::GL";
     }
 
     public double getLatitudeDegree() {
@@ -683,7 +704,7 @@ public class Geolocation {
 
     @Override
     public boolean equals(Object another) {
-        if(another == null || !(another instanceof Geolocation)) {
+        if(!(another instanceof Geolocation)) {
             return false;
         }
         Geolocation a = (Geolocation)another;

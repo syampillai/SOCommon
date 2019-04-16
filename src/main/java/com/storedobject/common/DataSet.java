@@ -14,6 +14,19 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+public interface DataSet {
+
+    void set(String key, Object value);
+    boolean canSet(String key);
+    Object get(String key);
+    StringList keys();
+    void add(String key);
+    void remove(String key);
+
+    default Class<?> getType(String key) {
+        Object v = get(key);
+        return v == null ? null : v.getClass();
+    }
+}

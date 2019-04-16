@@ -52,7 +52,7 @@ public class StringCollector extends Thread {
         } finally {
             try {
                 in.close();
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             in = null;
         }
@@ -66,7 +66,7 @@ public class StringCollector extends Thread {
         while(in != null) {
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
         return s.toString();

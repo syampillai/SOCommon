@@ -42,7 +42,9 @@ import java.nio.file.Path;
 /**
  * Generic Input/Output routines.
  * All 'get' methods return 'buffered' streams/readers/writers. 'Double buffering' is avoided.
- * Conversion between streams and reader/writer are with UTF-8 encoding
+ * Conversion between streams and reader/writer are with UTF-8 encoding.
+ *
+ * @author Syam
  */
 public class IO {
 
@@ -86,7 +88,7 @@ public class IO {
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
         }
     }
 
@@ -97,7 +99,7 @@ public class IO {
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
         }
     }
 
@@ -138,7 +140,7 @@ public class IO {
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
         }
     }
 
@@ -149,7 +151,7 @@ public class IO {
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
         }
     }
 
@@ -185,7 +187,7 @@ public class IO {
     public static BufferedReader getReader(InputStream in) {
         try {
             return new BufferedReader(new InputStreamReader(in, UTF8));
-        } catch(Throwable e) {
+        } catch(Throwable ignored) {
         }
         return null;
     }
@@ -198,7 +200,7 @@ public class IO {
     public static BufferedWriter getWriter(OutputStream out) {
         try {
             return new BufferedWriter(new OutputStreamWriter(out, UTF8));
-        } catch(Throwable e) {
+        } catch(Throwable ignored) {
         }
         return null;
     }
@@ -439,46 +441,46 @@ public class IO {
 
     private static class NullInputStream extends InputStream {
         @Override
-        public int read() throws IOException {
+        public int read() {
             return -1;
         }
 
         @Override
-        public int read(byte[] b) throws IOException {
+        public int read(byte[] b) {
             return -1;
         }
 
         @Override
-        public int read(byte[] b, int off, int len) throws IOException {
+        public int read(byte[] b, int off, int len) {
             return -1;
         }
 
         @Override
-        public int available() throws IOException {
+        public int available() {
             return 0;
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
         }
     }
 
     private static class NullOutputStream extends OutputStream {
 
         @Override
-        public void write(int b) throws IOException {
+        public void write(int b) {
         }
 
         @Override
-        public void write(byte[] b) throws IOException {
+        public void write(byte[] b) {
         }
 
         @Override
-        public void write(byte[] b, int off, int len) throws IOException {
+        public void write(byte[] b, int off, int len) {
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
         }
     }
 
@@ -515,11 +517,11 @@ public class IO {
             public void close() {
                 try {
                     out.close();
-                } catch(IOException e) {
+                } catch(IOException ignored) {
                 }
                 try {
                     in.close();
-                } catch(IOException e) {
+                } catch(IOException ignored) {
                 }
             }
         };

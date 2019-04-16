@@ -16,15 +16,12 @@
 
 package com.storedobject.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class StringList implements Iterable<String> {
+public class StringList implements Iterable<String>, List<String> {
 
     private static final String[] empty_array = new String[] { };
     public static final StringList EMPTY = new StringList(empty_array);
@@ -35,6 +32,28 @@ public class StringList implements Iterable<String> {
     }
 
     public StringList(Collection<String> collection) {
+        toArray(collection);
+    }
+
+    public StringList(Iterable<String> list) {
+        this(list.iterator());
+    }
+
+    public StringList(Iterator<String> list) {
+        ArrayList<String> array = new ArrayList<>();
+        list.forEachRemaining(array::add);
+        toArray(array);
+    }
+
+    public StringList(String... array) {
+        this.array = array == null || array.length == 0 ? empty_array : array;
+    }
+
+    public StringList(StringList... list) {
+        array = concat(list).array;
+    }
+
+    private void toArray(Collection<String> collection) {
         if(collection == null || collection.size() == 0) {
             array = empty_array;
             return;
@@ -46,23 +65,131 @@ public class StringList implements Iterable<String> {
         }
     }
 
-    public StringList(String... array) {
-        this.array = array == null || array.length == 0 ? empty_array : array;
-    }
-
-    public StringList(StringList... list) {
-        array = concat(list).array;
-    }
-
     private static String[] toArray(String list) {
         if(list == null || list.length() == 0) {
             return empty_array;
         }
-        String s[] = StringUtility.trim(list.split(","));
+        String[] s = StringUtility.trim(list.split(","));
         if(s.length == 1 && s[0].isEmpty()) {
             return empty_array;
         }
         return s;
+    }
+
+    @Override
+    public void add(int index, String element) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends String> c) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean add(String e) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return array.length == 0;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        if(!(o instanceof String)) {
+            return false;
+        }
+        return indexOf((String)o) >= 0;
+    }
+
+    @Override
+    public Object[] toArray() {
+        String[] s = array();
+        Object[] a = new Object[s.length];
+        System.arraycopy(s, 0, a, 0, a.length);
+        return a;
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return c.stream().noneMatch(item -> indexOf(item) < 0);
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends String> c) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String set(int index, String element) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String remove(int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        if(o instanceof String) {
+            return indexOf((String)o);
+        }
+        return -1;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        if(!(o instanceof String)) {
+            return -1;
+        }
+        String s = (String)o;
+        int p = indexOf(s), i;
+        while(p > 0) {
+            i = indexOf(s, p);
+            if(i < 0) {
+                break;
+            }
+            p = i;
+        }
+        return p;
+    }
+
+    @Override
+    public ListIterator<String> listIterator() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ListIterator<String> listIterator(int index) {
+        throw new UnsupportedOperationException();
     }
 
     public String get(int index) {
@@ -166,7 +293,7 @@ public class StringList implements Iterable<String> {
     }
 
     public Stream<String> stream() {
-        Iterable<String> i = () -> iterator();
+        Iterable<String> i = this;
         return StreamSupport.stream(i.spliterator(), false);
     }
 
@@ -229,9 +356,9 @@ public class StringList implements Iterable<String> {
             return first == null ? EMPTY : first;
         }
         if(first == null || first.size() == 0) {
-            return second == null ? EMPTY : second;
+            return second;
         }
-        String s[] = new String[first.size() + second.size()];
+        String[] s = new String[first.size() + second.size()];
         int i = 0;
         for(String t: first) {
             s[i++] = t;
@@ -259,7 +386,7 @@ public class StringList implements Iterable<String> {
             }
             len += item.size();
         }
-        String s[] = new String[len];
+        String[] s = new String[len];
         int i = 0;
         for(StringList item: list) {
             if(item == null) {
@@ -304,7 +431,7 @@ public class StringList implements Iterable<String> {
                 if(start < end) {
                     return array[start++];
                 }
-            } catch(Throwable t) {
+            } catch(Throwable ignored) {
             }
             throw new NoSuchElementException();
         }
@@ -341,10 +468,8 @@ public class StringList implements Iterable<String> {
 
         @Override
         public String[] array() {
-            String s[] = new String[end - start];
-            for(int i = 0; i < s.length; i++) {
-                s[i] = array[i + start];
-            }
+            String[] s = new String[end - start];
+            System.arraycopy(array, start, s, 0, s.length);
             return s;
         }
 

@@ -14,6 +14,21 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class Condition extends AtomicBoolean {
+
+    public Condition() {
+        super(true);
+    }
+
+    public boolean ok() {
+        return get();
+    }
+
+    public void stop() {
+        set(false);
+    }
+}

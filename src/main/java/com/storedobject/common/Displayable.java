@@ -14,6 +14,21 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+/**
+ * Denote that something is displayable.
+ *
+ * @author Syam
+ */
+public interface Displayable {
+
+    /**
+     * Convert to a displayable string. The default implementation returns the {@link #toString()} value.
+     *
+     * @return A displayable string.
+     */
+    default String toDisplay() {
+        return toString();
+    }
+}

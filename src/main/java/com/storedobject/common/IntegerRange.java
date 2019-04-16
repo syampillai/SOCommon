@@ -16,14 +16,28 @@
 
 package com.storedobject.common;
 
-@SuppressWarnings("serial")
-public class Invalid_Value extends SOException {
+public class IntegerRange extends Range<Integer> {
 
-    public Invalid_Value() {
-        super();
+    public IntegerRange() {
+        this(0, 0);
     }
 
-    public Invalid_Value(String message) {
-        super(message);
+    public IntegerRange(Integer from, Integer to) {
+        super(from, to);
+    }
+
+    @Override
+    protected Integer clone(Integer data) {
+        return data == null ? new Integer(0) : data;
+    }
+
+    @Override
+    protected boolean same(Integer one, Integer two) {
+        return one.intValue() == two.intValue();
+    }
+
+    @Override
+    protected long value(Integer data) {
+        return data.longValue();
     }
 }

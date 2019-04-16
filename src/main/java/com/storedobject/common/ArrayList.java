@@ -14,6 +14,28 @@
  * limitations under the License.
  */
 
-@Module(moduleName = "common", jarName = "so-common", version = "1.0.1", build = 1)
 package com.storedobject.common;
-import com.storedobject.common.annotation.Module;
+
+import java.util.Collection;
+
+public class ArrayList<E> extends java.util.ArrayList<E> {
+
+    public ArrayList() {
+    }
+
+    public ArrayList(int initialCapacity) {
+        super(initialCapacity);
+    }
+
+    public ArrayList(Collection<? extends E> c) {
+        super(c);
+    }
+
+    public E firstElement() {
+        return size() > 0 ? get(0) : null;
+    }
+
+    public E lastElement() {
+        return size() > 0 ? get(size() - 1) : null;
+    }
+}
