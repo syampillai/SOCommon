@@ -22,6 +22,7 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.text.NumberFormat;
 import java.util.*;
@@ -347,13 +348,15 @@ public class StringUtility {
             }
             return s.substring(0, length);
         }
-        while(s.length() < length) {
+        StringBuilder sBuilder = new StringBuilder(s);
+        while(sBuilder.length() < length) {
             if(padLeft) {
-                s = padChar + s;
+                sBuilder.insert(0, padChar);
             } else {
-                s += padChar;
+                sBuilder.append(padChar);
             }
         }
+        s = sBuilder.toString();
         return s;
     }
 
@@ -367,7 +370,7 @@ public class StringUtility {
             return "";
         }
         s = s.trim();
-        while(s.indexOf("  ") >= 0) {
+        while(s.contains("  ")) {
             s = s.replace("  ", " ");
         }
         return s.trim();
@@ -435,19 +438,19 @@ public class StringUtility {
      * @return The result String
      */
     public static String toHex(byte[] bytes) {
-        String hex = "";
+        StringBuilder hex = new StringBuilder();
         int b;
-        for(int i=0; i<bytes.length; i++) {
-            b = bytes[i];
-            if(b < 0) {
+        for (byte aByte : bytes) {
+            b = aByte;
+            if (b < 0) {
                 b += 256;
             }
-            if(b <= 0xF) {
-                hex += "0";
+            if (b <= 0xF) {
+                hex.append("0");
             }
-            hex += Integer.toHexString(b);
+            hex.append(Integer.toHexString(b));
         }
-        return hex.toUpperCase();
+        return hex.toString().toUpperCase();
     }
 
     /**
@@ -907,25 +910,25 @@ public class StringUtility {
         }
         Arrays.sort(n);
         int p = n[0];
-        String s = "" + p;
+        StringBuilder s = new StringBuilder("" + p);
         for(int i=1; i<n.length; i++) {
             if(n[i] == (p+1)) {
                 p = n[i];
-                if(!s.endsWith("-")) {
-                    s += "-";
+                if(!s.toString().endsWith("-")) {
+                    s.append("-");
                 }
                 continue;
             }
-            if(s.endsWith("-")) {
-                s += "" + p;
+            if(s.toString().endsWith("-")) {
+                s.append(p);
             }
             p = n[i];
-            s += ", " + p;
+            s.append(", ").append(p);
         }
-        if(s.endsWith("-")) {
-            s += p;
+        if(s.toString().endsWith("-")) {
+            s.append(p);
         }
-        return s;
+        return s.toString();
     }
 
     /**
@@ -939,22 +942,22 @@ public class StringUtility {
             return new int[0];
         }
         s = s.trim();
-        while(s.indexOf(" , ") >= 0) {
+        while(s.contains(" , ")) {
             s = s.replaceAll(" , ", ",");
         }
-        while(s.indexOf(", ") >= 0) {
+        while(s.contains(", ")) {
             s = s.replaceAll(", ", ",");
         }
-        while(s.indexOf(" ,") >= 0) {
+        while(s.contains(" ,")) {
             s = s.replaceAll(" ,", ",");
         }
-        while(s.indexOf(" - ") >= 0) {
+        while(s.contains(" - ")) {
             s = s.replaceAll(" - ", "-");
         }
-        while(s.indexOf("- ") >= 0) {
+        while(s.contains("- ")) {
             s = s.replaceAll("- ", "-");
         }
-        while(s.indexOf(" -") >= 0) {
+        while(s.contains(" -")) {
             s = s.replaceAll(" -", "-");
         }
         if(s.length() == 0) {
@@ -980,7 +983,7 @@ public class StringUtility {
                 return null;
             }
         }
-        ArrayList<Integer> v = new ArrayList<Integer>();
+        ArrayList<Integer> v = new ArrayList<>();
         String[] t = s.split(",");
         for(i=0; i<t.length; i++) {
             s = t[i];
@@ -1001,7 +1004,7 @@ public class StringUtility {
         }
         int[] n = new int[v.size()];
         for(i=0; i<n.length; i++) {
-            n[i] = (v.get(i)).intValue();
+            n[i] = v.get(i);
         }
         Arrays.sort(n);
         return n;
@@ -1054,16 +1057,16 @@ public class StringUtility {
                     break;
             }
         }
-        String output = "" + firstLetter;
+        StringBuilder output = new StringBuilder("" + firstLetter);
         char last = x[0];
         for(i = 1; i < x.length; i++) {
             if(x[i] != '0' && x[i] != last) {
                 last = x[i];
-                output += last;
+                output.append(last);
             }
         }
         for(i = output.length(); i < 4; i++) {
-            output += '0';
+            output.append('0');
         }
         return output.substring(0, 4);
     }
@@ -1315,17 +1318,12 @@ public class StringUtility {
             return append(a, element);
         }
         String[] t = new String[a.length + 1];
-        if(index >= t.length) {
-            index = t.length - 1;
-        }
         t[index] = element;
-        if(a.length > 0) {
-            if(index > 0) {
-                System.arraycopy(a, 0, t, 0, index);
-            }
-            if(index < (t.length - 1)) {
-                System.arraycopy(a, index, t, index + 1, a.length - index);
-            }
+        if(index > 0) {
+            System.arraycopy(a, 0, t, 0, index);
+        }
+        if(index < (t.length - 1)) {
+            System.arraycopy(a, index, t, index + 1, a.length - index);
         }
         return t;
     }
@@ -1565,9 +1563,6 @@ public class StringUtility {
                 ++i;
             }
         } catch(Exception e) {
-            if(i >= args.length) {
-                i = args.length - 1;
-            }
             throw new SOException("Invalid_Value '" + args[i] + "'");
         }
         return p;
@@ -1678,9 +1673,7 @@ public class StringUtility {
             if(array == null) {
                 return;
             }
-            for(String t: array) {
-                add(t);
-            }
+            this.addAll(Arrays.asList(array));
         }
     }
 
@@ -1800,7 +1793,7 @@ public class StringUtility {
             neg = 4;
             s = s.substring(0, s.length()-2).trim();
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         char c;
         boolean decimalFound = false;
         for(int i = 0; i < s.length(); i++) {
@@ -1838,37 +1831,39 @@ public class StringUtility {
             }
             p = -1;
         }
-        String t;
+        StringBuilder t;
         if(p >= 0) {
-            t = s.substring(p);
+            t = new StringBuilder(s.substring(p));
             if(p > 0) {
                 s = s.substring(0, p);
             } else {
                 s = "0";
             }
         } else {
-            t = ".";
+            t = new StringBuilder(".");
         }
         if(d == 0) {
-            t = "";
+            t = new StringBuilder();
         } else {
             d -= t.length();
             ++d;
             while(d > 0) {
-                t += "0";
+                t.append("0");
                 --d;
             }
             if(t.length() > (decimals+1)) {
-                t = t.substring(0, decimals+1);
+                t = new StringBuilder(t.substring(0, decimals + 1));
             }
         }
-        while(separated) {
-            p = s.length() - 3;
-            if(p <= 0) {
-                break;
+        if(separated) {
+            while (true) {
+                p = s.length() - 3;
+                if (p <= 0) {
+                    break;
+                }
+                t.insert(0, "," + s.substring(p));
+                s = s.substring(0, p);
             }
-            t = "," + s.substring(p) + t;
-            s = s.substring(0, p);
         }
         s += t;
         if(decimalDigits != null) {
@@ -1904,9 +1899,11 @@ public class StringUtility {
      * @return 3 digit number in words.
      */
     private static String words3(String digit) {
-        while(digit.length() < 3) {
-            digit = "0" + digit;
+        StringBuilder digitBuilder = new StringBuilder(digit);
+        while(digitBuilder.length() < 3) {
+            digitBuilder.insert(0, "0");
         }
+        digit = digitBuilder.toString();
         char c0 = digit.charAt(0), c1 = digit.charAt(1), c2 = digit.charAt(2);
         String v = "";
         if(c0 != '0') {
@@ -2201,7 +2198,7 @@ public class StringUtility {
         if(line == null || line.length() == 0) {
             return null;
         }
-        ArrayList<String> v = new ArrayList<String>();
+        ArrayList<String> v = new ArrayList<>();
         CSVField f;
         int p, i = 0;
         boolean more = false;
@@ -2323,8 +2320,8 @@ public class StringUtility {
      * @return Encrypted output in hex-coded form
      */
     public static String md5(String input) {
-        byte[] source = null;
-        source = input.getBytes(IO.UTF8);
+        byte[] source;
+        source = input.getBytes(StandardCharsets.UTF_8);
         String result = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -2338,7 +2335,7 @@ public class StringUtility {
                 str[k++] = hexDigits[byte0 & 0xf];
             }
             result = new String(str);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return result;
     }

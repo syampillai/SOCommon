@@ -169,17 +169,21 @@ public class DateUtility {
         if(s.length < 3) {
             return null;
         }
-        day = value(s[1]);
+        int y = value(s[0]), m = value(s[1]), d = value(s[2]);
+        if(y > 999 && m > 0 && m <=12 && d > 0 && d <= 31) {
+            return create(y, m, d);
+        }
+        day = m;
         if(day == 0) {
             month = getMonth(s[1]);
-            day = value(s[0]);
+            day = y;
         } else {
             month = getMonth(s[0]);
         }
-        year = value(s[2]);
         if(month == 0) {
             return null;
         }
+        year = d;
         return create(year, month, day);
     }
 

@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class HTTP {
 
     public void setBasicAuthentication(String user, String password) {
         String a = user + ":" + password;
-        a = Base64.getEncoder().encodeToString(a.getBytes(IO.UTF8));
+        a = Base64.getEncoder().encodeToString(a.getBytes(StandardCharsets.UTF_8));
         connection.setRequestProperty("Authorization", "Basic " + a);
     }
 
@@ -113,7 +114,7 @@ public class HTTP {
     }
 
     public void post(String post) throws Exception {
-        byte[] bytes = post.getBytes(IO.UTF8);
+        byte[] bytes = post.getBytes(StandardCharsets.UTF_8);
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Length", "" + bytes.length);
         try(OutputStream w = getOutputStream()) {

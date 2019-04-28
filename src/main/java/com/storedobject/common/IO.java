@@ -16,25 +16,10 @@
 
 package com.storedobject.common;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FilterInputStream;
-import java.io.FilterOutputStream;
-import java.io.FilterReader;
-import java.io.FilterWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.charset.Charset;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,8 +32,6 @@ import java.nio.file.Path;
  * @author Syam
  */
 public class IO {
-
-    public static final Charset UTF8 = Charset.forName("UTF-8");
 
     /**
      * Copy one stream to another. Both the streams will be closed.
@@ -186,7 +169,7 @@ public class IO {
      */
     public static BufferedReader getReader(InputStream in) {
         try {
-            return new BufferedReader(new InputStreamReader(in, UTF8));
+            return new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         } catch(Throwable ignored) {
         }
         return null;
@@ -199,7 +182,7 @@ public class IO {
      */
     public static BufferedWriter getWriter(OutputStream out) {
         try {
-            return new BufferedWriter(new OutputStreamWriter(out, UTF8));
+            return new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
         } catch(Throwable ignored) {
         }
         return null;
@@ -440,6 +423,7 @@ public class IO {
     private static NullOutputStream nullOut;
 
     private static class NullInputStream extends InputStream {
+
         @Override
         public int read() {
             return -1;
@@ -486,6 +470,7 @@ public class IO {
 
     /**
      * Create a null input stream. A read from this stream always returns EOF (-1).
+     *
      * @return Null input stream
      */
     public static InputStream nullInput() {
@@ -497,6 +482,7 @@ public class IO {
 
     /**
      * Create a null output stream. Anything written to this stream just disappears.
+     *
      * @return Null output stream
      */
     public static OutputStream nullOutput() {
@@ -508,6 +494,7 @@ public class IO {
 
     /**
      * Connect an output stream to an input stream so that the input stream is closed when the output stream is closed.
+     *
      * @param out Output stream
      * @param in Input stream to connect to
      * @return Modified output stream
@@ -525,5 +512,65 @@ public class IO {
                 }
             }
         };
+    }
+
+    /**
+     * Connect an input stream to an output stream so that the output stream is closed when the input stream is closed.
+     *
+     * @param in Input stream
+     * @param out Output stream to connect to
+     * @return Modified input stream
+     */
+    public static InputStream connect(InputStream in, OutputStream out) {
+        return new FilterInputStream(in) {
+            public void close() {
+                try {
+                    out.close();
+                } catch(IOException ignored) {
+                }
+                try {
+                    in.close();
+                } catch(IOException ignored) {
+                }
+            }
+        };
+    }
+
+    /**
+     * Create a Tee output stream that simultaneoulsy writes content to 2 different output streams.
+     *
+     * @param first First output stream
+     * @param second Second output stream
+     * @return An output stream that will write to 2 simultaneous streams.
+     */
+    public static OutputStream tee(OutputStream first, OutputStream second) {
+        return new TeeOutputStream(first, second);
+    }
+
+    /**
+     * Create a read only byte buffer from the content of the input stream.
+     *
+     * @param in Input stream
+     * @return A read only byte buffer containing the content of the input stream.
+     */
+    public static ByteBuffer readOnlyByteBuffer(InputStream in) throws IOException {
+        return byteBuf(in, FileChannel.MapMode.READ_ONLY, "r");
+    }
+
+    /**
+     * Create a read/write byte buffer from the content of the input stream.
+     *
+     * @param in Input stream
+     * @return A read/write byte buffer containing the content of the input stream.
+     */
+    public static ByteBuffer byteBuffer(InputStream in) throws IOException {
+        return byteBuf(in, FileChannel.MapMode.READ_WRITE, "rw");
+    }
+
+    private static ByteBuffer byteBuf(InputStream in, FileChannel.MapMode mode, String fileMode) throws IOException {
+        File file = File.createTempFile("SOBuffer", "data");
+        file.deleteOnExit();
+        copy(get(in), new FileOutputStream(file));
+        return new RandomAccessFile(file, fileMode).getChannel().map(mode, 0, file.length());
     }
 }

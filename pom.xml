@@ -12,7 +12,7 @@
 
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -59,22 +59,20 @@
             <version>3.1</version>
         </dependency>
 
-    </dependencies>
+        <!--
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+            </dependency>
+        -->
 
-    <!--
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.8</version>
-        </dependency>
     </dependencies>
-    -->
 
     <scm>
         <connection>scm:git:git://github.com/syampillai/SOCommon.git</connection>
@@ -143,6 +141,7 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <source>8</source>
                             <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                             <quiet>true</quiet>
                         </configuration>
