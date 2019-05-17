@@ -552,6 +552,7 @@ public class IO {
      *
      * @param in Input stream
      * @return A read only byte buffer containing the content of the input stream.
+     * @throws IOException if IO can not be happen.
      */
     public static ByteBuffer readOnlyByteBuffer(InputStream in) throws IOException {
         return byteBuf(in, FileChannel.MapMode.READ_ONLY, "r");
@@ -562,6 +563,7 @@ public class IO {
      *
      * @param in Input stream
      * @return A read/write byte buffer containing the content of the input stream.
+     * @throws IOException if buffer can not be created.
      */
     public static ByteBuffer byteBuffer(InputStream in) throws IOException {
         return byteBuf(in, FileChannel.MapMode.READ_WRITE, "rw");

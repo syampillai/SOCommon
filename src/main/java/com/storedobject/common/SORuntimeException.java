@@ -16,7 +16,7 @@
 
 package com.storedobject.common;
 
-public class SORuntimeException extends RuntimeException {
+public class SORuntimeException extends RuntimeException implements EndUserMessage {
 
     public SORuntimeException() {
         super();
@@ -34,6 +34,13 @@ public class SORuntimeException extends RuntimeException {
         super(message, cause);
     }
 
+    @Override
+    public String getEndUserMessage() {
+        String m = super.getMessage();
+        return m == null || m.isEmpty() ? "Error" : m;
+    }
+
+    @Override
     public String getMessage() {
         String s;
         Throwable t = this;

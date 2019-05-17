@@ -30,6 +30,7 @@ public interface TextContentGenerator extends ContentGenerator {
      * Generate the content and write to a writer.
      *
      * @param output Writer to collect the generated content.
+     * @throws Exception if content can not be generated.
      */
     void generateContent(Writer output) throws Exception;
 

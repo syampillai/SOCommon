@@ -19,7 +19,7 @@ package com.storedobject.common;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class SOException extends Exception {
+public class SOException extends Exception implements EndUserMessage {
 
     public SOException() {
         super();
@@ -31,6 +31,12 @@ public class SOException extends Exception {
 
     public SOException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    @Override
+    public String getEndUserMessage() {
+        String m = super.getMessage();
+        return m == null || m.isEmpty() ? "Error" : m;
     }
 
     @Override

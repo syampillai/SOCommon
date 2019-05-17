@@ -30,6 +30,7 @@ public interface BinaryContentGenerator extends ContentGenerator {
      * Generate the content and write to an output stream.
      *
      * @param output Output stream to collect the generated content.
+     * @throws Exception if content can not be generated.
      */
     void generateContent(OutputStream output) throws Exception;
 
