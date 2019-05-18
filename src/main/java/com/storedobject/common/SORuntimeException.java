@@ -27,7 +27,7 @@ public class SORuntimeException extends RuntimeException implements EndUserMessa
     }
 
     public SORuntimeException(Throwable cause) {
-        super(cause);
+        this(null, cause);
     }
 
     public SORuntimeException(String message, Throwable cause) {

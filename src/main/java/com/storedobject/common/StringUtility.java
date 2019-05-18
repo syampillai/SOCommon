@@ -2088,7 +2088,7 @@ public class StringUtility {
 
     public static String toString(Object message) {
         if(message == null) {
-            return "";
+            return "[NULL value]";
         }
         if(message instanceof Double) {
             String s = message.toString();
@@ -2114,7 +2114,8 @@ public class StringUtility {
                 message = new SORuntimeException((Throwable)message);
             }
         }
-        return toString(message.toString());
+        String m = message.toString();
+        return m == null ? ("[NULL value] of " + message.getClass()) : m;
     }
 
     public static String toString(InputStream stream) throws Exception {
