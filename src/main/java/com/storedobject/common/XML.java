@@ -16,18 +16,11 @@
 
 package com.storedobject.common;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -42,15 +35,17 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
- * Simple XML utility for XPath element extraction
+ * Simple XML utility for XPath element extraction.
+ *
+ * @author Syam
  */
 public class XML {
 
@@ -88,9 +83,30 @@ public class XML {
         }
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);
+        customizeBuilderFactory(documentBuilderFactory);
         documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        customizeBuilder(documentBuilder);
         XPathFactory xPathFactory = XPathFactory.newInstance();
+        customizePathFactory(xPathFactory);
         xPath = xPathFactory.newXPath();
+    }
+
+    protected void customizeBuilderFactory(@SuppressWarnings("unused") DocumentBuilderFactory documentBuilderFactory) {
+    }
+
+    protected void customizeBuilder(@SuppressWarnings("unused") DocumentBuilder documentBuilder) {
+    }
+
+    protected void customizePathFactory(@SuppressWarnings("unused") XPathFactory pathFactory) {
+    }
+
+    public void ignoreDTDs() {
+        try {
+            init();
+        } catch (Exception e) {
+            return;
+        }
+        documentBuilder.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
     }
 
     public XML copy() throws Exception {
