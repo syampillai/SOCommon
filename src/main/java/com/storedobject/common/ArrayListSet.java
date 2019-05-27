@@ -50,16 +50,26 @@ public class ArrayListSet<E> extends ArrayList<E> {
 
     @Override
     public E set(int index, E e) {
-        if(contains(e)) {
-            return null;
+        int p = indexOf(e);
+        if(p >= 0) {
+            if(p == index) {
+                return null;
+            }
         }
-        return super.set(index, e);
+        E previous = super.set(index, e);
+        if(p >= 0) {
+            remove(p);
+        }
+        return previous;
     }
 
     @Override
     public void add(int index, E e) {
         if(contains(e)) {
-            return;
+            if(indexOf(e) == index) {
+                return;
+            }
+            remove(e);
         }
         add(index, e);
     }

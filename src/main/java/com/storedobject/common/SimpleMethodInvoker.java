@@ -75,8 +75,8 @@ public class SimpleMethodInvoker implements MethodInvoker {
     @Override
     public Object invoke(Object object) {
         try {
-            return method.invoke(object, new Object[] { null });
-        } catch(Exception e) {
+            return method.invoke(object);
+        } catch(Exception ignored) {
         }
         return null;
     }

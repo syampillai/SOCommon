@@ -16,17 +16,14 @@
 
 package com.storedobject.common;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
-import java.net.URL;
-import java.util.Map;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import java.io.*;
+import java.net.URL;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class JSON {
 
@@ -35,10 +32,6 @@ public class JSON {
     private Object value = null;
 
     public JSON() {
-        try {
-            init();
-        } catch(Exception e) {
-        }
     }
 
     public JSON(String json) throws Exception {
@@ -65,8 +58,12 @@ public class JSON {
         value = jsonArray;
     }
 
-    private void init() throws Exception {
-        value = null;
+    public JSON(Map<String, Object> map) {
+        set(map);
+    }
+
+    public void set(Map<String, Object> map) {
+        value = new JSONObject(map);
     }
 
     public void set(String json) throws Exception {
@@ -87,7 +84,6 @@ public class JSON {
         if(reader == null) {
             return;
         }
-        init();
         value = JSONValue.parseWithException(reader);
         try {
             reader.close();
@@ -104,6 +100,14 @@ public class JSON {
         }
         HTTP http = new HTTP(url);
         set(http.getInputStream());
+    }
+
+    public Stream<String> keys() {
+        if(getType() == Type.JSON) {
+            //noinspection unchecked
+            return ((JSONObject)value).keySet().stream();
+        }
+        return null;
     }
 
     public Type getType() {
@@ -215,7 +219,7 @@ public class JSON {
             return null;
         }
         Object v = ((JSONObject)value).get(key);
-        if(v == null || !(v instanceof JSONArray)) {
+        if(!(v instanceof JSONArray)) {
             return null;
         }
         JSONArray a = (JSONArray)v;
@@ -237,7 +241,7 @@ public class JSON {
 
     public String getString(String key, int n) {
         Object v = value(key, n);
-        if(v != null && v instanceof String) {
+        if(v instanceof String) {
             return (String)v;
         }
         return null;
@@ -245,7 +249,7 @@ public class JSON {
 
     public Number getNumber(String key, int n) {
         Object v = value(key, n);
-        if(v != null && v instanceof Number) {
+        if(v instanceof Number) {
             return (Number)v;
         }
         return null;
@@ -253,7 +257,7 @@ public class JSON {
 
     public Boolean getBoolean(String key, int n) {
         Object v = value(key, n);
-        if(v != null && v instanceof Boolean) {
+        if(v instanceof Boolean) {
             return (Boolean)v;
         }
         return null;

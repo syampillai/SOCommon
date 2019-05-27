@@ -801,7 +801,7 @@ public class StringUtility {
                 c = '-';
             }
             if(!Character.isLetterOrDigit(c)) {
-                if(!(c == '.' || c == ',' || c == ';' || c == ')' || c == ']' || c == '}')) {
+                if(!(c == ',' || c == ';' || c == ')' || c == ']' || c == '}')) {
                     t.append(' ');
                 }
                 t.append(c);
@@ -817,7 +817,7 @@ public class StringUtility {
                             t.append(' ');
                         }
                     } else {
-                        pc = s.length() > (i+1) ? s.charAt(i + 1) : 'X';
+                        pc = s.length() > (i + 1) ? s.charAt(i + 1) : 'X';
                         if(Character.isLetterOrDigit(pc) && !Character.isUpperCase(pc)) {
                             t.append(' ');
                         }
@@ -856,6 +856,7 @@ public class StringUtility {
                 label = label.substring(0, label.length() - proposition.length()) + proposition.toLowerCase();
             }
         }
+        label = label.replace(" . ", ".");
         s = "In-house";
         if(label.startsWith("In House")) {
             label = s + label.substring(8);
