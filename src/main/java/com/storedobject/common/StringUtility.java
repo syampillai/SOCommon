@@ -2089,7 +2089,7 @@ public class StringUtility {
 
     public static String toString(Object message) {
         if(message == null) {
-            return "[NULL value]";
+            return "[No data]";
         }
         if(message instanceof Double) {
             String s = message.toString();
@@ -2103,6 +2103,9 @@ public class StringUtility {
         }
         if(message instanceof Displayable) {
             return ((Displayable)message).toDisplay();
+        }
+        if(message instanceof java.sql.Time) {
+            return DateUtility.timeFormat().format((java.sql.Time)message);
         }
         if(message instanceof java.util.Date) {
             return DateUtility.format((java.util.Date)message);

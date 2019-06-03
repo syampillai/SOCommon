@@ -45,6 +45,7 @@ public class DateUtility {
     private final static long DAY_IN_MILLIS = 86400000L;
     private final static long HALF_DAY_IN_MILLIS = 43200000L;
     private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",  Locale.getDefault());
+    private final static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.getDefault());
     private final static DateFormat monthFormat = new SimpleDateFormat("MMM yy", Locale.getDefault());
     private final static DateFormat tinyFormat = new SimpleDateFormat("MMM dd", Locale.getDefault());
     private final static DateFormat shortFormat = new SimpleDateFormat("MMM dd, yy", Locale.getDefault());
@@ -614,6 +615,10 @@ public class DateUtility {
     }
 
     public static DateFormat dateTimeFormat() {
-        return (DateFormat)format.clone();
+        return (DateFormat)dateTimeFormat.clone();
+    }
+
+    public static DateFormat timeFormat() {
+        return (DateFormat)timeFormat.clone();
     }
 }
