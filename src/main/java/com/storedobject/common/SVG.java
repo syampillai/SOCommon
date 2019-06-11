@@ -22,9 +22,9 @@ import java.util.Hashtable;
 
 public class SVG implements TextContentGenerator {
 
-    private static final String HEADER = "<?xml version=\"1.0\" standalone=\"no\"?>\n" +
-            "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 20010904//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">\n" +
-            "<svg version=\"1.0\" xmlns=\"http://www.w3.org/2000/svg\"";
+    private static final String HEADER = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n" +
+            "<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"";
     private ArrayList<String> texts = new ArrayList<>();
     private int transformPointer = 5;
     private double width = 1024, height = 1024, translateX, translateY, scaleX, scaleY, rotate, rotateX, rotateY;
@@ -34,7 +34,7 @@ public class SVG implements TextContentGenerator {
 
     public SVG() {
         texts.add(HEADER);
-        texts.add(""); // 1: Dimensions (width, height, view box)
+        texts.add(""); // 1: Dimensions (width, height, view box). May be set later.
         texts.add(" preserveAspectRatio=\"xMidYMid meet\">"); // 2: Aspect ratio
         texts.add("<metadata>Created by SO Engine</metadata>");
         texts.add("</svg>");
