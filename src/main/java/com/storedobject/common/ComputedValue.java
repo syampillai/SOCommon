@@ -42,7 +42,7 @@ public interface ComputedValue<T> extends Cloneable {
 	}
 
 	default void setManual(boolean manual) {
-		setComputed(manual);
+		setComputed(!manual);
 	}
 	
 	default void enable(boolean enable) {
