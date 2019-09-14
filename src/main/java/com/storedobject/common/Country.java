@@ -286,7 +286,7 @@ public final class Country {
      * @param shortName Short name of the country (as per ISO 2 letter code)
      * @return Country.
      */
-    public Country get(String shortName) {
+    public static Country get(String shortName) {
         if(shortName == null) {
             return null;
         }
