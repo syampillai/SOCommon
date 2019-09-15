@@ -313,9 +313,39 @@ public final class Country {
     }
 
     /**
+     * Check a given country code for its validity.
+     *
+     * @param countryCode Country code to be checked
+     * @return Country code (may be modified).
+     * @throws SOException If the country is invalid
+     */
+    public static String check(String countryCode) throws SOException {
+        return check(countryCode, false);
+    }
+
+    /**
+     * Check a given country code for its validity.
+     *
+     * @param countryCode Country code to be checked
+     * @param allowEmpty Whether empty should be taken as valid or not
+     * @return Country code (may be modified).
+     * @throws SOException If the country is invalid
+     */
+    public static String check(String countryCode, boolean allowEmpty) throws SOException {
+        if(allowEmpty && StringUtility.isWhite(countryCode)) {
+            return "";
+        }
+        Country country = Country.get(countryCode);
+        if(country != null) {
+            return country.getName();
+        }
+        throw new SOException("Invalid Country = " + countryCode);
+    }
+
+    /**
      * Gets the name of the Country
      *
-     * @return The name
+     * @return The name.
      */
     public String getName() {
         return getLocale().getDisplayName(Locale.ENGLISH);
@@ -368,16 +398,16 @@ public final class Country {
     /**
      * Get the ISD prefix for the country.
      *
-     * @return ISD dialing prefix;
+     * @return ISD dialing prefix (will not contain leading "+" symbol.
      */
     public String getISDCode() {
         if(dialingCode > 440000) {
-            return "+44 " + (dialingCode - 440000);
+            return "44 " + (dialingCode - 440000);
         }
         if(dialingCode > 1000) {
-            return "+1 " + (dialingCode - 1000);
+            return "1 " + (dialingCode - 1000);
         }
-        return "+" + dialingCode;
+        return "" + dialingCode;
     }
 
     /**
