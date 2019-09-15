@@ -18,12 +18,10 @@ package com.storedobject.common;
 
 /**
  * IN Address<BR>
- * line[0]: Street number/name (could be blank)<BR>
- * line[1]: Area/Community (could be blank)<BR>
- * line[2]: Post Office<BR>
- * line[3]: PIN (must be digits)<BR>
- * line[4]: District code<BR>
- * line[5]: State code<BR>
+ * line[0]: Post Office<BR>
+ * line[1]: PIN (must be digits)<BR>
+ * line[2]: District code<BR>
+ * line[3]: State code<BR>
  *
  * @author Syam
  */
@@ -245,7 +243,7 @@ public final class INAddress extends Address {
 
     @Override
     protected boolean parse() {
-        if(StringUtility.isWhite(lines[lines.length - 4])) {
+        if(StringUtility.isWhite(getPostOfficeName())) {
             return false;
         }
         int code = extractNumber(lines[lines.length - 3]);
@@ -259,6 +257,16 @@ public final class INAddress extends Address {
         code = Integer.parseInt(lines[lines.length - 1]);
         lines[lines.length - 2] = match(lines[lines.length - 2], districts[code]);
         return true;
+    }
+
+    @Override
+    protected int getLineCount() {
+        return 4;
+    }
+
+    @Override
+    protected int getReservedLines() {
+        return 4;
     }
 
     @Override
@@ -284,6 +292,10 @@ public final class INAddress extends Address {
             return lines[n] + " P.O.";
         }
         return super.convert(lineNumber);
+    }
+
+    public String getPostOfficeName() {
+        return lines[lines.length - 4];
     }
 
     public int getState() {

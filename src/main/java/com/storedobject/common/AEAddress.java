@@ -18,10 +18,8 @@ package com.storedobject.common;
 
 /**
  * AE Address<BR>
- * line[0]: Street number/name (could be blank)<BR>
- * line[1]: Area/District/Community (could be blank)<BR>
- * line[2]: Post Box Number (must be digits)<BR>
- * line[3]: Code for the emirate (0: Abu Dhabi, 1: Dubai, 2: Sharjah, 3: Ajman,  4: Um Al Quwain, 5: Ras Al Khaimah, 6: Fujairah)<BR>
+ * line[0]: Post Box Number (must be digits)<BR>
+ * line[1]: Code for the emirate (0: Abu Dhabi, 1: Dubai, 2: Sharjah, 3: Ajman,  4: Um Al Quwain, 5: Ras Al Khaimah, 6: Fujairah)<BR>
  *
  * @author Syam
  */
@@ -36,9 +34,19 @@ public final class AEAddress extends Address {
 
     @Override
     protected boolean parse() {
-        lines[lines.length - 2] = "" + extractNumber(lines[lines.length - 2]);
+        lines[lines.length - 2] = "" + getPOBox();
         lines[lines.length - 1] = match(lines[lines.length - 1], emirates);
         return true;
+    }
+
+    @Override
+    protected int getLineCount() {
+        return 2;
+    }
+
+    @Override
+    protected int getReservedLines() {
+        return 2;
     }
 
     @Override
@@ -54,6 +62,18 @@ public final class AEAddress extends Address {
             }
         }
         return super.convert(lineNumber);
+    }
+
+    public void setPOBox(int poBox) {
+        lines[lines.length - 2] = "" + poBox;
+    }
+
+    public int getPOBox() {
+        return extractNumber(lines[lines.length - 2]);
+    }
+
+    public void setEmirate(int emirate) {
+        lines[lines.length - 1] = "" + (emirates.length % emirate);
     }
 
     public int getEmirate() {
