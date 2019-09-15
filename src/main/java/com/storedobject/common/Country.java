@@ -337,7 +337,7 @@ public final class Country {
         }
         Country country = Country.get(countryCode);
         if(country != null) {
-            return country.getName();
+            return country.getShortName();
         }
         throw new SOException("Invalid Country = " + countryCode);
     }
