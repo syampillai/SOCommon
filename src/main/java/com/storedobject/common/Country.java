@@ -85,7 +85,7 @@ public final class Country {
         new Country("DJ", 253);
         new Country("DK", 45);
         new Country("DM", 1767);
-        new Country("DO", 1809);
+        new Country("DO", 1);
         new Country("DZ", 213);
         new Country("EC", 593);
         new Country("EE", 372);
@@ -200,7 +200,7 @@ public final class Country {
         new Country("PM", 508);
         new Country("PN", 64);
         new Country("PK", 92);
-        new Country("PR", 1787);
+        new Country("PR", 1);
         new Country("PS", 970);
         new Country("PT", 351);
         new Country("PW", 680);
@@ -214,7 +214,7 @@ public final class Country {
         new Country("SA", 966);
         new Country("SB", 677);
         new Country("SC", 248);
-        new Country("Sd", 249);
+        new Country("SD", 249);
         new Country("SE", 46);
         new Country("SG", 65);
         new Country("SH", 290);
@@ -225,7 +225,7 @@ public final class Country {
         new Country("SM", 378);
         new Country("SN", 221);
         new Country("SO", 252);
-        new Country("Sr", 597);
+        new Country("SR", 597);
         new Country("SS", 211);
         new Country("ST", 239);
         new Country("SV", 503);
@@ -299,7 +299,7 @@ public final class Country {
     }
 
     /**
-     * List the list of countries.
+     * Get the list of countries.
      *
      * @return List of countries.
      */
@@ -348,6 +348,9 @@ public final class Country {
      * @return The name.
      */
     public String getName() {
+        if("XK".equals(shortName)) {
+            return "Kosovo";
+        }
         return getLocale().getDisplayName(Locale.ENGLISH);
     }
 
@@ -378,6 +381,9 @@ public final class Country {
      * @return ISO 3 character code.
      */
     public String getISO3CharacterCode() {
+        if("XK".equals(shortName)) {
+            return "XKX";
+        }
         return getLocale().getISO3Country();
     }
 
@@ -398,7 +404,7 @@ public final class Country {
     /**
      * Get the ISD prefix for the country.
      *
-     * @return ISD dialing prefix (will not contain leading "+" symbol.
+     * @return ISD dialing prefix (will not contain leading "+" symbol).
      */
     public String getISDCode() {
         if(dialingCode > 440000) {
@@ -411,7 +417,7 @@ public final class Country {
     }
 
     /**
-     * Get the flag as as an emoji that can be displayed in most of the computer systems.
+     * Get the flag as an emoji that can be displayed in most of the computer systems.
      *
      * @return Flag emoji.
      */

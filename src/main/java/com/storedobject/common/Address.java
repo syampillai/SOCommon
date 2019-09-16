@@ -23,11 +23,11 @@ import java.util.Arrays;
  * of text (delimited by newline character). A valid address is stored in the following format:<BR>
  * First line: CCdX where<BR>
  * CC = the ISO 2 character country code (Example: IN for India, PK for Pakistan, US for USA)<BR>
- * d = Digit 0, 1 or 2 (0 for Apartment, 1 for Villa, 2 for House, 3 for Office)<BR>
+ * d = Digit 0, 1, 2 or 3 (0 for Apartment, 1 for Villa, 2 for House, 3 for Office)<BR>
  * X = Apartment/villa/office number/name. Can contain any free text but can't be blank<BR>
  * Second line: Building name (may include floor/level etc.). Mandatory for apartments.<BR>
  * Third line: Street name.<BR>
- * Fourth line: Area/Community name.
+ * Fourth line: Area/Community name.<BR>
  * Depending on the country, rest of the lines are interpreted.
  *
  * @author Syam
