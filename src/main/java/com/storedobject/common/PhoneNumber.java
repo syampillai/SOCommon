@@ -92,6 +92,9 @@ public final class PhoneNumber {
     }
 
     private static int length(Country country, String phone) {
+        if(phone.startsWith("+1")) {
+            return 11;
+        }
         switch (country.getShortName()) {
             case "AE":
             case "KE":
@@ -108,10 +111,8 @@ public final class PhoneNumber {
             case "GE":
             case "IN":
                 return 12;
-            case "CA":
             case "CH":
             case "HK":
-            case "US":
             case "ZA":
                 return 11;
             case "UK":

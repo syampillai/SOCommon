@@ -557,28 +557,49 @@ public final class Country {
         if(phoneNumber.startsWith("+")) {
             phoneNumber = phoneNumber.substring(1);
         }
-        String pp = phoneNumber;
-        List<Country> list = Country.list().stream().filter(c -> pp.startsWith(c.getISDCode()) && c.submatch(pp)).collect(Collectors.toList());
+        ArrayList<Country> list = new ArrayList<>();
+        String code;
+        for(Country c: list()) {
+            code = c.getISDCode();
+            if(c.submatch(phoneNumber) && (phoneNumber.startsWith(code) || code.startsWith(phoneNumber))) {
+                for(String sub: c.listISDPrefix()) {
+                    if(phoneNumber.startsWith(sub)) {
+                        return c;
+                    }
+                }
+                list.add(c);
+            }
+        }
         switch (list.size()) {
             case 0:
                 return null;
             case 1:
                 return list.get(0);
         }
-        Country sub = list.stream().filter(c -> c.listISDPrefix().stream().anyMatch(pp::startsWith)).findAny().orElse(null);
-        if(sub != null) {
-            return sub;
-        }
-        AtomicInteger len = new AtomicInteger(1);
-        list.forEach(c -> {
-            String code = c.getISDCode();
-            if(code.length() > len.get()) {
-                len.set(code.length());
+        int m = 0;
+        Country fullyMatched = null;
+        for(Country c: list) {
+            code = c.getISDCode();
+            if(phoneNumber.startsWith(code)) {
+                if(m < code.length()) {
+                    m = code.length();
+                    fullyMatched = c;
+                } else if(m == code.length()) {
+                    fullyMatched = null;
+                    ++m;
+                }
             }
-        });
-        list.removeIf(c -> c.getISDCode().length() < len.get());
-        if(list.size() == 1) {
-            return list.get(0);
+        }
+        if(fullyMatched != null) {
+            for(Country c: list) {
+                if(c != fullyMatched && c.getISDCode().startsWith(phoneNumber)) {
+                    fullyMatched = null;
+                    break;
+                }
+            }
+            if(fullyMatched != null) {
+                return fullyMatched;
+            }
         }
         int index = list.indexOf(this);
         if(index < 0) {
