@@ -17,11 +17,9 @@
 package com.storedobject.common;
 
 /**
- * Class used to check phone number validity.
- * A valid phone number contains all digits or a plus (+) symbol followed by digits. It can also
- * starts with 2 character {@link Country} code instead of the country's ISD dialing prefix and in that
- * case the <code>'check'</code> methods replace that part with ISD dialing prefix and the return value will
- * not contain the leading "+" symbol.
+ * Class used to check phone number validity.<BR>
+ * A valid phone number starts with a "+" symbol followed by dialing digits with optional space separators. The first
+ * one or more digits following the "+" symbol should match with ISD code of one of the countries (see {@link Country#getISDCode()}).
  *
  * @author Syam
  */
@@ -32,9 +30,9 @@ public final class PhoneNumber {
      *
      * @param phoneNumber Phone number
      * @return Phone number (may be modified).
-     * @throws SOException If the email format is not valid
+     * @throws SOException If the phone number format is not valid
      */
-    public String check(String phoneNumber) throws SOException {
+    public static String check(String phoneNumber) throws SOException {
         return check(phoneNumber, false);
     }
 
@@ -44,9 +42,9 @@ public final class PhoneNumber {
      * @param phoneNumber Phone number
      * @param allowEmpty Whether empty should be taken as valid or not
      * @return Phone number (may be modified).
-     * @throws SOException If the email format is not valid
+     * @throws SOException If the phone number format is not valid
      */
-    public String check(String phoneNumber, boolean allowEmpty) throws SOException {
+    public static String check(String phoneNumber, boolean allowEmpty) throws SOException {
         if(StringUtility.isWhite(phoneNumber)) {
             if(allowEmpty) {
                 return "";
@@ -54,23 +52,76 @@ public final class PhoneNumber {
             throw new SOException("Empty phone number");
         }
         phoneNumber = phoneNumber.trim();
-        if(phoneNumber.length() > 3) {
-            if (Character.isAlphabetic(phoneNumber.charAt(0))) {
-                Country country = Country.get(Country.check(phoneNumber.substring(0, 2)));
-                phoneNumber = phoneNumber.substring(2).trim();
-                if(StringUtility.isDigit(StringUtility.pack(phoneNumber))) {
-                    return country.getISDCode() + " " + phoneNumber;
-                }
-                phoneNumber = country.getISDCode() + " " + phoneNumber;
-            } else {
-                if(phoneNumber.startsWith("+")) {
-                    phoneNumber = phoneNumber.substring(1).trim();
-                }
-                if(StringUtility.isDigit(StringUtility.pack(phoneNumber))) {
-                    return phoneNumber;
-                }
+        if(!phoneNumber.startsWith("+")) {
+            phoneNumber = "+" + phoneNumber;
+        }
+        Country country = getCountry(phoneNumber);
+        if(country != null) {
+            int p = digits(phoneNumber), len = length(country, phoneNumber);
+            if((len > 0 && p == len) || (len < 0 && p >= (-len))) {
+                return phoneNumber;
             }
         }
         throw new SOException("Invalid phone number - " + phoneNumber);
+    }
+
+    private static int digits(String s) {
+        int digits = 0;
+        for(int i = 0; i < s.length(); i++) {
+            if(Character.isDigit(s.charAt(i))) {
+                ++digits;
+            }
+        }
+        return digits;
+    }
+
+    /**
+     * Get the country for the given phone number.
+     *
+     * @param phoneNumber Phone number
+     * @return Country of the phone number if found, otherwise <code>null</code>.
+     */
+    public static Country getCountry(String phoneNumber) {
+        Country country = Country.getByPhoneNumber(phoneNumber);
+        if(country != null) {
+            if(country == country.getNextByPhoneNumber(phoneNumber)) {
+                return country;
+            }
+        }
+        return null;
+    }
+
+    private static int length(Country country, String phone) {
+        switch (country.getShortName()) {
+            case "AE":
+            case "KE":
+            case "PK":
+                phone = StringUtility.pack(phone);
+        }
+        switch (country.getShortName()) {
+            case "AE":
+                return phone.startsWith("+9715") ? 12 : 11;
+            case "KE":
+                return phone.startsWith("+2547") ? 12 : -10;
+            case "PK":
+                return phone.startsWith("+923") ? 12 : 11;
+            case "GE":
+            case "IN":
+                return 12;
+            case "CA":
+            case "CH":
+            case "HK":
+            case "US":
+            case "ZA":
+                return 11;
+            case "UK":
+                return -11;
+        }
+        int d = 0;
+        for(String code: country.listISDPrefix()) {
+            d = digits(code);
+            break;
+        }
+        return -((d == 0 ? digits(country.getISDCode()) : d) + 4);
     }
 }

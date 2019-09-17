@@ -16,8 +16,10 @@
 
 package com.storedobject.common;
 
-import java.util.*;
 import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * Representation of a Country.
@@ -416,6 +418,75 @@ public final class Country {
         return "" + dialingCode;
     }
 
+    private static List<String> CA, PR, DO;
+
+    /**
+     * Get the list of ISD prefixes for the country. Returns empty list for all countries except Canada (CA),
+     * Puerto Rico (PR) and Dominican Republic (DO).
+     *
+     * @return List of ISD prefix strings.
+     */
+    public List<String> listISDPrefix() {
+        switch (shortName) {
+            case "CA":
+                if(CA == null) {
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add("1 204");
+                    list.add("1 226");
+                    list.add("1 236");
+                    list.add("1 249");
+                    list.add("1 250");
+                    list.add("1 289");
+                    list.add("1 306");
+                    list.add("1 343");
+                    list.add("1 403");
+                    list.add("1 416");
+                    list.add("1 418");
+                    list.add("1 438");
+                    list.add("1 450");
+                    list.add("1 506");
+                    list.add("1 514");
+                    list.add("1 519");
+                    list.add("1 579");
+                    list.add("1 581");
+                    list.add("1 587");
+                    list.add("1 600");
+                    list.add("1 604");
+                    list.add("1 613");
+                    list.add("1 647");
+                    list.add("1 705");
+                    list.add("1 709");
+                    list.add("1 778");
+                    list.add("1 780");
+                    list.add("1 807");
+                    list.add("1 819");
+                    list.add("1 867");
+                    list.add("1 902");
+                    list.add("1 905");
+                    CA = Collections.unmodifiableList(list);
+                }
+                return CA;
+            case "PR":
+                if(PR == null) {
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add("1 787");
+                    list.add("1 939");
+                    PR = Collections.unmodifiableList(list);
+                }
+                return PR;
+            case "DO":
+                if(DO == null) {
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add("1 809");
+                    list.add("1 829");
+                    list.add("1 849");
+                    DO = Collections.unmodifiableList(list);
+                }
+                return DO;
+        }
+        return Collections.emptyList();
+    }
+
     /**
      * Get the flag as an emoji that can be displayed in most of the computer systems.
      *
@@ -451,5 +522,74 @@ public final class Country {
     @Override
     public String toString() {
         return shortName;
+    }
+
+    /**
+     * Get the country for the given phone number by matching its ISD prefix.
+     *
+     * @param phoneNumber Phone number to be matched.
+     * @return Matching country.
+     */
+    public static Country getByPhoneNumber(String phoneNumber) {
+        return list().get(0).matchPhone(phoneNumber, false);
+    }
+
+    /**
+     * Get the next country for the given phone number by matching its ISD prefix. Same country will be returned
+     * if no matching next entry found.
+     *
+     * @param phoneNumber Phone number to be matched.
+     * @return Matching country.
+     */
+    public Country getNextByPhoneNumber(String phoneNumber) {
+        return matchPhone(phoneNumber, true);
+    }
+
+    private boolean submatch(String phone) {
+        List<String> sub = listISDPrefix();
+        if(sub.isEmpty()) {
+            return true;
+        }
+        return sub.stream().anyMatch(s -> phone.startsWith(s) || s.startsWith(phone));
+    }
+
+    private Country matchPhone(String phoneNumber, boolean next) {
+        if(phoneNumber.startsWith("+")) {
+            phoneNumber = phoneNumber.substring(1);
+        }
+        String pp = phoneNumber;
+        List<Country> list = Country.list().stream().filter(c -> pp.startsWith(c.getISDCode()) && c.submatch(pp)).collect(Collectors.toList());
+        switch (list.size()) {
+            case 0:
+                return null;
+            case 1:
+                return list.get(0);
+        }
+        Country sub = list.stream().filter(c -> c.listISDPrefix().stream().anyMatch(pp::startsWith)).findAny().orElse(null);
+        if(sub != null) {
+            return sub;
+        }
+        AtomicInteger len = new AtomicInteger(1);
+        list.forEach(c -> {
+            String code = c.getISDCode();
+            if(code.length() > len.get()) {
+                len.set(code.length());
+            }
+        });
+        list.removeIf(c -> c.getISDCode().length() < len.get());
+        if(list.size() == 1) {
+            return list.get(0);
+        }
+        int index = list.indexOf(this);
+        if(index < 0) {
+            return list.get(0);
+        }
+        if(!next) {
+            return this;
+        }
+        if(++index == list.size()) {
+            index = 0;
+        }
+        return list.get(index);
     }
 }
