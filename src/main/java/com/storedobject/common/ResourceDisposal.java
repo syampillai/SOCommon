@@ -18,11 +18,8 @@ package com.storedobject.common;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Resource disposal class. {@link ResourceHolder}s can statically register with this class so that their resources
@@ -34,11 +31,13 @@ public final class ResourceDisposal {
 
     private static final ReferenceQueue<ResourceHolder> referenceQueue = new ReferenceQueue<>();
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private static Set<ResourceHolderReference> stack = new HashSet<>();
+    private final static Set<ResourceHolderReference> stack = new HashSet<>();
+    private static boolean debug;
     private static Cleaner cleaner;
 
     /**
-     * Register me so that my resource will get closed when I am garbage collected.
+     * Register me so that my resource will get closed when I am garbage collected.<BR>
+     * Warning: There shouldn't be any circular reference between the resource holder and its resource.
      *
      * @param resourceHolder Resource holder to be registered.
      */
@@ -50,13 +49,24 @@ public final class ResourceDisposal {
     }
 
     /**
-     * Get a stream of resources that are still not closed because their holders are not yet garbage collected.
-     * This could be used for debugging purposes only.
-     *
-     * @return Stream of resources pending to be closed.
+     * Dump class names of the resources that are still not closed because their holders are not yet garbage collected.
+     * This could be used for debugging purposes.
      */
-    public static Stream<AutoCloseable> resources() {
-        return stack.stream().map(r -> r.resource);
+    public static void dumpResources() {
+        debug = true;
+        System.gc();
+        AtomicInteger i = new AtomicInteger(0);
+        synchronized (stack) {
+            stack.forEach(r -> {
+                if(r != null) {
+                    if(r.resource != null) {
+                        System.err.println(r.resource.getClass());
+                        i.incrementAndGet();
+                    }
+                }
+            });
+        }
+        System.err.println("Resources: " + i);
     }
 
     private synchronized static void createCleaner() {
@@ -78,12 +88,22 @@ public final class ResourceDisposal {
             while(true) {
                 try {
                     ResourceHolderReference reference = (ResourceHolderReference) referenceQueue.remove();
-                    stack.remove(reference);
-                    reference.close();
-                    reference.clear();
+                    if(!debug) {
+                        release(reference);
+                    } else {
+                        synchronized (stack) {
+                            release(reference);
+                        }
+                    }
                 } catch (InterruptedException ignored) {
                 }
             }
+        }
+
+        private void release(ResourceHolderReference reference) {
+            stack.remove(reference);
+            reference.close();
+            reference.clear();
         }
     }
 
@@ -94,6 +114,9 @@ public final class ResourceDisposal {
         public ResourceHolderReference(ResourceHolder referent, ReferenceQueue<? super ResourceHolder> q) {
             super(referent, q);
             resource = referent.getResource();
+            if(resource == null) {
+                throw new SORuntimeException("Resource is null");
+            }
             stack.add(this);
         }
 
@@ -105,6 +128,7 @@ public final class ResourceDisposal {
                 } catch (Throwable ignored) {
                 }
             }
+            resource = null;
         }
     }
 
