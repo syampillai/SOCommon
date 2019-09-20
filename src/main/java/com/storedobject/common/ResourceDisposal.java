@@ -20,6 +20,9 @@ import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.stream.Stream;
 
 /**
  * Resource disposal class. {@link ResourceHolder}s can statically register with this class so that their resources
@@ -34,8 +37,29 @@ public final class ResourceDisposal {
     private static Set<ResourceHolderReference> stack = new HashSet<>();
     private static Cleaner cleaner;
 
-    public static synchronized void register(ResourceHolder resource) {
-        new ResourceHolderReference(resource, referenceQueue);
+    /**
+     * Register me so that my resource will get closed when I am garbage collected.
+     *
+     * @param resourceHolder Resource holder to be registered.
+     */
+    public static void register(ResourceHolder resourceHolder) {
+        new ResourceHolderReference(resourceHolder, referenceQueue);
+        if(cleaner == null) {
+            createCleaner();
+        }
+    }
+
+    /**
+     * Get a stream of resources that are still not closed because their holders are not yet garbage collected.
+     * This could be used for debugging purposes only.
+     *
+     * @return Stream of resources pending to be closed.
+     */
+    public static Stream<AutoCloseable> resources() {
+        return stack.stream().map(r -> r.resource);
+    }
+
+    private synchronized static void createCleaner() {
         if(cleaner == null) {
             cleaner = new Cleaner();
         }
@@ -82,5 +106,35 @@ public final class ResourceDisposal {
                 }
             }
         }
+    }
+
+    private static Timer timer;
+    private static boolean gc;
+
+    /**
+     * Invoke JVM's garbage collector within the next 30 seconds.
+     */
+    public static void gc() {
+        gc = true;
+        if(timer == null) {
+            createGCTimer();
+        }
+    }
+
+    private synchronized static void createGCTimer() {
+        if(timer != null) {
+            return;
+        }
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if(gc) {
+                    System.gc();
+                    gc = false;
+                }
+            }
+        };
+        timer = new Timer("GC");
+        timer.scheduleAtFixedRate(task, 1L, 30000L);
     }
 }
