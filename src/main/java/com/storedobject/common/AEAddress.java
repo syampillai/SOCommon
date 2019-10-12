@@ -16,14 +16,17 @@
 
 package com.storedobject.common;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * AE Address<BR>
- * line[0]: Post Box Number (must be digits)<BR>
- * line[1]: Code for the emirate (0: Abu Dhabi, 1: Dubai, 2: Sharjah, 3: Ajman,  4: Um Al Quwain, 5: Ras Al Khaimah, 6: Fujairah)<BR>
+ * line[0]: Code for the emirate (0: Abu Dhabi, 1: Dubai, 2: Sharjah, 3: Ajman,  4: Um Al Quwain, 5: Ras Al Khaimah, 6: Fujairah)<BR>
+ * line[1]: Post Box Number (must be digits, 0 means no PO Box)<BR>
  *
  * @author Syam
  */
-public final class AEAddress extends Address {
+public final class AEAddress extends POBoxAddress {
 
     private static final String[] emirates = new String[] {
             "Abu Dhabi", "Dubai", "Sharjah", "Ajman", "Um Al Quwain", "Ras Al Khaimah", "Fujairah"
@@ -33,58 +36,52 @@ public final class AEAddress extends Address {
     }
 
     @Override
-    protected boolean parse() {
-        lines[lines.length - 2] = "" + getPOBox();
-        lines[lines.length - 1] = match(lines[lines.length - 1], emirates);
-        return true;
+    boolean parse() throws SOException {
+        lines[lines.length - 2] = match(lines[lines.length - 2], emirates);
+        return super.parse();
     }
 
     @Override
-    protected int getLineCount() {
+    int getLineCount() {
         return 2;
     }
 
     @Override
-    protected int getReservedLines() {
+    int getReservedLines() {
         return 2;
     }
 
     @Override
-    protected String convert(int lineNumber) {
-        if(lineNumber == (lines.length - 1)) {
-            return getEmirateName();
-        }
+    String convert(int lineNumber) throws SOException {
         if(lineNumber == (lines.length - 2)) {
-            if(!lines[lineNumber].isEmpty() && !lines[lineNumber].equals("0")) {
-                return "Post Box " + lines[lineNumber];
-            } else {
-                return null;
-            }
+            return getEmirateName();
         }
         return super.convert(lineNumber);
     }
 
-    public void setPOBox(int poBox) {
-        lines[lines.length - 2] = "" + poBox;
-    }
-
-    public int getPOBox() {
-        return extractNumber(lines[lines.length - 2]);
-    }
-
     public void setEmirate(int emirate) {
-        lines[lines.length - 1] = "" + (emirates.length % emirate);
+        lines[lines.length - 2] = "" + (emirates.length % emirate);
     }
 
-    public int getEmirate() {
-        return extractNumber(lines.length - 1);
+    public int getEmirate()throws SOException {
+        return extractNumber(lines.length - 2);
     }
 
     public String getEmirateName() {
-        return extractName(lines.length - 1, emirates);
+        return extractName(lines.length - 2, emirates);
     }
 
     public static String[] getEmirates() {
         return emirates;
+    }
+
+    @Override
+    public String toString() {
+        List<String> lines = toStrings();
+        String poBox = lines.get(lines.size() - 1);
+        if(poBox.startsWith("Post Box ")) {
+            Collections.swap(lines, lines.size() - 1, lines.size() - 2);
+        }
+        return super.toString(lines);
     }
 }

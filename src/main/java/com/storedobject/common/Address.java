@@ -16,7 +16,9 @@
 
 package com.storedobject.common;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class to check and manipulate mailing address information. Address is a {@link String} containing multiple lines
@@ -77,12 +79,23 @@ public abstract class Address {
         return a.encode();
     }
 
+    private static void error(String address, String error) throws SOException {
+        String err = INVALID + address;
+        if(error != null) {
+            err += " (" + error + ")";
+        }
+        throw new SOException(err);
+    }
+
     private static Address checkAddress(String address) throws SOException {
         address = address.trim();
         String[] lines = address.split("\\r?\\n");
         StringUtility.trim(lines);
-        if(lines.length < 4 || lines[0].length() < 4) {
-            throw new SOException(INVALID + address);
+        if(lines.length < 4) {
+            error(address, "Less than 4 lines");
+        }
+        if(lines[0].length() < 4) {
+            error(address, "First line");
         }
         Country country = Country.get(Country.check(lines[0].substring(0, 2)));
         Address a = create(country);
@@ -90,12 +103,14 @@ public abstract class Address {
         switch (a.apartmentCode) {
             case '0':
                 if(lines[1].isEmpty()) {
-                    throw new SOException(INVALID + address);
+                    error(address, "Building name missing");
                 }
             case '1':
             case '2':
             case '3':
                 break;
+            default:
+                error(address, "First line, unknown code: [" + a.apartmentCode + "]");
         }
         a.apartmentName = lines[0].substring(3);
         a.buildingName = lines[1];
@@ -124,7 +139,17 @@ public abstract class Address {
             }
             --r;
         }
-        a.isValid();
+        if(a.isValid()) {
+            return a;
+        }
+        try {
+            a.parse();
+        } catch (SOException soerror) {
+            error(address, soerror.getMessage());
+        } catch (Throwable error) {
+            error.printStackTrace();
+            throw new SOException(INVALID + address, error);
+        }
         return a;
     }
 
@@ -217,44 +242,70 @@ public abstract class Address {
         return a;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        isValid();
-        if(!valid) {
-            s.append("[Not a valid address]").append('\n');
+    /**
+     * Get address as a list of lines (Country line is not included).
+     *
+     * @return List of address lines (without country name).
+     */
+    List<String> toStrings() {
+        ArrayList<String> slines = new ArrayList<>();
+        if(!isValid()) {
+            slines.add("[Not a valid address]");
         }
+        String s;
         switch (apartmentCode) {
             case '0':
-                s.append("Apartment ");
+                s = "Apartment ";
                 break;
             case '1':
-                s.append("Villa ");
+                s = "Villa ";
+                break;
+            default:
+                s = "";
                 break;
         }
-        s.append(apartmentName).append('\n');
+        slines.add(s + apartmentName);
         if(!valid || !buildingName.isEmpty()) {
-            s.append(buildingName).append('\n');
+            slines.add(buildingName);
         }
         if(!valid || !streetName.isEmpty()) {
-            s.append(streetName).append('\n');
+            slines.add(streetName);
         }
         if(!valid && !areaName.isEmpty()) {
-            s.append(areaName).append('\n');
+            slines.add(areaName);
         }
         String line;
         for(int i = 0; i < lines.length; i++) {
             if(valid) {
-                line = convert(i);
+                try {
+                    line = convert(i);
+                } catch (SOException ignored) {
+                    line = "?";
+                }
                 if (line != null && !line.isEmpty()) {
-                    s.append(line).append('\n');
+                    slines.add(line);
                 }
             } else {
-                s.append(lines[i]).append('\n');
+                slines.add(lines[i]);
             }
         }
-        s.append(country.getName());
-        return s.toString();
+        return slines;
+    }
+
+    /**
+     * Convert the list of address lines to line-feed delimited address that can be printed or displayed. Country name
+     * will be added at the end.
+     *
+     * @param lines Lines of the address as a list.
+     * @return Line-feed delimited string that can be printed or displayed.
+     */
+    String toString(List<String> lines) {
+        return String.join("\n", lines) + "\n" + country.getName();
+    }
+
+    @Override
+    public String toString() {
+        return toString(toStrings());
     }
 
     /**
@@ -275,29 +326,34 @@ public abstract class Address {
         return s.toString();
     }
 
-    protected abstract boolean parse();
+    abstract boolean parse() throws SOException;
 
-    protected abstract int getLineCount();
+    abstract int getLineCount();
 
-    protected abstract int getReservedLines();
+    abstract int getReservedLines();
 
-    protected String convert(int lineNumber) {
+    String convert(int lineNumber) throws SOException {
         return lines[lineNumber];
     }
 
-    static int extractNumber(String line) {
+    static int extractNumber(String line) throws SOException {
         if(StringUtility.isDigit(line)) {
             return Integer.parseInt(line);
         }
+        String original = line;
         int n = line.length() - 1;
         while(Character.isDigit(line.charAt(n))) {
             --n;
         }
         line = line.substring(n + 1);
-        return Integer.parseInt(line);
+        try {
+            return Integer.parseInt(line);
+        } catch (Throwable e) {
+            throw new SOException("'" + original + "' doesn't contain any number");
+        }
     }
 
-    static String match(String line, String[] names) {
+    static String match(String line, String[] names) throws SOException{
         line = line.trim();
         int code;
         try {
@@ -326,14 +382,21 @@ public abstract class Address {
         if(code >= 0 && code < names.length) {
             return "" + code;
         }
-        throw new SORuntimeException();
+        StringBuilder s = new StringBuilder();
+        for(code = 0; code < names.length; code++) {
+            if(s.length() > 0) {
+                s.append(", ");
+            }
+            s.append(code).append(": ").append(names[code]);
+        }
+        throw new SOException("'" + line + "' has no match in [" + s + "]");
     }
 
     static String extractName(String line, String[] names) {
         return names[Integer.parseInt(line)];
     }
 
-    int extractNumber(int lineNumber) {
+    int extractNumber(int lineNumber) throws SOException {
         return extractNumber(lines[lineNumber]);
     }
 
@@ -508,5 +571,14 @@ public abstract class Address {
      */
     public void setAreaName(String areaName) {
         this.areaName = areaName;
+    }
+
+    /**
+     * Get country of this address.
+     *
+     * @return Country.
+     */
+    public Country getCountry() {
+        return country;
     }
 }

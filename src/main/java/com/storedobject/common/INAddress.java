@@ -242,7 +242,7 @@ public final class INAddress extends Address {
     }
 
     @Override
-    protected boolean parse() {
+    protected boolean parse() throws SOException {
         if(StringUtility.isWhite(getPostOfficeName())) {
             return false;
         }
@@ -270,7 +270,7 @@ public final class INAddress extends Address {
     }
 
     @Override
-    protected String convert(int lineNumber) {
+    protected String convert(int lineNumber) throws SOException {
         int n = lines.length - 1;
         if(lineNumber == n) {
             return getStateName();
@@ -298,7 +298,7 @@ public final class INAddress extends Address {
         return lines[lines.length - 4];
     }
 
-    public int getState() {
+    public int getState()throws SOException {
         return extractNumber(lines.length - 1);
     }
 
@@ -306,11 +306,11 @@ public final class INAddress extends Address {
         return extractName(lines.length - 1, states);
     }
 
-    public int getDistrict() {
+    public int getDistrict()throws SOException {
         return extractNumber(lines.length - 2);
     }
 
-    public String getDistrictName() {
+    public String getDistrictName() throws SOException {
         return extractName(lines.length - 2, districts[getState()]);
     }
 

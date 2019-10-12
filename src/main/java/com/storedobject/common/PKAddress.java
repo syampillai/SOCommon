@@ -74,7 +74,7 @@ public final class PKAddress extends Address {
     }
 
     @Override
-    protected boolean parse() {
+    boolean parse() throws SOException {
         int code = extractNumber(lines[lines.length - 3]);
         if(code != 0) {
             if (code < 10000 || code > 99999) {
@@ -89,17 +89,17 @@ public final class PKAddress extends Address {
     }
 
     @Override
-    protected int getLineCount() {
+    int getLineCount() {
         return 4;
     }
 
     @Override
-    protected int getReservedLines() {
+    int getReservedLines() {
         return 4;
     }
 
     @Override
-    protected String convert(int lineNumber) {
+    String convert(int lineNumber) throws SOException {
         int n = lines.length - 1;
         if(lineNumber == n) {
             return getProvinceName();
@@ -124,7 +124,7 @@ public final class PKAddress extends Address {
         return lines[lines.length - 4];
     }
 
-    public int getProvince() {
+    public int getProvince() throws SOException {
         return extractNumber(lines.length - 1);
     }
 
@@ -132,11 +132,11 @@ public final class PKAddress extends Address {
         return extractName(lines.length - 1, provinces);
     }
 
-    public int getDistrict() {
+    public int getDistrict()throws SOException {
         return extractNumber(lines.length - 2);
     }
 
-    public String getDistrictName() {
+    public String getDistrictName() throws SOException {
         return extractName(lines.length - 2, districts[getProvince()]);
     }
 
