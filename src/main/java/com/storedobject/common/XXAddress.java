@@ -24,17 +24,17 @@ package com.storedobject.common;
 public class XXAddress extends Address {
 
     @Override
-    protected boolean parse() {
+    boolean parse() {
         return true;
     }
 
     @Override
-    protected int getLineCount() {
-        return 6;
+    public int getExtraLines() {
+        return 2;
     }
 
     @Override
-    protected int getReservedLines() {
+    public int getReservedLines() {
         return 0;
     }
 }

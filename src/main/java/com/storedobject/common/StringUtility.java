@@ -1713,6 +1713,17 @@ public class StringUtility {
     }
 
     /**
+     * Formats a double value as a numeric string (Indian style). Up to 14 fractional digits will be considered.
+     *
+     * @param value Double value to be converted.
+     * @param separated True if thousands separation is needed in the output.
+     * @return Formatted value
+     */
+    public static String formatIndian(double value, boolean separated) {
+        return formatIndian(value, -1, separated);
+    }
+
+    /**
      * Formats a double value as a numeric string with thousands separation.
      *
      * @param value Double value to be converted.
@@ -1721,7 +1732,7 @@ public class StringUtility {
      * @return Formatted value
      */
     public static String format(double value, int decimals) {
-        return format(value, decimals, true);
+        return format(value, decimals,false);
     }
 
     private static final NumberFormat format = NumberFormat.getNumberInstance();
@@ -1740,6 +1751,23 @@ public class StringUtility {
      * @return Formatted value
      */
     public static String format(double value, int decimals, boolean separated) {
+        return format(value, decimals, separated,false);
+    }
+
+    /**
+     * Formats a double value as a numeric string with thousands separation (Indian style).
+     *
+     * @param value Double value to be converted.
+     * @param decimals Number of decimals required in the output string. Passing -1 causes all non-zero decimals up to
+     * 14 positions to be incorporated.
+     * @param separated True if thousands separation is needed in the output.
+     * @return Formatted value
+     */
+    public static String formatIndian(double value, int decimals, boolean separated) {
+        return format(value, decimals, separated,true);
+    }
+
+    private static String format(double value, int decimals, boolean separated, boolean indian) {
         boolean negative = value < 0;
         if(negative) {
             value = -value;
@@ -1758,9 +1786,9 @@ public class StringUtility {
                     s = s.substring(0, s.length() - 1);
                 }
             }
-            return (negative ? "-" : "") + format(s, s.endsWith(".0") ? 0 : s.length() - s.indexOf('.') - 1, separated);
+            return (negative ? "-" : "") + format(s, s.endsWith(".0") ? 0 : s.length() - s.indexOf('.') - 1, separated, indian);
         }
-        return (negative ? "-" : "") + format(s, decimals, separated);
+        return (negative ? "-" : "") + format(s, decimals, separated, indian);
     }
 
     /**
@@ -1772,6 +1800,22 @@ public class StringUtility {
      * @return Formatted value
      */
     public static String format(String s, int decimals, boolean separated) {
+        return format(s, decimals, separated,false);
+    }
+
+    /**
+     * Formats a string as a numeric string with thousands separation (Indian style).
+     *
+     * @param s String of digits (can contain a decimal point).
+     * @param decimals Number of decimals required in the output string.
+     * @param separated True if thousands separation is needed in the output.
+     * @return Formatted value
+     */
+    public static String formatIndian(String s, int decimals, boolean separated) {
+        return format(s, decimals, separated,true);
+    }
+
+    private static String format(String s, int decimals, boolean separated, boolean indian) {
         if(s == null) {
             s = "0";
         }
@@ -1857,13 +1901,17 @@ public class StringUtility {
             }
         }
         if(separated) {
+            int group = 3;
             while (true) {
-                p = s.length() - 3;
+                p = s.length() - group;
                 if (p <= 0) {
                     break;
                 }
                 t.insert(0, "," + s.substring(p));
                 s = s.substring(0, p);
+                if(indian && group == 3) {
+                    group = 2;
+                }
             }
         }
         s += t;
@@ -1931,6 +1979,30 @@ public class StringUtility {
     }
 
     private final static String zero = "zero";
+
+    /**
+     * Converts a numeric value into words. Decimal portion and negative part will be ignored
+     * @param value Value
+     * @return Value in words
+     */
+    public static String words(Number value) {
+        if(value == null) {
+            return "zero";
+        }
+        if(value instanceof Integer || value instanceof Long) {
+            return words(BigInteger.valueOf(value.longValue()));
+        }
+        if(value instanceof Float || value instanceof Double) {
+            return words(BigDecimal.valueOf(value.doubleValue()));
+        }
+        if(value instanceof BigInteger) {
+            return words((BigInteger)value);
+        }
+        if(value instanceof BigDecimal) {
+            return words((BigDecimal) value);
+        }
+        return words(BigDecimal.valueOf(value.doubleValue()));
+    }
 
     /**
      * Converts a numeric value into words. Decimal portion and negative part will be ignored

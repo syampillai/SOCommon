@@ -18,12 +18,10 @@ package com.storedobject.common;
 
 /**
  * CH Address<BR>
- * line[0]: Post Code (4 digit numeric)<BR>
- * line[1]: Post Box Number (must be digits, 0 means no PO Box)<BR>
  *
  * @author Syam
  */
-public class CHAddress extends POBoxAddress {
+public class CHAddress extends Address {
 
     CHAddress() {
     }
@@ -39,61 +37,84 @@ public class CHAddress extends POBoxAddress {
         if(areaName.isEmpty()) {
             throw new SOException("Place name");
         }
-        int postalCode = getPostalCode();
-        if(postalCode < 1000 || postalCode > 9999) {
-            throw new SOException("Postal code");
-        }
-        lines[lines.length - 2] = "" + postalCode;
         return super.parse();
     }
 
     @Override
-    protected int getLineCount() {
+    public void setStreetName(String streetName) {
+        super.setStreetName(streetName);
+        valid = valid && !streetName.isEmpty();
+    }
+
+    @Override
+    public void setBuildingName(String buildingName) {
+        super.setBuildingName(buildingName);
+        valid = valid && !buildingName.isEmpty();
+    }
+
+    @Override
+    public void setAreaName(String areaName) {
+        super.setAreaName(areaName);
+        valid = valid && !areaName.isEmpty();
+    }
+
+    @Override
+    boolean checkPostalCode() {
+        return postalCode >= 1000 && postalCode <= 9999;
+    }
+
+    @Override
+    int poBoxPosition() {
         return 2;
     }
 
     @Override
-    protected int getReservedLines() {
+    public String getPOBoxName() {
+        return "Postfach";
+    }
+
+    @Override
+    int postalCodePosition() {
         return 2;
     }
 
     @Override
-    protected String convert(int lineNumber) throws SOException {
-        if(lineNumber == (lines.length - 2)) {
-            if(!lines[lineNumber].isEmpty() && !lines[lineNumber].equals("0")) {
-                return lines[lineNumber];
-            } else {
-                return null;
-            }
-        }
-        return super.convert(lineNumber);
-    }
-
-    public void setPostalCode(int postalCode) {
-        lines[lines.length - 2] = "" + postalCode;
-    }
-
-    public int getPostalCode() throws SOException {
-        return extractNumber(lines[lines.length - 2]);
+    String postalCodePrefix() {
+        return "";
     }
 
     @Override
-    public String toString() {
-        String s = apartmentName + "\n" + streetName + " " + buildingName + "\n";
-        int po;
-        try {
-            po = getPOBox();
-        } catch (SOException e) {
-            po = 0;
+    String postalCodeSuffix() {
+        return " " + areaName;
+    }
+
+    @Override
+    String apartmentName(String prefix) {
+        String s = streetName + " " + buildingName();
+        if(!apartmentName.isEmpty()) {
+            s += Character.isDigit(apartmentName.charAt(0)) ? "/" : " ";
+            s += apartmentName;
         }
-        if(po > 0) {
-            s += "Postfach " + po + "\n";
-        }
-        try {
-            s += getPostalCode();
-        } catch (SOException e) {
-            s += "????";
-        }
-        return s + " " + areaName + "\n" + country.getName();
+        return s;
+    }
+
+    @Override
+    String buildingName() {
+        return "";
+    }
+
+    @Override
+    String streetName() {
+        return "";
+    }
+
+    @Override
+    String areaName() {
+        return "";
+    }
+
+    @Override
+    public String getPlaceCaption() {
+        return "Place Name";
     }
 }

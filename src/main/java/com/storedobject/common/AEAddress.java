@@ -22,11 +22,10 @@ import java.util.List;
 /**
  * AE Address<BR>
  * line[0]: Code for the emirate (0: Abu Dhabi, 1: Dubai, 2: Sharjah, 3: Ajman,  4: Um Al Quwain, 5: Ras Al Khaimah, 6: Fujairah)<BR>
- * line[1]: Post Box Number (must be digits, 0 means no PO Box)<BR>
  *
  * @author Syam
  */
-public final class AEAddress extends POBoxAddress {
+public final class AEAddress extends Address {
 
     private static final String[] emirates = new String[] {
             "Abu Dhabi", "Dubai", "Sharjah", "Ajman", "Um Al Quwain", "Ras Al Khaimah", "Fujairah"
@@ -37,38 +36,38 @@ public final class AEAddress extends POBoxAddress {
 
     @Override
     boolean parse() throws SOException {
-        lines[lines.length - 2] = match(lines[lines.length - 2], emirates);
+        lines[lines.length - 1] = match(lines[lines.length - 1], emirates);
         return super.parse();
     }
 
     @Override
-    int getLineCount() {
-        return 2;
+    public int getExtraLines() {
+        return 1;
     }
 
     @Override
-    int getReservedLines() {
-        return 2;
+    public int getReservedLines() {
+        return 1;
     }
 
     @Override
     String convert(int lineNumber) throws SOException {
-        if(lineNumber == (lines.length - 2)) {
+        if(lineNumber == (lines.length - 1)) {
             return getEmirateName();
         }
         return super.convert(lineNumber);
     }
 
     public void setEmirate(int emirate) {
-        lines[lines.length - 2] = "" + (emirates.length % emirate);
+        lines[lines.length - 1] = "" + (emirate % emirates.length);
     }
 
     public int getEmirate()throws SOException {
-        return extractNumber(lines.length - 2);
+        return extractNumber(lines.length - 1);
     }
 
     public String getEmirateName() {
-        return extractName(lines.length - 2, emirates);
+        return extractName(lines.length - 1, emirates);
     }
 
     public static String[] getEmirates() {
@@ -76,12 +75,7 @@ public final class AEAddress extends POBoxAddress {
     }
 
     @Override
-    public String toString() {
-        List<String> lines = toStrings();
-        String poBox = lines.get(lines.size() - 1);
-        if(poBox.startsWith("Post Box ")) {
-            Collections.swap(lines, lines.size() - 1, lines.size() - 2);
-        }
-        return super.toString(lines);
+    int poBoxPosition() {
+        return 4;
     }
 }

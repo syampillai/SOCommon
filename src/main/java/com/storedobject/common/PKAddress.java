@@ -19,14 +19,14 @@ package com.storedobject.common;
 /**
  * IN Address<BR>
  * line[0]: Place name within the district<BR>
- * line[1]: Postal code (must be digits)<BR>
- * line[2]: District code<BR>
- * line[3]: Province code<BR>
+ * line[1]: District code<BR>
+ * line[2]: Province code<BR>
  *
  * @author Syam
  */
 public final class PKAddress extends Address {
 
+    private final int POS_PROVINCE = 1, POS_DISTRICT = 2, POS_PLACE = 3;
     private static String[] provinces = new String[] {
             "Balochistan", "FATA", "Islamabad", "Khyber Pakhtunkhwa", "Punjab", "Sindh"
     };
@@ -75,69 +75,87 @@ public final class PKAddress extends Address {
 
     @Override
     boolean parse() throws SOException {
-        int code = extractNumber(lines[lines.length - 3]);
-        if(code != 0) {
-            if (code < 10000 || code > 99999) {
-                return false;
-            }
-        }
-        lines[lines.length - 3] = "" + code;
-        lines[lines.length - 1] = match(lines[lines.length - 1], provinces);
-        code = Integer.parseInt(lines[lines.length - 1]);
-        lines[lines.length - 2] = match(lines[lines.length - 2], districts[code]);
+        lines[lines.length - POS_PROVINCE] = match(lines[lines.length - POS_PROVINCE], provinces);
+        int provice = getProvince();
+        lines[lines.length - POS_DISTRICT] = match(lines[lines.length - POS_DISTRICT], districts[provice]);
         return true;
     }
 
     @Override
-    int getLineCount() {
-        return 4;
+    public int getExtraLines() {
+        return 3;
     }
 
     @Override
-    int getReservedLines() {
-        return 4;
+    public int getReservedLines() {
+        return 2;
     }
 
     @Override
     String convert(int lineNumber) throws SOException {
-        int n = lines.length - 1;
+        int n = lines.length - POS_PROVINCE;
         if(lineNumber == n) {
             return getProvinceName();
         }
         --n;
         if(lineNumber == n) {
             String d = getDistrictName();
-            int pin = Integer.parseInt(lines[n - 1]);
-            if(pin > 0) {
-                d += " " + pin;
+            if(postalCode > 0) {
+                d += " " + postalCode;
             }
             return d;
         }
         --n;
         if(lineNumber == n) {
-            return null;
+            return getPlaceName();
         }
         return super.convert(lineNumber);
     }
 
     public String getPlaceName() {
-        return lines[lines.length - 4];
+        return lines[lines.length - POS_PLACE];
+    }
+
+    public void setPlaceName(String placeName) {
+        lines[lines.length - POS_PLACE] = placeName == null ? "" : placeName;
     }
 
     public int getProvince() throws SOException {
-        return extractNumber(lines.length - 1);
+        return extractNumber(lines.length - POS_PROVINCE);
+    }
+
+    public void setProvince(int province) {
+        int district;
+        try {
+            district = getDistrict();
+        } catch (SOException e) {
+            district = 0;
+        }
+        lines[lines.length - POS_PROVINCE] = "" + (province % provinces.length);
+        setDistrict(district);
     }
 
     public String getProvinceName() {
-        return extractName(lines.length - 1, provinces);
+        return extractName(lines.length - POS_PROVINCE, provinces);
     }
 
-    public int getDistrict()throws SOException {
-        return extractNumber(lines.length - 2);
+    public int getDistrict() throws SOException {
+        return extractNumber(lines.length - POS_DISTRICT);
+    }
+
+    public void setDistrict(int district) {
+        int state;
+        try {
+            state = getProvince();
+        } catch (SOException e) {
+            state = 0;
+        }
+        String[] districts = getDistricts(state);
+        lines[lines.length - POS_DISTRICT] = "" + (district % districts.length);
     }
 
     public String getDistrictName() throws SOException {
-        return extractName(lines.length - 2, districts[getProvince()]);
+        return extractName(lines.length - POS_DISTRICT, districts[getProvince()]);
     }
 
     public static String[] getProvinces() {
@@ -146,5 +164,20 @@ public final class PKAddress extends Address {
 
     public static String[] getDistricts(int state) {
         return districts[state];
+    }
+
+    @Override
+    public String getPostalCodeCaption() {
+        return "Postal Code";
+    }
+
+    @Override
+    int postalCodePosition() {
+        return 100;
+    }
+
+    @Override
+    boolean checkPostalCode() {
+        return postalCode == 0 || (postalCode >= 10000 && postalCode <= 99999);
     }
 }

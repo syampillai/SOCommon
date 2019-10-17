@@ -19,14 +19,14 @@ package com.storedobject.common;
 /**
  * IN Address<BR>
  * line[0]: Post Office<BR>
- * line[1]: PIN (must be digits)<BR>
- * line[2]: District code<BR>
- * line[3]: State code<BR>
+ * line[1]: District code<BR>
+ * line[2]: State code<BR>
  *
  * @author Syam
  */
 public final class INAddress extends Address {
 
+    private static final int POS_STATE = 1, POS_DISTRICT = 2, POS_PO = 3;
     private static String[] states = new String[] {
             "Andra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattishgarh",
             "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
@@ -246,32 +246,25 @@ public final class INAddress extends Address {
         if(StringUtility.isWhite(getPostOfficeName())) {
             return false;
         }
-        int code = extractNumber(lines[lines.length - 3]);
-        if(code != 0) {
-            if (code < 100000 || code > 999999) {
-                return false;
-            }
-        }
-        lines[lines.length - 3] = "" + code;
-        lines[lines.length - 1] = match(lines[lines.length - 1], states);
-        code = Integer.parseInt(lines[lines.length - 1]);
-        lines[lines.length - 2] = match(lines[lines.length - 2], districts[code]);
+        lines[lines.length - POS_STATE] = match(lines[lines.length - POS_STATE], states);
+        int state = getState();
+        lines[lines.length - POS_DISTRICT] = match(lines[lines.length - POS_DISTRICT], districts[state]);
         return true;
     }
 
     @Override
-    protected int getLineCount() {
-        return 4;
+    public int getExtraLines() {
+        return 3;
     }
 
     @Override
-    protected int getReservedLines() {
-        return 4;
+    public int getReservedLines() {
+        return 3;
     }
 
     @Override
     protected String convert(int lineNumber) throws SOException {
-        int n = lines.length - 1;
+        int n = lines.length - POS_STATE;
         if(lineNumber == n) {
             return getStateName();
         }
@@ -281,37 +274,52 @@ public final class INAddress extends Address {
         }
         --n;
         if(lineNumber == n) {
-            int pin = Integer.parseInt(lines[n]);
-            if(pin == 0) {
-                return null;
-            }
-            return "PIN " + pin;
-        }
-        --n;
-        if(lineNumber == n) {
-            return lines[n] + " P.O.";
+            String po = getPostOfficeName();
+            return po.isEmpty() ? "" : ("P.O. " + po);
         }
         return super.convert(lineNumber);
     }
 
     public String getPostOfficeName() {
-        return lines[lines.length - 4];
+        return lines[lines.length - POS_PO];
     }
 
     public int getState()throws SOException {
-        return extractNumber(lines.length - 1);
+        return extractNumber(lines.length - POS_STATE);
+    }
+
+    public void setState(int state) {
+        int district;
+        try {
+            district = getDistrict();
+        } catch (SOException e) {
+            district = 0;
+        }
+        lines[lines.length - POS_STATE] = "" + (state % states.length);
+        setDistrict(district);
     }
 
     public String getStateName() {
-        return extractName(lines.length - 1, states);
+        return extractName(lines.length - POS_STATE, states);
     }
 
     public int getDistrict()throws SOException {
-        return extractNumber(lines.length - 2);
+        return extractNumber(lines.length - POS_DISTRICT);
+    }
+
+    public void setDistrict(int district) {
+        int state;
+        try {
+            state = getState();
+        } catch (SOException e) {
+            state = 0;
+        }
+        String[] districts = getDistricts(state);
+        lines[lines.length - POS_DISTRICT] = "" + (district % districts.length);
     }
 
     public String getDistrictName() throws SOException {
-        return extractName(lines.length - 2, districts[getState()]);
+        return extractName(lines.length - POS_DISTRICT, districts[getState()]);
     }
 
     public static String[] getStates() {
@@ -320,5 +328,25 @@ public final class INAddress extends Address {
 
     public static String[] getDistricts(int state) {
         return districts[state];
+    }
+
+    @Override
+    int poBoxPosition() {
+        return 6;
+    }
+
+    @Override
+    public String getPostalCodeCaption() {
+        return "PIN";
+    }
+
+    @Override
+    int postalCodePosition() {
+        return 6;
+    }
+
+    @Override
+    boolean checkPostalCode() {
+        return postalCode == 0 || (postalCode >= 100000 && postalCode <= 999999);
     }
 }

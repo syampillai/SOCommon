@@ -30,7 +30,13 @@ import java.util.List;
  * Second line: Building name (may include floor/level etc.). Mandatory for apartments.<BR>
  * Third line: Street name.<BR>
  * Fourth line: Area/Community name.<BR>
- * Depending on the country, rest of the lines are interpreted.
+ * Depending on the country, rest of the lines are interpreted.<BR>
+ * Generic address is formatted as follows:<BR>
+ * Line 0: Apartment/Villa/House XXX<BR>
+ * Line 1: Building Name<BR>
+ * Line 2: Street Name<BR>
+ * Line 3: Area/Community Name<BR>
+ * Line 4: Country Name<BR>
  *
  * @author Syam
  */
@@ -38,8 +44,9 @@ public abstract class Address {
 
     private static final String INVALID = "Invalid address - ";
     Country country;
-    char apartmentCode;
+    char apartmentCode = '0';
     String apartmentName, buildingName, streetName, areaName;
+    int poBox, postalCode;
     String[] lines;
     boolean valid;
 
@@ -110,12 +117,29 @@ public abstract class Address {
             case '3':
                 break;
             default:
+                a.apartmentCode = '0';
                 error(address, "First line, unknown code: [" + a.apartmentCode + "]");
         }
-        a.apartmentName = lines[0].substring(3);
-        a.buildingName = lines[1];
-        a.streetName = lines[2];
-        a.areaName = lines[3];
+        a.setApartmentName(lines[0].substring(3));
+        a.setBuildingName(lines[1]);
+        a.setStreetName(lines[2]);
+        a.setAreaName(lines[3]);
+        if(lines.length > 4) {
+            try {
+                a.poBox = Integer.parseInt(lines[4]);
+            } catch (Throwable e) {
+                a.poBox = 0;
+            }
+            a.setPOBox(a.poBox);
+        }
+        if(lines.length > 5) {
+            try {
+                a.postalCode = Integer.parseInt(lines[5]);
+            } catch (Throwable e) {
+                a.postalCode = 0;
+            }
+            a.setPostalCode(a.postalCode);
+        }
         int n = a.lines.length, m = lines.length, r = a.getReservedLines();
         while(n > 0) {
             --n;
@@ -139,11 +163,12 @@ public abstract class Address {
             }
             --r;
         }
-        if(a.isValid()) {
-            return a;
-        }
         try {
             a.parse();
+            if(!a.checkPostalCode()) {
+                a.valid = false;
+                error(address, a.getPostalCodeCaption());
+            }
         } catch (SOException soerror) {
             error(address, soerror.getMessage());
         } catch (Throwable error) {
@@ -158,22 +183,24 @@ public abstract class Address {
      *
      * @return True or false.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public final boolean isValid() {
         if(!valid) {
+            valid = true;
             if(areaName == null) {
-                areaName = "";
+                setAreaName("");
             }
             if(streetName == null) {
-                streetName = "";
+                setStreetName("");
             }
             if(buildingName == null) {
-                buildingName = "";
+                setBuildingName("");
             }
             if(apartmentName == null) {
-                apartmentName = "";
+                setApartmentName("");
             }
             try {
-                valid = parse();
+                valid = valid && checkPostalCode() && parse();
             } catch (Throwable ignored) {
             }
         }
@@ -187,21 +214,29 @@ public abstract class Address {
      * @return True if the address is valid after copying details.
      */
     public boolean copy(Address address) {
-        apartmentCode = address.apartmentCode;
-        apartmentName = address.apartmentName;
-        buildingName = address.buildingName;
-        streetName = address.streetName;
-        areaName = address.areaName;
-        int n = getLineCount(), m = address.lines.length;
+        valid = true;
+        setApartmentCode(address.apartmentCode);
+        setApartmentName(address.apartmentName);
+        setBuildingName(address.buildingName);
+        setStreetName(address.streetName);
+        setAreaName(address.areaName);
+        setPOBox(address.poBox);
+        setPostalCode(address.postalCode);
+        int n = getExtraLines(), m = address.lines.length;
         lines = new String[n];
         while (n > 0) {
             --n;
             --m;
-            lines[n] = m >= 0 ? address.lines[m] : "";
+            try {
+                lines[n] = m >= 0 ? address.convert(m) : "";
+            } catch (Throwable e) {
+                lines[n] = "";
+            }
         }
         try {
-            valid = parse();
+            valid = valid && checkPostalCode() && parse();
         } catch (Throwable ignored) {
+            valid = false;
         }
         return valid;
     }
@@ -237,8 +272,9 @@ public abstract class Address {
             a = new XXAddress();
         }
         a.country = country;
-        a.lines = new String[a.getLineCount()];
+        a.lines = new String[a.getExtraLines()];
         Arrays.fill(a.lines, "");
+        a.valid = true;
         return a;
     }
 
@@ -249,9 +285,13 @@ public abstract class Address {
      */
     List<String> toStrings() {
         ArrayList<String> slines = new ArrayList<>();
-        if(!isValid()) {
+        boolean v = valid;
+        valid = false;
+        if(!isValid() || !v) {
+            v = false;
             slines.add("[Not a valid address]");
         }
+        valid = v;
         String s;
         switch (apartmentCode) {
             case '0':
@@ -264,27 +304,19 @@ public abstract class Address {
                 s = "";
                 break;
         }
-        slines.add(s + apartmentName);
-        if(!valid || !buildingName.isEmpty()) {
-            slines.add(buildingName);
-        }
-        if(!valid || !streetName.isEmpty()) {
-            slines.add(streetName);
-        }
-        if(!valid && !areaName.isEmpty()) {
-            slines.add(areaName);
-        }
-        String line;
+        String line = apartmentName(s);
+        slines.add(line);
+        slines.add(buildingName());
+        slines.add(streetName());
+        slines.add(areaName());
         for(int i = 0; i < lines.length; i++) {
             if(valid) {
                 try {
                     line = convert(i);
-                } catch (SOException ignored) {
+                } catch (Throwable error) {
                     line = "?";
                 }
-                if (line != null && !line.isEmpty()) {
-                    slines.add(line);
-                }
+                slines.add(line == null ? "" : line);
             } else {
                 slines.add(lines[i]);
             }
@@ -297,15 +329,58 @@ public abstract class Address {
      * will be added at the end.
      *
      * @param lines Lines of the address as a list.
+     * @param personName Name of the person to be printed (Name should contain title as the first word - Example: Mr. Tim John).
+     *                   <code>null</code> could be passed if no name to be printed.
      * @return Line-feed delimited string that can be printed or displayed.
      */
-    String toString(List<String> lines) {
-        return String.join("\n", lines) + "\n" + country.getName();
+    String toString(List<String> lines, String personName) {
+        StringBuilder s = new StringBuilder();
+        if(personName != null) {
+            if(apartmentCode <= '2') { // Not an office
+                if(splitNameTitle() && personName.contains(" ")) {
+                    int p = personName.indexOf(' ');
+                    s.append(personName, 0, p).append('\n');
+                    s.append(personName.substring(p + 1).trim());
+                } else {
+                    s.append(personName);
+                }
+                s.append('\n');
+                personName = null;
+            }
+        }
+        String line;
+        for(int i = 0; i < lines.size(); i++) {
+            if(personName != null && i == 1) {
+                s.append(personName).append('\n');
+            }
+            if(poBox > 0 && i == poBoxPosition()) {
+                s.append(getPOBoxName()).append(' ').append(poBox).append('\n');
+            }
+            if(postalCode > 0 && i == postalCodePosition()) {
+                s.append(postalCodePrefix()).append(postalCode).append(postalCodeSuffix()).append('\n');
+            }
+            line = lines.get(i);
+            if(line != null && !line.isEmpty()) {
+                s.append(line).append('\n');
+            }
+        }
+        if(poBox > 0 && Integer.MAX_VALUE == poBoxPosition()) {
+            s.append(getPOBoxName()).append(' ').append(poBox).append('\n');
+        }
+        if(postalCode > 0 && Integer.MAX_VALUE == postalCodePosition()) {
+            s.append(postalCodePrefix()).append(postalCode).append(postalCodeSuffix()).append('\n');
+        }
+        s.append(country.getName()).append('\n');
+        return s.toString();
     }
 
     @Override
-    public String toString() {
-        return toString(toStrings());
+    public final String toString() {
+        return toString(null);
+    }
+
+    public String toString(String personName) {
+        return toString(toStrings(), personName);
     }
 
     /**
@@ -319,18 +394,24 @@ public abstract class Address {
         }
         StringBuilder s = new StringBuilder(country.getShortName());
         s.append(apartmentCode).append(apartmentName).append('\n').append(buildingName).append('\n');
-        s.append(streetName).append('\n').append(areaName);
+        s.append(streetName).append('\n').append(areaName).append('\n').append(poBox).append('\n').append(postalCode);
         for(String line: lines) {
-            s.append('\n').append(line);
+            s.append('\n').append(line == null ? "" : line);
         }
         return s.toString();
     }
 
-    abstract boolean parse() throws SOException;
+    boolean parse() throws SOException {
+        return true;
+    }
 
-    abstract int getLineCount();
+    public int getExtraLines() {
+        return 0;
+    }
 
-    abstract int getReservedLines();
+    public int getReservedLines() {
+        return 0;
+    }
 
     String convert(int lineNumber) throws SOException {
         return lines[lineNumber];
@@ -411,17 +492,17 @@ public abstract class Address {
      * @return Line if exists, else null.
      */
     public String getLine(int lineNumber) {
-        return lineNumber < lines.length ? lines[lineNumber] : null;
+        return lineNumber >= 0 && lineNumber < lines.length ? lines[lineNumber] : null;
     }
 
     /**
      * Set an address line.
      *
-     * @param lineNumber Line number (Must be less than lineCount - reservedLines)
+     * @param lineNumber Line number
      * @param line Value to be set
      */
     public void setLine(int lineNumber, String line) {
-        if(lineNumber < (getLineCount() - getReservedLines())) {
+        if(lineNumber >= 0 && lineNumber < lines.length) {
             lines[lineNumber] = line;
         }
     }
@@ -442,6 +523,7 @@ public abstract class Address {
      */
     public void setApartmentCode(char apartmentCode) {
         if(apartmentCode < '0' || apartmentCode > '3') {
+            valid = false;
             return;
         }
         this.apartmentCode = apartmentCode;
@@ -580,5 +662,82 @@ public abstract class Address {
      */
     public Country getCountry() {
         return country;
+    }
+
+    public final boolean isPOBoxAddress() {
+        return poBoxPosition() >= 0;
+    }
+
+    public final void setPOBox(int poBox) {
+        this.poBox = poBox;
+    }
+
+    public final int getPOBox() {
+        return poBox;
+    }
+
+    public final boolean isPostalCodeAddress() {
+        return postalCodePosition() >= 0;
+    }
+
+    public final int getPostalCode() {
+        return postalCode;
+    }
+
+    public final void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
+        valid = valid && checkPostalCode();
+    }
+
+    int postalCodePosition() {
+        return -1;
+    }
+
+    public String getPostalCodeCaption() {
+        return "Postal Code";
+    }
+
+    String postalCodePrefix() {
+        return getPostalCodeCaption() + " ";
+    }
+
+    String postalCodeSuffix() {
+        return "";
+    }
+
+    boolean checkPostalCode() {
+        return true;
+    }
+
+    public String getPOBoxName() {
+        return "Post Box";
+    }
+
+    int poBoxPosition() {
+        return -1;
+    }
+
+    boolean splitNameTitle() {
+        return false;
+    }
+
+    String apartmentName(String prefix) {
+        return prefix + apartmentName;
+    }
+
+    String buildingName() {
+        return buildingName;
+    }
+
+    String streetName() {
+        return streetName;
+    }
+
+    String areaName() {
+        return areaName;
+    }
+
+    public String getPlaceCaption() {
+        return "Area/Community/Place";
     }
 }
