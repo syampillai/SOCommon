@@ -283,7 +283,7 @@ public abstract class Address {
      *
      * @return List of address lines (without country name).
      */
-    List<String> toStrings() {
+    private List<String> toStrings() {
         ArrayList<String> slines = new ArrayList<>();
         boolean v = valid;
         valid = false;
@@ -306,8 +306,13 @@ public abstract class Address {
         }
         String line = apartmentName(s);
         slines.add(line);
-        slines.add(buildingName());
-        slines.add(streetName());
+        if(apartmentCode == '1' || apartmentCode == '2') {
+            slines.add(streetName());
+            slines.add(buildingName());
+        } else {
+            slines.add(buildingName());
+            slines.add(streetName());
+        }
         slines.add(areaName());
         for(int i = 0; i < lines.length; i++) {
             if(valid) {
@@ -333,7 +338,7 @@ public abstract class Address {
      *                   <code>null</code> could be passed if no name to be printed.
      * @return Line-feed delimited string that can be printed or displayed.
      */
-    String toString(List<String> lines, String personName) {
+    private String toString(List<String> lines, String personName) {
         StringBuilder s = new StringBuilder();
         if(personName != null) {
             if(apartmentCode <= '2') { // Not an office
@@ -349,14 +354,17 @@ public abstract class Address {
             }
         }
         String line;
+        int pbPos = poBoxPosition(), pinPos = postalCodePosition();
         for(int i = 0; i < lines.size(); i++) {
             if(personName != null && i == 1) {
                 s.append(personName).append('\n');
             }
-            if(poBox > 0 && i == poBoxPosition()) {
+            if(poBox > 0 && pbPos >= 0 && i >= pbPos) {
+                pbPos = Integer.MIN_VALUE;
                 s.append(getPOBoxName()).append(' ').append(poBox).append('\n');
             }
-            if(postalCode > 0 && i == postalCodePosition()) {
+            if(postalCode > 0 && pinPos >= 0 && i >= pinPos) {
+                pinPos = Integer.MIN_VALUE;
                 s.append(postalCodePrefix()).append(postalCode).append(postalCodeSuffix()).append('\n');
             }
             line = lines.get(i);
@@ -364,13 +372,15 @@ public abstract class Address {
                 s.append(line).append('\n');
             }
         }
-        if(poBox > 0 && Integer.MAX_VALUE == poBoxPosition()) {
+        if(poBox > 0 && pbPos > 0) {
             s.append(getPOBoxName()).append(' ').append(poBox).append('\n');
         }
-        if(postalCode > 0 && Integer.MAX_VALUE == postalCodePosition()) {
+        if(postalCode > 0 && pinPos > 0) {
             s.append(postalCodePrefix()).append(postalCode).append(postalCodeSuffix()).append('\n');
         }
-        s.append(country.getName()).append('\n');
+        if(country != null) {
+            s.append(country.getName()).append('\n');
+        }
         return s.toString();
     }
 
@@ -420,6 +430,9 @@ public abstract class Address {
     static int extractNumber(String line) throws SOException {
         if(StringUtility.isDigit(line)) {
             return Integer.parseInt(line);
+        }
+        if(line.isEmpty()) {
+            return 0;
         }
         String original = line;
         int n = line.length() - 1;
@@ -737,7 +750,7 @@ public abstract class Address {
         return areaName;
     }
 
-    public String getPlaceCaption() {
-        return "Area/Community/Place";
+    public String getAreaCaption() {
+        return "Area";
     }
 }

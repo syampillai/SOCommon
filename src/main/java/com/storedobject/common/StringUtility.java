@@ -540,12 +540,12 @@ public class StringUtility {
      * @return True if the String contains only digits, otherwise false.
      */
     public static boolean isDigit(String s) {
-        if(s == null) {
+        if(s == null || s.isEmpty()) {
             return false;
         }
         int i;
         char c;
-        for(i=0; i<s.length(); i++) {
+        for(i = 0; i < s.length(); i++) {
             c = s.charAt(i);
             if(!Character.isDigit(c)) {
                 return false;
@@ -560,7 +560,7 @@ public class StringUtility {
      * @return True if the String contains a proper numeric value. (Can contain an optional minus '-' sign and a decimal point).
      */
     public static boolean isNumber(String s) {
-        if(s == null || s.length() == 0) {
+        if(s == null || s.isEmpty()) {
             return false;
         }
         if(s.indexOf('.') != s.lastIndexOf('.')) {
@@ -2185,10 +2185,11 @@ public class StringUtility {
         if(message instanceof Boolean) {
             return (Boolean) message ? "Yes" : "No";
         }
+        if(message instanceof EndUserMessage) {
+            return ((EndUserMessage) message).getEndUserMessage();
+        }
         if(message instanceof Throwable) {
-            if(!(message instanceof SOException || message instanceof SORuntimeException)) {
-                message = new SORuntimeException((Throwable)message);
-            }
+            message = new SORuntimeException((Throwable)message);
         }
         String m = message.toString();
         return m == null ? ("[NULL value] of " + message.getClass()) : m;

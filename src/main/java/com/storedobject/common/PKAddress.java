@@ -167,11 +167,6 @@ public final class PKAddress extends Address {
     }
 
     @Override
-    public String getPostalCodeCaption() {
-        return "Postal Code";
-    }
-
-    @Override
     int postalCodePosition() {
         return 100;
     }

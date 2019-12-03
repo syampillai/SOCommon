@@ -270,7 +270,7 @@ public final class INAddress extends Address {
         }
         --n;
         if(lineNumber == n) {
-            return getDistrictName();
+            return getDistrictName() + " (District)";
         }
         --n;
         if(lineNumber == n) {
@@ -282,6 +282,10 @@ public final class INAddress extends Address {
 
     public String getPostOfficeName() {
         return lines[lines.length - POS_PO];
+    }
+
+    public void setPostOfficeName(String name) {
+        lines[lines.length - POS_PO] = name == null ? "" : name;
     }
 
     public int getState()throws SOException {
@@ -332,7 +336,7 @@ public final class INAddress extends Address {
 
     @Override
     int poBoxPosition() {
-        return 6;
+        return 5;
     }
 
     @Override
@@ -342,7 +346,7 @@ public final class INAddress extends Address {
 
     @Override
     int postalCodePosition() {
-        return 6;
+        return 5;
     }
 
     @Override

@@ -114,7 +114,7 @@ public class CHAddress extends Address {
     }
 
     @Override
-    public String getPlaceCaption() {
+    public String getAreaCaption() {
         return "Place Name";
     }
 }
