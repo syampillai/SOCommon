@@ -71,7 +71,7 @@ public class ArrayListSet<E> extends ArrayList<E> {
             }
             remove(e);
         }
-        add(index, e);
+        super.add(index, e);
     }
 
     @SuppressWarnings("UnusedReturnValue")
