@@ -18,6 +18,7 @@ package com.storedobject.common;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class ListUtility {
@@ -26,13 +27,25 @@ public class ListUtility {
         if(list instanceof List) {
             return (List<T>) list;
         }
-        java.util.ArrayList<T> a = new ArrayList<>();
+        ArrayList<T> a = new ArrayList<>();
         list.forEach(a::add);
         return a;
     }
 
+    public static <T> List<T> list(Iterator<T> list) {
+        if(list instanceof List) {
+            //noinspection unchecked
+            return (List<T>) list;
+        }
+        ArrayList<T> a = new ArrayList<>();
+        while(list.hasNext()) {
+            a.add(list.next());
+        }
+        return a;
+    }
+
     public static <T> List<T> list(T[] list) {
-        return new Array<T>(list);
+        return new Array<>(list);
     }
 
     public static <T> T[] array(Iterable<T> list) {

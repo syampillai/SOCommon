@@ -16,33 +16,33 @@
 
 package com.storedobject.common;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class JSON {
 
     public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
+    private static final ObjectMapper mapper = new ObjectMapper();
 
-    private Object value = null;
+    private JsonNode value = null;
 
     public JSON() {
     }
 
-    public JSON(String json) throws Exception {
+    public JSON(String json) throws IOException {
         set(json);
     }
 
-    public JSON(InputStream stream) throws Exception {
+    public JSON(InputStream stream) throws IOException {
         set(stream);
     }
 
-    public JSON(Reader reader) throws Exception {
+    public JSON(Reader reader) throws IOException {
         set(reader);
     }
 
@@ -50,12 +50,8 @@ public class JSON {
         set(url);
     }
 
-    public JSON(JSONObject json) {
+    public JSON(JsonNode json) {
         value = json;
-    }
-
-    public JSON(JSONArray jsonArray) {
-        value = jsonArray;
     }
 
     public JSON(Map<String, Object> map) {
@@ -63,34 +59,31 @@ public class JSON {
     }
 
     public void set(Map<String, Object> map) {
-        value = new JSONObject(map);
+        value = mapper.valueToTree(map);
     }
 
-    public void set(String json) throws Exception {
+    public void set(String json) throws IOException {
         if(json == null) {
             return;
         }
         set(new StringReader(json));
     }
 
-    public void set(InputStream stream) throws Exception {
+    public void set(InputStream stream) throws IOException {
         if(stream == null) {
             return;
         }
         set(IO.getReader(stream));
     }
 
-    public void set(Reader reader) throws Exception {
+    public void set(Reader reader) throws IOException {
         if(reader == null) {
             return;
         }
-        value = JSONValue.parseWithException(reader);
+        value = mapper.readTree(reader);
         try {
             reader.close();
         } catch(Exception ignore) {
-        }
-        if(getType() == Type.JSON && !(value instanceof JSONObject)) {
-            value = value.toString();
         }
     }
 
@@ -102,165 +95,110 @@ public class JSON {
         set(http.getInputStream());
     }
 
-    public Stream<String> keys() {
-        if(getType() == Type.JSON) {
-            //noinspection unchecked
-            return ((JSONObject)value).keySet().stream();
-        }
-        return null;
+    public List<String> keys() {
+        return value == null ? new ArrayList<>() : ListUtility.list(value.fieldNames());
     }
 
     public Type getType() {
         if(value == null) {
             return Type.NULL;
         }
-        if(value instanceof String) {
+        if(value.isTextual()) {
             return Type.STRING;
         }
-        if(value instanceof Number) {
+        if(value.isNumber()) {
             return Type.NUMBER;
         }
-        if(value instanceof Boolean) {
+        if(value.isBoolean()) {
             return Type.BOOLEAN;
         }
-        if(value instanceof JSONArray) {
+        if(value.isArray()) {
             return Type.ARRAY;
         }
         return Type.JSON;
     }
 
     public String getString() {
-        if(value instanceof String) {
-            return (String)value;
-        }
-        return null;
+        return value == null || !value.isTextual() ? null : value.textValue();
     }
 
     public Number getNumber() {
-        if(value instanceof Number) {
-            return (Number)value;
-        }
-        return null;
+        return value == null || !value.isNumber() ? null : value.numberValue();
     }
 
     public Boolean getBoolean() {
-        if(value instanceof Boolean) {
-            return (Boolean)value;
-        }
-        return null;
+        return value == null || !value.isBoolean() ? null : value.booleanValue();
     }
 
     public int getArraySize() {
-        if(value instanceof JSONArray) {
-            return ((JSONArray)value).size();
-        }
-        return 0;
+        return value == null || !value.isArray() ? 0 : value.size();
     }
 
     public JSON get(int n) {
-        if(value instanceof JSONArray) {
-            if(n >= 0 && n < ((JSONArray)value).size()) {
-                JSON json = new JSON();
-                json.value = ((JSONArray)value).get(n);
-                return json;
-            }
+        if(value == null || !value.isArray() || n < 0) {
+            return null;
         }
-        return null;
+        JsonNode node = value.get(n);
+        return node.isMissingNode() ? null : new JSON(node);
     }
 
     public JSON get(String key) {
-        if(value instanceof JSONObject) {
-            JSON json = new JSON();
-            json.value = ((JSONObject)value).get(key);
-            return json;
+        if(value == null) {
+            return null;
         }
-        return null;
+        JsonNode node = value.get(key);
+        return node.isMissingNode() ? null : new JSON(node);
     }
 
     public boolean containsKey(String key) {
-        if(value instanceof JSONObject) {
-            return ((JSONObject)value).containsKey(key);
-        }
-        return false;
+        return keys().contains(key);
     }
 
     public String getString(String key) {
-        if(value != null && value instanceof JSONObject) {
-            Object v = ((JSONObject)value).get(key);
-            if(v instanceof String) {
-                return (String)v;
-            }
-        }
-        return null;
+        JSON json = get(key);
+        return json == null ? null : json.getString();
     }
 
     public Number getNumber(String key) {
-        if(value != null && value instanceof JSONObject) {
-            Object v = ((JSONObject)value).get(key);
-            if(v instanceof Number) {
-                return (Number)v;
-            }
-        }
-        return null;
+        JSON json = get(key);
+        return json == null ? null : json.getNumber();
     }
 
     public Boolean getBoolean(String key) {
-        if(value != null && value instanceof JSONObject) {
-            Object v = ((JSONObject)value).get(key);
-            if(v instanceof Boolean) {
-                return (Boolean)v;
-            }
-        }
-        return null;
+        JSON json = get(key);
+        return json == null ? null : json.getBoolean();
     }
 
-    private Object value(String key, int n) {
-        if(n < 0 || value == null || !(value instanceof JSONObject)) {
+    private JsonNode value(String key, int n) {
+        if(n < 0 || value == null) {
             return null;
         }
-        Object v = ((JSONObject)value).get(key);
-        if(!(v instanceof JSONArray)) {
+        JsonNode v = value.get(key);
+        if(v.isMissingNode() || !v.isArray()) {
             return null;
         }
-        JSONArray a = (JSONArray)v;
-        if(n < a.size()) {
-            return a.get(n);
+        if(n >= v.size()) {
+            return null;
         }
-        return null;
+        v = v.get(n);
+        return v.isMissingNode() ? null : v;
     }
 
     public JSON get(String key, int n) {
-        Object v = value(key, n);
-        if(v == null) {
-            return null;
-        }
-        JSON j = new JSON();
-        j.value = v;
-        return j;
+        JsonNode node = value(key, n);
+        return node == null ? null : new JSON(node);
     }
 
     public String getString(String key, int n) {
-        Object v = value(key, n);
-        if(v instanceof String) {
-            return (String)v;
-        }
-        return null;
+        return new JSON(value(key, n)).getString();
     }
 
     public Number getNumber(String key, int n) {
-        Object v = value(key, n);
-        if(v instanceof Number) {
-            return (Number)v;
-        }
-        return null;
+        return new JSON(value(key, n)).getNumber();
     }
 
     public Boolean getBoolean(String key, int n) {
-        Object v = value(key, n);
-        if(v instanceof Boolean) {
-            return (Boolean)v;
-        }
-        return null;
+        return new JSON(value(key, n)).getBoolean();
     }
 
     @Override
@@ -345,10 +283,10 @@ public class JSON {
     }
 
     public static String toString(Map<String, Object> map) {
-        return pretty(JSONValue.toJSONString(map)).toString();
+        return pretty(new JSON(map).toString()).toString();
     }
 
     public static void write(Map<String, Object> map, Writer writer) throws IOException {
-        JSONValue.writeJSONString(map, writer);
+        writer.write(new JSON(map).toString());
     }
 }
