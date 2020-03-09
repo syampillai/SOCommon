@@ -537,7 +537,7 @@ public class IO {
     }
 
     /**
-     * Create a Tee output stream that simultaneoulsy writes content to 2 different output streams.
+     * Create a Tee output stream that simultaneously writes content to 2 different output streams.
      *
      * @param first First output stream
      * @param second Second output stream

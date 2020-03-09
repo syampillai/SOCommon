@@ -16,19 +16,24 @@
 
 package com.storedobject.common;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
+/**
+ * Barcode (Based on the xzing package).
+ *
+ * @author Syam
+ */
 public class Barcode {
 
     @SuppressWarnings("unused")
@@ -94,14 +99,31 @@ public class Barcode {
     private int width, height;
     private boolean printText = true;
 
+    /**
+     * Constructor (Size will be 100x100).
+     */
     public Barcode() {
         this(null, null);
     }
 
+    /**
+     * Constructor (Size will be 100x100).
+     *
+     * @param format Format
+     * @param data Barcode data
+     */
     public Barcode(Format format, String data) {
         this(format, data, 100, 100);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param format Format
+     * @param data Barcode data
+     * @param width Image width
+     * @param height Image height
+     */
     public Barcode(Format format, String data, int width, int height) {
         setFormat(format);
         setData(data);
@@ -109,18 +131,38 @@ public class Barcode {
         setHeight(height);
     }
 
+    /**
+     * Get data containing in this barcode.
+     *
+     * @return Data from the barcode.
+     */
     public String getData() {
         return data;
     }
 
+    /**
+     * Set data to the barcode.
+     *
+     * @param data Barcode data
+     */
     public void setData(String data) {
         this.data = data;
     }
 
+    /**
+     * Get the barcode format.
+     *
+     * @return Format.
+     */
     public final Format getFormat() {
         return format;
     }
 
+    /**
+     * Set the barcode format.
+     *
+     * @param format Format to set
+     */
     public final void setFormat(Format format) {
         if(format == null) {
             this.format = null;
@@ -174,18 +216,38 @@ public class Barcode {
         return (10 - (t % 10)) % 10;
     }
 
+    /**
+     * Get the width of the barcode image.
+     *
+     * @return Width.
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Set the width of the barcode image.
+     *
+     * @param width Width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Get the height of hte barcode image.
+     *
+     * @return Height.
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Set the height of hte barcode image.
+     *
+     * @param height Height.
+     */
     public void setHeight(int height) {
         this.height = height;
     }
@@ -203,6 +265,12 @@ public class Barcode {
         return new MultiFormatWriter().encode(getDataInt(), Objects.requireNonNull(convert(getFormat())), width, height, encoderHints);
     }
 
+    /**
+     * Get the image of the barcode.
+     *
+     * @return Image of the barcode.
+     * @throws Exception If any error occurs.
+     */
     public BufferedImage getImage() throws Exception {
         return toBufferedImage(getBitMatrix(), DEFAULT_MATRIX_TO_IMAGE_CONFIG);
     }
@@ -268,6 +336,11 @@ public class Barcode {
         }
     }
 
+    /**
+     * Check whether barcode data will be printed at the bottom of the image or not.
+     *
+     * @return True or false.
+     */
     public boolean isPrintText() {
         switch(format) {
             case QR_CODE:
@@ -280,7 +353,41 @@ public class Barcode {
         }
     }
 
+    /**
+     * Set to <code>true</code> for printing barcode data at the bottom of the image. (Barcode data will not be printed for
+     * the following formats, irrespective of this setting: QR_CODE, DATA_MATRIX, PDF_417 and AZTEC).
+     *
+     * @param printText True or false
+     */
     public void setPrintText(boolean printText) {
         this.printText = printText;
+    }
+
+    /**
+     * Read data from a barcode image.
+     *
+     * @param barcodeImage Image to be scanned
+     * @return Barcode data or empty string if no barcode found in the image.
+     */
+    public static String read(Image barcodeImage) {
+        Map<DecodeHintType, Void> hintMap = new HashMap<>();
+        hintMap.put(DecodeHintType.TRY_HARDER, null);
+        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(toBufferedImage(barcodeImage))));
+        try {
+            return new MultiFormatReader().decode(binaryBitmap, hintMap).getText();
+        } catch(Throwable ignored) {
+        }
+        return "";
+    }
+
+    private static BufferedImage toBufferedImage(Image image) {
+        if(image instanceof BufferedImage) {
+            return (BufferedImage) image;
+        }
+        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return bi;
     }
 }
