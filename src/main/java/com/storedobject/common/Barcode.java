@@ -252,10 +252,19 @@ public class Barcode {
         this.height = height;
     }
 
-    private BarcodeFormat convert(Format f) {
+    private static BarcodeFormat convert(Format f) {
         for(BarcodeFormat bf: BarcodeFormat.values()) {
             if(bf.toString().equals(f.toString())) {
                 return bf;
+            }
+        }
+        return null;
+    }
+
+    private static Format convert(BarcodeFormat bf) {
+        for(Format f: Format.values()) {
+            if(f.toString().equals(bf.toString())) {
+                return f;
             }
         }
         return null;
@@ -370,14 +379,30 @@ public class Barcode {
      * @return Barcode data or empty string if no barcode found in the image.
      */
     public static String read(Image barcodeImage) {
+        Result r = readFromImage(barcodeImage);
+        return r == null ? "" : r.getText();
+    }
+
+    /**
+     * Create a bar code from an image.
+     *
+     * @param barcodeImage Image to be scanned.
+     * @return Barcode created or null if the image doesn't contain a barcode.
+     */
+    public static Barcode create(Image barcodeImage) {
+        Result r = readFromImage(barcodeImage);
+        return r == null ? null : new Barcode(convert(r.getBarcodeFormat()), r.getText());
+    }
+
+    private static Result readFromImage(Image barcodeImage) {
         Map<DecodeHintType, Void> hintMap = new HashMap<>();
         hintMap.put(DecodeHintType.TRY_HARDER, null);
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(toBufferedImage(barcodeImage))));
         try {
-            return new MultiFormatReader().decode(binaryBitmap, hintMap).getText();
+            return new MultiFormatReader().decode(binaryBitmap, hintMap);
         } catch(Throwable ignored) {
         }
-        return "";
+        return null;
     }
 
     private static BufferedImage toBufferedImage(Image image) {
