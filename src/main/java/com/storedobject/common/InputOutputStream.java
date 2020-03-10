@@ -20,19 +20,33 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * A class that combines an {@link InputStream} and an {@link OutputStream}. One thread may be writing to it and another
+ * may be reading from it.
+ *
+ * @author Syam
+ */
 public class InputOutputStream {
 
     private final byte[] buffer;
     private int wPointer = 0, rPointer = 0, generated = 0, consumed = 0;
-    private boolean wEOF = false, rEOF = false;
+    private boolean wEOF = false, rEOF = false, wWait = false, rWait = false;
     private IStream reader;
     private OStream writer;
     private boolean reusable;
 
+    /**
+     * Constructor with a default buffer size of 8K.
+     */
     public InputOutputStream() {
         this(8192);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param bufferSize Buffer size
+     */
     public InputOutputStream(int bufferSize) {
         if(bufferSize < 64) {
             bufferSize = 64;
@@ -40,6 +54,11 @@ public class InputOutputStream {
         buffer = new byte[bufferSize];
     }
 
+    /**
+     * Get the input stream for reading.
+     *
+     * @return Input stream.
+     */
     public InputStream getInputStream() {
         if(reader == null) {
             reader = new IStream();
@@ -47,6 +66,11 @@ public class InputOutputStream {
         return reader;
     }
 
+    /**
+     * Get the output stream for writing to it.
+     *
+     * @return Output stream.
+     */
     public OutputStream getOutputStream() {
         if(writer == null) {
             writer = new OStream();
@@ -54,10 +78,22 @@ public class InputOutputStream {
         return writer;
     }
 
-    public boolean isReusable() {
+    /**
+     * Check whether this is reusable or not. (When set to 'reusable' mode, the buffer will be reset and it will possible
+     * to start reading from and writing to it again.)
+     *
+     * @return True or false.
+     */
+    public final boolean isReusable() {
         return reusable;
     }
 
+    /**
+     * Set this in 'reusable' mode. (When set to 'reusable' mode, the buffer will be reset and it will possible
+     * to start reading from and writing to it again.)
+     *
+     * @param reusable True or false
+     */
     public void setReusable(boolean reusable) {
         this.reusable = reusable;
     }
@@ -66,11 +102,11 @@ public class InputOutputStream {
 
         @Override
         public int read() throws IOException {
-            if(rEOF) { // Reader was closed
-                throw new IOException("Stream already closed");
-            }
             while(generated == consumed) {
-                if(wEOF) { // Writing was closed
+                if(rEOF) { // Reader was closed
+                    throw new IOException("Stream already closed");
+                }
+                if(wEOF || wWait) { // Writing was closed
                     return -1;
                 }
                 Thread.yield();
@@ -95,11 +131,15 @@ public class InputOutputStream {
             if(rEOF) {
                 return;
             }
-            if(wEOF && isReusable()) {
+            if(wWait && reusable) {
                 rPointer = wPointer = generated = consumed = 0;
-                rEOF = wEOF = false;
+                rWait = wWait = false;
             } else {
-                rEOF = true;
+                if(reusable) {
+                    rWait = true;
+                } else {
+                    rEOF = true;
+                }
             }
         }
     }
@@ -108,14 +148,14 @@ public class InputOutputStream {
 
         @Override
         public void write(int b) throws IOException {
-            if(wEOF) { // Writer was closed
-                throw new IOException("Stream already closed");
-            }
             while(true) {
+                if(wEOF) { // Writer was closed
+                    throw new IOException("Stream already closed");
+                }
                 if(rEOF) {
                     throw new IOException("No consumer");
                 }
-                if((generated - consumed) < buffer.length) {
+                if(!wWait && ((generated - consumed) < buffer.length)) {
                     break;
                 }
                 Thread.yield();
@@ -134,11 +174,15 @@ public class InputOutputStream {
             if(wEOF) {
                 return;
             }
-            if(rEOF && isReusable()) {
+            if(rWait && reusable) {
                 rPointer = wPointer = generated = consumed = 0;
-                rEOF = wEOF = false;
+                rWait = wWait = false;
             } else {
-                wEOF = true;
+                if(reusable) {
+                    wWait = true;
+                } else {
+                    wEOF = true;
+                }
             }
         }
     }

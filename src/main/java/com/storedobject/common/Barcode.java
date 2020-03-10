@@ -397,22 +397,11 @@ public class Barcode {
     private static Result readFromImage(Image barcodeImage) {
         Map<DecodeHintType, Void> hintMap = new HashMap<>();
         hintMap.put(DecodeHintType.TRY_HARDER, null);
-        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(toBufferedImage(barcodeImage))));
+        BinaryBitmap map = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageUtility.toBufferedImage(barcodeImage))));
         try {
-            return new MultiFormatReader().decode(binaryBitmap, hintMap);
+            return new MultiFormatReader().decode(map, hintMap);
         } catch(Throwable ignored) {
         }
         return null;
-    }
-
-    private static BufferedImage toBufferedImage(Image image) {
-        if(image instanceof BufferedImage) {
-            return (BufferedImage) image;
-        }
-        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = bi.createGraphics();
-        g.drawImage(image, 0, 0, null);
-        g.dispose();
-        return bi;
     }
 }

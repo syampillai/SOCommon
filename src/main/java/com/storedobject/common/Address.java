@@ -43,13 +43,50 @@ import java.util.List;
 public abstract class Address {
 
     private static final String INVALID = "Invalid address - ";
+    /**
+     * Country of the address.
+     */
     Country country;
+    /**
+     * Apartment code. '0' - Apartment, '1' - Villa, '2' - House, '3' - Office.
+     */
     char apartmentCode = '0';
-    String apartmentName, buildingName, streetName, areaName;
-    int poBox, postalCode;
+    /**
+     * Apartment name.
+     */
+    String apartmentName;
+    /**
+     * Building name.
+     */
+    String buildingName;
+    /**
+     * Street name.
+     */
+    String streetName;
+    /**
+     * Area name.
+     */
+    String areaName;
+    /**
+     * Post Box number
+     */
+    int poBox;
+    /**
+     * Postal code.
+     */
+    int postalCode;
+    /**
+     * Extra ines in the address.
+     */
     String[] lines;
+    /**
+     * Whether the address is valid or not.
+     */
     boolean valid;
 
+    /**
+     * Constructor.
+     */
     Address() {
     }
 
@@ -384,11 +421,23 @@ public abstract class Address {
         return s.toString();
     }
 
+    /**
+     * Convert the address into a human readable String representation.
+     *
+     * @return Human readable String representation with required "new lines".
+     */
     @Override
     public final String toString() {
         return toString(null);
     }
 
+    /**
+     * Same as {@link #toString()} method but the name passed is included as the first line in the case of
+     * personal address or second name in the case of office addresses.
+     * .
+     * @param personName Person name to be included
+     * @return Human readable String representation with required "new lines".
+     */
     public String toString(String personName) {
         return toString(toStrings(), personName);
     }
@@ -411,22 +460,53 @@ public abstract class Address {
         return s.toString();
     }
 
+    /**
+     * Parse the address.
+     *
+     * @return True if successful.
+     * @throws SOException If any errors.
+     */
     boolean parse() throws SOException {
         return true;
     }
 
+    /**
+     * Get the number of extra lines.
+     *
+     * @return Number of extra lines in the address.
+     */
     public int getExtraLines() {
         return 0;
     }
 
+
+    /**
+     * Get the number of reserved lines (that will be manipulated by program code only).
+     *
+     * @return Number of reserved lines in the address.
+     */
     public int getReservedLines() {
         return 0;
     }
 
+    /**
+     * Get a specific line from the extra lines of the address.
+     *
+     * @param lineNumber Line number
+     * @return Line.
+     * @throws SOException If an error occurs.
+     */
     String convert(int lineNumber) throws SOException {
         return lines[lineNumber];
     }
 
+    /**
+     * A method to extract a number contained in a line.
+     *
+     * @param line Line to parse
+     * @return Number got. Empty line returns 0.
+     * @throws SOException If line doesn't contain a number.
+     */
     static int extractNumber(String line) throws SOException {
         if(StringUtility.isDigit(line)) {
             return Integer.parseInt(line);
@@ -447,6 +527,14 @@ public abstract class Address {
         }
     }
 
+    /**
+     * Find the best possible element from the string array that matches with the 'line'.
+     *
+     * @param line Line to match
+     * @param names Elements array to match
+     * @return Element that is matched.
+     * @throws SOException If any error occurs.
+     */
     static String match(String line, String[] names) throws SOException{
         line = line.trim();
         int code;
@@ -486,14 +574,35 @@ public abstract class Address {
         throw new SOException("'" + line + "' has no match in [" + s + "]");
     }
 
-    static String extractName(String line, String[] names) {
-        return names[Integer.parseInt(line)];
+    /**
+     * Extract an element from the string array.
+     *
+     * @param index Index (as a string)
+     * @param names String array
+     * @return Element from the array.
+     */
+    static String extractName(String index, String[] names) {
+        return names[Integer.parseInt(index)];
     }
 
+    /**
+     * Extract number from a specific line.
+     *
+     * @param lineNumber Line number
+     * @return Number extracted from the line.
+     * @throws SOException If error occurs.
+     */
     int extractNumber(int lineNumber) throws SOException {
         return extractNumber(lines[lineNumber]);
     }
 
+    /**
+     * Extract an element from the given array (indirect-index via extra lines).
+     *
+     * @param lineNumber Line number that has an index into the extra lines of the address
+     * @param names String array
+     * @return Extracted element.
+     */
     String extractName(int lineNumber, String[] names) {
         return extractName(lines[lineNumber], names);
     }
@@ -677,79 +786,175 @@ public abstract class Address {
         return country;
     }
 
+    /**
+     * Check if this is a Post Box based address.
+     *
+     * @return True or false.
+     */
     public final boolean isPOBoxAddress() {
         return poBoxPosition() >= 0;
     }
 
+    /**
+     * Set the Post Box number.
+     *
+     * @param poBox Post Box number
+     */
     public final void setPOBox(int poBox) {
         this.poBox = poBox;
     }
 
+    /**
+     * Get the Post Box number.
+     *
+     * @return Post Box number.
+     */
     public final int getPOBox() {
         return poBox;
     }
 
+    /**
+     * Check if this is a Postal Code based address.
+     *
+     * @return True or false.
+     */
     public final boolean isPostalCodeAddress() {
         return postalCodePosition() >= 0;
     }
 
+    /**
+     * Get the Postal Code.
+     *
+     * @return Postal Code.
+     */
     public final int getPostalCode() {
         return postalCode;
     }
 
+    /**
+     * Set the Postal Code.
+     *
+     * @param postalCode Postal Code
+     */
     public final void setPostalCode(int postalCode) {
         this.postalCode = postalCode;
         valid = valid && checkPostalCode();
     }
 
+    /**
+     * Get the position of the Postal Code in the extra lines.
+     *
+     * @return Position.
+     */
     int postalCodePosition() {
         return -1;
     }
 
+    /**
+     * Get the caption for the Postal Code.
+     *
+     * @return Default implementation returns "Postal Code".
+     */
     public String getPostalCodeCaption() {
         return "Postal Code";
     }
 
+    /**
+     * Get the prefix of the Postal Code line.
+     *
+     * @return Default implementation uses the result from {@link #getPostalCodeCaption()} followed by a space.
+     */
     String postalCodePrefix() {
         return getPostalCodeCaption() + " ";
     }
 
+    /**
+     * Get the suffix of the Postal Code line.
+     *
+     * @return Default implementation returns an empty string.
+     */
     String postalCodeSuffix() {
         return "";
     }
 
+    /**
+     * Validate the Postal Code. (This will be invoked for Postal Code based addresses only).
+     *
+     * @return True if valid.
+     */
     boolean checkPostalCode() {
         return true;
     }
 
+    /**
+     * Get the caption for the Post Box.
+     *
+     * @return Default implementation returns "Post Box".
+     */
     public String getPOBoxName() {
         return "Post Box";
     }
 
+    /**
+     * Get the position of the Post Box in the extra lines.
+     *
+     * @return Position.
+     */
     int poBoxPosition() {
         return -1;
     }
 
+    /**
+     * Check whether "title" of the name should be shown in a separate line or not.
+     *
+     * @return True or false.
+     */
     boolean splitNameTitle() {
         return false;
     }
 
+    /**
+     * Get the apartment name prefixed with the given prefix.
+     *
+     * @param prefix Prefix
+     * @return Prefixed value.
+     */
     String apartmentName(String prefix) {
         return prefix + apartmentName;
     }
 
+    /**
+     * Get the building name.
+     *
+     * @return Building name.
+     */
     String buildingName() {
         return buildingName;
     }
 
+    /**
+     * Get the street name.
+     *
+     * @return Street name.
+     */
     String streetName() {
         return streetName;
     }
 
+    /**
+     * Get area name.
+     *
+     * @return Area name.
+     */
     String areaName() {
         return areaName;
     }
 
+    /**
+     * Get the caption for the "area" line.
+     *
+     * @return Default implementation returns "Area".
+     */
     public String getAreaCaption() {
         return "Area";
     }
