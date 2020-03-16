@@ -31,7 +31,7 @@ import java.util.TimeZone;
 import static java.util.Calendar.*;
 
 /**
- * Date utility functions.
+ * Date utility functions.(Old {@link java.util.Date} and its cousin {@link Date} are still used in JDBC access to databases).
  *
  * @author Syam
  */
@@ -56,6 +56,7 @@ public class DateUtility {
     private final static DateFormat hhmmDateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
     private final static DateFormatSymbols formatSymbols = new DateFormatSymbols();
     private final static String[] monthNames = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    private final static String[] weekNames = new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
     public static Date today() {
         GregorianCalendar c = new GregorianCalendar();
@@ -608,6 +609,10 @@ public class DateUtility {
 
     public static String[] getMonthNames() {
         return monthNames;
+    }
+
+    public static String[] getWeekNames() {
+        return weekNames;
     }
 
     public static DateFormat dateFormat() {

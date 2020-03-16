@@ -48,7 +48,7 @@ public class ImageUtility {
      *
      * @param image Image to clip
      * @param margin Margin on each side.
-     * @return Clipped image as a {@link BufferedImage}. <cdde>Null</cdde> will be returned if enough margin is not available on the image passed.
+     * @return Clipped image as a {@link BufferedImage}. <code>Null</code> will be returned if enough margin is not available on the image passed.
      */
     public static BufferedImage clip(Image image, int margin) {
         BufferedImage bi = toBufferedImage(image);
