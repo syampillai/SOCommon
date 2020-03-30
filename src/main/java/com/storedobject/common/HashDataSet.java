@@ -23,7 +23,7 @@ public class HashDataSet extends HashMap<String, Object> implements DataSet {
     private StringList keys;
 
     public HashDataSet(String... keys) {
-        this(new StringList(keys));
+        this(StringList.create(keys));
     }
 
     public HashDataSet(StringList keys) {

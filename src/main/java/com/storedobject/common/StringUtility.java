@@ -41,7 +41,7 @@ public class StringUtility {
      */
     public static String[] toLowerCase(String[] s) {
         if(s == null) {
-            return s;
+            return null;
         }
         for(int i=0; i<s.length; i++) {
             if(s[i] != null) {
@@ -58,7 +58,7 @@ public class StringUtility {
      */
     public static String[] toUpperCase(String[] s) {
         if(s == null) {
-            return s;
+            return null;
         }
         for(int i=0; i<s.length; i++) {
             if(s[i] != null) {
@@ -75,7 +75,7 @@ public class StringUtility {
      */
     public static char[] toLowerCase(char[] s) {
         if(s == null) {
-            return s;
+            return null;
         }
         for(int i=0; i<s.length; i++) {
             s[i] = Character.toLowerCase(s[i]);
@@ -90,7 +90,7 @@ public class StringUtility {
      */
     public static char[] toUpperCase(char[] s) {
         if(s == null) {
-            return s;
+            return null;
         }
         for(int i=0; i<s.length; i++) {
             s[i] = Character.toUpperCase(s[i]);
@@ -618,7 +618,7 @@ public class StringUtility {
      */
     public static String[] firstCaps(String[] a) {
         if(a == null) {
-            return a;
+            return null;
         }
         for(int i = 0; i < a.length; i++) {
             a[i] = firstCaps(a[i]);
@@ -1163,19 +1163,19 @@ public class StringUtility {
         }
         String text = obj.toString();
         if(text.indexOf('&') >= 0) {
-            text = text.replaceAll("&", "&amp;");
+            text = text.replace("&", "&amp;");
         }
         if(text.indexOf('<') >= 0) {
-            text = text.replaceAll("<", "&lt;");
+            text = text.replace("<", "&lt;");
         }
         if(text.indexOf('>') >= 0) {
-            text = text.replaceAll(">", "&gt;");
+            text = text.replace(">", "&gt;");
         }
         if(text.indexOf('"') >= 0) {
-            text = text.replaceAll("\"", "&quot;");
+            text = text.replace("\"", "&quot;");
         }
         if(text.indexOf('\'') >= 0) {
-            text = text.replaceAll("\'", "&apos;");
+            text = text.replace("'", "&apos;");
         }
         return text;
     }
@@ -1648,7 +1648,7 @@ public class StringUtility {
     }
 
     public static String bitsValue(int value, String[] valueLabels) {
-        return bitsValue(value, new StringList(valueLabels));
+        return bitsValue(value, StringList.create(valueLabels));
     }
 
     public static String bitsValue(int value, StringList valueLabels) {
@@ -1831,12 +1831,15 @@ public class StringUtility {
         } else if(s.endsWith("-")) {
             neg = 2;
             s = s.substring(0, s.length()-1);
-        } else if(s.endsWith("DB")) {
-            neg = 3;
-            s = s.substring(0, s.length()-2).trim();
-        } else if(s.endsWith("CR")) {
-            neg = 4;
-            s = s.substring(0, s.length()-2).trim();
+        } else {
+            String substring = s.substring(0, s.length() - 2);
+            if(s.endsWith("DB")) {
+                neg = 3;
+                s = substring.trim();
+            } else if(s.endsWith("CR")) {
+                neg = 4;
+                s = substring.trim();
+            }
         }
         StringBuilder sb = new StringBuilder();
         char c;
@@ -2114,8 +2117,9 @@ public class StringUtility {
             w = words3(s);
             return w.isEmpty() ? w : (w + crores[i]);
         }
-        String p = wordsIndian(s.substring(0, s.length() - (i == 0 ? 3 : 2)), i + 1);
-        w = wordsIndian(s.substring(s.length() - (i == 0 ? 3 : 2)));
+        int endIndex = s.length() - (i == 0 ? 3 : 2);
+        String p = wordsIndian(s.substring(0, endIndex), i + 1);
+        w = wordsIndian(s.substring(endIndex));
         if(w.isEmpty()) {
             return p;
         }
@@ -2381,7 +2385,7 @@ public class StringUtility {
     }
 
     public static <T extends java.util.List<String>> T collect(T list, String[] items) {
-        return collect(list, new StringList(items));
+        return collect(list, StringList.create(items));
     }
 
     public static <T extends java.util.List<String>> T collect(T list, StringList items) {

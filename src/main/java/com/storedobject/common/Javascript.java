@@ -24,8 +24,9 @@ import org.apache.commons.jexl3.MapContext;
 
 public class Javascript {
 
-    private JexlEngine engine = new JexlBuilder().create();
+    private JexlEngine engine = new JexlBuilder().debug(false).create();
     private JexlContext context;
+    private JexlScript compiledScript;
     private StringBuilder script;
 
     public Javascript() {
@@ -46,6 +47,7 @@ public class Javascript {
         if(script == null) {
             return;
         }
+        compiledScript = null;
         if(this.script == null) {
             this.script = new StringBuilder(script);
         } else {
@@ -56,6 +58,7 @@ public class Javascript {
     public void clear() {
         context = new MapContext();
         script = null;
+        compiledScript = null;
     }
 
     public void set(String variable, Object value) {
@@ -75,9 +78,11 @@ public class Javascript {
         if(script == null) {
             return null;
         }
-        JexlScript s = engine.createScript(script.toString());
+        if(compiledScript == null) {
+            compiledScript = engine.createScript(script.toString());
+        }
         try {
-            return s.execute(context);
+            return compiledScript.execute(context);
         } catch(Throwable error) {
             String m = error.getMessage();
             int i = m.indexOf(':');

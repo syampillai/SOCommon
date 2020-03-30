@@ -25,32 +25,61 @@ public class StringList implements Iterable<String>, List<String> {
 
     private static final String[] empty_array = new String[] { };
     public static final StringList EMPTY = new StringList(empty_array);
-    protected String[] array;
+    String[] array;
 
-    public StringList(String list) {
+    private StringList(String list) {
         this(toArray(list));
     }
 
-    public StringList(Collection<String> collection) {
+    private StringList(Collection<String> collection) {
         toArray(collection);
     }
 
-    public StringList(Iterable<String> list) {
+    private StringList(Iterable<String> list) {
         this(list.iterator());
     }
 
-    public StringList(Iterator<String> list) {
+    private StringList(Iterator<String> list) {
         ArrayList<String> array = new ArrayList<>();
         list.forEachRemaining(array::add);
         toArray(array);
     }
 
-    public StringList(String... array) {
+    private StringList(String... array) {
         this.array = array == null || array.length == 0 ? empty_array : array;
     }
 
-    public StringList(StringList... list) {
+    private StringList(StringList... list) {
         array = concat(list).array;
+    }
+
+    public static StringList create(String list) {
+        StringList s = new StringList(list);
+        return s.array == empty_array ? EMPTY : s;
+    }
+
+    public static StringList create(Collection<String> collection) {
+        StringList s = new StringList(collection);
+        return s.array == empty_array ? EMPTY : s;
+    }
+
+    public static StringList create(Iterable<String> list) {
+        StringList s = new StringList(list);
+        return s.array == empty_array ? EMPTY : s;
+    }
+
+    public static StringList create(Iterator<String> list) {
+        StringList s = new StringList(list);
+        return s.array == empty_array ? EMPTY : s;
+    }
+
+    public static StringList create(String... array) {
+        return array == null || array.length == 0 ? EMPTY : new StringList(array);
+    }
+
+    public static StringList create(StringList... list) {
+        StringList s = new StringList(list);
+        return s.array == empty_array ? EMPTY : s;
     }
 
     private void toArray(Collection<String> collection) {
@@ -74,6 +103,19 @@ public class StringList implements Iterable<String>, List<String> {
             return empty_array;
         }
         return s;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StringList strings = (StringList) o;
+        return Arrays.equals(array, strings.array);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(array);
     }
 
     @Override
@@ -442,7 +484,7 @@ public class StringList implements Iterable<String>, List<String> {
         }
     }
 
-    private class SubStringList extends StringList {
+    private static class SubStringList extends StringList {
 
         private final int start, end;
 

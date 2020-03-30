@@ -217,7 +217,7 @@ public class Geolocation implements Storable {
             try {
                 value = value.substring(1);
                 value = value.substring(0, value.length() - 1);
-                list = new StringList(value);
+                list = StringList.create(value);
                 set(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
                 if(list.size() == 3) {
                     altitude = Integer.parseInt(list.get(2));
@@ -237,7 +237,7 @@ public class Geolocation implements Storable {
         }
         int commas = StringUtility.getCharCount(value, ',');
         if(commas == 1 || commas == 2) {
-            list = new StringList(value);
+            list = StringList.create(value);
             set(list.get(0), list.get(1));
             if(list.size() == 3) {
                 setAlt(list.get(2));
