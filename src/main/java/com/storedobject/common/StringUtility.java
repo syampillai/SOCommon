@@ -1832,13 +1832,15 @@ public class StringUtility {
             neg = 2;
             s = s.substring(0, s.length()-1);
         } else {
-            String substring = s.substring(0, s.length() - 2);
-            if(s.endsWith("DB")) {
-                neg = 3;
-                s = substring.trim();
-            } else if(s.endsWith("CR")) {
-                neg = 4;
-                s = substring.trim();
+            if(s.endsWith("DB") || s.endsWith("CR")) {
+                String substring = s.substring(0, s.length() - 2);
+                if(s.endsWith("DB")) {
+                    neg = 3;
+                    s = substring.trim();
+                } else {
+                    neg = 4;
+                    s = substring.trim();
+                }
             }
         }
         StringBuilder sb = new StringBuilder();

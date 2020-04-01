@@ -27,29 +27,71 @@ public class StringList implements Iterable<String>, List<String> {
     public static final StringList EMPTY = new StringList(empty_array);
     String[] array;
 
-    private StringList(String list) {
+    /**
+     * Constructor
+     *
+     * @param list List (comma delimited)
+     * @deprecated Use the create method instead
+     */
+    @Deprecated
+    public StringList(String list) {
         this(toArray(list));
     }
 
-    private StringList(Collection<String> collection) {
+    /**
+     * Constructor
+     *
+     * @param collection List of elements
+     * @deprecated Use the create method instead
+     */
+    @Deprecated
+    public StringList(Collection<String> collection) {
         toArray(collection);
     }
 
-    private StringList(Iterable<String> list) {
+    /**
+     * Constructor
+     *
+     * @param list List of elements
+     * @deprecated Use the create method instead
+     */
+    @Deprecated
+    public StringList(Iterable<String> list) {
         this(list.iterator());
     }
 
-    private StringList(Iterator<String> list) {
+    /**
+     * Constructor
+     *
+     * @param list List of elements
+     * @deprecated Use the create method instead
+     */
+    @Deprecated
+    public StringList(Iterator<String> list) {
         ArrayList<String> array = new ArrayList<>();
         list.forEachRemaining(array::add);
         toArray(array);
     }
 
-    private StringList(String... array) {
+    /**
+     * Constructor
+     *
+     * @param array List of elements
+     * @deprecated Use the create method instead
+     */
+    @Deprecated
+    public StringList(String... array) {
         this.array = array == null || array.length == 0 ? empty_array : array;
     }
 
-    private StringList(StringList... list) {
+    /**
+     * Constructor
+     *
+     * @param list List of elements
+     * @deprecated Use the create method instead
+     */
+    @Deprecated
+    public StringList(StringList... list) {
         array = concat(list).array;
     }
 
