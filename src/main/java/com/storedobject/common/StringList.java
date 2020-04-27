@@ -18,6 +18,7 @@ package com.storedobject.common;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -387,23 +388,17 @@ public class StringList implements Iterable<String>, List<String> {
     }
 
     public StringList remove(String element) {
-        return minus(new StringList(new String[] { element }));
+        return minus(StringList.create(new String[] { element }));
     }
 
     public StringList minus(StringList another) {
-        if(another == null) {
+        if(another == null || another.isEmpty()) {
             return this;
         }
         if(another == this) {
             return EMPTY;
         }
-        ArrayList<String> a = new ArrayList<>();
-        for(String s: this) {
-            if(!another.contains(s)) {
-                a.add(s);
-            }
-        }
-        return new StringList(a);
+        return StringList.create(stream().filter(s -> !another.contains(s)).collect(Collectors.toList()));
     }
 
     public StringList subList(int index) {
@@ -432,7 +427,7 @@ public class StringList implements Iterable<String>, List<String> {
     }
 
     public StringList concat(Collection<String> collection) {
-        return concat(this, new StringList(collection));
+        return concat(this, StringList.create(collection));
     }
 
     public static StringList concat(StringList first, StringList second) {
@@ -450,7 +445,7 @@ public class StringList implements Iterable<String>, List<String> {
         for(String t: second) {
             s[i++] = t;
         }
-        return new StringList(s);
+        return StringList.create(s);
     }
 
     public static StringList concat(StringList... list) {
@@ -480,7 +475,7 @@ public class StringList implements Iterable<String>, List<String> {
                 s[i++] = t;
             }
         }
-        return new StringList(s);
+        return StringList.create(s);
     }
 
     public static StringList concat(String[]... list) {
@@ -489,9 +484,102 @@ public class StringList implements Iterable<String>, List<String> {
         }
         StringList[] slist = new StringList[list.length];
         for(int i = 0; i < slist.length; i++) {
-            slist[i] = new StringList(list[i]);
+            slist[i] = StringList.create(list[i]);
         }
         return concat(slist);
+    }
+
+    /**
+     * Copy the elements of this list to a buffer.
+     *
+     * @param buffer Buffer to copy to
+     * @return Number of elements copied. Zero will be returned if <code>buffer</code> is <code>null</code>.
+     */
+    public int copyTo(String[] buffer) {
+        return copyTo(0, array.length, buffer);
+    }
+
+    /**
+     * Copy the elements of this list to a buffer.
+     *
+     * @param startingIndex Starting index of the list from where copy begins
+     * @param buffer Buffer to copy to
+     * @return Number of elements copied. Zero will be returned if <code>buffer</code> is <code>null</code>.
+     */
+    public int copyTo(int startingIndex, String[] buffer) {
+        return copyTo(startingIndex, array.length, buffer);
+    }
+
+    /**
+     * Copy the elements of this list to a buffer.
+     *
+     * @param startingIndex Starting index of the list from where copy begins
+     * @param count Number of elements to copy
+     * @param buffer Buffer to copy to
+     * @return Number of elements copied. Zero will be returned if <code>buffer</code> is <code>null</code>.
+     */
+    public int copyTo(int startingIndex, int count, String[] buffer) {
+        return copyTo(startingIndex, count, buffer, array.length);
+    }
+
+    /**
+     * Copy the elements of this list to a buffer.
+     *
+     * @param buffer Buffer to copy to
+     * @param startingBufferIndex Starting index of the buffer from where copy begins
+     * @return Number of elements copied. Zero will be returned if <code>buffer</code> is <code>null</code>.
+     */
+    public int copyTo(String[] buffer, int startingBufferIndex) {
+        return copyTo(0, array.length, buffer, startingBufferIndex);
+    }
+
+    /**
+     * Copy the elements of this list to a buffer.
+     *
+     * @param buffer Buffer to copy to
+     * @param startingBufferIndex Starting index of the buffer from where copy begins
+     * @param count Number of elements to copy
+     * @return Number of elements copied. Zero will be returned if <code>buffer</code> is <code>null</code>.
+     */
+    public int copyTo(String[] buffer, int startingBufferIndex, int count) {
+        return copyTo(0, count, buffer, startingBufferIndex);
+    }
+
+    /**
+     * Copy the elements of this list to a buffer. Same as {@link #copyTo(int, int, String[], int)}.
+     *
+     * @param startingIndex Starting index of the list from where copy begins
+     * @param buffer Buffer to copy to
+     * @param startingBufferIndex Starting index of the buffer from where copy begins
+     * @param count Number of elements to copy
+     * @return Number of elements copied. Zero will be returned if <code>buffer</code> is <code>null</code>.
+     */
+    public int copyTo(int startingIndex, String[] buffer, int startingBufferIndex, int count) {
+        return copyTo(startingIndex, count, buffer, startingBufferIndex);
+    }
+
+    /**
+     * Copy the elements of this list to a buffer.
+     *
+     * @param startingIndex Starting index of the list from where copy begins
+     * @param count Number of elements to copy
+     * @param buffer Buffer to copy to
+     * @param startingBufferIndex Starting index of the buffer from where copy begins
+     * @return Number of elements copied. Zero will be returned if <code>buffer</code> is <code>null</code>.
+     */
+    public int copyTo(int startingIndex, int count, String[] buffer, int startingBufferIndex) {
+        if(startingIndex < 0 || startingBufferIndex < 0 || count <= 0 || buffer == null) {
+            return 0;
+        }
+        int c = 0;
+        while(count > 0 && startingBufferIndex < buffer.length && startingIndex < array.length) {
+            buffer[startingBufferIndex] = array[startingBufferIndex];
+            ++startingBufferIndex;
+            ++startingIndex;
+            --count;
+            ++c;
+        }
+        return c;
     }
 
     private class SLIterator implements Iterator<String> {

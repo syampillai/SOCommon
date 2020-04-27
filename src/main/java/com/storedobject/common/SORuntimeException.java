@@ -37,7 +37,14 @@ public class SORuntimeException extends RuntimeException implements EndUserMessa
     @Override
     public String getEndUserMessage() {
         String m = super.getMessage();
-        return m == null || m.isEmpty() ? "Error" : m;
+        Throwable cause = getCause();
+        if(m == null || m.isEmpty()) {
+            return cause instanceof SOException ? ((SOException) cause).getEndUserMessage() : "Error";
+        }
+        if(cause instanceof SOException) {
+            m += " (" + ((SOException) cause).getEndUserMessage() + ")";
+        }
+        return m;
     }
 
     @Override
