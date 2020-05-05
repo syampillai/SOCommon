@@ -700,13 +700,15 @@ public class StringUtility {
     };
 
     /**
-     * Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
+     * <p>Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
      * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences after that keyword will be used for
-     * generating the label.
-     * Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name", "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
+     * generating the label.</p>
+     * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name", "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
      * "KGB" =&gt; "KGB", "KGBAgent" =&gt; "KGB Agent", "eDocument" =&gt; "eDocument", "eGovernanceInitiative" =&gt; "eGovernance Initiative",
-     * "Document_PartI" =&gt; "Document - Part I.
-     * Also, class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt; "Employee".
+     * "Document_PartI" =&gt; "Document - Part I.</p>
+     * <p>Also,</p>
+     * <p>(1) class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt; "Employee"</p>
+     * <p>(2) "A.B.C." =&gt; "A.B.C.", "Animal.Lion" =&gt; "Lion" (because the letter just before ".Lion" is in small-case).</p>
      * @param s String to be converted.
      * @param lowerPropositions Whether to convert propositions to lower case or not.
      * @return Converted string.
@@ -730,8 +732,19 @@ public class StringUtility {
             }
             return s;
         }
+        while(s.contains("..")) {
+            s = s.replace("..", ".");
+        }
         if(s.startsWith(".")) {
             s = s.substring(1);
+        }
+        if(s.endsWith(".") && Character.isLowerCase(s.charAt(s.length() - 1))) {
+            s = s.substring(0, s.length() - 1);
+        }
+        int p = 0;
+        while((p = s.indexOf('.', p + 1)) > 0 && Character.isLowerCase(s.charAt(p - 1))) {
+            s = s.substring(p + 1);
+            p = 0;
         }
         if(s.startsWith("\"")) {
             s = s.substring(1);
@@ -745,7 +758,7 @@ public class StringUtility {
         char c;
         if(i < 0) { // No 'as'
             i = s.indexOf('(');
-            int p = s.indexOf(')', i);
+            p = s.indexOf(')', i);
             if(i >= 0 && p > i) {
                 String t;
                 boolean pack;
@@ -843,6 +856,9 @@ public class StringUtility {
             }
         }
         String label = t.toString();
+        if(label.endsWith(" .")) {
+            label = label.substring(0, label.length() - 2) + ".";
+        }
         if(!lowerPropositions) {
             return label;
         }
@@ -870,13 +886,15 @@ public class StringUtility {
     }
 
     /**
-     * Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
+     * <p>Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
      * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences after that keyword will be used for
-     * generating the label. Propositions in the resultant string will be in lower case.
-     * Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name", "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
+     * generating the label.</p>
+     * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name", "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
      * "KGB" =&gt; "KGB", "KGBAgent" =&gt; "KGB Agent", "eDocument" =&gt; "eDocument", "eGovernanceInitiative" =&gt; "eGovernance Initiative",
-     * "Document_PartI" =&gt; "Document - Part I".
-     * Also, class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt; "Employee".
+     * "Document_PartI" =&gt; "Document - Part I.</p>
+     * <p>Also,</p>
+     * <p>(1) class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt; "Employee"</p>
+     * <p>(2) "A.B.C." =&gt; "A.B.C.", "Animal.Lion" =&gt; "Lion" (because the letter just before ".Lion" is in small-case).</p>
      * @param s String to be converted.
      * @return Converted string.
      */
@@ -1943,9 +1961,9 @@ public class StringUtility {
         return s;
     }
 
-    private static String[] set1 = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-    private static String[] set2 = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
-    private static String[] set3 = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+    private static final String[] set1 = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+    private static final String[] set2 = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
+    private static final String[] set3 = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
 
     /**
      * Internal function to convert a 3 digit number to words. It will return empty string for zero.

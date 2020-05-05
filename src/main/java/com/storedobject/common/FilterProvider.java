@@ -16,8 +16,19 @@
 
 package com.storedobject.common;
 
+/**
+ * Filter provider is used to define a provider of some sort of "filter condition". A typically example is a class
+ * that provides a programmatically generated SQL condition.
+ *
+ * @author Syam
+ */
 @FunctionalInterface
 public interface FilterProvider {
 
+    /**
+     * Get the filter condition string.
+     *
+     * @return The filter condition string.
+     */
     String getFilterCondition();
 }
