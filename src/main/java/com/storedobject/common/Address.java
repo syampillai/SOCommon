@@ -304,7 +304,8 @@ public abstract class Address {
     public static Address create(Country country) {
         Address a;
         try {
-            a = (Address)Address.class.getClassLoader().loadClass("com.storedobject.common." + country.getShortName() + "Address").newInstance();
+            a = (Address)Address.class.getClassLoader().loadClass("com.storedobject.common." + country.getShortName() + "Address").
+                    getDeclaredConstructor().newInstance();
         } catch (Throwable error) {
             a = new XXAddress();
         }

@@ -18,11 +18,14 @@ package com.storedobject.common;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Resource disposal class. {@link ResourceHolder}s can statically register with this class so that their resources
+ * Resource disposal class. Any {@link AutoCloseable} resource can be statically register with this class so that it
  * will be closed when garbage collected.
  *
  * @author Syam
@@ -36,15 +39,17 @@ public final class ResourceDisposal {
     private static Cleaner cleaner;
 
     /**
-     * Register me so that my resource will get closed when I am garbage collected.<BR>
-     * Warning: There shouldn't be any circular reference between the resource holder and its resource.
+     * Register me so that I will get closed automatically when I am garbage collected.
      *
-     * @param resourceHolder Resource holder to be registered.
+     * @param closeable Any closeable resource. <code>Null</code> values will be ignored.
      */
-    public static void register(ResourceHolder resourceHolder) {
-        new ResourceHolderReference(resourceHolder, referenceQueue);
-        if(cleaner == null) {
-            createCleaner();
+    public static void register(AutoCloseable closeable) {
+        if(closeable != null) {
+            ResourceHolder resourceHolder = new ResourceHolder(closeable);
+            new ResourceHolderReference(resourceHolder, referenceQueue);
+            if (cleaner == null) {
+                createCleaner();
+            }
         }
     }
 
@@ -60,13 +65,13 @@ public final class ResourceDisposal {
             stack.forEach(r -> {
                 if(r != null) {
                     if(r.resource != null) {
-                        System.err.println(r.resource.getClass());
+                        System.err.println(((ResourceCleaner)r.resource).closeable.getClass());
                         i.incrementAndGet();
                     }
                 }
             });
+            System.err.println("Resources: " + i);
         }
-        System.err.println("Resources: " + i);
     }
 
     private synchronized static void createCleaner() {
@@ -160,5 +165,35 @@ public final class ResourceDisposal {
         };
         timer = new Timer("GC");
         timer.scheduleAtFixedRate(task, 1L, 30000L);
+    }
+
+    private static class ResourceHolder {
+
+        private final AutoCloseable closeable;
+
+        private ResourceHolder(AutoCloseable closeable) {
+            this.closeable = closeable;
+        }
+
+        public AutoCloseable getResource() {
+            return new ResourceCleaner(closeable);
+        }
+    }
+
+    private static class ResourceCleaner implements AutoCloseable {
+
+        private final AutoCloseable closeable;
+
+        private ResourceCleaner(AutoCloseable closeable) {
+            this.closeable = closeable;
+        }
+
+        @Override
+        public void close() {
+            try {
+                closeable.close();
+            } catch (Throwable ignored) {
+            }
+        }
     }
 }

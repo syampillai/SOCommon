@@ -17,6 +17,7 @@
 package com.storedobject.common;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
 * Math utility functions
@@ -53,7 +54,7 @@ public class MathUtility {
             return bd;
         }
         try {
-            return bd.setScale(decimals, checkDecimals ? BigDecimal.ROUND_UNNECESSARY : BigDecimal.ROUND_DOWN);
+            return bd.setScale(decimals, checkDecimals ? RoundingMode.UNNECESSARY : RoundingMode.DOWN);
         } catch(Throwable ignored) {
         }
         return null;
@@ -75,6 +76,7 @@ public class MathUtility {
     	return v < error && v > -error;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isZero(double value) {
     	return isZero(value, 0.000001);
     }

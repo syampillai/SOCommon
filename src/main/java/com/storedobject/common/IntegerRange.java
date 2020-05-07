@@ -28,7 +28,7 @@ public class IntegerRange extends Range<Integer> {
 
     @Override
     protected Integer clone(Integer data) {
-        return data == null ? new Integer(0) : data;
+        return data == null ? 0 : data;
     }
 
     @Override

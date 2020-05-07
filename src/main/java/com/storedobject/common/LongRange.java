@@ -28,7 +28,7 @@ public class LongRange extends Range<Long> {
 
     @Override
     protected Long clone(Long data) {
-        return data == null ? new Long(0) : data;
+        return data == null ? 0L : data;
     }
 
     @Override

@@ -27,6 +27,12 @@ import java.nio.channels.FileChannel;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
+/**
+ * A file-mapped data buffer with index-based access to data for writing and then, for reading.
+ * Data is just byte arrays of arbitrary length.
+ *
+ * @author Syam
+ */
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class FileBuffer {
 
@@ -40,6 +46,9 @@ public class FileBuffer {
     private boolean writable = false;
     private FileBuffer parent = null, child = null;
 
+    /**
+     * This method must be called before writing anything.
+     */
     public void begin() {
         if(created > -1) {
             return;
@@ -48,15 +57,21 @@ public class FileBuffer {
             dataFile = File.createTempFile("SOBuffer", "data");
             dataFile.deleteOnExit();
             dataOut = IO.getOutput(dataFile);
+            ResourceDisposal.register(dataOut);
             indexFile = File.createTempFile("SOBuffer", "index");
             indexFile.deleteOnExit();
             indexOut = IO.getDataOutput(indexFile);
+            ResourceDisposal.register(indexOut);
             created = 0;
         } catch(Exception e) {
             close();
         }
     }
 
+    /**
+     * This method must be called when writing is completed. After this, the buffer will be in read-only mode and
+     * any attempt to write will cause errors.
+     */
     public void end() {
         if(created != 0) {
             return;
@@ -85,6 +100,12 @@ public class FileBuffer {
         }
     }
 
+    /**
+     * Write something at the current index. The data could be of any length. The first index is zero.
+     *
+     * @param data Data to write.
+     * @throws Exception Throws if any error occurs.
+     */
     public void write(byte[] data) throws Exception {
         indexOut.writeInt(dataSize);
         int len = data.length;
@@ -101,6 +122,9 @@ public class FileBuffer {
         dataSize += data.length;
     }
 
+    /**
+     * Close this buffer. No more reading or writing is possible after this.
+     */
     public void close() {
         size = dataSize = 0;
         dataBuffer = null;
@@ -137,15 +161,22 @@ public class FileBuffer {
         }
     }
 
+    /**
+     * Get the size of this buffer in terms of number of indices it holds. Each index may be pointing to
+     * varying chunks of data.
+     *
+     * @return Number of indices written available in the buffer.
+     */
     public int size() {
         return size;
     }
 
-    @Override
-    protected void finalize() {
-        close();
-    }
-
+    /**
+     * Read data from a specified index.
+     *
+     * @param index Index.
+     * @return Data read.
+     */
     public byte[] read(int index) {
         index = indexBuffer.get(index);
         int len = dataBuffer.get(index);
@@ -160,6 +191,12 @@ public class FileBuffer {
         return data;
     }
 
+    /**
+     * Swap positions of 2 data chunks.
+     *
+     * @param firstIndex First index.
+     * @param secondIndex Second index.
+     */
     public void swap(int firstIndex, int secondIndex) {
         if(firstIndex == secondIndex) {
             return;
@@ -172,6 +209,12 @@ public class FileBuffer {
         indexBuffer.put(secondIndex, t);
     }
 
+    /**
+     * Sort the data according the comparator passed.
+     *
+     * @param comparator Comparator to compare the data chunks.
+     * @return Sorter buffer.
+     */
     public FileBuffer sort(Comparator<byte[]> comparator) {
         FileBuffer f = copy(null);
         if(f != null) {
@@ -204,6 +247,13 @@ public class FileBuffer {
         }
     }
 
+    /**
+     * Apply a filter to the buffer.
+     *
+     * @param filter Filter to be applied.
+     * @return Filtered buffer (if the filter is <code>null</code> or if all the data chunks are satisfying the
+     * filter, then, the same buffer will be returned).
+     */
     public FileBuffer filter(Predicate<byte[]> filter) {
         if(filter == null) {
             return this;
