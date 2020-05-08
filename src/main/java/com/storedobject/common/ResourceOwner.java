@@ -17,9 +17,10 @@
 package com.storedobject.common;
 
 /**
- * Defines an object that owns an auto-closeable resource. Such "resource owners" can be statically registered with
- * {@link ResourceDisposal} so that the "resource" will be automatically closed when the owner is garbage-collected.
- * The "resource" should not have any reference to the "owner". Otherwise, the "owner" will never get garbage-collected.
+ * Defines an object that owns an auto-closeable resource. Such "resource owners" can be statically registered with the
+ * {@link ResourceDisposal#register(ResourceOwner)} method so that the "resource" will be automatically closed when
+ * the owner is garbage-collected. The "resource" should not have any reference to the "owner". Otherwise, the "owner"
+ * will never get garbage-collected.
  */
 public interface ResourceOwner {
 
