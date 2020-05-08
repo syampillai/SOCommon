@@ -34,8 +34,9 @@ import java.util.function.Predicate;
  * @author Syam
  */
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class FileBuffer {
+public class FileBuffer implements ResourceOwner {
 
+    private final AutoCloseableList closeables = new AutoCloseableList();
     private File dataFile, indexFile;
     private ByteBuffer dataBuffer;
     private IntBuffer indexBuffer;
@@ -45,6 +46,23 @@ public class FileBuffer {
     private byte created = -1;
     private boolean writable = false;
     private FileBuffer parent = null, child = null;
+
+    /**
+     * Constructor.
+     */
+    public FileBuffer() {
+        ResourceDisposal.register(this);
+    }
+
+    /**
+     * Get the "resource" owned by this buffer.
+     *
+     * @return The "resource" owned by this buffer.
+     */
+    @Override
+    public AutoCloseable getResource() {
+        return closeables;
+    }
 
     /**
      * This method must be called before writing anything.
@@ -57,11 +75,11 @@ public class FileBuffer {
             dataFile = File.createTempFile("SOBuffer", "data");
             dataFile.deleteOnExit();
             dataOut = IO.getOutput(dataFile);
-            ResourceDisposal.register(dataOut);
+            closeables.add(dataOut);
             indexFile = File.createTempFile("SOBuffer", "index");
             indexFile.deleteOnExit();
             indexOut = IO.getDataOutput(indexFile);
-            ResourceDisposal.register(indexOut);
+            closeables.add(indexOut);
             created = 0;
         } catch(Exception e) {
             close();

@@ -25,31 +25,32 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Resource disposal class. Any {@link AutoCloseable} resource can be statically register with this class so that it
- * will be closed when garbage collected.
+ * Resource disposal class. Any {@link ResourceOwner} can be statically register with this class so that its
+ * "resource" will be automatically closed when the it is garbage-collected.
  *
  * @author Syam
  */
 public final class ResourceDisposal {
 
-    private static final ReferenceQueue<ResourceHolder> referenceQueue = new ReferenceQueue<>();
+    private static final ReferenceQueue<ResourceOwner> referenceQueue = new ReferenceQueue<>();
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private final static Set<ResourceHolderReference> stack = new HashSet<>();
+    private final static Set<ResourceOwnerReference> stack = new HashSet<>();
     private static boolean debug;
     private static Cleaner cleaner;
 
     /**
-     * Register me so that I will get closed automatically when I am garbage collected.
+     * Register me so that my resource will get closed automatically when I am garbage collected.
      *
-     * @param closeable Any closeable resource. <code>Null</code> values will be ignored.
+     * @param resourceOwner Owner of the resource. <code>Null</code> values will be ignored.
      */
-    public static void register(AutoCloseable closeable) {
-        if(closeable != null) {
-            ResourceHolder resourceHolder = new ResourceHolder(closeable);
-            new ResourceHolderReference(resourceHolder, referenceQueue);
-            if (cleaner == null) {
-                createCleaner();
-            }
+    public static void register(ResourceOwner resourceOwner) {
+        AutoCloseable resource;
+        if(resourceOwner == null || (resource = resourceOwner.getResource()) == null) {
+            throw new NullPointerException("Owner and resource can not be null");
+        }
+        new ResourceOwnerReference(resourceOwner, resource, referenceQueue);
+        if (cleaner == null) {
+            createCleaner();
         }
     }
 
@@ -65,7 +66,7 @@ public final class ResourceDisposal {
             stack.forEach(r -> {
                 if(r != null) {
                     if(r.resource != null) {
-                        System.err.println(((ResourceCleaner)r.resource).closeable.getClass());
+                        System.err.println(r.resource.getClass());
                         i.incrementAndGet();
                     }
                 }
@@ -92,7 +93,7 @@ public final class ResourceDisposal {
             //noinspection InfiniteLoopStatement
             while(true) {
                 try {
-                    ResourceHolderReference reference = (ResourceHolderReference) referenceQueue.remove();
+                    ResourceOwnerReference reference = (ResourceOwnerReference) referenceQueue.remove();
                     if(!debug) {
                         release(reference);
                     } else {
@@ -105,23 +106,20 @@ public final class ResourceDisposal {
             }
         }
 
-        private void release(ResourceHolderReference reference) {
+        private void release(ResourceOwnerReference reference) {
             stack.remove(reference);
             reference.close();
             reference.clear();
         }
     }
 
-    private static class ResourceHolderReference extends PhantomReference<ResourceHolder> {
+    private static class ResourceOwnerReference extends PhantomReference<ResourceOwner> {
 
         private AutoCloseable resource;
 
-        public ResourceHolderReference(ResourceHolder referent, ReferenceQueue<? super ResourceHolder> q) {
+        public ResourceOwnerReference(ResourceOwner referent, AutoCloseable resource, ReferenceQueue<? super ResourceOwner> q) {
             super(referent, q);
-            resource = referent.getResource();
-            if(resource == null) {
-                throw new SORuntimeException("Resource is null");
-            }
+            this.resource = resource;
             stack.add(this);
         }
 
@@ -165,35 +163,5 @@ public final class ResourceDisposal {
         };
         timer = new Timer("GC");
         timer.scheduleAtFixedRate(task, 1L, 30000L);
-    }
-
-    private static class ResourceHolder {
-
-        private final AutoCloseable closeable;
-
-        private ResourceHolder(AutoCloseable closeable) {
-            this.closeable = closeable;
-        }
-
-        public AutoCloseable getResource() {
-            return new ResourceCleaner(closeable);
-        }
-    }
-
-    private static class ResourceCleaner implements AutoCloseable {
-
-        private final AutoCloseable closeable;
-
-        private ResourceCleaner(AutoCloseable closeable) {
-            this.closeable = closeable;
-        }
-
-        @Override
-        public void close() {
-            try {
-                closeable.close();
-            } catch (Throwable ignored) {
-            }
-        }
     }
 }
