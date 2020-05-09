@@ -144,22 +144,11 @@ public class FileBuffer implements ResourceOwner {
      * Close this buffer. No more reading or writing is possible after this.
      */
     public void close() {
+        closeables.close();
         size = dataSize = 0;
         dataBuffer = null;
         indexBuffer = null;
-        if(dataOut != null) {
-            try {
-                dataOut.close();
-            } catch(IOException ignored) {
-            }
-        }
         dataOut = null;
-        if(indexOut != null) {
-            try {
-                indexOut.close();
-            } catch(IOException ignored) {
-            }
-        }
         indexOut = null;
         if(dataFile != null) {
             if(parent == null && child == null) {
