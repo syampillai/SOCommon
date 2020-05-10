@@ -16,20 +16,34 @@
 
 package com.storedobject.common;
 
+import java.util.function.Function;
+
 /**
  * An interface that converts some type of object to a {@link String}.
  *
  * @param <T> Type of object.
  * @author Syam
  */
-public interface ToString<T> {
+public interface ToString<T> extends Function<T, String> {
 
     /**
      * Convert the object instance to a {@link String}.
+     *
+     * @param object Object to convert.
+     * @return Default implementation returns {@link ToString#apply(Object)}.
+     */
+    default String toString(T object) {
+        return StringUtility.toString(object);
+    }
+
+    /**
+     * Convert the object instance to a {@link String}.
+     *
      * @param object Object to convert.
      * @return Default implementation returns {@link StringUtility#toString(Object)}.
      */
-    default String toString(T object) {
+    @Override
+    default String apply(T object) {
         return StringUtility.toString(object);
     }
 }
