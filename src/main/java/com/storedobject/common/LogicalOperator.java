@@ -17,18 +17,13 @@
 package com.storedobject.common;
 
 /**
- * Denote that something is displayable.
+ * To represent logical operators. To be used with some sort of logical processing.
  *
  * @author Syam
  */
-public interface Displayable {
-
-    /**
-     * Convert to a displayable string. The default implementation returns the {@link StringUtility#toString(Object)} value.
-     *
-     * @return A displayable string.
-     */
-    default String toDisplay() {
-        return StringUtility.toString(this);
-    }
+public enum LogicalOperator {
+    OR,
+    AND,
+    NOT_OR,
+    NOT_AND,
 }

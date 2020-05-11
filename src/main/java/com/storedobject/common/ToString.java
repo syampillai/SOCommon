@@ -24,17 +24,7 @@ import java.util.function.Function;
  * @param <T> Type of object.
  * @author Syam
  */
-public interface ToString<T> extends Function<T, String> {
-
-    /**
-     * Convert the object instance to a {@link String}.
-     *
-     * @param object Object to convert.
-     * @return Default implementation returns {@link ToString#apply(Object)}.
-     */
-    default String toString(T object) {
-        return StringUtility.toString(object);
-    }
+public interface ToString<T> {
 
     /**
      * Convert the object instance to a {@link String}.
@@ -42,8 +32,7 @@ public interface ToString<T> extends Function<T, String> {
      * @param object Object to convert.
      * @return Default implementation returns {@link StringUtility#toString(Object)}.
      */
-    @Override
-    default String apply(T object) {
+    default String toString(T object) {
         return StringUtility.toString(object);
     }
 }
