@@ -29,7 +29,8 @@ import java.io.OutputStream;
 public class InputOutputStream {
 
     private final byte[] buffer;
-    private int wPointer = 0, rPointer = 0, generated = 0, consumed = 0;
+    private int wPointer = 0, rPointer = 0;
+    private volatile int generated = 0, consumed = 0;
     private boolean wEOF = false, rEOF = false, wWait = false, rWait = false;
     private IStream reader;
     private OStream writer;
@@ -98,15 +99,32 @@ public class InputOutputStream {
         this.reusable = reusable;
     }
 
+    /**
+     * Set an exception to the input stream so that someone will get it when they try to read something from it.
+     *
+     * @param e Exception to set.
+     */
+    public void setExternalException(Exception e) {
+        reader.external = e;
+    }
+
     private class IStream extends InputStream {
+
+        private Exception external;
 
         @Override
         public int read() throws IOException {
             while(generated == consumed) {
+                if(external != null) {
+                    throw new IOException(external);
+                }
                 if(rEOF) { // Reader was closed
                     throw new IOException("Stream already closed");
                 }
                 if(wEOF || wWait) { // Writing was closed
+                    if(generated != consumed) { // Trying for the last time
+                        break;
+                    }
                     return -1;
                 }
                 Thread.yield();
@@ -115,6 +133,7 @@ public class InputOutputStream {
             synchronized (buffer) {
                 c = buffer[rPointer] & 0xFF;
             }
+            //noinspection NonAtomicOperationOnVolatileField
             ++consumed;
             if(++rPointer == buffer.length) {
                 rPointer = 0;
@@ -163,6 +182,7 @@ public class InputOutputStream {
             synchronized (buffer) {
                 buffer[wPointer] = (byte)(0xFF & b);
             }
+            //noinspection NonAtomicOperationOnVolatileField
             ++generated;
             if(++wPointer == buffer.length) {
                 wPointer = 0;

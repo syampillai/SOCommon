@@ -12,7 +12,7 @@
 
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
-    <version>2.1.0</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -55,13 +55,6 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
             <version>3.4.0</version>
-        </dependency>
-
-        <!-- Apache Javascript interpreter -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-jexl3</artifactId>
-            <version>3.1</version>
         </dependency>
 
     </dependencies>

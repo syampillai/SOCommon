@@ -16,6 +16,12 @@
 
 package com.storedobject.common;
 
+/**
+ * Interface to denote that a class has got "string filling" capability.
+ * Please see {@link StringUtility#fill(String, StringFiller)}.
+ *
+ * @author Syam
+ */
 public interface StringFiller {
 
     default String fill(String name) {

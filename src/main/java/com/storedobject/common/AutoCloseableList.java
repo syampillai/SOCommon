@@ -29,13 +29,7 @@ public class AutoCloseableList extends ArrayList<AutoCloseable> implements AutoC
      */
     @Override
     public final void close() {
-        AutoCloseable ac;
-        while (!isEmpty()) {
-            ac = remove(0);
-            try {
-                ac.close();
-            } catch (Exception ignored) {
-            }
-        }
+        forEach(IO::close);
+        clear();
     }
 }

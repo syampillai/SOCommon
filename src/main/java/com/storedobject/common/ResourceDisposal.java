@@ -124,13 +124,7 @@ public final class ResourceDisposal {
         }
 
         private void close() {
-            AutoCloseable r = resource;
-            if(r != null) {
-                try {
-                    r.close();
-                } catch (Throwable ignored) {
-                }
-            }
+            IO.close(resource);
             resource = null;
         }
     }

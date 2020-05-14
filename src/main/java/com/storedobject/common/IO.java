@@ -502,14 +502,7 @@ public class IO {
     public static OutputStream connect(OutputStream out, InputStream in) {
         return new FilterOutputStream(out) {
             public void close() {
-                try {
-                    out.close();
-                } catch(IOException ignored) {
-                }
-                try {
-                    in.close();
-                } catch(IOException ignored) {
-                }
+                IO.close(out, in);
             }
         };
     }
@@ -524,14 +517,7 @@ public class IO {
     public static InputStream connect(InputStream in, OutputStream out) {
         return new FilterInputStream(in) {
             public void close() {
-                try {
-                    out.close();
-                } catch(IOException ignored) {
-                }
-                try {
-                    in.close();
-                } catch(IOException ignored) {
-                }
+                IO.close(out, in);
             }
         };
     }
@@ -574,5 +560,23 @@ public class IO {
         file.deleteOnExit();
         copy(get(in), new FileOutputStream(file));
         return new RandomAccessFile(file, fileMode).getChannel().map(mode, 0, file.length());
+    }
+
+    /**
+     * Close some {@link Closeable} instances without throwing any {@link Exception}.
+     *
+     * @param closeables Closable instances to close.
+     */
+    public static void close(AutoCloseable... closeables) {
+        if(closeables != null) {
+            for(AutoCloseable closeable: closeables) {
+                try {
+                    if(closeable != null) {
+                        closeable.close();
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
+        }
     }
 }
