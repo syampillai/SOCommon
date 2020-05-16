@@ -44,6 +44,7 @@ public class Executor {
      * Submit a command for execution.
      *
      * @param task Task to be carried out.
+     * @param <V> Expected return value type.
      * @return {@link Future} to check the status.
      */
     public static <V> Future<V> execute(Callable<V> task) {
