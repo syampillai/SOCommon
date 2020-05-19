@@ -493,6 +493,194 @@ public class IO {
     }
 
     /**
+     * Create a concatenated stream from the 2 streams. Data read from the resulting stream will be from the first stream
+     * and then, from the second stream when EOF is reached. One of the streams may be <code>null</code>.
+     *
+     * @param in1 First stream.
+     * @param in2 Second stream.
+     * @return Concatenated stream.
+     */
+    public static BufferedInputStream concat(InputStream in1, InputStream in2) {
+        if(in1 == null) {
+            return IO.get(in2);
+        }
+        if(in2 == null) {
+            return IO.get(in1);
+        }
+        return new BufferedInputStream(new ConcatenatedInputStream(in1, in2));
+    }
+
+    private static class ConcatenatedInputStream extends FilterInputStream {
+
+        private final InputStream in2;
+
+        protected ConcatenatedInputStream(InputStream in1, InputStream in2) {
+            super(IO.get(in1));
+            this.in2 = IO.get(in2);
+        }
+
+        @Override
+        public int read() throws IOException {
+            int r = in.read();
+            if(r == -1) {
+                if(in == in2) {
+                    return r;
+                }
+                IO.close(in);
+                in = in2;
+                return in2.read();
+            }
+            return r;
+        }
+
+        @Override
+        public int read(byte[] b, int off, int len) throws IOException {
+            if(len == 0) {
+                return 0;
+            }
+            int r = in.read(b, off, len);
+            if(r == -1) {
+                if(in == in2) {
+                    return r;
+                }
+                IO.close(in);
+                in = in2;
+                return in.read(b, off, len);
+            }
+            return r;
+        }
+
+        @Override
+        public synchronized void reset() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean markSupported() {
+            return false;
+        }
+
+        @Override
+        public synchronized void mark(int readlimit) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public long skip(long n) throws IOException {
+            int r = 0;
+            while(r < n) {
+                if(read() == -1) {
+                    break;
+                }
+                ++r;
+            }
+            return r;
+        }
+
+        @Override
+        public void close() throws IOException {
+            if(in2 != in) {
+                IO.close(in2);
+            }
+            in.close();
+        }
+    }
+
+    /**
+     * Create a concatenated reader from the 2 readers. Data read from the resulting reader will be from the first one
+     * and then, from the second one when EOF is reached. One of the readers may be <code>null</code>.
+     *
+     * @param reader1 First reader.
+     * @param reader2 Second reader.
+     * @return Concatenated reader.
+     */
+    public static BufferedReader concat(Reader reader1, Reader reader2) {
+        if(reader1 == null) {
+            return IO.get(reader2);
+        }
+        if(reader2 == null) {
+            return IO.get(reader1);
+        }
+        return new BufferedReader(new ConcatenatedReader(reader1, reader2));
+    }
+
+    private static class ConcatenatedReader extends FilterReader {
+
+        private final BufferedReader reader2;
+
+        protected ConcatenatedReader(Reader reader1, Reader reader2) {
+            super(IO.get(reader1));
+            this.reader2 = IO.get(reader2);
+        }
+
+        @Override
+        public int read() throws IOException {
+            int r = super.read();
+            if(r == -1) {
+                if(in == reader2) {
+                    return r;
+                }
+                IO.close(in);
+                in = reader2;
+                return in.read();
+            }
+            return r;
+        }
+
+        @Override
+        public int read(char[] cbuf, int off, int len) throws IOException {
+            if(len == 0) {
+                return 0;
+            }
+            int r = in.read(cbuf, off, len);
+            if(r == -1) {
+                if(in == reader2) {
+                    return r;
+                }
+                IO.close(in);
+                in = reader2;
+                return in.read(cbuf, off, len);
+            }
+            return r;
+        }
+
+        @Override
+        public void mark(int readAheadLimit) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean markSupported() {
+            return false;
+        }
+
+        @Override
+        public void reset() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public long skip(long n) throws IOException {
+            int r = 0;
+            while(r < n) {
+                if(read() == -1) {
+                    break;
+                }
+                ++r;
+            }
+            return r;
+        }
+
+        @Override
+        public void close() throws IOException {
+            if(in != reader2) {
+                IO.close(reader2);
+            }
+            super.close();
+        }
+    }
+
+    /**
      * Connect an output stream to an input stream so that the input stream is closed when the output stream is closed.
      *
      * @param out Output stream
