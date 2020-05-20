@@ -35,6 +35,10 @@ public class SOException extends Exception implements EndUserMessage {
 
     @Override
     public String getEndUserMessage() {
+        Throwable cause = getCause();
+        if(cause instanceof EndUserMessage) {
+            return ((EndUserMessage) cause).getEndUserMessage();
+        }
         String m = super.getMessage();
         return m == null || m.isEmpty() ? "Error" : m;
     }
