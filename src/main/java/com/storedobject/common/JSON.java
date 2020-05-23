@@ -24,44 +24,100 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A simple wrapper around JSON processing classes. Developers can rely on this class rather than delving into
+ * the underlying implementation. The underlying implementation may change in the future.
+ *
+ * @author Syam
+ */
 public class JSON {
 
+    /**
+     * Type of JSON values.
+     */
     public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private JsonNode value = null;
 
+    /**
+     * Construct a <code>null</code> JSON.
+     */
     public JSON() {
     }
 
+    /**
+     * Construct JSON from a String.
+     *
+     * @param json JSON to construct.
+     * @throws IOException If any exception happens while parsing.
+     */
     public JSON(String json) throws IOException {
         set(json);
     }
 
+    /**
+     * Construct JSON from a stream.
+     *
+     * @param stream JSON to construct from this stream.
+     * @throws IOException If any exception happens while parsing.
+     */
     public JSON(InputStream stream) throws IOException {
         set(stream);
     }
 
+    /**
+     * Construct JSON from a reader.
+     *
+     * @param reader JSON to construct from this reader.
+     * @throws IOException If any exception happens while parsing.
+     */
     public JSON(Reader reader) throws IOException {
         set(reader);
     }
 
+    /**
+     * Construct JSON from a URL.
+     *
+     * @param url JSON to construct from this URL.
+     * @throws Exception If any exception happens while parsing.
+     */
     public JSON(URL url) throws Exception {
         set(url);
     }
 
+    /**
+     * Construct JSON from another JSON node.
+     *
+     * @param json JSON to construct from this JSON node.
+     */
     public JSON(JsonNode json) {
         value = json;
     }
 
+    /**
+     * Construct JSON from a map.
+     *
+     * @param map JSON to construct from this map.
+     */
     public JSON(Map<String, Object> map) {
         set(map);
     }
 
+    /**
+     * Set from a map.
+     *
+     * @param map JSON to set from this map.
+     */
     public void set(Map<String, Object> map) {
         value = mapper.valueToTree(map);
     }
 
+    /**
+     * Set from a String.
+     *
+     * @param json JSON to set from this String.
+     */
     public void set(String json) throws IOException {
         if(json == null) {
             return;
@@ -69,6 +125,11 @@ public class JSON {
         set(new StringReader(json));
     }
 
+    /**
+     * Set from a stream.
+     *
+     * @param stream JSON to set from this stream.
+     */
     public void set(InputStream stream) throws IOException {
         if(stream == null) {
             return;
@@ -76,6 +137,11 @@ public class JSON {
         set(IO.getReader(stream));
     }
 
+    /**
+     * Set from a Reader.
+     *
+     * @param reader JSON to set from this Reader.
+     */
     public void set(Reader reader) throws IOException {
         if(reader == null) {
             return;
@@ -87,6 +153,11 @@ public class JSON {
         }
     }
 
+    /**
+     * Set from a URL.
+     *
+     * @param url JSON to set from this URL.
+     */
     public void set(URL url) throws Exception {
         if(url == null) {
             return;
@@ -95,10 +166,20 @@ public class JSON {
         set(http.getInputStream());
     }
 
+    /**
+     * Get the top-level keys.
+     *
+     * @return Keys as a List.
+     */
     public List<String> keys() {
         return value == null ? new ArrayList<>() : ListUtility.list(value.fieldNames());
     }
 
+    /**
+     * Get the {@link Type} of the JSON.
+     *
+     * @return Type.
+     */
     public Type getType() {
         if(value == null) {
             return Type.NULL;
@@ -118,22 +199,52 @@ public class JSON {
         return Type.JSON;
     }
 
+    /**
+     * Get this as a String. If value is <code>null</code> or if the {@link Type} is different,
+     * <code>null</code> will be returned.
+     *
+     * @return The value.
+     */
     public String getString() {
         return value == null || !value.isTextual() ? null : value.textValue();
     }
 
+    /**
+     * Get this as a Number. If value is <code>null</code> or if the {@link Type} is different,
+     * <code>null</code> will be returned.
+     *
+     * @return The value.
+     */
     public Number getNumber() {
         return value == null || !value.isNumber() ? null : value.numberValue();
     }
 
+    /**
+     * Get this as a Boolean value. If value is <code>null</code> or if the {@link Type} is different,
+     * <code>null</code> will be returned.
+     *
+     * @return The value.
+     */
     public Boolean getBoolean() {
         return value == null || !value.isBoolean() ? null : value.booleanValue();
     }
 
+    /**
+     * Get the array size. (If the {@link Type} is not an array or if it is null, 0 is returned).
+     *
+     * @return Size of the array.
+     */
     public int getArraySize() {
         return value == null || !value.isArray() ? 0 : value.size();
     }
 
+    /**
+     * Get the value at position 'n' assuming that this is an array. <code>Null</code> will be returned if this
+     * is <code>null</code>, not an array or position is outside the range.
+     *
+     * @param n Position.
+     * @return Value at the position.
+     */
     public JSON get(int n) {
         if(value == null || !value.isArray() || n < 0) {
             return null;
@@ -142,35 +253,75 @@ public class JSON {
         return node.isMissingNode() ? null : new JSON(node);
     }
 
+    /**
+     * Get the value for the given key. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code> or no value exists for the given key.
+     *
+     * @param key Key.
+     * @return Value for the key.
+     */
     public JSON get(String key) {
-        if(value == null) {
+        if(value == null || key == null) {
             return null;
         }
         JsonNode node = value.get(key);
         return node.isMissingNode() ? null : new JSON(node);
     }
 
+    /**
+     * Check if this contains the given key or not.
+     *
+     * @param key Key.
+     * @return True or false.
+     */
     public boolean containsKey(String key) {
+        if(key == null) {
+            return false;
+        }
         return keys().contains(key);
     }
 
+    /**
+     * Get the value for the given key as a String. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key or the value type is
+     * not matching.
+     *
+     * @param key Key.
+     * @return Value for the key.
+     */
     public String getString(String key) {
         JSON json = get(key);
         return json == null ? null : json.getString();
     }
 
+    /**
+     * Get the value for the given key as a Number. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key or the value type is
+     * not matching.
+     *
+     * @param key Key.
+     * @return Value for the key.
+     */
     public Number getNumber(String key) {
         JSON json = get(key);
         return json == null ? null : json.getNumber();
     }
 
+    /**
+     * Get the value for the given key as a Boolean. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key or the value type is
+     * not matching.
+     *
+     * @param key Key.
+     * @return Value for the key.
+     */
     public Boolean getBoolean(String key) {
         JSON json = get(key);
         return json == null ? null : json.getBoolean();
     }
 
     private JsonNode value(String key, int n) {
-        if(n < 0 || value == null) {
+        if(n < 0 || value == null || key == null) {
             return null;
         }
         JsonNode v = value.get(key);
@@ -184,28 +335,89 @@ public class JSON {
         return v.isMissingNode() ? null : v;
     }
 
+    /**
+     * Retrieve the value for the given key and get the value from the given position from that value, assuming that
+     * value is an array type. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key, the value type is
+     * not an array or nothing found at the given position.
+     *
+     * @param key Key.
+     * @param n Position.
+     * @return Value for the key.
+     */
     public JSON get(String key, int n) {
         JsonNode node = value(key, n);
         return node == null ? null : new JSON(node);
     }
 
+    /**
+     * Retrieve the value for the given key and get the value from the given position as a String from that value,
+     * assuming that value is an array type. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key, the value type is
+     * not an array, nothing found at the given position or the value type at the position is not matching.
+     *
+     * @param key Key.
+     * @param n Position.
+     * @return Value for the key.
+     */
     public String getString(String key, int n) {
         return new JSON(value(key, n)).getString();
     }
 
+    /**
+     * Retrieve the value for the given key and get the value from the given position as a Number from that value,
+     * assuming that value is an array type. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key, the value type is
+     * not an array, nothing found at the given position or the value type at the position is not matching.
+     *
+     * @param key Key.
+     * @param n Position.
+     * @return Value for the key.
+     */
     public Number getNumber(String key, int n) {
         return new JSON(value(key, n)).getNumber();
     }
 
+    /**
+     * Retrieve the value for the given key and get the value from the given position as a Boolean from that value,
+     * assuming that value is an array type. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key, the value type is
+     * not an array, nothing found at the given position or the value type at the position is not matching.
+     *
+     * @param key Key.
+     * @param n Position.
+     * @return Value for the key.
+     */
     public Boolean getBoolean(String key, int n) {
         return new JSON(value(key, n)).getBoolean();
     }
 
+    /**
+     * Return the JSON as a String.
+     *
+     * @return String representation.
+     */
     @Override
     public String toString() {
-        return value == null ? null : pretty(value.toString()).toString();
+        return value == null ? null : value.toString();
     }
 
+    /**
+     * Return the JSON as a formatted (more human-readable) String.
+     *
+     * @return String representation.
+     */
+    public String toPrettyString() {
+        return value == null ? null : value.toPrettyString();
+    }
+
+    /**
+     * Encode a String to replace escape double-quotes so that it can be stuffed into as a part of
+     * JSON string.
+     *
+     * @param s String to encode.
+     * @return Encoded String.
+     */
     public static String encode(String s) {
         if(s.contains("\\")) {
             s = s.replace("\\", "\\\\");
@@ -216,77 +428,45 @@ public class JSON {
         return s;
     }
 
-    private static StringBuilder pretty(String s) {
-        StringBuilder b = new StringBuilder();
-        String tab = "";
-        char c = '\n', previous;
-        boolean insideQuote = false;
-        for(int i = 0; i < s.length(); i++) {
-            previous = c;
-            c = s.charAt(i);
-            if(insideQuote) {
-                b.append(c);
-                if(previous != '\\' && c == '"') {
-                    insideQuote = false;
-                }
-                continue;
-            }
-            if(c == '"') {
-                insideQuote = true;
-                if(previous == '\n') {
-                    b.append(tab);
-                }
-                b.append(c);
-                continue;
-            }
-            if(c == ' ') {
-                continue;
-            }
-            if(c == ',') {
-                if(previous == '\n') {
-                    b.deleteCharAt(b.length() - 1);
-                }
-                b.append(c).append(c = '\n');
-                continue;
-            }
-            if(c == ':') {
-                b.append(": ");
-                c = ' ';
-                continue;
-            }
-            if(c == '{' || c == '[') {
-                if(previous == '\n') {
-                    b.append(tab);
-                } else if(previous != ' ') {
-                    b.append(' ');
-                }
-                b.append(c).append(c = '\n');
-                tab += "   ";
-                continue;
-            }
-            if(c == '}' || c == ']') {
-                if(tab.length() >= 3) {
-                    tab = tab.substring(0, tab.length() - 3);
-                }
-                if(previous != '\n') {
-                    b.append('\n');
-                }
-                b.append(tab).append(c).append(c = '\n');
-                continue;
-            }
-            if(previous == '\n') {
-                b.append(tab);
-            }
-            b.append(c);
-        }
-        return b;
-    }
-
+    /**
+     * Convert a map to JSON representation.
+     *
+     * @param map Map to convert.
+     * @return String in JSON representation.
+     */
     public static String toString(Map<String, Object> map) {
-        return pretty(new JSON(map).toString()).toString();
+        return new JSON(map).toString();
     }
 
+    /**
+     * Convert a map to formatted JSON representation.
+     *
+     * @param map Map to convert.
+     * @return String in JSON representation.
+     */
+    public static String toPrettyString(Map<String, Object> map) {
+        return new JSON(map).toPrettyString();
+    }
+
+    /**
+     * Convert a map to JSON representation and write to a given Writer.
+     *
+     * @param map Map to convert.
+     * @param writer Writer to write to.
+     * @throws IOException If writing fails.
+     */
     public static void write(Map<String, Object> map, Writer writer) throws IOException {
         writer.write(new JSON(map).toString());
+    }
+
+    /**
+     * Convert a map to formatted JSON representation and write to a given Writer.
+     *
+     * @param map Map to convert.
+     * @param writer Writer to write to.
+     * @throws IOException If writing fails.
+     */
+    public static void prettyWrite(Map<String, Object> map, Writer writer) throws IOException {
+        writer.write(new JSON(map).toPrettyString());
     }
 }
