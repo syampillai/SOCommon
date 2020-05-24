@@ -21,8 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A simple wrapper around JSON processing classes. Developers can rely on this class rather than delving into
@@ -96,21 +95,25 @@ public class JSON {
     }
 
     /**
-     * Construct JSON from a map.
+     * Construct JSON from an Object that could hopefully parsed into a JSON compatible String. Typically, it could be
+     * a {@link Map} or some sort of an array or collection. It could also be a standalone object that can be converted
+     * to a valid JSON string.
      *
-     * @param map JSON to construct from this map.
+     * @param object JSON to construct from this Object.
      */
-    public JSON(Map<String, Object> map) {
-        set(map);
+    public JSON(Object object) {
+        set(object);
     }
 
     /**
-     * Set from a map.
+     * Set JSON from an Object that could hopefully parsed into a JSON compatible String. Typically, it could be
+     * a {@link Map} or some sort of an array or collection. It could also be a standalone object that can be converted
+     * to a valid JSON string.
      *
-     * @param map JSON to set from this map.
+     * @param object JSON to construct from this Object.
      */
-    public void set(Map<String, Object> map) {
-        value = mapper.valueToTree(map);
+    public void set(Object object) {
+        value = mapper.valueToTree(object);
     }
 
     /**
@@ -147,10 +150,7 @@ public class JSON {
             return;
         }
         value = mapper.readTree(reader);
-        try {
-            reader.close();
-        } catch(Exception ignore) {
-        }
+        IO.close(reader);
     }
 
     /**
@@ -250,7 +250,7 @@ public class JSON {
             return null;
         }
         JsonNode node = value.get(n);
-        return node.isMissingNode() ? null : new JSON(node);
+        return node == null || node.isMissingNode() ? null : new JSON(node);
     }
 
     /**
@@ -265,7 +265,7 @@ public class JSON {
             return null;
         }
         JsonNode node = value.get(key);
-        return node.isMissingNode() ? null : new JSON(node);
+        return node == null || node.isMissingNode() ? null : new JSON(node);
     }
 
     /**
@@ -325,14 +325,14 @@ public class JSON {
             return null;
         }
         JsonNode v = value.get(key);
-        if(v.isMissingNode() || !v.isArray()) {
+        if(v == null || v.isMissingNode() || !v.isArray()) {
             return null;
         }
         if(n >= v.size()) {
             return null;
         }
         v = v.get(n);
-        return v.isMissingNode() ? null : v;
+        return v == null || v.isMissingNode() ? null : v;
     }
 
     /**
@@ -468,5 +468,103 @@ public class JSON {
      */
     public static void prettyWrite(Map<String, Object> map, Writer writer) throws IOException {
         writer.write(new JSON(map).toPrettyString());
+    }
+
+    /**
+     * Create a JSON structure from JSS (JavaScript Structure). A JavaScript structure looks similar to JSON string with
+     * some differences: (a) Keys are not in double-quotes, (b) String values may use single-quotes or double-quotes.
+     * This method inserts double-quotes around the keys and all single-quotes will be replaced with double-quotes. For
+     * escaping literal single-quotes, you should use a '\' character (backslash) just before the single-quote
+     * character. In fact, any character following the backslash character will be copied to the output without any
+     * special processing. Example of a JSS is: { person: { name: 'Syam Pillai', age: 25 } }
+     *
+     * @param jss JSS string.
+     * @return JSON created from the parsed JSS.
+     * @throws IOException If any exception happens while parsing.
+     */
+    public static JSON fromJSS(String jss) throws IOException {
+        if(jss != null) {
+            jss = jss.trim();
+            if(jss.isEmpty()) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        if(!(jss.startsWith("[") || jss.startsWith("{"))) {
+            jss = "{" + jss + "}";
+        }
+        StringBuilder sb = new StringBuilder();
+        String delimiters = "[]{}:,\r\n\t'\\ ";
+        String ptoken = "", token, word = null;
+        char c;
+        boolean backslash = false;
+        StringTokenizer st = new StringTokenizer(jss, delimiters, true);
+        while (st.hasMoreTokens()) {
+            token = st.nextToken();
+            if(token.length() == 1) {
+                c = token.charAt(0);
+                if(backslash) {
+                    backslash = false;
+                    if(word != null) {
+                        sb.append(word);
+                        word = null;
+                    }
+                    sb.append(c);
+                    continue;
+                }
+                if(c == '\\') {
+                    backslash = true;
+                    continue;
+                }
+                if(c == '\r') {
+                    continue;
+                }
+                if(c == ':') {
+                    if(word != null) {
+                        if(!word.startsWith("\"")) {
+                            sb.append('"');
+                        }
+                        sb.append(word);
+                        if(!word.endsWith("\"")) {
+                            sb.append('"');
+                        }
+                        word = null;
+                    }
+                }
+                if(Character.isWhitespace(c)) {
+                    if(ptoken.equals(token)) {
+                        continue;
+                    }
+                    ptoken = token;
+                    sb.append(' ');
+                    continue;
+                }
+                if(word != null) {
+                    sb.append(word);
+                    word = null;
+                }
+                if(c == '\'') {
+                    c = '"';
+                }
+                sb.append(c);
+                ptoken = token;
+                continue;
+            }
+            if(word != null) {
+                sb.append(word);
+            }
+            if(backslash) {
+                backslash = false;
+                sb.append(token.charAt(0));
+                token = token.substring(1);
+            }
+            word = token;
+            ptoken = token;
+        }
+        if(word != null) {
+            sb.append(word);
+        }
+        return new JSON(sb.toString());
     }
 }
