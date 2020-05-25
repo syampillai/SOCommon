@@ -11,7 +11,7 @@ I have added new classes recently whenever new requirements came up. Whenever
 some new methods are added to the existing classes or whenever new features are
 added to the existing methods, I tried to revamp the existing code
 (and documentaion) to use the latest Java features. I know that full-fledged
-documentation is missing in many classes but I will be adding it as and when
+documentation is missing in many classes but I will be adding it as and when I
 get some free time.
 
 [![](https://jitpack.io/v/syampillai/SOCommon.svg)](https://jitpack.io/#syampillai/SOCommon)
