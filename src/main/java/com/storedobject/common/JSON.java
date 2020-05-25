@@ -471,11 +471,12 @@ public class JSON {
     }
 
     /**
-     * Create a JSON structure from JSS (JavaScript Structure). A JavaScript structure looks similar to JSON string with
-     * some differences: (a) Keys are not in double-quotes, (b) String values may use single-quotes or double-quotes.
-     * This method inserts double-quotes around the keys and all single-quotes will be replaced with double-quotes. For
-     * escaping literal single-quotes, you should use a '\' character (backslash) just before the single-quote
-     * character. In fact, any character following the backslash character will be copied to the output without any
+     * Create JSON from JSS (JavaScript Structure). A JavaScript structure looks similar to JSON string with
+     * some differences: (a) Keys are not in double-quotes, (b) String values may use single-quotes or double-quotes,
+     * (c) Extraneous commas may be there after the last items. This method (a) inserts double-quotes around the keys,
+     * (b) replaces single-quotes with double-quotes and (c) removes extraneous commas. For escaping literal
+     * single-quotes or double-quotes, you should use a '\' character (backslash) just before it.
+     * In fact, any character following the backslash character will be copied to the output without any
      * special processing. Example of a JSS is: { person: { name: 'Syam Pillai', age: 25 } }
      *
      * @param jss JSS string.
@@ -483,6 +484,23 @@ public class JSON {
      * @throws IOException If any exception happens while parsing.
      */
     public static JSON fromJSS(String jss) throws IOException {
+        jss = parseJSS(jss);
+        return jss == null ? new JSON() : new JSON(jss);
+    }
+
+    /**
+     * Parse a JSS (JavaScript Structure) string to a JSON compatible string. A JavaScript structure looks similar to
+     * JSON string with some differences: (a) Keys are not in double-quotes, (b) String values may use single-quotes
+     * or double-quotes, (c) Extraneous commas may be there after the last items. This method (a) inserts double-quotes
+     * around the keys, (b) replaces single-quotes with double-quotes and (c) removes all extraneous commas.
+     * For escaping literal single-quotes or double-quotes, you should use a '\' character (backslash)
+     * just before it. In fact, any character following the backslash character will be copied to the output
+     * without any special processing. Example of a JSS is: { person: { name: 'Syam Pillai', age: 25 } }
+     *
+     * @param jss JSS string.
+     * @return A JSON compatible string.
+     */
+    public static String parseJSS(String jss) {
         if(jss != null) {
             jss = jss.trim();
             if(jss.isEmpty()) {
@@ -495,10 +513,10 @@ public class JSON {
             jss = "{" + jss + "}";
         }
         StringBuilder sb = new StringBuilder();
-        String delimiters = "[]{}:,\r\n\t'\\ ";
-        String ptoken = "", token, word = null;
+        String delimiters = "[]{}:,\r\n\t\"'\\ ";
+        String token, word = null;
         char c;
-        boolean backslash = false;
+        boolean backslash = false, quote = false, comma = false;
         StringTokenizer st = new StringTokenizer(jss, delimiters, true);
         while (st.hasMoreTokens()) {
             token = st.nextToken();
@@ -520,6 +538,16 @@ public class JSON {
                 if(c == '\r') {
                     continue;
                 }
+                if(quote) {
+                    if(c == '\'' || c == '"') {
+                        quote = false;
+                    } else {
+                        sb.append(c);
+                        continue;
+                    }
+                } else if(c == '\'' || c == '"') {
+                    quote = true;
+                }
                 if(c == ':') {
                     if(word != null) {
                         if(!word.startsWith("\"")) {
@@ -533,11 +561,6 @@ public class JSON {
                     }
                 }
                 if(Character.isWhitespace(c)) {
-                    if(ptoken.equals(token)) {
-                        continue;
-                    }
-                    ptoken = token;
-                    sb.append(' ');
                     continue;
                 }
                 if(word != null) {
@@ -547,24 +570,42 @@ public class JSON {
                 if(c == '\'') {
                     c = '"';
                 }
-                sb.append(c);
-                ptoken = token;
-                continue;
+                if(comma) {
+                    switch (c) {
+                        case ']':
+                        case '}':
+                            break;
+                        default:
+                            sb.append(',');
+                    }
+                }
+                comma = c == ',';
+                if(!comma) {
+                    sb.append(c);
+                }
+            } else {
+                if(comma) {
+                    sb.append(',');
+                    comma = false;
+                }
+                if (word != null) {
+                    sb.append(word);
+                }
+                if(quote) {
+                    sb.append(token);
+                    continue;
+                }
+                if (backslash) {
+                    backslash = false;
+                    sb.append(token.charAt(0));
+                    token = token.substring(1);
+                }
+                word = token;
             }
-            if(word != null) {
-                sb.append(word);
-            }
-            if(backslash) {
-                backslash = false;
-                sb.append(token.charAt(0));
-                token = token.substring(1);
-            }
-            word = token;
-            ptoken = token;
         }
         if(word != null) {
             sb.append(word);
         }
-        return new JSON(sb.toString());
+        return sb.toString();
     }
 }
