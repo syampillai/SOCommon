@@ -1,5 +1,5 @@
 # SOCommon
-##Common utility classes in Java.
+## Common utility classes in Java.
 
 Quite a lot of these classes were written a long time ago (in the 2nd half of the 1990s) and thus, date back to
 the initial versions of Java. Apache, Google etc. were not there in those days and free class libraries were not available like today.
