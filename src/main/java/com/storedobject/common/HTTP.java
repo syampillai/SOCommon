@@ -22,9 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
@@ -39,7 +37,11 @@ import javax.net.ssl.SSLSocketFactory;
  */
 public class HTTP {
 
-    private HttpURLConnection connection;
+    private final static CookieManager cookieManager = new CookieManager();
+    static {
+        CookieHandler.setDefault(cookieManager);
+    }
+    private final HttpURLConnection connection;
     private boolean allowHTTPErrors = false;
 
     public HTTP(String url) throws Exception {
@@ -56,7 +58,7 @@ public class HTTP {
 
     public HTTP(URL url, boolean post) throws Exception {
         connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("Connection", "close");
+        //connection.setRequestProperty("Connection", "close");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         connection.setRequestProperty("charset", "utf-8");
         connection.setDoInput(true);
@@ -65,6 +67,14 @@ public class HTTP {
         connection.setConnectTimeout(30*1000);
         connection.setReadTimeout(30*1000);
         connection.setRequestMethod(post ? "POST" : "GET");
+    }
+
+    public void setAJAXMode() {
+        connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+    }
+
+    public void setJSONMode() {
+        connection.setRequestProperty("Content-Type", "application/json");
     }
 
     public void setBasicAuthentication(String user, String password) {
@@ -102,11 +112,7 @@ public class HTTP {
     }
 
     public static String encode(String value) {
-        try {
-            return URLEncoder.encode(value, "UTF-8");
-        } catch (UnsupportedEncodingException ignored) {
-        }
-        return value;
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 
     public void post(Map<String, String> parameters) throws Exception {
@@ -144,6 +150,10 @@ public class HTTP {
     public HttpURLConnection getConnection() throws Exception {
         connection.connect();
         return connection;
+    }
+
+    public void close() {
+        connection.disconnect();
     }
 
     public void setHostnameVerifier(HostnameVerifier verifier) {

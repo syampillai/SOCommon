@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Syam Pillai
+ * Copyright 2018-2020 Syam Pillai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,6 +120,7 @@ public class JSON {
      * Set from a String.
      *
      * @param json JSON to set from this String.
+     * @throws IOException If any exception happens while parsing.
      */
     public void set(String json) throws IOException {
         if(json == null) {
@@ -132,6 +133,7 @@ public class JSON {
      * Set from a stream.
      *
      * @param stream JSON to set from this stream.
+     * @throws IOException If any exception happens while parsing.
      */
     public void set(InputStream stream) throws IOException {
         if(stream == null) {
@@ -144,6 +146,7 @@ public class JSON {
      * Set from a Reader.
      *
      * @param reader JSON to set from this Reader.
+     * @throws IOException If any exception happens while parsing.
      */
     public void set(Reader reader) throws IOException {
         if(reader == null) {
@@ -157,6 +160,7 @@ public class JSON {
      * Set from a URL.
      *
      * @param url JSON to set from this URL.
+     * @throws Exception If any exception happens while parsing.
      */
     public void set(URL url) throws Exception {
         if(url == null) {

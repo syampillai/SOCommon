@@ -16,14 +16,30 @@
 
 package com.storedobject.common;
 
+/**
+ * An interface that to defines that a {@link Runnable} class has an "execute" method. This is typically
+ * used in a programming environment where certain "logic" classes need to be asked to "execute" the logic
+ * implemented in it.
+ *
+ * @author Syam
+ */
 @FunctionalInterface
 public interface Executable extends Runnable {
 
+    /**
+     * The functional interface method specified by this interface.
+     */
     void execute();
 
+    /**
+     * The default implementation of of this method invokes {@link #execute()}.
+     */
     default void run() {
         execute();
     }
 
+    /**
+     * The default implementation of of this method invokes {@link #execute()}.
+     */
     default void act() { execute(); }
 }
