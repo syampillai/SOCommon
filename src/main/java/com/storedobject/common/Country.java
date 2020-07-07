@@ -18,8 +18,7 @@ package com.storedobject.common;
 
 import java.util.ArrayList;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 
 /**
  * Representation of a Country.
@@ -372,9 +371,41 @@ public final class Country {
      */
     public Locale getLocale() {
         if(locale == null) {
+            for(Locale loc: Locale.getAvailableLocales()) {
+                if(loc.getCountry().equals(shortName)) {
+                    locale = loc;
+                    break;
+                }
+            }
+        }
+        if(locale == null) {
             locale = new Locale("", shortName);
         }
         return locale;
+    }
+
+    /**
+     * Is the default language of this country is RTL (right-to-left)?
+     *
+     * @return True or false.
+     */
+    public boolean isRTL() {
+        return isRTL(getLocale());
+    }
+
+    private static Pattern RTL;
+
+    /**
+     * Is the language of the given locale is RTL (right-to-left)?
+     *
+     * @param locale Locale.
+     * @return True or false.
+     */
+    public static boolean isRTL(Locale locale) {
+        if(RTL == null) {
+            RTL = Pattern.compile("^(ar|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_](Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))($|-|_)");
+        }
+        return locale != null && RTL.matcher(locale.toLanguageTag()).find();
     }
 
     /**
@@ -430,57 +461,20 @@ public final class Country {
         switch (shortName) {
             case "CA":
                 if(CA == null) {
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add("1 204");
-                    list.add("1 226");
-                    list.add("1 236");
-                    list.add("1 249");
-                    list.add("1 250");
-                    list.add("1 289");
-                    list.add("1 306");
-                    list.add("1 343");
-                    list.add("1 403");
-                    list.add("1 416");
-                    list.add("1 418");
-                    list.add("1 438");
-                    list.add("1 450");
-                    list.add("1 506");
-                    list.add("1 514");
-                    list.add("1 519");
-                    list.add("1 579");
-                    list.add("1 581");
-                    list.add("1 587");
-                    list.add("1 600");
-                    list.add("1 604");
-                    list.add("1 613");
-                    list.add("1 647");
-                    list.add("1 705");
-                    list.add("1 709");
-                    list.add("1 778");
-                    list.add("1 780");
-                    list.add("1 807");
-                    list.add("1 819");
-                    list.add("1 867");
-                    list.add("1 902");
-                    list.add("1 905");
-                    CA = Collections.unmodifiableList(list);
+                    CA = List.of("1 204", "1 226", "1 236", "1 249", "1 250", "1 289", "1 306", "1 343", "1 403",
+                            "1 416", "1 418", "1 438", "1 450", "1 506", "1 514", "1 519", "1 579", "1 581", "1 587",
+                            "1 600", "1 604", "1 613", "1 647", "1 705", "1 709", "1 778", "1 780", "1 807", "1 819",
+                            "1 867", "1 902", "1 905");
                 }
                 return CA;
             case "PR":
                 if(PR == null) {
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add("1 787");
-                    list.add("1 939");
-                    PR = Collections.unmodifiableList(list);
+                    PR = List.of("1 787", "1 939");
                 }
                 return PR;
             case "DO":
                 if(DO == null) {
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add("1 809");
-                    list.add("1 829");
-                    list.add("1 849");
-                    DO = Collections.unmodifiableList(list);
+                    DO = List.of("1 809", "1 829", "1 849");
                 }
                 return DO;
         }
