@@ -352,7 +352,19 @@ public final class Country {
         if("XK".equals(shortName)) {
             return "Kosovo";
         }
-        return getLocale().getDisplayName(Locale.ENGLISH);
+        return getLocale() == null ? shortName : locale.getDisplayCountry(Locale.ENGLISH);
+    }
+
+    private Locale getLocale() {
+        if(locale == null) {
+            for(Locale loc : Locale.getAvailableLocales()) {
+                if(loc.getCountry().equals(shortName)) {
+                    locale = loc;
+                    break;
+                }
+            }
+        }
+        return locale;
     }
 
     /**
@@ -365,23 +377,20 @@ public final class Country {
     }
 
     /**
-     * Get the {@link Locale} of the country (with default language).
+     * Get the {@link Locale}s of the country.
      *
-     * @return Locale.
+     * @return List pf locales.
      */
-    public Locale getLocale() {
-        if(locale == null) {
-            for(Locale loc: Locale.getAvailableLocales()) {
-                if(loc.getCountry().equals(shortName)) {
-                    locale = loc;
-                    break;
-                }
+    public List<Locale> getLocales() {
+        ArrayList<Locale> locales = new ArrayList<>();
+        for(Locale loc: Locale.getAvailableLocales()) {
+            if(loc.getCountry().equals(shortName)) {
+                locales.add(loc);
+                locale = loc;
+                break;
             }
         }
-        if(locale == null) {
-            locale = new Locale("", shortName);
-        }
-        return locale;
+        return locales;
     }
 
     /**
@@ -390,7 +399,7 @@ public final class Country {
      * @return True or false.
      */
     public boolean isRTL() {
-        return isRTL(getLocale());
+        return getLocales().stream().anyMatch(Country::isRTL);
     }
 
     private static Pattern RTL;
@@ -417,7 +426,7 @@ public final class Country {
         if("XK".equals(shortName)) {
             return "XKX";
         }
-        return getLocale().getISO3Country();
+        return getLocale() == null ? shortName : locale.getISO3Country();
     }
 
     /**
@@ -426,12 +435,7 @@ public final class Country {
      * @return Country's name in local language.
      */
     public String getLocalName() {
-        for(Locale locale: Locale.getAvailableLocales()) {
-            if(locale.getCountry().equals(shortName)) {
-                return locale.getDisplayCountry(locale);
-            }
-        }
-        return getName();
+        return getLocale() == null ? getName() : locale.getDisplayName(locale);
     }
 
     /**

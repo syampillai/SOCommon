@@ -16,21 +16,15 @@
 
 package com.storedobject.common;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSocketFactory;
 
 /**
  * Simple HTTP utility
@@ -39,6 +33,7 @@ public class HTTP {
 
     private final static CookieManager cookieManager = new CookieManager();
     static {
+        System.setProperty("jsse.enableSNIExtension", "false"); // Workaround
         CookieHandler.setDefault(cookieManager);
     }
     private final HttpURLConnection connection;
