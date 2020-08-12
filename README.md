@@ -6,12 +6,28 @@ the initial versions of Java. Apache, Google etc. were not there in those days a
 That is the reason why you see a lot of classes and methods that are already available now
 in many of the standard free packages still exist in this class library too.
 
-However, most of these classes are used in Production enviroments and 
+However, most of these classes are used in Production environments and 
 I have added new classes recently whenever new requirements came up. Whenever
 some new methods are added to the existing classes or whenever new features are
 added to the existing methods, I tried to revamp the existing code
-(and documentaion) to use the latest Java features. I know that full-fledged
+(and documentation) to use the latest Java features. I know that full-fledged
 documentation is missing in many classes but I will be adding it as and when I
 get some free time.
 
-[![](https://jitpack.io/v/syampillai/SOCommon.svg)](https://jitpack.io/#syampillai/SOCommon)
+### Maven
+
+```
+<repositories>
+    <repository>
+        <id>github</id>
+        <url>https://maven.pkg.github.com/syampillai/SOCommon</url>
+    </repository>
+</repositories>
+```
+```
+<dependency>
+  <groupId>com.storedobject</groupId>
+  <artifactId>so-common</artifactId>
+  <version>3.2.8</version>
+</dependency>
+```
