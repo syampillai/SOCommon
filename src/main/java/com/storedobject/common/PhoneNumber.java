@@ -110,13 +110,30 @@ public final class PhoneNumber {
                 return phone.startsWith("+923") ? 12 : 11;
             case "GE":
             case "IN":
+            case "IR":
                 return 12;
+            case "SG":
+                return 10;
             case "CH":
             case "HK":
             case "ZA":
+            case "KW":
+            case "OM":
+            case "QA":
+            case "NP":
                 return 11;
             case "UK":
                 return -11;
+            case "MY": // Malaysia
+                if(phone.startsWith("+6011")) {
+                    return 12;
+                }
+                if(phone.startsWith("+601") || phone.startsWith("+603")) {
+                    return 11;
+                }
+                return 10;
+            case "CN":
+                return 13;
         }
         int d = 0;
         for(String code: country.listISDPrefix()) {

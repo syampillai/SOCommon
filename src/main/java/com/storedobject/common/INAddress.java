@@ -27,7 +27,7 @@ package com.storedobject.common;
 public final class INAddress extends Address {
 
     private static final int POS_STATE = 1, POS_DISTRICT = 2, POS_PO = 3;
-    private static String[] states = new String[] {
+    private static final String[] states = new String[] {
             "Andra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattishgarh",
             "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
             "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madya Pradesh", "Maharashtra",
@@ -36,7 +36,7 @@ public final class INAddress extends Address {
             "West Bengal", "Andaman and Nicobar", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu",
             "Lakhshadweep", "National Capital Territory of Delhi", "Pondicherry"
     };
-    private static String[][] districts = new String[][] {
+    private static final String[][] districts = new String[][] {
             { // Andra Pradesh
                 "Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Prakasam",
                     "Sri Potti Sriramulu (Nellore)", "Srikakulam", "Visakhapatnam", "Vizianagaram",
@@ -254,11 +254,6 @@ public final class INAddress extends Address {
 
     @Override
     public int getExtraLines() {
-        return 3;
-    }
-
-    @Override
-    public int getReservedLines() {
         return 3;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Syam Pillai
+ * Copyright (c) 2018-2020 Syam Pillai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,36 +17,42 @@
 package com.storedobject.common;
 
 /**
- * Generic address.
+ * ID Address<BR>
  *
  * @author Syam
  */
-public class XXAddress extends Address {
+public class LKAddress extends XXAddress {
 
-    XXAddress() {
-    }
-
-    @Override
-    boolean parse() throws SOException {
-        return true;
+    LKAddress() {
     }
 
     @Override
     public int getExtraLines() {
-        return 2;
+        return 0;
     }
 
-    /**
-     * Get the caption for the extra line. If returned <code>null</code>, the line value will be ignored by the UI.
-     *
-     * @param index Index.
-     * @return Caption for the extra line.
-     */
-    public String getLineCaption(int index) {
-        int n = getExtraLines();
-        if(index < 0 || index >= n) {
-            return null;
-        }
-        return "Address Line (" + (index + 1) + ")";
+    @Override
+    boolean checkPostalCode() {
+        return postalCode > 0;
+    }
+
+    @Override
+    int postalCodePosition() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    String postalCodePrefix() {
+        return "";
+    }
+
+    @Override
+    public String getPostalCodeCaption() {
+        return "Postcode";
+    }
+
+    @Override
+    public String getAreaCaption() {
+        return "Town";
     }
 }

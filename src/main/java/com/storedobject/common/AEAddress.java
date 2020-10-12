@@ -16,9 +16,6 @@
 
 package com.storedobject.common;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * AE Address<BR>
  * line[0]: Code for the emirate (0: Abu Dhabi, 1: Dubai, 2: Sharjah, 3: Ajman,  4: Um Al Quwain, 5: Ras Al Khaimah, 6: Fujairah)<BR>
@@ -42,11 +39,6 @@ public final class AEAddress extends Address {
 
     @Override
     public int getExtraLines() {
-        return 1;
-    }
-
-    @Override
-    public int getReservedLines() {
         return 1;
     }
 

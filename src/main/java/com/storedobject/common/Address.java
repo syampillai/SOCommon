@@ -110,17 +110,22 @@ public abstract class Address {
      * @throws SOException If the email format is not valid
      */
     public static String check(String address, boolean allowEmpty) throws SOException {
-        if(StringUtility.isWhite(address)) {
-            if(allowEmpty) {
-                return "";
+        try {
+            if(StringUtility.isWhite(address)) {
+                if(allowEmpty) {
+                    return "";
+                }
+                throw new SOException("Empty address");
             }
-            throw new SOException("Empty address");
+            Address a = checkAddress(address, true);
+            if(!a.valid) {
+                throw new SOException(INVALID + address);
+            }
+            return a.encode();
+        } catch(SOException eee) {
+            eee.printStackTrace();
+            throw  eee;
         }
-        Address a = checkAddress(address);
-        if(!a.valid) {
-            throw new SOException(INVALID + address);
-        }
-        return a.encode();
     }
 
     private static void error(String address, String error) throws SOException {
@@ -131,7 +136,7 @@ public abstract class Address {
         throw new SOException(err);
     }
 
-    private static Address checkAddress(String address) throws SOException {
+    private static Address checkAddress(String address, boolean parse) throws SOException {
         address = address.trim();
         String[] lines = address.split("\\r?\\n");
         StringUtility.trim(lines);
@@ -177,40 +182,29 @@ public abstract class Address {
             }
             a.setPostalCode(a.postalCode);
         }
-        int n = a.lines.length, m = lines.length, r = a.getReservedLines();
-        while(n > 0) {
-            --n;
-            --m;
-            if(m > 3) {
-                a.lines[n] = lines[m];
-            } else {
-                if(r <= 0) {
-                    a.lines[n] = "";
-                } else {
-                    if(!a.areaName.isEmpty()) {
-                        a.lines[n] = a.areaName;
-                        a.areaName = "";
-                    } else if(!a.streetName.isEmpty()) {
-                        a.lines[n] = a.streetName;
-                        a.streetName = "";
-                    } else {
-                        a.lines[n] = "";
-                    }
-                }
-            }
-            --r;
+        int m = 6;
+        for(int i = 0; i < a.lines.length; i++) {
+            a.lines[i] = m < lines.length ? lines[m] : "";
+            ++m;
         }
         try {
             a.parse();
             if(!a.checkPostalCode()) {
                 a.valid = false;
-                error(address, a.getPostalCodeCaption());
+                if(parse) {
+                    error(address, a.getPostalCodeCaption());
+                }
             }
         } catch (SOException soerror) {
-            error(address, soerror.getMessage());
+            a.valid = false;
+            if(parse) {
+                error(address, soerror.getMessage());
+            }
         } catch (Throwable error) {
-            error.printStackTrace();
-            throw new SOException(INVALID + address, error);
+            a.valid = false;
+            if(parse) {
+                throw new SOException(INVALID + address, error);
+            }
         }
         return a;
     }
@@ -220,10 +214,21 @@ public abstract class Address {
      *
      * @return True or false.
      */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public final boolean isValid() {
+        try {
+            validate();
+        } catch (Throwable ignored) {
+        }
+        return valid;
+    }
+
+    /**
+     * Validate the address.
+     *
+     * @throws Exception if invalid.
+     */
+    public final void validate() throws Exception {
         if(!valid) {
-            valid = true;
             if(areaName == null) {
                 setAreaName("");
             }
@@ -236,12 +241,14 @@ public abstract class Address {
             if(apartmentName == null) {
                 setApartmentName("");
             }
-            try {
-                valid = valid && checkPostalCode() && parse();
-            } catch (Throwable ignored) {
+            if(!checkPostalCode()) {
+                throw new SOException("Invalid " + getPostalCodeCaption());
             }
+            valid = parse();
         }
-        return valid;
+        if(!valid) {
+            throw new SOException("Invalid address");
+        }
     }
 
     /**
@@ -259,20 +266,13 @@ public abstract class Address {
         setAreaName(address.areaName);
         setPOBox(address.poBox);
         setPostalCode(address.postalCode);
-        int n = getExtraLines(), m = address.lines.length;
-        lines = new String[n];
-        while (n > 0) {
-            --n;
-            --m;
-            try {
-                lines[n] = m >= 0 ? address.convert(m) : "";
-            } catch (Throwable e) {
-                lines[n] = "";
-            }
+        lines = new String[getExtraLines()];
+        for(int i = 0; i < lines.length; i++) {
+            lines[i] = i < address.lines.length ? address.lines[i] : "";
         }
         try {
             valid = valid && checkPostalCode() && parse();
-        } catch (Throwable ignored) {
+        } catch (Throwable e) {
             valid = false;
         }
         return valid;
@@ -289,7 +289,7 @@ public abstract class Address {
             return null;
         }
         try {
-            return checkAddress(address);
+            return checkAddress(address, false);
         } catch (Throwable ignored) {
         }
         return null;
@@ -399,7 +399,11 @@ public abstract class Address {
             }
             if(poBox > 0 && pbPos >= 0 && i >= pbPos) {
                 pbPos = Integer.MIN_VALUE;
-                s.append(getPOBoxName()).append(' ').append(poBox).append('\n');
+                String pb = poBoxPrefix();
+                if(!pb.isEmpty()) {
+                    s.append(pb).append(' ');
+                }
+                s.append(poBox).append(poBoxSuffix()).append('\n');
             }
             if(postalCode > 0 && pinPos >= 0 && i >= pinPos) {
                 pinPos = Integer.MIN_VALUE;
@@ -462,7 +466,7 @@ public abstract class Address {
     }
 
     /**
-     * Parse the address.
+     * Parse the address for the extra lines part.
      *
      * @return True if successful.
      * @throws SOException If any errors.
@@ -480,18 +484,8 @@ public abstract class Address {
         return 0;
     }
 
-
     /**
-     * Get the number of reserved lines (that will be manipulated by program code only).
-     *
-     * @return Number of reserved lines in the address.
-     */
-    public int getReservedLines() {
-        return 0;
-    }
-
-    /**
-     * Get a specific line from the extra lines of the address.
+     * Get a specific line from the extra lines of the address for printing/displaying.
      *
      * @param lineNumber Line number
      * @return Line.
@@ -609,7 +603,7 @@ public abstract class Address {
     }
 
     /**
-     * Get a line from the address.
+     * Get a line (extra line) from the address.
      *
      * @param lineNumber Line number
      * @return Line if exists, else null.
@@ -619,10 +613,10 @@ public abstract class Address {
     }
 
     /**
-     * Set an address line.
+     * Set an address line (extra line).
      *
-     * @param lineNumber Line number
-     * @param line Value to be set
+     * @param lineNumber Line number.
+     * @param line Value to be set.
      */
     public void setLine(int lineNumber, String line) {
         if(lineNumber >= 0 && lineNumber < lines.length) {
@@ -812,6 +806,24 @@ public abstract class Address {
      */
     public final int getPOBox() {
         return poBox;
+    }
+
+    /**
+     * Prefix to be used when printing the PO box.
+     *
+     * @return By default, {@link #getPOBoxName()} is returned.
+     */
+    public String poBoxPrefix() {
+        return getPOBoxName();
+    }
+
+    /**
+     * Suffix to be used when printing the PO box.
+     *
+     * @return By default, an empty string is returned.
+     */
+    public String poBoxSuffix() {
+        return "";
     }
 
     /**

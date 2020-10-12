@@ -17,7 +17,7 @@
 package com.storedobject.common;
 
 /**
- * This interface defines a string value for anthing to store it somewhere, typically, in databases. Storable value
+ * This interface defines a string value of something that is stored somewhere, typically, in databases. Storable value
  * should contain all the information required to re-construct the object's instance.
  *
  * @author Syam
@@ -25,7 +25,7 @@ package com.storedobject.common;
 public interface Storable {
 
     /**
-     * Get the storable value. Bu default, {@link Object#toString()} is retuned.
+     * Get the storable value. By default, {@link Object#toString()} is returned.
      *
      * @return Storable value as a string.
      */

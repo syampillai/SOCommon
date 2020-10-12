@@ -27,10 +27,10 @@ package com.storedobject.common;
 public final class PKAddress extends Address {
 
     private final int POS_PROVINCE = 1, POS_DISTRICT = 2, POS_PLACE = 3;
-    private static String[] provinces = new String[] {
+    private static final String[] provinces = new String[] {
             "Balochistan", "FATA", "Islamabad", "Khyber Pakhtunkhwa", "Punjab", "Sindh"
     };
-    private static String[][] districts = new String[][]{
+    private static final String[][] districts = new String[][]{
             { // Balochistan
                 "Awaran", "Barkhan", "Chagai", "Dera Bugti", "Gwadar", "Harnai", "Jaffarabad", "Jhal Magsi",
                     "Kachhi (Bolan)", "Kalat", "Kech", "Kharan", "Khuzdar", "Killa Abdullah", "Killa Saifullah",
@@ -84,11 +84,6 @@ public final class PKAddress extends Address {
     @Override
     public int getExtraLines() {
         return 3;
-    }
-
-    @Override
-    public int getReservedLines() {
-        return 2;
     }
 
     @Override
