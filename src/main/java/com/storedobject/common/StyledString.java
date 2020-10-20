@@ -33,13 +33,15 @@ public class StyledString implements StyledBuilder {
 
     @Override
     public StyledBuilder newLine(boolean forceIt) {
-        if(!forceIt) {
-            if(isEmpty() || s.charAt(s.length() - 1) == '\n') {
-                return this;
-            }
+        if(forceIt || !isNewLine()) {
+            s.append('\n');
         }
-        s.append('\n');
         return this;
+    }
+
+    @Override
+    public boolean isNewLine() {
+        return s.length() == 0 || s.charAt(s.length() - 1) == '\n';
     }
 
     public String toString() {

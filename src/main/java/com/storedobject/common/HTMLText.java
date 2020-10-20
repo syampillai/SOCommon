@@ -18,16 +18,30 @@ package com.storedobject.common;
 
 import java.util.Date;
 
+/**
+ * Build HTML text.
+ *
+ * @author Syam
+ */
 public class HTMLText implements StyledBuilder {
 
     private static final String space = "&nbsp;";
     protected final StringBuilder value = new StringBuilder();
     private boolean newline = true;
 
+    /**
+     * Constructor.
+     */
     public HTMLText() {
         this(null);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param object Object to be added.
+     * @param style Styles to be set.
+     */
     public HTMLText(Object object, String... style) {
         append(object, style);
     }
@@ -37,14 +51,31 @@ public class HTMLText implements StyledBuilder {
         return value.toString();
     }
 
+    /**
+     * Get the current text of the HTML.
+     *
+     * @return Current text.
+     */
     public StringBuilder getText() {
         return value;
     }
 
+    /**
+     * Set text.
+     *
+     * @param text Text to be set.
+     * @param style Style to be applied.
+     */
     public void setText(String text, String... style) {
         setValue(text, style);
     }
 
+    /**
+     * Encode an object as an HTML string. (The string representation of the object is encoded).
+     *
+     * @param object Object to be encoded.
+     * @return Encoded string.
+     */
     public static String encode(Object object) {
         if(object == null) {
             return "";
@@ -59,7 +90,11 @@ public class HTMLText implements StyledBuilder {
         if(text == null) {
             return "";
         }
-        text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&apos;");
+        text = text.replace("&", "&amp;").
+                replace("<", "&lt;").
+                replace(">", "&gt;").
+                replace("\"", "&quot;").
+                replace("'", "&apos;");
         if(text.indexOf('\n') >= 0) {
             text = text.replace("\n", "<BR/>");
         }
@@ -73,6 +108,7 @@ public class HTMLText implements StyledBuilder {
         return text;
     }
 
+    @Override
     public HTMLText newLine(boolean force) {
         if(force || !newline) {
             return newLine();
@@ -80,18 +116,25 @@ public class HTMLText implements StyledBuilder {
         return this;
     }
 
+    @Override
     public HTMLText newLine() {
         value.append("<BR/>");
         newline = true;
         return this;
     }
 
+    /**
+     * Append a line using the <HR> tag.
+     *
+     * @return Self-reference is returned.
+     */
     public HTMLText drawLine() {
         value.append("<HR/>");
         newline = true;
         return this;
     }
 
+    @Override
     public HTMLText append(Object object, String color) {
         if(color == null) {
             return append(object);
@@ -99,6 +142,7 @@ public class HTMLText implements StyledBuilder {
         return append(object, new String[] { color });
     }
 
+    @Override
     public HTMLText append(Object object, String... style) {
         if(object == null && style.length == 0) {
             return this;
@@ -112,36 +156,51 @@ public class HTMLText implements StyledBuilder {
         return this;
     }
 
+    /**
+     * Append valid HTML text.
+     *
+     * @return Self-reference is returned.
+     */
     public HTMLText appendHTML(String html) {
         value.append(html);
         newline = StringUtility.pack(html).toUpperCase().endsWith("<BR/>");
         return this;
     }
 
+    @Override
     public HTMLText clearContent() {
         return clear();
     }
 
+    /**
+     * Clear the content.
+     *
+     * @return Self-reference is returned.
+     */
     public HTMLText clear() {
         newline = true;
         value.delete(0, value.length());
         return this;
     }
 
+    @Override
     public boolean isEmpty() {
         return value.length() == 0;
     }
 
+    @Override
     public boolean isNewLine() {
         return newline;
     }
 
+    /**
+     * Add spaces.
+     *
+     * @param count Number of spaces to be added.
+     * @return Self-reference is returned.
+     */
     public HTMLText space(int count) {
         return append(StringUtility.makeString(count));
-    }
-
-    public void setValue(Object object, String... style) {
-        clear().append(object, style);
     }
 
     private StringBuilder styleS(String[] styles) {
