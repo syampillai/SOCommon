@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -31,7 +32,7 @@ import java.util.TimeZone;
 import static java.util.Calendar.*;
 
 /**
- * Date utility functions.(Old {@link java.util.Date} and its cousin {@link Date} are still used in JDBC access to databases).
+ * Date utility functions.(Old {@link java.util.Date} and its cousin {@link Date} are still used in JDBC).
  *
  * @author Syam
  */
@@ -193,8 +194,23 @@ public class DateUtility {
         return create(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 
+    public static Time createTime(LocalDateTime date) {
+        Date d = create(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+        return time(d.getTime() + date.getHour() * 3600000L + date.getMinute() * 60000L + date.getSecond() * 1000L);
+    }
+
+    public static Timestamp createTimestamp(LocalDateTime date) {
+        Date d = create(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+        return timestamp(d.getTime() + date.getHour() * 3600000L + date.getMinute() * 60000L + date.getSecond() * 1000L);
+    }
+
     public static <D extends java.util.Date> LocalDate local(D date) {
         return LocalDate.of(getYear(date), getMonth(date), getDay(date));
+    }
+
+    public static <D extends java.util.Date> LocalDateTime localTime(D date) {
+        return LocalDateTime.of(getYear(date), getMonth(date), getDay(date),
+                get(date, HOUR_OF_DAY), get(date, MINUTE), get(date, SECOND), get(date, MILLISECOND));
     }
 
     private static int value(String s) {
@@ -459,6 +475,12 @@ public class DateUtility {
 
     public static <D extends java.util.Date> D addDay(D date, int day) {
         return add(date, DATE, day);
+    }
+
+    public static <D extends java.util.Date> D clone(D date) {
+        D d = cook(date);
+        d.setTime(date.getTime());
+        return d;
     }
 
     public static boolean isLeapYear(int year) {

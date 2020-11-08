@@ -102,16 +102,25 @@ public class StringList implements Iterable<String>, List<String> {
     }
 
     public static StringList create(Collection<String> collection) {
+        if(collection instanceof StringList) {
+            return (StringList) collection;
+        }
         StringList s = new StringList(collection);
         return s.array == empty_array ? EMPTY : s;
     }
 
     public static StringList create(Iterable<String> list) {
+        if(list instanceof StringList) {
+            return (StringList) list;
+        }
         StringList s = new StringList(list);
         return s.array == empty_array ? EMPTY : s;
     }
 
     public static StringList create(Iterator<String> list) {
+        if(list instanceof StringList) {
+            return (StringList) list;
+        }
         StringList s = new StringList(list);
         return s.array == empty_array ? EMPTY : s;
     }
