@@ -33,6 +33,10 @@ import java.nio.file.Path;
  */
 public class IO {
 
+    private static final int DEFAULT_BUFFER_SIZE = 32 * 1024;
+    private static final int MIN_BUFFER_SIZE = 2048;
+    private static final int MAX_BUFFER_SIZE = 64 * 1024;
+
     /**
      * Copy one stream to another. Both the streams will be closed.
      * @param input Source stream
@@ -40,8 +44,20 @@ public class IO {
      * @throws IOException I/O exception
      */
     public static void copy(InputStream input, OutputStream output) throws IOException {
+        copy(input, output, DEFAULT_BUFFER_SIZE);
+    }
+
+    /**
+     * Copy one stream to another. Both the streams will be closed.
+     * @param input Source stream
+     * @param output Destination stream
+     * @param bufferSize Buffer size to use
+     * @throws IOException I/O exception
+     */
+    public static void copy(InputStream input, OutputStream output, int bufferSize) throws IOException {
+        bufferSize = Math.max(Math.min(MAX_BUFFER_SIZE, bufferSize), MIN_BUFFER_SIZE);
         try(InputStream in = get(input); OutputStream out = get(output)) {
-            byte[] buf = new byte[2048];
+            byte[] buf = new byte[bufferSize];
             int r;
             while((r = in.read(buf)) != -1) {
                 out.write(buf, 0, r);
@@ -61,6 +77,21 @@ public class IO {
             copy(input, output);
         } else {
             copy(new NoCloseInputStream(input), new NoCloseOutputStream(output));
+        }
+    }
+
+    /**
+     * Copy one stream to another
+     * @param input Source stream
+     * @param output Destination stream
+     * @param close Whether to close the streams or not
+     * @throws IOException I/O exception
+     */
+    public static void copy(InputStream input, OutputStream output, int bufferSize, boolean close) throws IOException {
+        if(close) {
+            copy(input, output, bufferSize);
+        } else {
+            copy(new NoCloseInputStream(input), new NoCloseOutputStream(output), bufferSize);
         }
     }
 
