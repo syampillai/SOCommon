@@ -16,15 +16,64 @@
 
 package com.storedobject.common;
 
+/**
+ * An interface that defines some sort of data with attributes. Attribute values is gettable and optionally settable.
+ *
+ * @author Syam
+ */
 public interface DataSet {
 
+    /**
+     * Set an attribute value.
+     *
+     * @param key Key of the attribute.
+     * @param value Value to set.
+     */
     void set(String key, Object value);
+
+    /**
+     * Check whether an attribute can be set or not. It is not mandatory that an attribute is settable.
+     *
+     * @param key Key of the attribute.
+     * @return True/false.
+     */
     boolean canSet(String key);
+
+    /**
+     * Get the value for the given attribute.
+     *
+     * @param key Key of the attribute.
+     * @return Value of the attribute.
+     */
     Object get(String key);
+
+    /**
+     * Get the keys a list.
+     *
+     * @return Keys.
+     */
     StringList keys();
+
+    /**
+     * Add an attribute key.
+     *
+     * @param key Key to be added.
+     */
     void add(String key);
+
+    /**
+     * Remove an attribute key.
+     *
+     * @param key Key to be removed.
+     */
     void remove(String key);
 
+    /**
+     * Get the value-type of the given attribute.
+     *
+     * @param key Key of the attribute.
+     * @return Value-type of the attribute.
+     */
     default Class<?> getType(String key) {
         Object v = get(key);
         return v == null ? null : v.getClass();

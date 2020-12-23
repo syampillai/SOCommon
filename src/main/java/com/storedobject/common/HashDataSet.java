@@ -17,15 +17,32 @@
 package com.storedobject.common;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class HashDataSet extends HashMap<String, Object> implements DataSet {
+/**
+ * An implementation of {@link DataSet} using an internal {@link HashMap}.
+ *
+ * @author Syam
+ */
+public class HashDataSet implements DataSet {
 
     private StringList keys;
+    private final Map<String, Object> map = new HashMap<>();
 
+    /**
+     * Constructor.
+     *
+     * @param keys Keys.
+     */
     public HashDataSet(String... keys) {
         this(StringList.create(keys));
     }
 
+    /**
+     * Constructor.
+     *
+     * @param keys Keys.
+     */
     public HashDataSet(StringList keys) {
         this.keys = keys;
     }
@@ -33,7 +50,7 @@ public class HashDataSet extends HashMap<String, Object> implements DataSet {
     @Override
     public void set(String key, Object value) {
         if(canSet(key)) {
-            put(key, value);
+            map.put(key, value);
         }
     }
 
@@ -49,7 +66,7 @@ public class HashDataSet extends HashMap<String, Object> implements DataSet {
 
     @Override
     public Object get(String key) {
-        return super.get(key);
+        return map.get(key);
     }
 
     @Override
@@ -63,6 +80,6 @@ public class HashDataSet extends HashMap<String, Object> implements DataSet {
     @Override
     public void remove(String key) {
         keys = keys.remove(key);
-        super.remove(key);
+        map.remove(key);
     }
 }
