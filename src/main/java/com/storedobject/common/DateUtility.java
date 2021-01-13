@@ -345,7 +345,7 @@ public class DateUtility {
             return null;
         }
         String s = formatWithTime(date);
-        return s.contains("12:00:00 AM") ? format.format(date) : s;
+        return s.contains("12:00:00 AM") || s.contains("00:00:00") ? format.format(date) : s;
     }
 
     public static <D extends java.util.Date> String formatWithTime(D date) {
