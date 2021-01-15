@@ -24,11 +24,11 @@ package com.storedobject.common;
 public interface Displayable {
 
     /**
-     * Convert to a displayable string. The default implementation returns the {@link StringUtility#toString(Object)} value.
+     * Convert to a displayable string. The default implementation returns the {@link StringUtility#toStringInt(Object)} value.
      *
      * @return A displayable string.
      */
     default String toDisplay() {
-        return StringUtility.toString(this);
+        return StringUtility.toStringInt(this);
     }
 }

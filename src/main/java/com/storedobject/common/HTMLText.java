@@ -16,8 +16,6 @@
 
 package com.storedobject.common;
 
-import java.util.Date;
-
 /**
  * Build HTML text.
  *
@@ -80,13 +78,7 @@ public class HTMLText implements StyledBuilder {
         if(object == null) {
             return "";
         }
-        if(object instanceof StyledBuilder) {
-            return object.toString();
-        }
-        if(object instanceof Date) {
-            return DateUtility.formatDate((Date)object);
-        }
-        String text = object.toString();
+        String text = StringUtility.toString(object);
         if(text == null) {
             return "";
         }
@@ -146,9 +138,6 @@ public class HTMLText implements StyledBuilder {
     public HTMLText append(Object object, String... style) {
         if(object == null && style.length == 0) {
             return this;
-        }
-        if(object instanceof Boolean) {
-            object = (Boolean) object ? "Yes" : "No";
         }
         String text = encode(object);
         newline = StringUtility.pack(text).toUpperCase().endsWith("<BR/>");

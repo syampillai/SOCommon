@@ -2184,6 +2184,13 @@ public class StringUtility {
     }
 
     public static String toString(Object message) {
+        if(message instanceof Displayable) {
+            return ((Displayable)message).toDisplay();
+        }
+        return toStringInt(message);
+    }
+
+    static String toStringInt(Object message) {
         if(message == null) {
             return "[No data]";
         }
@@ -2196,9 +2203,6 @@ public class StringUtility {
         }
         if(message instanceof String) {
             return (String)message;
-        }
-        if(message instanceof Displayable) {
-            return ((Displayable)message).toDisplay();
         }
         if(message instanceof java.sql.Time) {
             return DateUtility.timeFormat().format((java.sql.Time)message);
