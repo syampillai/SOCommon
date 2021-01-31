@@ -33,7 +33,7 @@ public interface Reentrant extends Executable {
      *
      * @return Default implementation always returns <code>true</code>.
      */
-    default boolean isRenetrant() {
+    default boolean isReentrant() {
         return true;
     }
 }
