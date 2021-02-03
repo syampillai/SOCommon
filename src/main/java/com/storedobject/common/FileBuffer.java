@@ -308,10 +308,7 @@ public class FileBuffer implements ResourceOwner {
         } catch(Exception e) {
             f.created = -1;
         } finally {
-            try {
-                f.indexOut.close();
-            } catch (IOException ignored) {
-            }
+            IO.close(f.indexOut);
             if(f.created != 1) {
                 f.indexFile.delete();
                 f = null;
@@ -331,12 +328,7 @@ public class FileBuffer implements ResourceOwner {
             file.close();
             writable = true;
         } catch(Exception e) {
-            if(file != null) {
-                try {
-                    file.close();
-                } catch(IOException ignore) {
-                }
-            }
+            IO.close(file);
             close();
         }
     }

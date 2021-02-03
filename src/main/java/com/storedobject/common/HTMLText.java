@@ -196,7 +196,7 @@ public class HTMLText implements StyledBuilder {
         if(styles.length == 0) {
             return value;
         }
-        value.append("<span style=\"");
+        value.append("<span style=\"white-space:nowrap;");
         if(styles.length == 1 && styles[0].indexOf(':') < 0) {
             styles[0] = "color:" + styles[0];
         }
