@@ -23,6 +23,7 @@ package com.storedobject.common;
  */
 public class HTMLText implements StyledBuilder {
 
+    private static final String NEW_LINE = "<BR/>";
     private static final String space = "&nbsp;";
     protected final StringBuilder value = new StringBuilder();
     private boolean newline = true;
@@ -88,7 +89,7 @@ public class HTMLText implements StyledBuilder {
                 replace("\"", "&quot;").
                 replace("'", "&apos;");
         if(text.indexOf('\n') >= 0) {
-            text = text.replace("\n", "<BR/>");
+            text = text.replace("\n", NEW_LINE);
         }
         text = text.replace("  ", space + " ");
         if(text.startsWith(" ")) {
@@ -110,7 +111,7 @@ public class HTMLText implements StyledBuilder {
 
     @Override
     public HTMLText newLine() {
-        value.append("<BR/>");
+        value.append(NEW_LINE);
         newline = true;
         return this;
     }
@@ -140,7 +141,7 @@ public class HTMLText implements StyledBuilder {
             return this;
         }
         String text = encode(object);
-        newline = StringUtility.pack(text).toUpperCase().endsWith("<BR/>");
+        newline = StringUtility.pack(text).toUpperCase().endsWith(NEW_LINE);
         styleS(style).append(text).append(styleE(style));
         return this;
     }
@@ -152,7 +153,7 @@ public class HTMLText implements StyledBuilder {
      */
     public HTMLText appendHTML(String html) {
         value.append(html);
-        newline = StringUtility.pack(html).toUpperCase().endsWith("<BR/>");
+        newline = StringUtility.pack(html).toUpperCase().endsWith(NEW_LINE);
         return this;
     }
 
@@ -196,7 +197,7 @@ public class HTMLText implements StyledBuilder {
         if(styles.length == 0) {
             return value;
         }
-        value.append("<span style=\"white-space:nowrap;");
+        value.append("<span style=\"display:inline;");
         if(styles.length == 1 && styles[0].indexOf(':') < 0) {
             styles[0] = "color:" + styles[0];
         }
