@@ -124,6 +124,21 @@ public class JSON {
     }
 
     /**
+     * Create a JSON object by parsing the string passed. If the string can nt be parsed to a valid JSON, an
+     * empty JSON is created and no exceptions are thrown.
+     *
+     * @param json JSON string to parse.
+     * @return Returns the JSON object or an empty JSON if parsing failed.
+     */
+    public static JSON create(String json) {
+        try {
+            return new JSON(json);
+        } catch(IOException e) {
+            return EMPTY;
+        }
+    }
+
+    /**
      * Set JSON from an Object that could hopefully parsed into a JSON compatible String. Typically, it could be
      * a {@link Map} or some sort of an array or collection. It could also be a standalone object that can be converted
      * to a valid JSON string.
