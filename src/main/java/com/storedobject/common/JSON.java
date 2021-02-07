@@ -36,6 +36,7 @@ public class JSON {
      */
     public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final JSON EMPTY = createInt();
 
     private JsonNode value = null;
 
@@ -103,6 +104,23 @@ public class JSON {
      */
     public JSON(Object object) {
         set(object);
+    }
+
+    /**
+     * Create a blank JSON.
+     *
+     * @return Empty JSON.
+     */
+    public static JSON create() {
+        return EMPTY;
+    }
+
+    private static JSON createInt() {
+        try {
+            return new JSON("\"\"");
+        } catch(IOException e) {
+            return null;
+        }
     }
 
     /**
@@ -394,6 +412,15 @@ public class JSON {
      */
     public Boolean getBoolean(String key, int n) {
         return new JSON(value(key, n)).getBoolean();
+    }
+
+    /**
+     * Check whether the value is null or not.
+     *
+     * @return True/false.
+     */
+    public boolean isNull() {
+        return value == null;
     }
 
     /**
