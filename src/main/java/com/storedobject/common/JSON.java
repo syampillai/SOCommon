@@ -131,6 +131,9 @@ public class JSON {
      * @return Returns the JSON object or an empty JSON if parsing failed.
      */
     public static JSON create(String json) {
+        if(json == null || json.isEmpty()) {
+            return EMPTY;
+        }
         try {
             return new JSON(json);
         } catch(IOException e) {

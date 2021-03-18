@@ -253,6 +253,10 @@ public class DateUtility {
         return time(System.currentTimeMillis());
     }
 
+    public static Time trimMillis(Time time) {
+        return trim(time, 10000L);
+    }
+
     public static Time trimSeconds(Time time) {
         return trim(time, 60000L);
     }
@@ -307,12 +311,20 @@ public class DateUtility {
         return timestamp(d.getTime());
     }
 
+    public static Timestamp trimMillis(Timestamp time) {
+        return trim(time, 10000L);
+    }
+
     public static Timestamp trimSeconds(Timestamp time) {
         return trim(time, 60000L);
     }
 
     public static Timestamp trimMinutes(Timestamp time) {
         return trim(time, 3600000L);
+    }
+
+    public static Timestamp trimHours(Timestamp time) {
+        return trim(time, 86400000L);
     }
 
     private static Timestamp trim(Timestamp time, long tail) {
