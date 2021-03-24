@@ -214,6 +214,7 @@ public abstract class Address {
      *
      * @return True or false.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public final boolean isValid() {
         try {
             validate();
@@ -444,7 +445,11 @@ public abstract class Address {
      * @return Human readable String representation with required "new lines".
      */
     public String toString(String personName) {
-        return toString(toStrings(), personName);
+        String s = toString(toStrings(), personName);
+        while(s.endsWith("\n")) {
+            s = s.substring(0, s.length() - 1);
+        }
+        return s;
     }
 
     /**
