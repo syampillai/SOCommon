@@ -16,96 +16,172 @@
 
 package com.storedobject.common;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.nio.ByteBuffer;
-import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.Instant;
 
+/**
+ * TOTP implementation.
+ *
+ * @author Syam
+ */
 public class TOTP {
 
-    private static final int[] DIGITS_POWER  = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000 };
-    private static final String AlgorithmKEY = "RAW";
-    private static final long ONE_MINUTE = 60000L;
+    private byte[] key;
+    private int digits;
+    private String algorithm;
+    private int timeDrift = 30;
+    private int periodDrift = 1;
 
-    private TOTP() {
+    /**
+     * Constructor. Default digits: 6, Default algorithm: SHA1. Default time-drift: 30 seconds. Default
+     * period-drift: 1.
+     *
+     * @param key Key to be used (Must have been generated earlier with {@link #generateKey()}).
+     */
+    public TOTP(byte[] key) {
+        this(key, 6, null);
     }
 
-    private static byte[] hmacSha(String crypto, byte[] keyBytes, byte[] text) {
+    /**
+     * Constructor. Default algorithm: SHA1. Default time-drift: 30 seconds. Default period-drift: 1.
+     *
+     * @param key Key to be used (Must have been generated earlier with {@link #generateKey()}).
+     * @param digits Number of digits in the TOTP.
+     */
+    public TOTP(byte[] key, int digits) {
+        this(key, digits, null);
+    }
+
+    /**
+     * Constructor. Default time-drift: 30 seconds. Default period-drift: 1.
+     *
+     * @param key Key to be used (Must have been generated earlier with {@link #generateKey()}).
+     * @param digits Number of digits in the TOTP.
+     * @param algorithm Algorithm to use - "SHA1", "SHA256", "SHA512".
+     */
+    public TOTP(byte[] key, int digits, String algorithm) {
+        this.key = key;
+        this.digits = digits;
+        this.algorithm = "Hmac" + (algorithm == null ? "SHA1" : algorithm);
+    }
+
+    /**
+     * Set another key.
+     *
+     * @param key Key to be used (Must have been generated earlier with {@link #generateKey()}).
+     */
+    public void setKey(byte[] key) {
+        this.key = key;
+    }
+
+    /**
+     * Set number of digits.
+     *
+     * @param digits Number of digits in the TOTP.
+     */
+    public void setDigits(int digits) {
+        this.digits = digits;
+    }
+
+    /**
+     * Set algorithm.
+     *
+     * @param algorithm Algorithm to use - "SHA1", "SHA256", "SHA512".
+     */
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    /**
+     * Set allowed time-drift. Default is 30 seconds.
+     *
+     * @param timeDrift Time-drift to set.
+     */
+    public void setTimeDrift(int timeDrift) {
+        this.timeDrift = timeDrift;
+    }
+
+    /**
+     * Set period-drift. Default is 1 period.
+     *
+     * @param periodDrift Period-drift to set.
+     */
+    public void setPeriodDrift(int periodDrift) {
+        this.periodDrift = periodDrift;
+    }
+
+    /**
+     * Verify the TOTP code.
+     *
+     * @param code Code to verify.
+     * @return True/false.
+     */
+    public boolean verify(String code) {
         try {
-            Mac hmac = Mac.getInstance(crypto);
-            SecretKeySpec macKey = new SecretKeySpec(keyBytes, AlgorithmKEY);
-            hmac.init(macKey);
-            return hmac.doFinal(text);
-        } catch (GeneralSecurityException gse) {
-            throw new UndeclaredThrowableException(gse);
+            return verify(Integer.parseInt(code));
+        } catch(Throwable ignored) {
         }
+        return false;
     }
 
     /**
-     * This method generates a TOTP value for the given set of parameters.
+     * Verify the TOTP code.
      *
-     * @param key Secret key
-     * @param time Time
-     * @param digits Number of digits to return (Maximum 8)
-     * @param crypto The crypto function to use (HmacSHA1, HmacSHA256, HmacSHA512)
-     *
-     * @return OTP
+     * @param code Code to verify.
+     * @return True/false.
      */
-    public static int generate(byte[] key, long time, int digits, String crypto) {
-        if(digits > 8 || digits < 0) {
-            digits = 8;
+    public boolean verify(int code) {
+        long time = Math.floorDiv(Instant.now().getEpochSecond(), timeDrift);
+        for (int i = -periodDrift; i <= periodDrift; i++) {
+            try {
+                if(generateCode(time + i) == code) {
+                    return true;
+                }
+            } catch(Exception e) {
+                break;
+            }
         }
-        byte[] msg = ByteBuffer.allocate(8).putLong(time).array();
-        byte[] hash = hmacSha(crypto, key, msg);
-        int offset = hash[hash.length - 1] & 0xf;
-        int binary = ((hash[offset] & 0x7f) << 24) | ((hash[offset + 1] & 0xff) << 16) | ((hash[offset + 2] & 0xff) << 8) | (hash[offset + 3] & 0xff);
-        return binary % DIGITS_POWER[digits];
+        return false;
+    }
+
+    private int generateCode(long time) throws Exception {
+        byte[] data = new byte[8];
+        long value = time;
+        for (int i = 8; i-- > 0; value >>>= 8) {
+            data[i] = (byte) value;
+        }
+        SecretKeySpec signKey = new SecretKeySpec(key, algorithm);
+        Mac mac = Mac.getInstance(algorithm);
+        mac.init(signKey);
+        return getInt(mac.doFinal(data));
+    }
+
+    private int getInt(byte[] bytes) {
+        int offset = bytes[bytes.length - 1] & 0xF;
+        long value = 0;
+        for (int i = 0; i < 4; ++i) {
+            value <<= 8;
+            value |= (bytes[offset + i] & 0xFF);
+        }
+        value &= 0x7FFFFFFF;
+        value %= Math.pow(10, digits);
+        return (int)value;
     }
 
     /**
-     * This method generates a TOTP value using HmacSHA512 algorithm for the given set of parameters.
+     * Generate a suitable key.
      *
-     * @param key Secret key (AES key)
-     * @param time Time
-     * @param digits Number of digits to return (Maximum 8)
-     *
-     * @return OTP
-     */
-    public static int generate(byte[] key, long time, int digits) {
-        return generate(key, time, digits, "HmacSHA512");
-    }
-
-    /**
-     * This method generates a TOTP value using HmacSHA512 for the current system time.
-     *
-     * @param key Secret key
-     * @param digits Number of digits to return (Maximum 8)
-     * @param resolutionInMinutes Resolution in minutes
-     *
-     * @return OTP
-     */
-    public static int generate(byte[] key, int digits, int resolutionInMinutes) {
-        long time = System.currentTimeMillis();
-        long t = (time + ((resolutionInMinutes * ONE_MINUTE) >> 1)) / (resolutionInMinutes * ONE_MINUTE);
-        return generate(key, t, digits, "HmacSHA512");
-    }
-
-    /**
-     * Generate a key usable for obtaining TOTP.
-     *
-     * @return Key as byte array
+     * @return Generated key.
      */
     public static byte[] generateKey() {
+        byte[] key = new byte[32];
         try {
-            KeyGenerator g = KeyGenerator.getInstance("AES");
-            SecretKey k = g.generateKey();
-            return k.getEncoded();
-        } catch (NoSuchAlgorithmException ignored) {
+            SecureRandom.getInstance("SHA1PRNG").nextBytes(key);
+        } catch(NoSuchAlgorithmException ignored) {
         }
-        return null;
+        return key;
     }
 }
