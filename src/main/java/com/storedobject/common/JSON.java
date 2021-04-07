@@ -16,6 +16,7 @@
 
 package com.storedobject.common;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -439,6 +440,20 @@ public class JSON {
      */
     public boolean isNull() {
         return value == null;
+    }
+
+    /**
+     * Return the JSON as a {@link Map} of key/value pairs.
+     *
+     * @return Map of key/value pairs.
+     */
+    public Map<String, Object> toMap() {
+        if(value == null) {
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(value, new TypeReference<>() {
+        });
     }
 
     /**
