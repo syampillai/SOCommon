@@ -244,7 +244,7 @@ public final class INAddress extends Address {
     @Override
     protected boolean parse() throws SOException {
         if(StringUtility.isWhite(getPostOfficeName())) {
-            return false;
+            throw new SOException("Blank Post Office");
         }
         lines[lines.length - POS_STATE] = match(lines[lines.length - POS_STATE], states);
         int state = getState();

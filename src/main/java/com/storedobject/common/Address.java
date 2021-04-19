@@ -42,13 +42,14 @@ import java.util.List;
  */
 public abstract class Address {
 
+    private static final StringList types = StringList.create("Apartment", "Villa", "House", "Office", "Flat", "Suite");
     private static final String INVALID = "Invalid address - ";
     /**
      * Country of the address.
      */
     Country country;
     /**
-     * Apartment code. '0' - Apartment, '1' - Villa, '2' - House, '3' - Office.
+     * Apartment code. '0' - Apartment, '1' - Villa, '2' - House, '3' - Office, '4' - Flat, '5' - Suite
      */
     char apartmentCode = '0';
     /**
@@ -157,10 +158,12 @@ public abstract class Address {
             case '1':
             case '2':
             case '3':
+            case '4':
+            case '5':
                 break;
             default:
                 a.apartmentCode = '0';
-                error(address, "First line, unknown code: [" + a.apartmentCode + "]");
+                error(address, "First line, unknown type: [" + a.apartmentCode + "]");
         }
         a.setApartmentName(lines[0].substring(3));
         a.setBuildingName(lines[1]);
@@ -242,11 +245,15 @@ public abstract class Address {
             if(apartmentName == null) {
                 setApartmentName("");
             }
-            if(!checkPostalCode()) {
-                throw new SOException("Invalid " + getPostalCodeCaption());
-            }
-            valid = parse();
         }
+        if(apartmentName == null || apartmentName.isBlank()) {
+            throw new SOException("Blank " + getTypeValue() + " Number/Name");
+        }
+        if(!checkPostalCode()) {
+            valid = false;
+            throw new SOException("Invalid " + getPostalCodeCaption());
+        }
+        valid = parse();
         if(!valid) {
             throw new SOException("Invalid address");
         }
@@ -260,7 +267,7 @@ public abstract class Address {
      */
     public boolean copy(Address address) {
         valid = true;
-        setApartmentCode(address.apartmentCode);
+        setType(address.apartmentCode);
         setApartmentName(address.apartmentName);
         setBuildingName(address.buildingName);
         setStreetName(address.streetName);
@@ -333,24 +340,22 @@ public abstract class Address {
         valid = v;
         String s;
         switch (apartmentCode) {
-            case '0':
-                s = "Apartment ";
-                break;
-            case '1':
-                s = "Villa ";
+            case '2':
+            case '3':
+                s = "";
                 break;
             default:
-                s = "";
+                s = getTypeValue() + " ";
                 break;
         }
         String line = apartmentName(s);
         slines.add(line);
-        if(apartmentCode == '1' || apartmentCode == '2') {
-            slines.add(streetName());
+        if(apartmentCode == '1' || apartmentCode == '2') { // Office or house
+            slines.add(street());
             slines.add(buildingName());
         } else {
             slines.add(buildingName());
-            slines.add(streetName());
+            slines.add(street());
         }
         slines.add(areaName());
         for(int i = 0; i < lines.length; i++) {
@@ -380,7 +385,7 @@ public abstract class Address {
     private String toString(List<String> lines, String personName) {
         StringBuilder s = new StringBuilder();
         if(personName != null) {
-            if(apartmentCode <= '2') { // Not an office
+            if(apartmentCode != '3') { // Not an office
                 if(splitNameTitle() && personName.contains(" ")) {
                     int p = personName.indexOf(' ');
                     s.append(personName, 0, p).append('\n');
@@ -630,25 +635,54 @@ public abstract class Address {
     }
 
     /**
-     * Get the apartment code.
+     * Get the type code value.
      *
-     * @return Apartment code.
+     * @return Type code value.
      */
-    public char getApartmentCode() {
+    public String getTypeValue() {
+        return getTypeValue(apartmentCode);
+    }
+
+
+    /**
+     * Get the type code value for the given type.
+     *
+     * @return Type code value.
+     */
+    public static String getTypeValue(char type) {
+        int i = type - '0';
+        return i < 0 || i > types.size() ? null : types.get(i);
+    }
+
+    /**
+     * Get the type of addresses.
+     *
+     * @return Address types.
+     */
+    public static StringList getTypeValues() {
+        return types;
+    }
+
+    /**
+     * Get the type code.
+     *
+     * @return Type code.
+     */
+    public char getType() {
         return apartmentCode;
     }
 
     /**
-     * Set the apartment code.
+     * Set the type code.
      *
-     * @param apartmentCode Apartment code
+     * @param type Type code
      */
-    public void setApartmentCode(char apartmentCode) {
-        if(apartmentCode < '0' || apartmentCode > '3') {
+    public void setType(char type) {
+        if(type < '0' || type > '5') {
             valid = false;
             return;
         }
-        this.apartmentCode = apartmentCode;
+        this.apartmentCode = type;
     }
 
     /**
@@ -756,7 +790,7 @@ public abstract class Address {
      * @param streetName Street name to set
      */
     public void setStreetName(String streetName) {
-        this.streetName = streetName;
+        this.streetName = streetName == null ? null : streetName.trim();
     }
 
     /**
@@ -957,6 +991,13 @@ public abstract class Address {
      */
     String streetName() {
         return streetName;
+    }
+
+    private String street() {
+        if(streetName == null || streetName.isBlank()) {
+            return "";
+        }
+        return StringUtility.isNumber(streetName) ? "Street " + streetName : streetName;
     }
 
     /**
