@@ -345,7 +345,12 @@ public final class INAddress extends Address {
     }
 
     @Override
-    boolean checkPostalCode() {
-        return postalCode == 0 || (postalCode >= 100000 && postalCode <= 999999);
+    public int getPostalCodeMaxLength() {
+        return 6;
+    }
+
+    @Override
+    public boolean isPostalCodeMandatory() {
+        return false;
     }
 }

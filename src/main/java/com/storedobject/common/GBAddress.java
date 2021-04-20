@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class GBAddress extends Address {
 
-    private final int POS_POSTCODE = 1, POS_POST_TOWN = 2;
+    private final int POS_POST_TOWN = 1;
     private final Pattern shortPC = Pattern.compile("^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$"),
             longPC = Pattern.compile("^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) " +
                     "?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE " +
@@ -31,13 +31,6 @@ public class GBAddress extends Address {
 
     @Override
     boolean parse() throws SOException {
-        String postcode = getPostcode();
-        if(postcode.isBlank()) {
-            throw new SOException("Blank Postcode");
-        }
-        if(!shortPC.matcher(postcode).matches() || !longPC.matcher(postcode).matches() ) {
-            throw new SOException("Invalid Postcode - " + postcode);
-        }
         if(getPostTown().isBlank()) {
             throw new SOException("Blank Post Town");
         }
@@ -45,8 +38,36 @@ public class GBAddress extends Address {
     }
 
     @Override
+    public int getPostalCodeMaxLength() {
+        return 8;
+    }
+
+    @Override
+    public int getPostalCodeMinLength() {
+        return 5; // Actually 6 but we insert a space if required while checking
+    }
+
+    @Override
+    boolean checkPostalCode() {
+        postalCode = postalCode.toUpperCase().trim();
+        while(postalCode.contains("  ")) {
+            postalCode = postalCode.replace("  ", " ");
+        }
+        if(!postalCode.contains(" ")) {
+            int n = postalCode.length() - 3;
+            if(n > 0) {
+                postalCode = postalCode.substring(0, n) + ' ' + postalCode.substring(n);
+            }
+        }
+        if(postalCode.isEmpty()) {
+            return false;
+        }
+        return shortPC.matcher(postalCode).matches() || !longPC.matcher(postalCode).matches();
+    }
+
+    @Override
     public int getExtraLines() {
-        return 2;
+        return 1;
     }
 
     public String getPostTown() {
@@ -58,28 +79,19 @@ public class GBAddress extends Address {
         lines[lines.length - POS_POST_TOWN] = postTown.toUpperCase().trim();
     }
 
-    public String getPostcode() {
-        String s = lines[lines.length - POS_POSTCODE];
-        return s == null ? "" : s;
-    }
-
-    public void setPostcode(String postcode) {
-        String s = postcode.toUpperCase().trim();
-        while(s.contains("  ")) {
-            s = s.replace("  ", " ");
-        }
-        if(!s.contains(" ")) {
-            int n = s.length() - 3;
-            if(n > 0) {
-                s = s.substring(0, n) + ' ' + s.substring(n);
-            }
-        }
-        lines[lines.length - POS_POSTCODE] = s;
+    @Override
+    int postalCodePosition() {
+        return Integer.MAX_VALUE;
     }
 
     @Override
-    int postalCodePosition() {
-        return -1;
+    public String getPostalCodeCaption() {
+        return "Postcode";
+    }
+
+    @Override
+    public boolean isNumericPostalCode() {
+        return false;
     }
 
     @Override

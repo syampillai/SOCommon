@@ -453,12 +453,17 @@ public final class Country {
         return "" + dialingCode;
     }
 
-    private static List<String> CA, PR, DO, SJ;
+    private static List<String> CA, PR, DO, SJ, CC, CX;
 
     /**
-     * Get the list of ISD prefixes for the country. Returns empty list for all countries except Canada (CA),
-     * Puerto Rico (PR), Dominican Republic (DO) and Svalbard & Jan Mayen (SJ).
-     * <p>Note: This is used in the case of regions sharing same prefix with other countries.</p>
+     * Get the list of ISD prefixes for the country. Returns empty list for all countries except the following:<p>
+     * Canada (CA),
+     * Puerto Rico (PR),
+     * Dominican Republic (DO),
+     * Svalbard & Jan Mayen (SJ),
+     * Coco (Keeling) Islands (CC),
+     * Christmas Islands (CX).
+     * </p><p>Note: This is used in the case of regions sharing same prefix with other countries.</p>
      *
      * @return List of ISD prefix strings.
      */
@@ -466,27 +471,37 @@ public final class Country {
         switch (shortName) {
             case "CA":
                 if(CA == null) {
-                    CA = List.of("1 204", "1 226", "1 236", "1 249", "1 250", "1 289", "1 306", "1 343", "1 403",
-                            "1 416", "1 418", "1 438", "1 450", "1 506", "1 514", "1 519", "1 579", "1 581", "1 587",
-                            "1 600", "1 604", "1 613", "1 647", "1 705", "1 709", "1 778", "1 780", "1 807", "1 819",
-                            "1 867", "1 902", "1 905");
+                    CA = List.of("1204", "1226", "1236", "1249", "1250", "1289", "1306", "1343", "1403",
+                            "1416", "1418", "1438", "1450", "1506", "1514", "1519", "1579", "1581", "1587",
+                            "1600", "1604", "1613", "1647", "1705", "1709", "1778", "1780", "1807", "1819",
+                            "1867", "1902", "1905");
                 }
                 return CA;
             case "PR":
                 if(PR == null) {
-                    PR = List.of("1 787", "1 939");
+                    PR = List.of("1787", "1939");
                 }
                 return PR;
             case "DO":
                 if(DO == null) {
-                    DO = List.of("1 809", "1 829", "1 849");
+                    DO = List.of("1809", "1829", "1849");
                 }
                 return DO;
             case "SJ":
                 if(SJ == null) {
-                    SJ = List.of("47 32", "47 79");
+                    SJ = List.of("4732", "4779");
                 }
                 return SJ;
+            case "CC":
+                if(CC == null) {
+                    CC = List.of("6189162");
+                }
+                return CC;
+            case "CX":
+                if(CX == null) {
+                    CX = List.of("6189164");
+                }
+                return CX;
         }
         return Collections.emptyList();
     }
@@ -561,6 +576,7 @@ public final class Country {
         if(phoneNumber.startsWith("+")) {
             phoneNumber = phoneNumber.substring(1);
         }
+        phoneNumber = phoneNumber.replace(" ", "");
         ArrayList<Country> list = new ArrayList<>();
         String code;
         for(Country c: list()) {

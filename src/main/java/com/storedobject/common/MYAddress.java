@@ -50,7 +50,12 @@ public class MYAddress extends Address {
 
     @Override
     boolean checkPostalCode() {
-        return postalCode >= 10000 && postalCode <= 99999;
+        return postalCode.length() == 5 && StringUtility.isNumber(postalCode);
+    }
+
+    @Override
+    public int getPostalCodeMaxLength() {
+        return 5;
     }
 
     @Override

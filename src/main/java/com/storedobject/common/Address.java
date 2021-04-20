@@ -75,7 +75,7 @@ public abstract class Address {
     /**
      * Postal code.
      */
-    int postalCode;
+    String postalCode;
     /**
      * Extra ines in the address.
      */
@@ -150,9 +150,10 @@ public abstract class Address {
         Country country = Country.get(Country.check(lines[0].substring(0, 2)));
         Address a = create(country);
         a.apartmentCode = lines[0].charAt(2);
+        a.setApartmentName(lines[0].substring(3).trim());
         switch (a.apartmentCode) {
             case '0':
-                if(lines[1].isEmpty()) {
+                if(lines[1].isEmpty() && StringUtility.isDigit(a.apartmentName)) {
                     error(address, "Building name missing");
                 }
             case '1':
@@ -165,7 +166,6 @@ public abstract class Address {
                 a.apartmentCode = '0';
                 error(address, "First line, unknown type: [" + a.apartmentCode + "]");
         }
-        a.setApartmentName(lines[0].substring(3));
         a.setBuildingName(lines[1]);
         a.setStreetName(lines[2]);
         a.setAreaName(lines[3]);
@@ -178,11 +178,7 @@ public abstract class Address {
             a.setPOBox(a.poBox);
         }
         if(lines.length > 5) {
-            try {
-                a.postalCode = Integer.parseInt(lines[5]);
-            } catch (Throwable e) {
-                a.postalCode = 0;
-            }
+            a.postalCode = lines[5];
             a.setPostalCode(a.postalCode);
         }
         int m = 6;
@@ -192,7 +188,7 @@ public abstract class Address {
         }
         try {
             a.parse();
-            if(!a.checkPostalCode()) {
+            if(!a.checkPC()) {
                 a.valid = false;
                 if(parse) {
                     error(address, a.getPostalCodeCaption());
@@ -232,24 +228,25 @@ public abstract class Address {
      * @throws Exception if invalid.
      */
     public final void validate() throws Exception {
-        if(!valid) {
-            if(areaName == null) {
-                setAreaName("");
-            }
-            if(streetName == null) {
-                setStreetName("");
-            }
-            if(buildingName == null) {
-                setBuildingName("");
-            }
-            if(apartmentName == null) {
-                setApartmentName("");
-            }
+        if(areaName == null) {
+            setAreaName("");
+        }
+        if(streetName == null) {
+            setStreetName("");
+        }
+        if(buildingName == null) {
+            setBuildingName("");
+        }
+        if(apartmentName == null) {
+            setApartmentName("");
+        }
+        if(postalCode == null) {
+            postalCode = "";
         }
         if(apartmentName == null || apartmentName.isBlank()) {
             throw new SOException("Blank " + getTypeValue() + " Number/Name");
         }
-        if(!checkPostalCode()) {
+        if(!checkPC()) {
             valid = false;
             throw new SOException("Invalid " + getPostalCodeCaption());
         }
@@ -279,7 +276,7 @@ public abstract class Address {
             lines[i] = i < address.lines.length ? address.lines[i] : "";
         }
         try {
-            valid = valid && checkPostalCode() && parse();
+            valid = valid && checkPC() && parse();
         } catch (Throwable e) {
             valid = false;
         }
@@ -349,12 +346,21 @@ public abstract class Address {
                 break;
         }
         String line = apartmentName(s);
+        boolean separateBuilding = separateBuildingLine();
+        if(!separateBuilding) {
+            line += " " + buildingName();
+            line = line.trim();
+        }
         slines.add(line);
-        if(apartmentCode == '1' || apartmentCode == '2') { // Office or house
-            slines.add(street());
-            slines.add(buildingName());
+        if(separateBuilding) {
+            if(apartmentCode == '1' || apartmentCode == '2') { // Office or house
+                slines.add(street());
+                slines.add(buildingName());
+            } else {
+                slines.add(buildingName());
+                slines.add(street());
+            }
         } else {
-            slines.add(buildingName());
             slines.add(street());
         }
         slines.add(areaName());
@@ -411,9 +417,9 @@ public abstract class Address {
                 }
                 s.append(poBox).append(poBoxSuffix()).append('\n');
             }
-            if(postalCode > 0 && pinPos >= 0 && i >= pinPos) {
+            if(!postalCode.isEmpty() && pinPos >= 0 && i >= pinPos) {
                 pinPos = Integer.MIN_VALUE;
-                s.append(postalCodePrefix()).append(postalCode).append(postalCodeSuffix()).append('\n');
+                s.append(postalCodePrefix()).append(postalCode()).append(postalCodeSuffix()).append('\n');
             }
             line = lines.get(i);
             if(line != null && !line.isEmpty()) {
@@ -423,8 +429,8 @@ public abstract class Address {
         if(poBox > 0 && pbPos > 0) {
             s.append(getPOBoxName()).append(' ').append(poBox).append('\n');
         }
-        if(postalCode > 0 && pinPos > 0) {
-            s.append(postalCodePrefix()).append(postalCode).append(postalCodeSuffix()).append('\n');
+        if(!postalCode.isEmpty() && pinPos > 0) {
+            s.append(postalCodePrefix()).append(postalCode()).append(postalCodeSuffix()).append('\n');
         }
         if(country != null) {
             s.append(country.getName()).append('\n');
@@ -772,7 +778,17 @@ public abstract class Address {
      * @param buildingName Building name to be set
      */
     public void setBuildingName(String buildingName) {
-        this.buildingName = buildingName;
+        this.buildingName = buildingName == null ? "" : buildingName.trim();
+    }
+
+    /**
+     * Whether to have building name in a separate line or not. By default, it will be
+     * int the same line where apartment/villa/office number/name appears.
+     *
+     * @return True/false
+     */
+    boolean separateBuildingLine() {
+        return false;
     }
 
     /**
@@ -808,7 +824,7 @@ public abstract class Address {
      * @param areaName Area name to set
      */
     public void setAreaName(String areaName) {
-        this.areaName = areaName;
+        this.areaName = areaName == null ? "" : areaName;
     }
 
     /**
@@ -879,7 +895,7 @@ public abstract class Address {
      *
      * @return Postal Code.
      */
-    public final int getPostalCode() {
+    public final String getPostalCode() {
         return postalCode;
     }
 
@@ -888,13 +904,16 @@ public abstract class Address {
      *
      * @param postalCode Postal Code
      */
-    public final void setPostalCode(int postalCode) {
-        this.postalCode = postalCode;
-        valid = valid && checkPostalCode();
+    public final void setPostalCode(String postalCode) {
+        this.postalCode = postalCode == null ? "" : postalCode.trim().toUpperCase();
+        if(this.postalCode.chars().allMatch(c -> c == '0')) {
+            this.postalCode = "";
+        }
+        valid = valid && checkPC();
     }
 
     /**
-     * Get the position of the Postal Code in the extra lines.
+     * Get the position of the Postal Code in the extra lines. Return -1 if this is not a postal code based address.
      *
      * @return Position.
      */
@@ -921,6 +940,43 @@ public abstract class Address {
     }
 
     /**
+     * Whether the postal code is numeric or not.
+     *
+     * @return True if numeric. False if alpha-numeric.
+     */
+    public boolean isNumericPostalCode() {
+        return true;
+    }
+
+    /**
+     * Is postal code is mandatory?
+     *
+     * @return True/false.
+     */
+    public boolean isPostalCodeMandatory() {
+        return isPostalCodeAddress();
+    }
+
+    /**
+     * What is the minimum length of the postal code?
+     *
+     * @return Minimum required length of the postal code.
+     */
+    public int getPostalCodeMinLength() {
+        int max = getPostalCodeMaxLength();
+        return max == Integer.MAX_VALUE ? 1 : max;
+    }
+
+    /**
+     * What is the maximum length of the postal code?
+     *
+     * @return Maximum required length of the postal code.
+     */
+    public int getPostalCodeMaxLength() {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
      * Get the suffix of the Postal Code line.
      *
      * @return Default implementation returns an empty string.
@@ -936,6 +992,33 @@ public abstract class Address {
      */
     boolean checkPostalCode() {
         return true;
+    }
+
+    String postalCode() {
+        String pc = postalCode;
+        while(pc.startsWith("0")) {
+            pc = pc.substring(1);
+        }
+        return pc;
+    }
+
+    private boolean checkPC() {
+        if(postalCodePosition() < 0) { // Not a postal code based address
+            return true;
+        }
+        if(postalCode == null) {
+            postalCode = "";
+        }
+        if(postalCode.isEmpty()) {
+            return !isPostalCodeMandatory();
+        }
+        if(postalCode.length() < getPostalCodeMinLength() || postalCode.length() > getPostalCodeMaxLength()) {
+            return false;
+        }
+        if(isNumericPostalCode() && !StringUtility.isDigit(postalCode)) {
+            return false;
+        }
+        return checkPostalCode();
     }
 
     /**
@@ -994,10 +1077,11 @@ public abstract class Address {
     }
 
     private String street() {
-        if(streetName == null || streetName.isBlank()) {
+        String s = streetName();
+        if(s == null || s.isBlank()) {
             return "";
         }
-        return StringUtility.isNumber(streetName) ? "Street " + streetName : streetName;
+        return StringUtility.isDigit(s) ? "Street " + s : s;
     }
 
     /**

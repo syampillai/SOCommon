@@ -32,11 +32,6 @@ public class LKAddress extends XXAddress {
     }
 
     @Override
-    boolean checkPostalCode() {
-        return postalCode > 0;
-    }
-
-    @Override
     int postalCodePosition() {
         return Integer.MAX_VALUE;
     }

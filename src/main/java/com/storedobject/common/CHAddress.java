@@ -29,38 +29,17 @@ public class CHAddress extends Address {
     @Override
     boolean parse() throws SOException {
         if(streetName.isEmpty()) {
-            throw new SOException("Street name");
-        }
-        if(buildingName.isEmpty()) {
-            throw new SOException("Building number");
+            throw new SOException("Street Name/Number");
         }
         if(areaName.isEmpty()) {
-            throw new SOException("Place name");
+            throw new SOException(getAreaName());
         }
         return super.parse();
     }
 
     @Override
-    public void setStreetName(String streetName) {
-        super.setStreetName(streetName);
-        valid = valid && !streetName.isEmpty();
-    }
-
-    @Override
-    public void setBuildingName(String buildingName) {
-        super.setBuildingName(buildingName);
-        valid = valid && !buildingName.isEmpty();
-    }
-
-    @Override
-    public void setAreaName(String areaName) {
-        super.setAreaName(areaName);
-        valid = valid && !areaName.isEmpty();
-    }
-
-    @Override
-    boolean checkPostalCode() {
-        return postalCode >= 1000 && postalCode <= 9999;
+    public int getPostalCodeMaxLength() {
+        return 4;
     }
 
     @Override
@@ -75,7 +54,7 @@ public class CHAddress extends Address {
 
     @Override
     int postalCodePosition() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -90,22 +69,16 @@ public class CHAddress extends Address {
 
     @Override
     String apartmentName(String prefix) {
-        String s = streetName + " " + buildingName();
-        if(!apartmentName.isEmpty()) {
-            s += Character.isDigit(apartmentName.charAt(0)) ? "/" : " ";
-            s += apartmentName;
-        }
-        return s;
-    }
-
-    @Override
-    String buildingName() {
         return "";
     }
 
     @Override
     String streetName() {
-        return "";
+        String s = streetName;
+        if(!apartmentName.isEmpty()) {
+            s += "/" + apartmentName;
+        }
+        return s;
     }
 
     @Override
@@ -116,5 +89,10 @@ public class CHAddress extends Address {
     @Override
     public String getAreaCaption() {
         return "Place Name";
+    }
+
+    @Override
+    boolean splitNameTitle() {
+        return true;
     }
 }

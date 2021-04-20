@@ -29,8 +29,8 @@ public class IDAddress extends XXAddress {
     }
 
     @Override
-    boolean checkPostalCode() {
-        return postalCode >= 10000 && postalCode <= 99999;
+    public int getPostalCodeMaxLength() {
+        return 5;
     }
 
     @Override

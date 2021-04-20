@@ -95,7 +95,7 @@ public final class PKAddress extends Address {
         --n;
         if(lineNumber == n) {
             String d = getDistrictName();
-            if(postalCode > 0) {
+            if(postalCode != null && !postalCode.isEmpty()) {
                 d += " " + postalCode;
             }
             return d;
@@ -167,7 +167,12 @@ public final class PKAddress extends Address {
     }
 
     @Override
-    boolean checkPostalCode() {
-        return postalCode == 0 || (postalCode >= 10000 && postalCode <= 99999);
+    public boolean isPostalCodeMandatory() {
+        return false;
+    }
+
+    @Override
+    public int getPostalCodeMaxLength() {
+        return 5;
     }
 }

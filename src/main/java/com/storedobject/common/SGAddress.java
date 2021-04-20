@@ -52,7 +52,12 @@ public class SGAddress extends XXAddress {
 
     @Override
     boolean checkPostalCode() {
-        return postalCode >= 100000 && postalCode <= 999999;
+        return postalCode.length() == 6 && StringUtility.isNumber(postalCode);
+    }
+
+    @Override
+    public int getPostalCodeMaxLength() {
+        return 6;
     }
 
     @Override
@@ -81,5 +86,10 @@ public class SGAddress extends XXAddress {
     @Override
     public String getLineCaption(int index) {
         return index == 0 ? "Post Office" : null;
+    }
+
+    @Override
+    String postalCode() {
+        return postalCode; // No trimming of leading zeros
     }
 }
