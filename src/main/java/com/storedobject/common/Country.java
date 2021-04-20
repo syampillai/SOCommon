@@ -453,11 +453,12 @@ public final class Country {
         return "" + dialingCode;
     }
 
-    private static List<String> CA, PR, DO;
+    private static List<String> CA, PR, DO, SJ;
 
     /**
      * Get the list of ISD prefixes for the country. Returns empty list for all countries except Canada (CA),
-     * Puerto Rico (PR) and Dominican Republic (DO).
+     * Puerto Rico (PR), Dominican Republic (DO) and Svalbard & Jan Mayen (SJ).
+     * <p>Note: This is used in the case of regions sharing same prefix with other countries.</p>
      *
      * @return List of ISD prefix strings.
      */
@@ -481,6 +482,11 @@ public final class Country {
                     DO = List.of("1 809", "1 829", "1 849");
                 }
                 return DO;
+            case "SJ":
+                if(SJ == null) {
+                    SJ = List.of("47 32", "47 79");
+                }
+                return SJ;
         }
         return Collections.emptyList();
     }
