@@ -1710,7 +1710,8 @@ public class StringUtility {
     }
 
     /**
-     * Formats a double value as a numeric string with thousands separation. Up to 14 fractional digits will be considered.
+     * Formats a double value as a numeric string. Up to 14 fractional digits will be considered. If you want the
+     * thousands separation, please use {@link #format(double, boolean)}.
      *
      * @param value Double value to be converted.
      * @return Formatted value

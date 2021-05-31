@@ -19,6 +19,7 @@ package com.storedobject.common;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Representation of a Country.
@@ -291,12 +292,29 @@ public final class Country {
         if(shortName == null) {
             return null;
         }
+        switch(shortName) {
+            case "USA":
+                shortName = "US";
+                break;
+            case "UAE":
+                shortName = "AE";
+                break;
+        }
         String name = shortName.toUpperCase();
         Country country = map.get(name);
         if(country != null) {
             return country;
         }
-        return list().stream().filter(c -> name.equals(c.getName().toUpperCase())).findAny().orElse(null);
+        country = list().stream().filter(c -> name.equals(c.getName().toUpperCase())).findAny().orElse(null);
+        if(country == null) {
+            List<Country> list = list().stream().
+                    filter(c -> c.getName().toUpperCase().startsWith(name)).
+                    collect(Collectors.toList());
+            if(list.size() == 1) {
+                country = list.get(0);
+            }
+        }
+        return country;
     }
 
     /**
@@ -460,7 +478,7 @@ public final class Country {
      * Canada (CA),
      * Puerto Rico (PR),
      * Dominican Republic (DO),
-     * Svalbard & Jan Mayen (SJ),
+     * Svalbard &amp; Jan Mayen (SJ),
      * Coco (Keeling) Islands (CC),
      * Christmas Islands (CX).
      * </p><p>Note: This is used in the case of regions sharing same prefix with other countries.</p>
