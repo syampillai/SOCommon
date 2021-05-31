@@ -103,9 +103,10 @@ public final class Country {
         new Country("FO", 298);
         new Country("FR", 33);
         new Country("GA", 241);
+        new Country("GB", 44);
         new Country("GD", 1473);
         new Country("GE", 995);
-        new Country("GB", 44);
+        new Country("GF", 594);
         new Country("GG", 441481);
         new Country("GQ", 240);
         new Country("GH", 233);
@@ -113,6 +114,7 @@ public final class Country {
         new Country("GL", 299);
         new Country("GM", 220);
         new Country("GN", 224);
+        new Country("GP", 590);
         new Country("GR", 30);
         new Country("GT", 502);
         new Country("GU", 1671);
@@ -172,6 +174,7 @@ public final class Country {
         new Country("MN", 976);
         new Country("MO", 853);
         new Country("MP", 1670);
+        new Country("MQ", 596);
         new Country("MR", 222);
         new Country("MS", 1664);
         new Country("MT", 356);
@@ -299,22 +302,32 @@ public final class Country {
             case "UAE":
                 shortName = "AE";
                 break;
+            case "SWAZILAND":
+                shortName = "SZ";
+                break;
         }
-        String name = shortName.toUpperCase();
+        shortName = name(shortName);
+        String name = shortName;
         Country country = map.get(name);
         if(country != null) {
             return country;
         }
-        country = list().stream().filter(c -> name.equals(c.getName().toUpperCase())).findAny().orElse(null);
+        country = list().stream().filter(c -> name.equals(c.name())).findAny().orElse(null);
         if(country == null) {
-            List<Country> list = list().stream().
-                    filter(c -> c.getName().toUpperCase().startsWith(name)).
-                    collect(Collectors.toList());
+            List<Country> list = list().stream().filter(c -> c.name().startsWith(name)).collect(Collectors.toList());
             if(list.size() == 1) {
                 country = list.get(0);
             }
         }
         return country;
+    }
+
+    private String name() {
+        return name(getName());
+    }
+
+    private static String name(String name) {
+        return name.replace(".", "").replace("  ", " ").toUpperCase();
     }
 
     /**
@@ -367,8 +380,11 @@ public final class Country {
      * @return The name.
      */
     public String getName() {
-        if("XK".equals(shortName)) {
-            return "Kosovo";
+        switch(shortName) {
+            case "XK":
+                return "Kosovo";
+            case "MV":
+                return "Maldives";
         }
         return getLocale() == null ? shortName : locale.getDisplayCountry(Locale.ENGLISH);
     }
