@@ -295,6 +295,7 @@ public final class Country {
         if(shortName == null) {
             return null;
         }
+        shortName = name(shortName);
         switch(shortName) {
             case "USA":
                 shortName = "US";
@@ -306,7 +307,6 @@ public final class Country {
                 shortName = "SZ";
                 break;
         }
-        shortName = name(shortName);
         String name = shortName;
         Country country = map.get(name);
         if(country != null) {
@@ -327,7 +327,7 @@ public final class Country {
     }
 
     private static String name(String name) {
-        return name.replace(".", "").replace("  ", " ").toUpperCase();
+        return name.replace(".", "").replace("  ", " ").toUpperCase().trim();
     }
 
     /**
