@@ -16,9 +16,7 @@
 
 package com.storedobject.common;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -1805,7 +1803,8 @@ public class StringUtility {
                     s = s.substring(0, s.length() - 1);
                 }
             }
-            return (negative ? "-" : "") + format(s, s.endsWith(".0") ? 0 : s.length() - s.indexOf('.') - 1, separated, indian);
+            return (negative ? "-" : "") + format(s, s.endsWith(".0") ? 0 : s.length() - s.indexOf('.') - 1,
+                    separated, indian);
         }
         return (negative ? "-" : "") + format(s, decimals, separated, indian);
     }
@@ -1963,8 +1962,10 @@ public class StringUtility {
     }
 
     private static final String[] set1 = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-    private static final String[] set2 = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
-    private static final String[] set3 = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+    private static final String[] set2 = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+            "seventeen", "eighteen", "nineteen" };
+    private static final String[] set3 = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty",
+            "ninety" };
 
     /**
      * Internal function to convert a 3 digit number to words. It will return empty string for zero.
@@ -2244,9 +2245,16 @@ public class StringUtility {
         private int nextPosition;
     }
 
-    private static CSVField nextField(String line, int p, boolean inside) throws Exception {
-        if(p >= line.length()) {
+    private static CSVField nextField(String line, int p, boolean inside, int lineNumber) throws Exception {
+        if(p > line.length()) {
             return null;
+        }
+        if(p == line.length()) {
+            CSVField f = new CSVField();
+            f.field = "";
+            f.nextPosition = ++p;
+            f.more = inside;
+            return f;
         }
         StringBuilder s = new StringBuilder();
         char c;
@@ -2258,6 +2266,7 @@ public class StringUtility {
             if(inside) {
                 if(c == '"') {
                     if(p >= line.length()) {
+                        inside = false;
                         break;
                     }
                     c = line.charAt(p);
@@ -2272,7 +2281,8 @@ public class StringUtility {
                         c = line.charAt(p);
                     }
                     if(p >= line.length() || c != ',') {
-                        throw new SOException("Invalid comma at position " + p);
+                        throw new SOException("Invalid comma at position " + p +
+                                (lineNumber > -1 ? (", line " + lineNumber) : ""));
                     }
                     ++p;
                 }
@@ -2289,7 +2299,8 @@ public class StringUtility {
             s.append(c);
         }
         if(!inside && p < line.length() && line.charAt(p) != ',') {
-            throw new SOException("Comma expected at position " + p);
+            throw new SOException("Comma expected at position " + p +
+                    (lineNumber > -1 ? (", line " + lineNumber) : ""));
         }
         ++p;
         CSVField f = new CSVField();
@@ -2300,35 +2311,35 @@ public class StringUtility {
     }
 
     public static String[] getCSV(BufferedReader reader) throws Exception {
-        BufferedReader r = IO.get(reader);
-        String line = r.readLine();
+        String line = reader.readLine();
         if(line == null || line.length() == 0) {
             return null;
         }
         ArrayList<String> v = new ArrayList<>();
-        CSVField f;
-        int p, i = 0;
+        CSVField field;
+        int p, i = 0, lineNumber;
+        lineNumber = reader instanceof LineNumberReader ? ((LineNumberReader)reader).getLineNumber() : -1;
         boolean more = false;
-        while(i < line.length()) {
-            f = nextField(line, i, more);
-            if(f == null) {
+        while(i <= line.length()) {
+            field = nextField(line, i, more, lineNumber);
+            if(field == null) {
                 break;
             }
-            i = f.nextPosition;
+            i = field.nextPosition;
             if(more) {
                 p = v.size() - 1;
-                v.set(p, v.get(p) + f.field);
+                v.set(p, v.get(p) + field.field);
             } else {
-                v.add(f.field);
+                v.add(field.field);
             }
-            more = f.more;
+            more = field.more;
             if(!more) {
                 continue;
             }
             while(true) {
-                line = r.readLine();
+                line = reader.readLine();
                 if(line == null) {
-                    throw new SOException("Line termination");
+                    throw new SOException("Line termination" + (lineNumber > -1 ? (", line " + lineNumber) : ""));
                 }
                 if(line.length() > 0) {
                     break;
@@ -2383,7 +2394,9 @@ public class StringUtility {
                     }
                     if(st.hasMoreTokens()) {
                         t = st.nextToken();
-                        if(t.equals("}") && Character.isLetter(v.charAt(0)) && isLetterOrDigit(v.replace(":", "").replace(".", "").replace("-", ""))) {
+                        if(t.equals("}") && Character.isLetter(v.charAt(0)) &&
+                                isLetterOrDigit(v.replace(":", "").replace(".", "").
+                                        replace("-", ""))) {
                             s.append(filler.fill(v));
                         } else {
                             s.append("${").append(v).append(t);
@@ -2418,7 +2431,9 @@ public class StringUtility {
         return list;
     }
 
-    private static final char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    private static final char[] hexDigits = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+    };
 
     /**
      * MD5 encryption

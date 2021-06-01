@@ -1260,6 +1260,7 @@
     <inspection_tool class="IterableUsedAsVararg" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="IteratorHasNextCallsIteratorNext" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="IteratorNextDoesNotThrowNoSuchElementException" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JCenterRepository" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="JDBCExecuteWithNonConstantString" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="JDBCPrepareStatementWithNonConstantString" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="JDBCResource" enabled="false" level="WARNING" enabled_by_default="false">
@@ -1977,7 +1978,7 @@
     <inspection_tool class="ReuseOfLocalVariable" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="RuntimeExec" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="RuntimeExecWithNonConstantString" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="SSBasedInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="SSBasedInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SafeCastWithReturn" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="SafeLock" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="SafeVarargsDetector" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -2372,7 +2373,9 @@
     <inspection_tool class="UnusedMessageFormatParameter" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UnusedProperty" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UnusedReceiverParameter" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="UnusedReturnValue" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="UnusedReturnValue" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="highestModifier" value="packageLocal" />
+    </inspection_tool>
     <inspection_tool class="UnusedSymbol" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UnusedUnaryOperator" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UpperCaseFieldNameNotConstant" enabled="false" level="WARNING" enabled_by_default="false" />
