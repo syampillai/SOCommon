@@ -43,8 +43,9 @@ public final class Country {
         new Country("AR", 54);
         new Country("AS", 1684);
         new Country("AT", 43);
-        new Country("AW", 297);
         new Country("AU", 61);
+        new Country("AW", 297);
+        new Country("AX", 35818);
         new Country("AZ", 994);
         new Country("BA", 387);
         new Country("BB", 1246);
@@ -59,6 +60,7 @@ public final class Country {
         new Country("BM", 1441);
         new Country("BN", 673);
         new Country("BO", 591);
+        new Country("BQ", 599);
         new Country("BR", 55);
         new Country("BS", 1242);
         new Country("BT", 975);
@@ -67,6 +69,7 @@ public final class Country {
         new Country("BZ", 501);
         new Country("CA", 1);
         new Country("CC", 61);
+        new Country("CD", 243);
         new Country("CF", 236);
         new Country("CG", 242);
         new Country("CH", 41);
@@ -79,7 +82,7 @@ public final class Country {
         new Country("CR", 506);
         new Country("CU", 53);
         new Country("CV", 238);
-        new Country("CW", 599);
+        new Country("CW", 5999);
         new Country("CX", 61);
         new Country("CY", 357);
         new Country("CZ", 420);
@@ -116,11 +119,13 @@ public final class Country {
         new Country("GN", 224);
         new Country("GP", 590);
         new Country("GR", 30);
+        new Country("GS", 500);
         new Country("GT", 502);
         new Country("GU", 1671);
         new Country("GW", 245);
         new Country("GY", 592);
         new Country("HK", 852);
+        new Country("HM", 672);
         new Country("HN", 504);
         new Country("HR", 385);
         new Country("HT", 509);
@@ -187,6 +192,7 @@ public final class Country {
         new Country("NA", 264);
         new Country("NC", 687);
         new Country("NE", 227);
+        new Country("NF", 6723);
         new Country("NG", 234);
         new Country("NI", 505);
         new Country("NL", 31);
@@ -239,6 +245,7 @@ public final class Country {
         new Country("SZ", 268);
         new Country("TC", 1649);
         new Country("TD", 235);
+        new Country("TF", 262);
         new Country("TG", 228);
         new Country("TH", 66);
         new Country("TJ", 992);
@@ -254,6 +261,7 @@ public final class Country {
         new Country("TZ", 255);
         new Country("UA", 380);
         new Country("UG", 256);
+        new Country("UM", 246);
         new Country("US", 1);
         new Country("UY", 598);
         new Country("UZ", 998);
@@ -265,6 +273,7 @@ public final class Country {
         new Country("VN", 84);
         new Country("VU", 678);
         new Country("XK", 283);
+        new Country("XZ", 999); // International Water - No phone
         new Country("YE", 967);
         new Country("YT", 262);
         new Country("WF", 681);
@@ -381,10 +390,12 @@ public final class Country {
      */
     public String getName() {
         switch(shortName) {
-            case "XK":
-                return "Kosovo";
             case "MV":
                 return "Maldives";
+            case "XK":
+                return "Kosovo";
+            case "XZ":
+                return "International Water";
         }
         return getLocale() == null ? shortName : locale.getDisplayCountry(Locale.ENGLISH);
     }
@@ -487,22 +498,28 @@ public final class Country {
         return "" + dialingCode;
     }
 
-    private static List<String> CA, PR, DO, SJ, CC, CX;
+    private static List<String> BQ, CA, DO, CC, CX, PR, SJ;
 
     /**
      * Get the list of ISD prefixes for the country. Returns empty list for all countries except the following:<p>
+     * Bonaire, Sint Eustatius and Saba (BQ),
      * Canada (CA),
-     * Puerto Rico (PR),
-     * Dominican Republic (DO),
-     * Svalbard &amp; Jan Mayen (SJ),
      * Coco (Keeling) Islands (CC),
      * Christmas Islands (CX).
+     * Dominican Republic (DO),
+     * Puerto Rico (PR),
+     * Svalbard &amp; Jan Mayen (SJ),
      * </p><p>Note: This is used in the case of regions sharing same prefix with other countries.</p>
      *
      * @return List of ISD prefix strings.
      */
     public List<String> listISDPrefix() {
         switch (shortName) {
+            case "BQ":
+                if(BQ == null) {
+                    BQ = List.of("5993", "5994", "5997");
+                }
+                return BQ;
             case "CA":
                 if(CA == null) {
                     CA = List.of("1204", "1226", "1236", "1249", "1250", "1289", "1306", "1343", "1403",
@@ -511,21 +528,6 @@ public final class Country {
                             "1867", "1902", "1905");
                 }
                 return CA;
-            case "PR":
-                if(PR == null) {
-                    PR = List.of("1787", "1939");
-                }
-                return PR;
-            case "DO":
-                if(DO == null) {
-                    DO = List.of("1809", "1829", "1849");
-                }
-                return DO;
-            case "SJ":
-                if(SJ == null) {
-                    SJ = List.of("4732", "4779");
-                }
-                return SJ;
             case "CC":
                 if(CC == null) {
                     CC = List.of("6189162");
@@ -536,6 +538,21 @@ public final class Country {
                     CX = List.of("6189164");
                 }
                 return CX;
+            case "DO":
+                if(DO == null) {
+                    DO = List.of("1809", "1829", "1849");
+                }
+                return DO;
+            case "PR":
+                if(PR == null) {
+                    PR = List.of("1787", "1939");
+                }
+                return PR;
+            case "SJ":
+                if(SJ == null) {
+                    SJ = List.of("4732", "4779");
+                }
+                return SJ;
         }
         return Collections.emptyList();
     }
