@@ -395,7 +395,7 @@ public final class Country {
             case "XK":
                 return "Kosovo";
             case "XZ":
-                return "International Water";
+                return "International Water"; // 999 - Invalid ISD code
         }
         return getLocale() == null ? shortName : locale.getDisplayCountry(Locale.ENGLISH);
     }
