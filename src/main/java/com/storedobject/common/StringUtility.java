@@ -2276,15 +2276,6 @@ public class StringUtility {
                         inside = false;
                         break;
                     }
-                } else if(c == ',') {
-                    if(p < line.length()) {
-                        c = line.charAt(p);
-                    }
-                    if(p >= line.length() || c != ',') {
-                        throw new SOException("Invalid comma at position " + p +
-                                (lineNumber > -1 ? (", line " + lineNumber) : ""));
-                    }
-                    ++p;
                 }
                 s.append(c);
                 continue;
@@ -2336,17 +2327,14 @@ public class StringUtility {
             if(!more) {
                 continue;
             }
-            while(true) {
+            do {
                 line = reader.readLine();
                 if(line == null) {
                     throw new SOException("Line termination" + (lineNumber > -1 ? (", line " + lineNumber) : ""));
                 }
-                if(line.length() > 0) {
-                    break;
-                }
                 p = v.size() - 1;
                 v.set(p, v.get(p) + "\n");
-            }
+            } while(line.length() <= 0);
             i = 0;
         }
         return v.size() == 0 ? null : toArray(v);
