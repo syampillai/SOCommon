@@ -59,94 +59,208 @@ public class DateUtility {
     private final static String[] monthNames = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
     private final static String[] weekNames = new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
+    /**
+    * Get the current date
+    * 
+    * @return Current Date
+    */
     public static Date today() {
         GregorianCalendar c = new GregorianCalendar();
         return create(c);
     }
 
+    /**
+    * Get one day after the current date
+    * 
+    * @return One day after current date
+    */    
     public static Date tomorrow() {
         return addDay(today(), 1);
     }
 
+    /**
+    * Get one day prior to current date
+    * 
+    * @return One day prior to current date
+    */
     public static Date yesterday() {
         return addDay(today(), -1);
     }
 
+    /**
+    * Get start date of the current year
+    * 
+    * @return Start date of the current year
+    */
     public static Date startOfYear() {
         return startOfYear(today());
     }
 
+    /**
+    * Get start date of year for a give date
+    * 
+    * @param date Date for which the start of the year is to be returned
+    * @return Start date of year for a give date
+    */
     public static <D extends java.util.Date> D startOfYear(D date) {
         D d = setDay(date, 1);
         return setMonth(d, 1);
     }
 
+    /**
+    * Get end date of current year
+    * 
+    * @return End date of current year
+    */
     public static Date endOfYear() {
         return endOfYear(today());
     }
 
+    /**
+    * Get end date of year for a give date
+    * 
+    * @param date Date for which the end of the year is to be returned
+    * @return End date of year for a give date
+    */
     public static <D extends java.util.Date> D endOfYear(D date) {
         D d = setDay(date, 31);
         return setMonth(d, 12);
     }
 
+    /**
+    * Get start date of the current month
+    * 
+    * @return Start date of current month
+    */
     public static Date startOfMonth() {
         return setDay(today(), 1);
     }
-
+    
+    /**
+    * Get start date of month for a give date
+    * 
+    * @param date Date for which the start of the month is to be returned
+    * @return Start date of month for a give date
+    */
     public static <D extends java.util.Date> D startOfMonth(D date) {
         return setDay(date, 1);
     }
 
+    /**
+    * Get start date of a month. Month is calculated by adding an offset to the current month
+    * 
+    * @param monthOffset An integer offset value that has to be added to the current month value
+    * @return Start date of month
+    */
     public static Date startOfMonth(int monthOffset) {
         Date d = addMonth(today(), monthOffset);
         return setDay(d, 1);
     }
 
+    /**
+    * Get start date of a month. Month is calculated by adding an offset to the month corresponding to a given date
+    * 
+    * @param monthOffset An integer offset value that has to be added to the month corresponding to a given date
+    * @return Start date of month
+    */
     public static <D extends java.util.Date> D startOfMonth(int monthOffset, D date) {
         D d = addMonth(date, monthOffset);
         return setDay(d, 1);
     }
 
+    /**
+    * Get end date of current month
+    * 
+    * @return End date of current month
+    */
     public static Date endOfMonth() {
         return endOfMonth(0);
     }
 
+    /**
+    * Get end date of month for a give date
+    * 
+    * @param date Date for which the end of the month is to be returned
+    * @return Start date of month for a give date
+    */
     public static <D extends java.util.Date> D endOfMonth(D date) {
         return endOfMonth(0, date);
     }
 
+    /**
+    * Get end date of a month. Month is calculated by adding an offset to the current month
+    * 
+    * @param monthOffset An integer offset value that has to be added to the current month value
+    * @return Start date of month
+    */
     public static Date endOfMonth(int monthOffset) {
         return endOfMonth(monthOffset, today());
     }
 
+    /**
+    * Get end date of a month. Month is calculated by adding an offset to the month corresponding to a given date
+    * 
+    * @param monthOffset An integer offset value that has to be added to the month corresponding to a given date
+    * @return End date of month
+    */
     public static <D extends java.util.Date> D endOfMonth(int monthOffset, D date) {
         D d = addMonth(date, monthOffset + 1);
         d = setDay(d, 1);
         return addDay(d, -1);
     }
 
+    /**
+    * Create a Date instance by passing a Calendar instance
+    * 
+    * @param c Calendar instance
+    * @return Date curresponding to the calendar instance
+    */
     public static Date create(Calendar c) {
         c = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         return new Date(c.getTimeInMillis());
     }
 
+    /**
+    * Create and return Date instance for the curent date
+    * 
+    * @return Current date
+    */
     public static Date create() {
         return today();
     }
 
+    /**
+    * Create a Date instance for the specified day, month and year
+    * 
+    * @param year
+    * @param month
+    * @param day
+    * @return Date for the specified day, month and year
+    */
     public static Date create(int year, int month, int day) {
         //noinspection MagicConstant
         GregorianCalendar c = new GregorianCalendar(year, month - 1, day);
         return new Date(c.getTimeInMillis());
     }
 
+    /**
+    * Get an java.sql.Date corresponding to a given java.util.Date
+    * 
+    * @param date Date of type java.util.Date
+    * @return date
+    */
     public static <D extends java.util.Date> Date create(D date) {
         GregorianCalendar c = new GregorianCalendar();
         c.setTimeInMillis(date.getTime());
         return create(c);
     }
 
+    /**
+    * Get date corresponding to a particular date value in a year
+    * 
+    * @param dateValue an integer representing the date
+    * @return Date corresponding to the given date value in integer
+    */
     public static Date create(int dateValue) {
         int d = dateValue % 100;
         dateValue /= 100;
@@ -155,6 +269,12 @@ public class DateUtility {
         return create(dateValue, m, d);
     }
 
+    /**
+    * Get date by passing date string separated by comma or hyphen (, or -) in year, month and date format
+    * 
+    * @param text Date in text format
+    * @return Date curresponding to the given date text
+    */
     public static Date create(String text) {
         text = text.trim();
         int year = value(text);
