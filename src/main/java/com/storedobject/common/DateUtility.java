@@ -639,27 +639,59 @@ public class DateUtility {
         return d;
     }
 
+    /*
+    * Checks if a particular year specified is leap year
+    * @param year
+    * @return true if year passed to the method is leap year
+    */
     public static boolean isLeapYear(int year) {
         return (new GregorianCalendar()).isLeapYear(year);
     }
 
+    
+    /*
+    * Checks if a particular year is leap year by taking in a date
+    * @param date
+    * @return true if year in the date passed to the method is leap year
+    */
     public static <D extends java.util.Date> boolean isLeapYear(D date) {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(date);
         return c.isLeapYear(c.get(YEAR));
     }
 
+    /*
+    * Get difference in days between two dates
+    *
+    * @param one Date that has to be subtracted from the greater date
+    * @param two The greater date from which the other date is subtracted
+    * @return The difference between date two and date one in days
+    */
     public static <D extends java.util.Date> int getPeriodInDays(D one, D two) {
         return getPeriodInDays(one, two, false);
     }
 
+    /*
+    * Get difference in days between two dates by considering the time as well
+    *
+    * @param one Date that has to be subtracted from the greater date
+    * @param two The greater date from which the other date is subtracted
+    * @return The difference between date two and date one in days
+    */
     public static <D extends java.util.Date> int getPeriodInDays(D one, D two, boolean considerTime) {
         if(one.after(two)) {
             return -getPeriodInDays(two, one, considerTime);
         }
         return (int)((two.getTime() - one.getTime() + (considerTime ? 0 : HALF_DAY_IN_MILLIS)) / DAY_IN_MILLIS);
     }
-
+    
+    /*
+    * Get difference in months between two dates
+    *
+    * @param one Date that has to be subtracted from the greater date
+    * @param two The greater date from which the other date is subtracted
+    * @return The difference between date two and date one in months
+    */
     public static <D extends java.util.Date> int getPeriodInMonths(D one, D two) {
         GregorianCalendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
         c1.setTime(one);
@@ -722,16 +754,29 @@ public class DateUtility {
         return d;
     }
 
+    /*
+    * Validateds and returns true if two dates passed to the method are same
+    * @param one
+    * @param two
+    * @return True if two dates passed to the method are same
+    */
     public static <D extends java.util.Date> boolean isSameDate(D one, D two) {
         if(one == null && two == null) {
             return true;
         }
         if(one == null || two == null) {
             return false;
-        }
+        }   
         return format(one).equals(format(two));
     }
 
+    /*
+    * Get the difference between two dates in-terms of year, month and date
+    *
+    * @param one
+    * @param two
+    * @return The difference between the two specified dates in month date and year format
+    */
     public static <D extends java.util.Date> String difference(D one, D two) {
         if(two.before(one)) {
             return "-" + difference(two, one);
@@ -777,6 +822,13 @@ public class DateUtility {
         return s.toString();
     }
 
+    /*
+    * Get the difference between two dates in-terms of year, month and date by passing a date and an offset 
+    *
+    * @param from From date for finding the difference 
+    * @param days offset added to from date to get to date
+    * @retuen difference between the two dates
+    */
     public static <D extends java.util.Date> String difference(D from, int days) {
         return difference(from, addDay(from, days));
     }
