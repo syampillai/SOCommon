@@ -310,20 +310,44 @@ public class DateUtility {
         return create(year, month, day);
     }
 
+    /*
+    * Get java.sql.Date by passing java.time.LocalDate
+    *
+    * @param date LocalDate that has to be converted to java.sql.Date
+    * @return date
+    */
     public static Date create(LocalDate date) {
         return create(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 
+    /*
+    *Get time by passing LocalDateTime
+    *
+    * @param date LocalDateTime
+    * @return Time
+    */
     public static Time createTime(LocalDateTime date) {
         Date d = create(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
         return time(d.getTime() + date.getHour() * 3600000L + date.getMinute() * 60000L + date.getSecond() * 1000L);
     }
 
+    /*
+    *Get TimeStamp by passing LocalDateTime
+    *
+    * @param date LocalDateTime
+    * @return Timestamp
+    */
     public static Timestamp createTimestamp(LocalDateTime date) {
         Date d = create(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
         return timestamp(d.getTime() + date.getHour() * 3600000L + date.getMinute() * 60000L + date.getSecond() * 1000L);
     }
 
+    /*
+    *Get java.time.LocalDate by passing java.util.Date
+    *
+    * @param date java.util.Date
+    * @return date LocalDate
+    */
     public static <D extends java.util.Date> LocalDate local(D date) {
         return LocalDate.of(getYear(date), getMonth(date), getDay(date));
     }
