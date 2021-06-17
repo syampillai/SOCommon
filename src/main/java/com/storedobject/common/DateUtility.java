@@ -418,6 +418,11 @@ public class DateUtility {
         return time(t * tail);
     }
 
+    /*
+    * Get the current timestamp
+    *
+    * @return The current (UTC) Date and time
+    */
     public static Timestamp now() {
         return timestamp(System.currentTimeMillis());
     }
