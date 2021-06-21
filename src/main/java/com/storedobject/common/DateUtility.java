@@ -351,7 +351,13 @@ public class DateUtility {
     public static <D extends java.util.Date> LocalDate local(D date) {
         return LocalDate.of(getYear(date), getMonth(date), getDay(date));
     }
-
+    
+    /*
+    *Get java.time.LocalDateTime by passing java.util.Date
+    *
+    * @param date java.util.Date
+    * @return date LocalDateTime
+    */
     public static <D extends java.util.Date> LocalDateTime localTime(D date) {
         return LocalDateTime.of(getYear(date), getMonth(date), getDay(date),
                 get(date, HOUR_OF_DAY), get(date, MINUTE), get(date, SECOND), get(date, MILLISECOND));
@@ -365,6 +371,7 @@ public class DateUtility {
         return 0;
     }
 
+    
     private static java.sql.Time time(long t) {
         java.sql.Time time = new java.sql.Time(t);
         time.setTime(t);
@@ -377,10 +384,22 @@ public class DateUtility {
         return time;
     }
 
+    /*
+    * Get the Time value corresponsing to a Calendar instance
+    *
+    * @param calendar
+    * @return time
+    */
     public static Time createTime(Calendar calendar) {
         return time(calendar.getTimeInMillis());
     }
-
+    
+    /*
+    * Get the Time value corresponsing to a java.util.Date instance
+    *
+    * @param date
+    * @return time
+    */
     public static Time createTime(java.util.Date date) {
         return time(date.getTime());
     }
@@ -388,18 +407,25 @@ public class DateUtility {
     public static Timestamp createTimestamp(long time) {
         return timestamp(time);
     }
-
+    
     public static Timestamp createTimestamp(java.util.Date date) {
         return timestamp(date.getTime());
     }
 
+
+    /*
+    * Gets the current date and time value
+    * 
+    * @return time
+    */
     public static Time time() {
         return time(System.currentTimeMillis());
     }
-
+    
     public static Time trimMillis(Time time) {
         return trim(time, 10000L);
     }
+
 
     public static Time trimSeconds(Time time) {
         return trim(time, 60000L);
@@ -408,6 +434,7 @@ public class DateUtility {
     public static Time trimMinutes(Time time) {
         return trim(time, 3600000L);
     }
+
 
     public static Time trimHours(Time time) {
         return trim(time, 86400000L);
@@ -427,6 +454,12 @@ public class DateUtility {
         return timestamp(System.currentTimeMillis());
     }
 
+    /*
+    * Gets a timestamp for the date provided and the time set to start time of that day
+    *
+    * @param date
+    * @return timestamp corresponding to the date passed with time set to start time of that day
+    */
     public static Timestamp startTime(java.util.Date date) {
         return timestamp(trim(date).getTime());
     }
@@ -435,26 +468,56 @@ public class DateUtility {
         return create(getYear(date), getMonth(date), getDay(date));
     }
 
+    /*
+    * Gets the timestamp for the date provided and the time set to end time of that day
+    *
+    * @param date
+    * @result timestamp corresponding to the date passed with time set to end time of that day
+    */
     public static Timestamp endTime(java.util.Date date) {
         Date d = addDay(trim(date), 1);
         return timestamp(d.getTime() - 1000);
     }
 
+    /*
+    * Gets the timestamp for the current date with the time set to end time of the day
+    *
+    * @param date
+    * @result timestamp
+    */    
     public static Timestamp endOfToday() {
         Date d = tomorrow();
         return timestamp(d.getTime() - 1000);
     }
-
+    
+    /*
+    * Gets the timestamp for the previous date with the time set to end time of the day
+    *
+    * @param date
+    * @result timestamp
+    */ 
     public static Timestamp endOfYesterday() {
         Date d = today();
         return timestamp(d.getTime() - 1000);
     }
 
+    /*
+    * Gets the timestamp for the current date with the time set to start time of the day
+    *
+    * @param date
+    * @result timestamp
+    */  
     public static Timestamp startOfToday() {
         Date d = today();
         return timestamp(d.getTime());
     }
 
+    /*
+    * Gets the timestamp for the next date with the time set to start time of the day
+    *
+    * @param date
+    * @result timestamp
+    */  
     public static Timestamp startOfTomorrow() {
         Date d = tomorrow();
         return timestamp(d.getTime());
@@ -485,22 +548,53 @@ public class DateUtility {
         return monthFormat.format(date);
     }
 
+    /*
+    * Formats a given date in sql date format
+    *
+    * @param date
+    * @return formatted date
+    */
     public static <D extends java.util.Date> String formatDate(D date) {
         return format.format(date);
     }
 
+    
+    /*
+    * Formats a given date and time
+    *
+    * @param date
+    * @return formatted date and time
+    */
     public static <D extends java.util.Date> String formatLongDate(D date) {
         return longFormat.format(date);
     }
 
+    /*
+    * Formats a given date in MMM dd, yy format
+    *
+    * @param date
+    * @return formatted date
+    */
     public static <D extends java.util.Date> String formatShortDate(D date) {
         return shortFormat.format(date);
     }
 
+    /*
+    * Formats a given date in MM yy format
+    *
+    * @param date
+    * @return formatted date
+    */
     public static <D extends java.util.Date> String formatTinyDate(D date) {
         return tinyFormat.format(date);
     }
 
+    /*
+    * Formats the given date
+    *
+    * @param date
+    * @return formatted date
+    */
     public static <D extends java.util.Date> String format(D date) {
         if(date == null) {
             return null;
@@ -508,7 +602,13 @@ public class DateUtility {
         String s = formatWithTime(date);
         return s.contains("12:00:00 AM") || s.contains("00:00:00") ? format.format(date) : s;
     }
-
+    
+    /*
+    * Formats the given date
+    *
+    * @param date
+    * @return formatted date in MM dd yyyy HH:MM:SS AM/ PM
+    */
     public static <D extends java.util.Date> String formatWithTime(D date) {
         if(date == null) {
             return null;
@@ -520,10 +620,17 @@ public class DateUtility {
         return s;
     }
 
+    /*
+    * Formats the given date
+    *
+    * @param date
+    * @return formatted date in MM dd, yyyy HH:MM:SS AM/ PM
+    */    
     public static <D extends java.util.Date> String formatWithTimeHHMM(D date) {
         return date == null ? null : hhmmDateFormat.format(date);
     }
 
+    
     public static <D extends java.util.Date> String formatTime(D date) {
         return timeFormat.format(date);
     }
@@ -536,10 +643,24 @@ public class DateUtility {
         return hhmmFormat.format(createTimestamp(time));
     }
 
+    /*
+    * Check whether two dates are same
+    * 
+    * @param one first date to compare
+    * @param two second date to compare
+    * @return a boolean true if one and two are same, otherwise false
+    */
     public static <D extends java.util.Date> boolean equals(D one, D two) {
         return compareTo(one, two) == 0;
     }
 
+    /*
+    * Compare two dates and get the difference
+    * 
+    * @param one Date to compare
+    * @param two Date to compare
+    * @return 0 if one == two, +ve 1 if one > two and -ve 1 if one < two
+    */
     public static <D extends java.util.Date> int compareTo(D one, D two) {
         int v1 = getYear(one), v2 = getYear(two);
         if(v1 > v2) {
@@ -586,13 +707,21 @@ public class DateUtility {
         return getYear(today());
     }
 
+    /*
+    * Gets the year value for a particular date
+    * 
+    * @param date
+    * @return year corresponding to the date passed
+    */
     public static <D extends java.util.Date> int getYear(D date) {
         return get(date, YEAR);
     }
 
+    
     public static <D extends java.util.Date> D setYear(D date, int year) {
         return set(date, YEAR, year);
     }
+
 
     public static int getMonth() {
         return getMonth(today());
@@ -610,6 +739,13 @@ public class DateUtility {
         return get(date, MONTH);
     }
 
+    /*
+    * Sets the month of this date to the specified value.
+    * 
+    * @param date The original date
+    * @param month the month value that has to be set
+    * @return Date after setting the month value
+    */
     public static <D extends java.util.Date> D setMonth(D date, int month) {
         return set(date, MONTH, month - 1);
     }
@@ -626,18 +762,45 @@ public class DateUtility {
         return set(date, DATE, day);
     }
 
+    /*
+    * Adds a particular number of year to a specified date
+    *
+    * @param date The date to which the years are added
+    * @param year The number of year to add to the date passed
+    * @return The date after adding the year offset
+    */
     public static <D extends java.util.Date> D addYear(D date, int year) {
         return add(date, YEAR, year);
     }
 
+    /*
+    * Adds a particular number of months to a specified date
+    *
+    * @param date The date to which the months are added
+    * @param month The number of months to add to the date passed
+    * @return The date after adding the month offset
+    */
     public static <D extends java.util.Date> D addMonth(D date, int month) {
         return add(date, MONTH, month);
     }
 
+    /*
+    * Adds a particular number of days to a specified date
+    *
+    * @param date The date to which the days are added
+    * @param day The number of days to add to the date passed
+    * @return The date after adding the days offset
+    */
     public static <D extends java.util.Date> D addDay(D date, int day) {
         return add(date, DATE, day);
     }
 
+    /*
+    * Duplicates the date object passed
+    * 
+    * @param date
+    * @return A duplicate of the date passed
+    */
     public static <D extends java.util.Date> D clone(D date) {
         D d = cook(date);
         d.setTime(date.getTime());
