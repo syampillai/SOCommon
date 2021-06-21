@@ -321,7 +321,7 @@ public class DateUtility {
     }
 
     /*
-    *Get time by passing LocalDateTime
+    * Get time by passing LocalDateTime
     *
     * @param date LocalDateTime
     * @return Time
@@ -332,7 +332,7 @@ public class DateUtility {
     }
 
     /*
-    *Get TimeStamp by passing LocalDateTime
+    * Get TimeStamp by passing LocalDateTime
     *
     * @param date LocalDateTime
     * @return Timestamp
@@ -353,7 +353,7 @@ public class DateUtility {
     }
     
     /*
-    *Get java.time.LocalDateTime by passing java.util.Date
+    * Get java.time.LocalDateTime by passing java.util.Date
     *
     * @param date java.util.Date
     * @return date LocalDateTime
