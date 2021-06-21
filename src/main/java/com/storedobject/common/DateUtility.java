@@ -646,7 +646,7 @@ public class DateUtility {
     /*
     * Check whether two dates are same
     * 
-    * @param one first date to compare
+    * @param one first date to compare 
     * @param two second date to compare
     * @return a boolean true if one and two are same, otherwise false
     */
