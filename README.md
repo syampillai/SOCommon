@@ -14,20 +14,5 @@ added to the existing methods, I tried to revamp the existing code
 documentation is missing in many classes but I will be adding it as and when I
 get some free time.
 
-### Maven
-
-```
-<repositories>
-    <repository>
-        <id>github</id>
-        <url>https://maven.pkg.github.com/syampillai/SOCommon</url>
-    </repository>
-</repositories>
-```
-```
-<dependency>
-  <groupId>com.storedobject</groupId>
-  <artifactId>so-common</artifactId>
-  <version>3.2.8</version>
-</dependency>
-```
+Get it form here:  
+[![](https://jitpack.io/v/syampillai/SOCommon.svg)](https://jitpack.io/#syampillai/SOCommon)
