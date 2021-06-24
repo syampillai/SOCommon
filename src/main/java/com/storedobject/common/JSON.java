@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.*;
 
@@ -251,13 +252,23 @@ public class JSON {
     }
 
     /**
-     * Get this as a Number. If value is <code>null</code> or if the {@link Type} is different,
+     * Get this as a {@link Number}. If value is <code>null</code> or if the {@link Type} is different,
      * <code>null</code> will be returned.
      *
      * @return The value.
      */
     public Number getNumber() {
         return value == null || !value.isNumber() ? null : value.numberValue();
+    }
+
+    /**
+     * Get this as a {@link BigDecimal} value. If value is <code>null</code> or if the {@link Type} is different,
+     * <code>null</code> will be returned.
+     *
+     * @return The value.
+     */
+    public BigDecimal getDecimal() {
+        return value == null || !value.isNumber() ? null : value.decimalValue();
     }
 
     /**
@@ -336,7 +347,7 @@ public class JSON {
     }
 
     /**
-     * Get the value for the given key as a Number. <code>Null</code> will be returned if this
+     * Get the value for the given key as a {@link Number}. <code>Null</code> will be returned if this
      * is <code>null</code>, key is <code>null</code>, no value exists for the given key or the value type is
      * not matching.
      *
@@ -346,6 +357,19 @@ public class JSON {
     public Number getNumber(String key) {
         JSON json = get(key);
         return json == null ? null : json.getNumber();
+    }
+
+    /**
+     * Get the value for the given key as a {@link BigDecimal}. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key or the value type is
+     * not matching.
+     *
+     * @param key Key.
+     * @return Value for the key.
+     */
+    public BigDecimal getDecimal(String key) {
+        JSON json = get(key);
+        return json == null ? null : json.getDecimal();
     }
 
     /**
@@ -406,8 +430,8 @@ public class JSON {
     }
 
     /**
-     * Retrieve the value for the given key and get the value from the given position as a Number from that value,
-     * assuming that value is an array type. <code>Null</code> will be returned if this
+     * Retrieve the value for the given key and get the value from the given position as a {@link Number} from that
+     * value, assuming that value is an array type. <code>Null</code> will be returned if this
      * is <code>null</code>, key is <code>null</code>, no value exists for the given key, the value type is
      * not an array, nothing found at the given position or the value type at the position is not matching.
      *
@@ -417,6 +441,20 @@ public class JSON {
      */
     public Number getNumber(String key, int n) {
         return new JSON(value(key, n)).getNumber();
+    }
+
+    /**
+     * Retrieve the value for the given key and get the value from the given position as a {@link BigDecimal} from that
+     * value, assuming that value is an array type. <code>Null</code> will be returned if this
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key, the value type is
+     * not an array, nothing found at the given position or the value type at the position is not matching.
+     *
+     * @param key Key.
+     * @param n Position.
+     * @return Value for the key.
+     */
+    public BigDecimal getDecimal(String key, int n) {
+        return new JSON(value(key, n)).getDecimal();
     }
 
     /**

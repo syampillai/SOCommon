@@ -162,7 +162,10 @@ public class HTTP {
     public void setBasicAuthentication(String user, String password) {
         String a = user + ":" + password;
         a = Base64.getEncoder().encodeToString(a.getBytes(StandardCharsets.UTF_8));
-        connection.setRequestProperty("Authorization", "Basic " + a);
+        try {
+            conn().setRequestProperty("Authorization", "Basic " + a);
+        } catch(IOException ignored) {
+        }
     }
 
     /**
@@ -283,7 +286,7 @@ public class HTTP {
         while((line = r.readLine()) != null) {
             s.append(line).append('\n');
         }
-        done();
+        freeUp();
         return s.toString();
     }
 
@@ -295,7 +298,7 @@ public class HTTP {
      */
     public XML readXML() throws Exception {
         XML xml = new XML(getInputStream());
-        done();
+        freeUp();
         return xml;
     }
 
@@ -307,7 +310,7 @@ public class HTTP {
      */
     public JSON readJSON() throws Exception {
         JSON json = new JSON(getInputStream());
-        done();
+        freeUp();
         return json;
     }
 
