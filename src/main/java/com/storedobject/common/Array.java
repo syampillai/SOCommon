@@ -48,7 +48,7 @@ public class Array<T> implements Loop<T>, List<T> {
     * Constructor
     * 
     * @param array Array
-    * @param lower position of the first element in the array
+    * @param lower Position of the first element in the array
     **/
     public Array(T[] array, int lower) {
         this(array, lower, array.length);
