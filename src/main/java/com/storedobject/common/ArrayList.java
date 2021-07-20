@@ -18,23 +18,48 @@ package com.storedobject.common;
 
 import java.util.Collection;
 
+/**
+* An ArrayList implementation
+*
+* @author Syam
+**/
 public class ArrayList<E> extends java.util.ArrayList<E> {
 
     public ArrayList() {
     }
 
+    /**
+    * Creates an empty list for the initial capacity passed as parameter
+    *
+    * @param initialCapacity an integer that specifies the initial capacity of the list
+    **/
     public ArrayList(int initialCapacity) {
         super(initialCapacity);
     }
 
+    /**
+    * Creates a list using specified collection elements
+    *
+    * @param c Collection
+    **/
     public ArrayList(Collection<? extends E> c) {
         super(c);
     }
 
+    /**
+    * Gets the first element of a list
+    *
+    * @return first element of a list
+    **/
     public E firstElement() {
         return size() > 0 ? get(0) : null;
     }
 
+    /**
+    * Gets the last element of a list
+    *
+    * @return last element of a list
+    **/    
     public E lastElement() {
         return size() > 0 ? get(size() - 1) : null;
     }
