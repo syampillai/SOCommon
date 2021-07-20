@@ -112,7 +112,7 @@ public class ArrayListSet<E> extends ArrayList<E> {
     * @param elements Iterable elements
     * @param index The offset from here the elements gets added to the list
     *
-    * @return ArrayListSet containing all the specified elements
+    * @return ArrayListSet containing all the specified elements.
     **/
     public boolean addAll(int index, Iterable<? extends E> elements) {
         boolean changed = false;
