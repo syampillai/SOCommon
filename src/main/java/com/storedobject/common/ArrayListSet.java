@@ -34,7 +34,7 @@ public class ArrayListSet<E> extends ArrayList<E> {
     /**
     * Create an ArrayList that has the properties of a Set for a specified initial capacity
     *
-    * @param initialCapacity
+    * @param initialCapacity Initial capacity specified while creating the list
     **/
     public ArrayListSet(int initialCapacity) {
         super(initialCapacity);
