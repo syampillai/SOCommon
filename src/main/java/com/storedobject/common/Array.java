@@ -24,20 +24,43 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/**
+* An array implementation with variable size.
+*
+* @author Syam
+**/
 public class Array<T> implements Loop<T>, List<T> {
 
     private final T[] array;
     private final int lower, upper;
     private int i;
 
+    /**
+    * Constructor
+    * 
+    * @param array
+    **/
     public Array(T[] array) {
         this(array, 0, array.length);
     }
 
+    /**
+    * Constructor
+    * 
+    * @param array
+    * @param lower position of the first element in the array
+    **/
     public Array(T[] array, int lower) {
         this(array, lower, array.length);
     }
 
+    /**
+    * Constructor
+    * 
+    * @param array
+    * @param lower position of the first element in the array
+    * @param upper position of the last element in the array
+    **/
     public Array(T[] array, int lower, int upper) {
         this.array = array;
         if(array == null) {
