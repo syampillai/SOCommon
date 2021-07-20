@@ -31,7 +31,7 @@ public class ArrayList<E> extends java.util.ArrayList<E> {
     /**
     * Creates an empty list for the initial capacity passed as parameter
     *
-    * @param initialCapacity an integer that specifies the initial capacity of the list
+    * @param initialCapacity An integer that specifies the initial capacity of the list
     **/
     public ArrayList(int initialCapacity) {
         super(initialCapacity);
@@ -49,7 +49,7 @@ public class ArrayList<E> extends java.util.ArrayList<E> {
     /**
     * Gets the first element of a list
     *
-    * @return first element of a list
+    * @return First element of a list
     **/
     public E firstElement() {
         return size() > 0 ? get(0) : null;
@@ -58,7 +58,7 @@ public class ArrayList<E> extends java.util.ArrayList<E> {
     /**
     * Gets the last element of a list
     *
-    * @return last element of a list
+    * @return Last element of a list
     **/    
     public E lastElement() {
         return size() > 0 ? get(size() - 1) : null;
