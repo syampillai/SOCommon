@@ -19,15 +19,31 @@ package com.storedobject.common;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+/**
+* A class used to check/ compare the current value with the previous value in a series of values and returns a boolean result.
+* 
+* @author Syam
+**/
 public class CheckWithPrevious<T> implements Predicate<T> {
 
     private T previous;
     private BiPredicate<? super T, ? super T> checker;
 
+    /**
+    * Constructor
+    *
+    * @param checker A BiPredicate that defines the validation to take place between the current and the previous values.
+    **/
     public CheckWithPrevious(BiPredicate<? super T, ? super T> checker) {
         this(null, checker);
     }
 
+    /**
+    * Constructor
+    * 
+    * @param initial The initial value to compare/ check.
+    * @param checker A BiPredicate that defines the validation to take place between the current and the previous values.
+    **/
     public CheckWithPrevious(T initial, BiPredicate<? super T, ? super T> checker) {
         this.previous = initial;
         this.checker = checker;
@@ -40,10 +56,20 @@ public class CheckWithPrevious<T> implements Predicate<T> {
         return p == null || checker.test(p, current);
     }
 
+    /**
+    * Sets the previous value that is to be compared with the current value.
+    * 
+    * @param previous The previous value.
+    **/
     public void setPrevious(T previous) {
         this.previous = previous;
     }
 
+    /**
+    * Gets the previous value that is compared with the current value.
+    * 
+    * @return previous The previous value.
+    **/
     public T getPrevious() {
         return previous;
     }

@@ -15,7 +15,11 @@
  */
 
 package com.storedobject.common;
-
+/**
+* An interface that helps search for value(s) using a string pattern.
+*
+* @author Syam
+**/
 public interface ContentSearch {
     Object search(String pattern);
     Object searchNext(String pattern, Object from);

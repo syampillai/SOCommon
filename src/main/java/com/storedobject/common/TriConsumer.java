@@ -15,8 +15,20 @@
  */
 
 package com.storedobject.common;
-
+/**
+* A functional interface that accepts 3 arguments of type T1, T2, T3 for performing an operation with no return value.
+*
+* @author Syam
+**/
 @FunctionalInterface
 public interface TriConsumer<T1, T2, T3> {
+    
+    /**
+    * A method that accepts 3 values for performing an operation on them without returing any result after the operation.
+    *
+    * @param t1 First parameter of type T1.
+    * @param t2 Second parameter of type T2.
+    * @param t3 Third parameter of type T3.
+    **/
     void accept(T1 t1, T2 t2, T3 t3);
 }
