@@ -17,6 +17,10 @@
 package com.storedobject.common;
 
 import java.util.Iterator;
-
+/**
+* A collections interface that extends Iterator and Iterable interfaces
+*
+* @author Syam
+**/
 public interface Loop<T> extends Iterator<T>, Iterable<T> {
 }

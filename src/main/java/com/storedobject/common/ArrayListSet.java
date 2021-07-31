@@ -24,18 +24,38 @@ import java.util.Collection;
  * @author Syam
  */
 public class ArrayListSet<E> extends ArrayList<E> {
-
+    
+    /**
+    * Create an ArrayList that has the properties of a Set
+    **/
     public ArrayListSet() {
     }
 
+    /**
+    * Create an ArrayList that has the properties of a Set for a specified initial capacity
+    *
+    * @param initialCapacity Initial capacity specified while creating the list
+    **/
     public ArrayListSet(int initialCapacity) {
         super(initialCapacity);
     }
 
+    
+    /**
+    * Create an ArrayList that has the properties of a Set for specified elements of a collection
+    *
+    * @param c Collection
+    **/
     public ArrayListSet(Collection<? extends E> c) {
         addAll(c);
     }
 
+    
+    /**
+    * Create an ArrayList that has the properties of a Set for specified iterable elements
+    *
+    * @param elements Iterable elements
+    **/
     public ArrayListSet(Iterable<? extends E> elements) {
         addAll(elements);
     }
@@ -74,11 +94,26 @@ public class ArrayListSet<E> extends ArrayList<E> {
         super.add(index, e);
     }
 
+    /**
+    * add elements to a list
+    *
+    * @param elements Iterable elements
+    *
+    * @return ArrayListSet containing all the specified elements
+    **/
     @SuppressWarnings("UnusedReturnValue")
     public boolean addAll(Iterable<? extends E> elements) {
         return addAll(size(), elements);
     }
 
+    /**
+    * add elements to a list
+    *
+    * @param elements Iterable elements
+    * @param index The offset from here the elements gets added to the list
+    *
+    * @return ArrayListSet containing all the specified elements.
+    **/
     public boolean addAll(int index, Iterable<? extends E> elements) {
         boolean changed = false;
         for(E e: elements) {
