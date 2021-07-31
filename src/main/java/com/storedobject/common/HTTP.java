@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 /**
  * Simple HTTP utility. Requests can be sent multiple times but before sending subsequent requests the method
  * {@link #done()} should be invoked to clean up the previous request.
+ * <p>Note: This is written before {@link java.net.http.HttpClient} was available in Java. So, it is better
+ * to use that class and its related cousins instead of this class.</p>
  *
  * @author Syam
  */
