@@ -92,10 +92,8 @@ public final class PhoneNumber {
     }
 
     private static String packDigits(String phone) {
-        System.err.println(phone);
         StringBuilder s = new StringBuilder("+");
         phone.chars().filter(Character::isDigit).forEach(c -> s.append((char)c));
-        System.err.println(s);
         return s.toString();
     }
 
