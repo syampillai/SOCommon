@@ -41,7 +41,7 @@ public final class PhoneNumber {
      *
      * @param phoneNumber Phone number
      * @param allowEmpty Whether empty should be taken as valid or not
-     * @return Phone number (may be modified).
+     * @return Phone number (maybe modified).
      * @throws SOException If the phone number format is not valid
      */
     public static String check(String phoneNumber, boolean allowEmpty) throws SOException {
@@ -91,6 +91,14 @@ public final class PhoneNumber {
         return null;
     }
 
+    private static String packDigits(String phone) {
+        System.err.println(phone);
+        StringBuilder s = new StringBuilder("+");
+        phone.chars().filter(Character::isDigit).forEach(c -> s.append((char)c));
+        System.err.println(s);
+        return s.toString();
+    }
+
     private static int length(Country country, String phone) {
         if(phone.startsWith("+1")) {
             return 11;
@@ -99,7 +107,7 @@ public final class PhoneNumber {
             case "AE":
             case "KE":
             case "PK":
-                phone = StringUtility.pack(phone);
+                phone = packDigits(phone);
         }
         switch (country.getShortName()) {
             case "AE":

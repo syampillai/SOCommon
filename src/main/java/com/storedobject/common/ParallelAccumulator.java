@@ -19,17 +19,17 @@ package com.storedobject.common;
 import java.util.function.BiFunction;
 
 /**
-* A class that provides multithreaded synchronized Accumulator functionality
-*
-* @author Syam
-**/
+ * A class that provides multithreaded synchronized Accumulator functionality
+ *
+ * @author Syam
+ **/
 public class ParallelAccumulator<T> extends Accumulator<T> {
 
     /**
-    * Constructor
-    *
-    * @parameter accumulator A BiFunction that accepts the arguments and return value is of type T.
-    **/
+     * Constructor
+     *
+     * @param accumulator A BiFunction that accepts the arguments and return value is of type T.
+     **/
     public ParallelAccumulator(BiFunction<T, T, T> accumulator) {
         super(accumulator);
     }

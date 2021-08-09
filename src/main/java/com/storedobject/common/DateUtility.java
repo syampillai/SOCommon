@@ -232,9 +232,9 @@ public class DateUtility {
     /**
     * Create a Date instance for the specified day, month and year
     * 
-    * @param year
-    * @param month
-    * @param day
+    * @param year Year.
+    * @param month Month (1-based, not 0-based).
+    * @param day Day.
     * @return Date for the specified day, month and year
     */
     public static Date create(int year, int month, int day) {
@@ -995,7 +995,7 @@ public class DateUtility {
     *
     * @param from From date for finding the difference 
     * @param days offset added to from date to get to date
-    * @retuen difference between the two dates
+    * @return difference between the two dates
     */
     public static <D extends java.util.Date> String difference(D from, int days) {
         return difference(from, addDay(from, days));
