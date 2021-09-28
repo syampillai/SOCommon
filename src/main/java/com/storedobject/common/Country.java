@@ -357,7 +357,7 @@ public final class Country {
      * Check a given country code for its validity.
      *
      * @param countryCode Country code to be checked
-     * @return Country code (may be modified).
+     * @return Country code (maybe modified).
      * @throws SOException If the country is invalid
      */
     public static String check(String countryCode) throws SOException {
@@ -390,6 +390,10 @@ public final class Country {
      */
     public String getName() {
         switch(shortName) {
+            case "AN":
+                return "Netherlands Antilles";
+            case "AQ":
+                return "Antarctica";
             case "MV":
                 return "Maldives";
             case "XK":
