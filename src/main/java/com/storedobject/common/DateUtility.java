@@ -123,8 +123,8 @@ public class DateUtility {
     * @return End date of year for a give date
     */
     public static <D extends java.util.Date> D endOfYear(D date) {
-        D d = setDay(date, 31);
-        return setMonth(d, 12);
+        D d = setMonth(date, 12);
+        return setDay(d, 31);
     }
 
     /**
