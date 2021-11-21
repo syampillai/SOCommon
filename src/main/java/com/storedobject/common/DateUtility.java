@@ -56,8 +56,10 @@ public class DateUtility {
     private final static DateFormat hhmmFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private final static DateFormat hhmmDateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
     private final static DateFormatSymbols formatSymbols = new DateFormatSymbols();
-    private final static String[] monthNames = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-    private final static String[] weekNames = new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    private final static String[] monthNames = new String[]
+            { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    private final static String[] weekNames = new String[]
+            { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
     /**
     * Get the current date
@@ -213,7 +215,7 @@ public class DateUtility {
     * Create a Date instance by passing a Calendar instance
     * 
     * @param c Calendar instance
-    * @return Date curresponding to the calendar instance
+    * @return Date corresponding to the calendar instance
     */
     public static Date create(Calendar c) {
         c = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
@@ -221,7 +223,7 @@ public class DateUtility {
     }
 
     /**
-    * Create and return Date instance for the curent date
+    * Create and return Date instance for the current date
     * 
     * @return Current date
     */
@@ -273,7 +275,7 @@ public class DateUtility {
     * Get date by passing date string separated by comma or hyphen (, or -) in year, month and date format
     * 
     * @param text Date in text format
-    * @return Date curresponding to the given date text
+    * @return Date corresponding to the given date text
     */
     public static Date create(String text) {
         text = text.trim();
@@ -385,7 +387,7 @@ public class DateUtility {
     }
 
     /*
-    * Get the Time value corresponsing to a Calendar instance
+    * Get the Time value corresponding to a Calendar instance
     *
     * @param calendar
     * @return time
@@ -395,7 +397,7 @@ public class DateUtility {
     }
     
     /*
-    * Get the Time value corresponsing to a java.util.Date instance
+    * Get the Time value corresponding to a java.util.Date instance
     *
     * @param date
     * @return time
@@ -600,7 +602,7 @@ public class DateUtility {
             return null;
         }
         String s = formatWithTime(date);
-        return s.contains("12:00:00 AM") || s.contains("00:00:00") ? format.format(date) : s;
+        return s.toUpperCase().contains("12:00:00 AM") || s.contains("00:00:00") ? format.format(date) : s;
     }
     
     /*
@@ -923,7 +925,7 @@ public class DateUtility {
     }
 
     /*
-    * Validateds and returns true if two dates passed to the method are same
+    * Validates and returns true if two dates passed to the method are same
     * @param one
     * @param two
     * @return True if two dates passed to the method are same
@@ -995,7 +997,7 @@ public class DateUtility {
     *
     * @param from From date for finding the difference 
     * @param days offset added to from date to get to date
-    * @return difference between the two dates
+    * @return Differences between the two dates
     */
     public static <D extends java.util.Date> String difference(D from, int days) {
         return difference(from, addDay(from, days));
