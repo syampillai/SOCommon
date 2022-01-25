@@ -57,7 +57,7 @@ public class Array<T> implements Loop<T>, List<T> {
     /**
     * Constructor
     * 
-    * @param array
+    * @param array Array
     * @param lower Position of the first element in the array
     * @param upper Position of the last element in the array
     **/

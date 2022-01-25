@@ -19,7 +19,6 @@ package com.storedobject.common;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Representation of a Country.
@@ -306,15 +305,9 @@ public final class Country {
         }
         shortName = name(shortName);
         switch(shortName) {
-            case "USA":
-                shortName = "US";
-                break;
-            case "UAE":
-                shortName = "AE";
-                break;
-            case "SWAZILAND":
-                shortName = "SZ";
-                break;
+            case "USA" -> shortName = "US";
+            case "UAE" -> shortName = "AE";
+            case "SWAZILAND" -> shortName = "SZ";
         }
         String name = shortName;
         Country country = map.get(name);
@@ -323,7 +316,7 @@ public final class Country {
         }
         country = list().stream().filter(c -> name.equals(c.name())).findAny().orElse(null);
         if(country == null) {
-            List<Country> list = list().stream().filter(c -> c.name().startsWith(name)).collect(Collectors.toList());
+            List<Country> list = list().stream().filter(c -> c.name().startsWith(name)).toList();
             if(list.size() == 1) {
                 country = list.get(0);
             }
@@ -389,19 +382,15 @@ public final class Country {
      * @return The name.
      */
     public String getName() {
-        switch(shortName) {
-            case "AN":
-                return "Netherlands Antilles";
-            case "AQ":
-                return "Antarctica";
-            case "MV":
-                return "Maldives";
-            case "XK":
-                return "Kosovo";
-            case "XZ":
-                return "International Water"; // 999 - Invalid ISD code
-        }
-        return getLocale() == null ? shortName : locale.getDisplayCountry(Locale.ENGLISH);
+        return switch(shortName) {
+            case "AN" -> "Netherlands Antilles";
+            case "AQ" -> "Antarctica";
+            case "MV" -> "Maldives";
+            case "XK" -> "Kosovo";
+            case "XZ" -> "International Water";
+            default -> // 999 - Invalid ISD code
+                    getLocale() == null ? shortName : locale.getDisplayCountry(Locale.ENGLISH);
+        };
     }
 
     private Locale getLocale() {
@@ -518,13 +507,14 @@ public final class Country {
      * @return List of ISD prefix strings.
      */
     public List<String> listISDPrefix() {
-        switch (shortName) {
-            case "BQ":
+        switch(shortName) {
+            case "BQ" -> {
                 if(BQ == null) {
                     BQ = List.of("5993", "5994", "5997");
                 }
                 return BQ;
-            case "CA":
+            }
+            case "CA" -> {
                 if(CA == null) {
                     CA = List.of("1204", "1226", "1236", "1249", "1250", "1289", "1306", "1343", "1403",
                             "1416", "1418", "1438", "1450", "1506", "1514", "1519", "1579", "1581", "1587",
@@ -532,31 +522,37 @@ public final class Country {
                             "1867", "1902", "1905");
                 }
                 return CA;
-            case "CC":
+            }
+            case "CC" -> {
                 if(CC == null) {
                     CC = List.of("6189162");
                 }
                 return CC;
-            case "CX":
+            }
+            case "CX" -> {
                 if(CX == null) {
                     CX = List.of("6189164");
                 }
                 return CX;
-            case "DO":
+            }
+            case "DO" -> {
                 if(DO == null) {
                     DO = List.of("1809", "1829", "1849");
                 }
                 return DO;
-            case "PR":
+            }
+            case "PR" -> {
                 if(PR == null) {
                     PR = List.of("1787", "1939");
                 }
                 return PR;
-            case "SJ":
+            }
+            case "SJ" -> {
                 if(SJ == null) {
                     SJ = List.of("4732", "4779");
                 }
                 return SJ;
+            }
         }
         return Collections.emptyList();
     }

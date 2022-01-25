@@ -335,15 +335,13 @@ public abstract class Address {
             slines.add("[Not a valid address]");
         }
         valid = v;
-        String s;
-        switch (apartmentCode) {
-            case '2':
-            case '3':
-                s = "";
-                break;
-            default:
-                s = getTypeValue() + " ";
-                break;
+        String s = switch(apartmentCode) {
+            case '2', '3' -> "";
+            default -> getTypeValue() + " ";
+        };
+        boolean streetNameFirst = streetNameFirst();
+        if(streetNameFirst) {
+            slines.add(street());
         }
         String line = apartmentName(s);
         boolean separateBuilding = separateBuildingLine();
@@ -353,7 +351,9 @@ public abstract class Address {
         }
         slines.add(line);
         if(separateBuilding) {
-            if(apartmentCode == '1' || apartmentCode == '2') { // Office or house
+            if(streetNameFirst) {
+                slines.add(buildingName());
+            } else if(apartmentCode == '1' || apartmentCode == '2') { // Office or house
                 slines.add(street());
                 slines.add(buildingName());
             } else {
@@ -361,7 +361,9 @@ public abstract class Address {
                 slines.add(street());
             }
         } else {
-            slines.add(street());
+            if(!streetNameFirst) {
+                slines.add(street());
+            }
         }
         slines.add(areaName());
         for(int i = 0; i < lines.length; i++) {
@@ -788,6 +790,14 @@ public abstract class Address {
      * @return True/false
      */
     boolean separateBuildingLine() {
+        return false;
+    }
+
+    /**
+     * Whether to have street name shown before apartment/villa/office or not.
+     * @return True/false.
+     */
+    boolean streetNameFirst() {
         return false;
     }
 

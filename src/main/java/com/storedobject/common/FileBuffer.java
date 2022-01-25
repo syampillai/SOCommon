@@ -72,11 +72,11 @@ public class FileBuffer implements ResourceOwner {
             return;
         }
         try {
-            dataFile = File.createTempFile("SOBuffer", "data");
+            dataFile = File.createTempFile("SOBuffer", ".data");
             dataFile.deleteOnExit();
             dataOut = IO.getOutput(dataFile);
             closeables.add(dataOut);
-            indexFile = File.createTempFile("SOBuffer", "index");
+            indexFile = File.createTempFile("SOBuffer", ".index");
             indexFile.deleteOnExit();
             indexOut = IO.getDataOutput(indexFile);
             closeables.add(indexOut);
@@ -290,7 +290,7 @@ public class FileBuffer implements ResourceOwner {
         f.dataBuffer = dataBuffer.asReadOnlyBuffer();
         f.dataSize = dataSize;
         try {
-            f.indexFile = File.createTempFile("SOBuffer", "index");
+            f.indexFile = File.createTempFile("SOBuffer", ".index");
             f.indexFile.deleteOnExit();
             f.indexOut = IO.getDataOutput(f.indexFile);
             for(int i = 0; i < size; i++) {

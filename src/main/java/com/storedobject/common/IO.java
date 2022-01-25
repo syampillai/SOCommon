@@ -775,7 +775,7 @@ public class IO {
     }
 
     private static ByteBuffer byteBuf(InputStream in, FileChannel.MapMode mode, String fileMode) throws IOException {
-        File file = File.createTempFile("SOBuffer", "data");
+        File file = File.createTempFile("SOBuffer", ".data");
         file.deleteOnExit();
         copy(get(in), new FileOutputStream(file));
         return new RandomAccessFile(file, fileMode).getChannel().map(mode, 0, file.length());
