@@ -16,6 +16,7 @@
 
 package com.storedobject.common;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -115,10 +116,37 @@ public class USAddress extends Address {
         return "City";
     }
 
+    /**
+     * Set the state.
+     *
+     * @param state Index values of the state.
+     */
     public void setState(int state) {
         lines[lines.length - 1] = "" + (state % states.length);
     }
 
+    /**
+     * Set the state.
+     *
+     * @param state 2-character state code..
+     */
+    public void setState(String state) {
+        if(state != null) {
+            state = state.toUpperCase();
+            for(int i = 0; i < states.length; i++) {
+                if(states[i].state.startsWith(state)) {
+                    setState(i);
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the state index.
+     * @return Index value of the state.
+     * @throws SOException If state index is currently invalid.
+     */
     public int getState() throws SOException {
         int s = extractNumber(lines.length - 1);
         if(s >= 0 && s < states.length) {
@@ -127,6 +155,11 @@ public class USAddress extends Address {
         throw new SOException("Invalid state");
     }
 
+    /**
+     * Get the name of the states.
+     *
+     * @return Stream of the state names.
+     */
     public static Stream<String> getStates() {
         return new Array<>(states).stream().map(s -> s.state);
     }
@@ -164,8 +197,13 @@ public class USAddress extends Address {
     }
 
     @Override
+    public boolean isNumericPostalCode() {
+        return false;
+    }
+
+    @Override
     boolean checkPostalCode() {
-        if(postalCode == null || postalCode.isEmpty() || postalCode.startsWith("-") || postalCode.endsWith("-")) {
+        if(postalCode.startsWith("-") || postalCode.endsWith("-")) {
             return false;
         }
         String z;
