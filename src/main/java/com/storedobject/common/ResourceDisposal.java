@@ -25,7 +25,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Resource disposal class. Any {@link ResourceOwner} can be statically register with this class so that its
+ * Resource disposal class. Any {@link ResourceOwner} can statically register with this class so that its
  * "resource" will be automatically closed when it is garbage-collected.
  *
  * @author Syam

@@ -101,11 +101,8 @@ public final class PhoneNumber {
         if(phone.startsWith("+1")) {
             return 11;
         }
-        switch (country.getShortName()) {
-            case "AE":
-            case "KE":
-            case "PK":
-                phone = packDigits(phone);
+        switch(country.getShortName()) {
+            case "AE", "KE", "PK" -> phone = packDigits(phone);
         }
         switch (country.getShortName()) {
             case "AE":

@@ -17,90 +17,69 @@
 package com.storedobject.common;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * A class to keep a list of {@link String}s. This class is immutable.
+ *
+ * @author Syam
+ */
 public class StringList implements Iterable<String>, List<String> {
 
     private static final String[] empty_array = new String[] { };
     public static final StringList EMPTY = new StringList(empty_array);
+    /**
+     * Internal array to hold the {@link String} values.
+     */
     String[] array;
 
-    /**
-     * Constructor
-     *
-     * @param list List (comma delimited)
-     * @deprecated Use the create method instead
-     */
-    @Deprecated
-    public StringList(String list) {
+    private StringList(String list) {
         this(toArray(list));
     }
 
-    /**
-     * Constructor
-     *
-     * @param collection List of elements
-     * @deprecated Use the create method instead
-     */
-    @Deprecated
-    public StringList(Collection<String> collection) {
+    private StringList(Collection<String> collection) {
         toArray(collection);
     }
 
-    /**
-     * Constructor
-     *
-     * @param list List of elements
-     * @deprecated Use the create method instead
-     */
-    @Deprecated
-    public StringList(Iterable<String> list) {
+    private StringList(Iterable<String> list) {
         this(list.iterator());
     }
 
-    /**
-     * Constructor
-     *
-     * @param list List of elements
-     * @deprecated Use the create method instead
-     */
-    @Deprecated
-    public StringList(Iterator<String> list) {
+    private StringList(Iterator<String> list) {
         ArrayList<String> array = new ArrayList<>();
         list.forEachRemaining(array::add);
         toArray(array);
     }
 
-    /**
-     * Constructor
-     *
-     * @param array List of elements
-     * @deprecated Use the create method instead
-     */
-    @Deprecated
-    public StringList(String... array) {
+    private StringList(String... array) {
         this.array = array == null || array.length == 0 ? empty_array : array;
     }
 
-    /**
-     * Constructor
-     *
-     * @param list List of elements
-     * @deprecated Use the create method instead
-     */
-    @Deprecated
-    public StringList(StringList... list) {
+    private StringList(StringList... list) {
         array = concat(list).array;
     }
 
+    /**
+     * Create a string list.
+     *
+     * @param list Comma delimited list.
+     * @return String list created.
+     */
     public static StringList create(String list) {
         StringList s = new StringList(list);
         return s.array == empty_array ? EMPTY : s;
     }
 
+    /**
+     * Create a string list from a collection.
+     *
+     * @param collection Collection.
+     * @return String list created.
+     */
     public static StringList create(Collection<String> collection) {
         if(collection instanceof StringList) {
             return (StringList) collection;
@@ -109,6 +88,12 @@ public class StringList implements Iterable<String>, List<String> {
         return s.array == empty_array ? EMPTY : s;
     }
 
+    /**
+     * Create a string list from an {@link Iterable}.
+     *
+     * @param list Iterable.
+     * @return String list created.
+     */
     public static StringList create(Iterable<String> list) {
         if(list instanceof StringList) {
             return (StringList) list;
@@ -117,6 +102,12 @@ public class StringList implements Iterable<String>, List<String> {
         return s.array == empty_array ? EMPTY : s;
     }
 
+    /**
+     * Create a string list from an {@link Iterator}.
+     *
+     * @param list Iterator.
+     * @return String list created.
+     */
     public static StringList create(Iterator<String> list) {
         if(list instanceof StringList) {
             return (StringList) list;
@@ -125,13 +116,39 @@ public class StringList implements Iterable<String>, List<String> {
         return s.array == empty_array ? EMPTY : s;
     }
 
+    /**
+     * Create a string list from an array of strings..
+     *
+     * @param array Array of strings.
+     * @return String list created.
+     */
     public static StringList create(String... array) {
         return array == null || array.length == 0 ? EMPTY : new StringList(array);
     }
 
+    /**
+     * Create a string list by concatenating one or more lists.
+     *
+     * @param list Lists.
+     * @return String list created.
+     */
     public static StringList create(StringList... list) {
         StringList s = new StringList(list);
         return s.array == empty_array ? EMPTY : s;
+    }
+
+    /**
+     * Create another instance by mapping the elements of this list via a converter function.
+     *
+     * @param converter Converter function.
+     * @return Converted list.
+     */
+    public StringList map(Function<String, String> converter) {
+        String[] a = new String[array.length];
+        for(int i = 0; i < a.length; i++) {
+            a[i] = converter.apply(array[i]);
+        }
+        return a.length == 0 ? EMPTY : new StringList(a);
     }
 
     private void toArray(Collection<String> collection) {
@@ -261,10 +278,9 @@ public class StringList implements Iterable<String>, List<String> {
 
     @Override
     public int lastIndexOf(Object o) {
-        if(!(o instanceof String)) {
+        if(!(o instanceof String s)) {
             return -1;
         }
-        String s = (String)o;
         int p = indexOf(s), i;
         while(p > 0) {
             i = indexOf(s, p);
@@ -286,26 +302,54 @@ public class StringList implements Iterable<String>, List<String> {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public String get(int index) {
         return array[index];
     }
 
+    @Override
     public int size() {
         return array.length;
     }
 
+    /**
+     * Get a copy of the elements as an array.
+     *
+     * @return Array containing elements of this list.
+     */
     public String[] array() {
         return array.clone();
     }
 
+    /**
+     * Index of an element in the list.
+     *
+     * @param element Element.
+     * @return Index position or -1 if not found.
+     */
     public int indexOf(String element) {
         return indexOf(element, 0);
     }
 
+    /**
+     * Index of an element in the list.
+     *
+     * @param element Element.
+     * @param from Start the search from this position.
+     * @return Index position or -1 if not found.
+     */
     public int indexOf(String element, int from) {
         return StringUtility.indexOf(array, element, from);
     }
 
+    /**
+     * Index of an element in the list.
+     *
+     * @param element Element.
+     * @param from Start the search from this position.
+     * @param to Stop the search before this position.
+     * @return Index position or -1 if not found.
+     */
     public int indexOf(String element, int from, int to) {
         return StringUtility.indexOf(array, element, from, to);
     }
@@ -318,6 +362,14 @@ public class StringList implements Iterable<String>, List<String> {
         return indexOf(filter, from, size());
     }
 
+    /**
+     * Index of an element in the list that matches the given predicate.
+     *
+     * @param filter Filter predicate.
+     * @param from Start the search from this position.
+     * @param to Stop the search before this position.
+     * @return Index position or -1 if not found.
+     */
     public int indexOf(Predicate<String> filter, int from, int to) {
         if(to > size()) {
             to = size();
@@ -330,14 +382,38 @@ public class StringList implements Iterable<String>, List<String> {
         return -1;
     }
 
+    /**
+     * Index of an element in the list that matches the given predicate.
+     *
+     * @param filter Filter predicate.
+     * @param unique Whether uniqueness to be checked or not.
+     * @return Index position or -1 if not found.
+     */
     public int indexOf(Predicate<String> filter, boolean unique) {
         return indexOf(filter, unique, 0, size());
     }
 
+    /**
+     * Index of an element in the list that matches the given predicate.
+     *
+     * @param filter Filter predicate.
+     * @param unique Whether uniqueness to be checked or not.
+     * @param from Start the search from this position.
+     * @return Index position or -1 if not found.
+     */
     public int indexOf(Predicate<String> filter, boolean unique, int from) {
         return indexOf(filter, unique, from, size());
     }
 
+    /**
+     * Index of an element in the list that matches the given predicate.
+     *
+     * @param filter Filter predicate.
+     * @param unique Whether uniqueness to be checked or not.
+     * @param from Start the search from this position.
+     * @param to Stop the search before this position.
+     * @return Index position or -1 if not found.
+     */
     public int indexOf(Predicate<String> filter, boolean unique, int from, int to) {
         if(!unique) {
             return indexOf(filter, from, to);
@@ -353,26 +429,68 @@ public class StringList implements Iterable<String>, List<String> {
         return -1;
     }
 
+    /**
+     * Check whether this list contains the given element or not.
+     *
+     * @param element Element.
+     * @return True/false.
+     */
     public boolean contains(String element) {
         return contains(element, 0);
     }
 
+    /**
+     * Check whether this list contains the given element or not.
+     *
+     * @param element Element.
+     * @param from Start the search from this position.
+     * @return True/false.
+     */
     public boolean contains(String element, int from) {
         return indexOf(element, from) >= 0;
     }
 
+    /**
+     * Check whether this list contains the given element or not.
+     *
+     * @param element Element.
+     * @param from Start the search from this position.
+     * @param to Stop the search before this position.
+     * @return True/false.
+     */
     public boolean contains(String element, int from, int to) {
         return indexOf(element, from, to) >= 0;
     }
 
+    /**
+     * Check whether this list contains any element that matches a given predicate or not.
+     *
+     * @param filter Filter predicate.
+     * @return True/false.
+     */
     public boolean contains(Predicate<String> filter) {
         return contains(filter, 0);
     }
 
+    /**
+     * Check whether this list contains any element that matches a given predicate or not.
+     *
+     * @param filter Filter predicate.
+     * @param from Start the search from this position.
+     * @return True/false.
+     */
     public boolean contains(Predicate<String> filter, int from) {
         return indexOf(filter, from) >= 0;
     }
 
+    /**
+     * Check whether this list contains any element that matches a given predicate or not.
+     *
+     * @param filter Filter predicate.
+     * @param from Start the search from this position.
+     * @param to Stop the search before this position.
+     * @return True/false.
+     */
     public boolean contains(Predicate<String> filter, int from, int to) {
         return indexOf(filter, from, to) >= 0;
     }
@@ -382,10 +500,21 @@ public class StringList implements Iterable<String>, List<String> {
         return toString(",");
     }
 
+    /**
+     * Concatenate the elements of this list into a {@link String} with the given delimiter.
+     *
+     * @param delimiter Delimiter.
+     * @return Concatenated value.
+     */
     public String toString(String delimiter) {
         return String.join(delimiter, this);
     }
 
+    /**
+     * Stream the elements.
+     *
+     * @return Stream.
+     */
     public Stream<String> stream() {
         Iterable<String> i = this;
         return StreamSupport.stream(i.spliterator(), false);
@@ -396,10 +525,22 @@ public class StringList implements Iterable<String>, List<String> {
         return new SLIterator(0, array.length);
     }
 
+    /**
+     * Remove an element from the list.
+     *
+     * @param element Element to remove.
+     * @return Modified list.
+     */
     public StringList remove(String element) {
         return minus(StringList.create(new String[] { element }));
     }
 
+    /**
+     * Remove elements from this list that are elements of another list.
+     *
+     * @param another Another list.
+     * @return Modified list.
+     */
     public StringList minus(StringList another) {
         if(another == null || another.isEmpty()) {
             return this;
@@ -410,6 +551,12 @@ public class StringList implements Iterable<String>, List<String> {
         return StringList.create(stream().filter(s -> !another.contains(s)).collect(Collectors.toList()));
     }
 
+    /**
+     * Get a sub-list.
+     *
+     * @param index Index from which sublist to be started.
+     * @return Sub-list.
+     */
     public StringList subList(int index) {
         if(index < 0 || index >= size()) {
             return EMPTY;
@@ -417,6 +564,13 @@ public class StringList implements Iterable<String>, List<String> {
         return new SubStringList(this, index, array.length);
     }
 
+    /**
+     * Get a sub-list.
+     *
+     * @param start Starting index.
+     * @param end Ending index (exclusive).
+     * @return Sub-list.
+     */
     public StringList subList(int start, int end) {
         if(end >= array.length) {
             end = array.length;
@@ -427,18 +581,43 @@ public class StringList implements Iterable<String>, List<String> {
         return new SubStringList(this, start, end);
     }
 
+    /**
+     * Concatenate another list to this list.
+     *
+     * @param another Another list.
+     * @return Concatenated list.
+     */
     public StringList concat(StringList another) {
         return concat(this, another);
     }
 
+    /**
+     * Concatenate another list to this list.
+     *
+     * @param another Another list.
+     * @return Concatenated list.
+     */
     public StringList concat(String[] another) {
         return concat(this.array, another);
     }
 
+    /**
+     * Concatenate a collection to this list.
+     *
+     * @param collection Collection.
+     * @return Concatenated list.
+     */
     public StringList concat(Collection<String> collection) {
         return concat(this, StringList.create(collection));
     }
 
+    /**
+     * Concatenate 2 lists..
+     *
+     * @param first First list (could be null).
+     * @param second Second list (could be null).
+     * @return Concatenated list.
+     */
     public static StringList concat(StringList first, StringList second) {
         if(second == null || second.size() == 0) {
             return first == null ? EMPTY : first;
@@ -457,18 +636,24 @@ public class StringList implements Iterable<String>, List<String> {
         return StringList.create(s);
     }
 
-    public static StringList concat(StringList... list) {
-        if(list == null || list.length == 0) {
+    /**
+     * Concatenate an array of lists.
+     *
+     * @param lists Array of lists.
+     * @return Concatenated list.
+     */
+    public static StringList concat(StringList... lists) {
+        if(lists == null || lists.length == 0) {
             return EMPTY;
         }
-        if(list.length == 1) {
-            return list[0] == null ? EMPTY : list[0];
+        if(lists.length == 1) {
+            return lists[0] == null ? EMPTY : lists[0];
         }
-        if(list.length == 2) {
-            return concat(list[0], list[1]);
+        if(lists.length == 2) {
+            return concat(lists[0], lists[1]);
         }
         int len = 0;
-        for(StringList item: list) {
+        for(StringList item: lists) {
             if(item == null) {
                 continue;
             }
@@ -476,7 +661,7 @@ public class StringList implements Iterable<String>, List<String> {
         }
         String[] s = new String[len];
         int i = 0;
-        for(StringList item: list) {
+        for(StringList item: lists) {
             if(item == null) {
                 continue;
             }
@@ -487,13 +672,19 @@ public class StringList implements Iterable<String>, List<String> {
         return StringList.create(s);
     }
 
-    public static StringList concat(String[]... list) {
-        if(list == null || list.length == 0) {
+    /**
+     * Concatenate an array of lists.
+     *
+     * @param lists Array of lists.
+     * @return Concatenated list.
+     */
+    public static StringList concat(String[]... lists) {
+        if(lists == null || lists.length == 0) {
             return EMPTY;
         }
-        StringList[] slist = new StringList[list.length];
+        StringList[] slist = new StringList[lists.length];
         for(int i = 0; i < slist.length; i++) {
-            slist[i] = StringList.create(list[i]);
+            slist[i] = StringList.create(lists[i]);
         }
         return concat(slist);
     }
