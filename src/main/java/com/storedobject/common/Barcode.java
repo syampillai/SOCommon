@@ -351,15 +351,10 @@ public class Barcode {
      * @return True or false.
      */
     public boolean isPrintText() {
-        switch(format) {
-            case QR_CODE:
-            case DATA_MATRIX:
-            case PDF_417:
-            case AZTEC:
-                return false;
-            default:
-                return printText;
-        }
+        return switch(format) {
+            case QR_CODE, DATA_MATRIX, PDF_417, AZTEC -> false;
+            default -> printText;
+        };
     }
 
     /**

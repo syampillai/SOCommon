@@ -33,6 +33,22 @@ import java.util.*;
 public class StringUtility {
 
     /**
+     * Convert a string to camelcase.
+     * @param text Text to convert.
+     * @return Converted text.
+     */
+    public static String toCamelCase(String text) {
+        StringBuilder builder = new StringBuilder();
+        char p = ' ', c;
+        for(int i = 0; i < text.length(); i++) {
+            c = text.charAt(i);
+            builder.append(Character.isLetterOrDigit(p) ? Character.toLowerCase(c) : Character.toUpperCase(c));
+            p = c;
+        }
+        return builder.toString();
+    }
+
+    /**
      * Convert to lower case.
      * @param s String array to be converted.
      * @return Array
@@ -97,7 +113,8 @@ public class StringUtility {
     }
 
     /**
-     * Tag each element of a String array if it is a duplicate. For example, if the array is { "Name", "ShortName", "Name", "Test", "Name" }, it will become
+     * Tag each element of a String array if it is a duplicate. For example, if the array is
+     * { "Name", "ShortName", "Name", "Test", "Name" }, it will become
      * { "Name", "ShortName", "Name (2)", "Test", "Name (3)" }. Null values will be untouched.
      * @param s String array to be tagged
      * @return Array
@@ -124,7 +141,8 @@ public class StringUtility {
     }
 
     /**
-     * Tag each element of a String list if it is a duplicate. For example, if the list is [ "Name", "ShortName", "Name", "Test", "Name" ], it will become
+     * Tag each element of a String list if it is a duplicate. For example, if the list is
+     * [ "Name", "ShortName", "Name", "Test", "Name" ], it will become
      * [ "Name", "ShortName", "Name (2)", "Test", "Name (3)" ]. Null values will be untouched.
      * @param s String list to be tagged
      * @return Array
@@ -699,14 +717,18 @@ public class StringUtility {
 
     /**
      * <p>Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
-     * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences after that keyword will be used for
-     * generating the label.</p>
-     * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name", "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
-     * "KGB" =&gt; "KGB", "KGBAgent" =&gt; "KGB Agent", "eDocument" =&gt; "eDocument", "eGovernanceInitiative" =&gt; "eGovernance Initiative",
+     * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences
+     * after that keyword will be used for generating the label.</p>
+     * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name",
+     * "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
+     * "KGB" =&gt; "KGB", "KGBAgent" =&gt; "KGB Agent", "eDocument" =&gt; "eDocument",
+     * "eGovernanceInitiative" =&gt; "eGovernance Initiative",
      * "Document_PartI" =&gt; "Document - Part I.</p>
      * <p>Also,</p>
-     * <p>(1) class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt; "Employee"</p>
-     * <p>(2) "A.B.C." =&gt; "A.B.C.", "Animal.Lion" =&gt; "Lion" (because the letter just before ".Lion" is in small-case).</p>
+     * <p>(1) class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt;
+     * "Employee"</p>
+     * <p>(2) "A.B.C." =&gt; "A.B.C.", "Animal.Lion" =&gt; "Lion" (because the letter just before ".Lion" is in
+     * small-case).</p>
      * @param s String to be converted.
      * @param lowerPropositions Whether to convert propositions to lower case or not.
      * @return Converted string.
@@ -885,14 +907,18 @@ public class StringUtility {
 
     /**
      * <p>Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
-     * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences after that keyword will be used for
-     * generating the label.</p>
-     * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name", "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
-     * "KGB" =&gt; "KGB", "KGBAgent" =&gt; "KGB Agent", "eDocument" =&gt; "eDocument", "eGovernanceInitiative" =&gt; "eGovernance Initiative",
+     * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences after
+     * that keyword will be used for generating the label.</p>
+     * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name",
+     * "CountryOfDestination as Shipment Country" =&gt; "Shipment Country",
+     * "KGB" =&gt; "KGB", "KGBAgent" =&gt; "KGB Agent", "eDocument" =&gt; "eDocument", "eGovernanceInitiative" =&gt;
+     * "eGovernance Initiative",
      * "Document_PartI" =&gt; "Document - Part I.</p>
      * <p>Also,</p>
-     * <p>(1) class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt; "Employee"</p>
-     * <p>(2) "A.B.C." =&gt; "A.B.C.", "Animal.Lion" =&gt; "Lion" (because the letter just before ".Lion" is in small-case).</p>
+     * <p>(1) class casting type constructs will be removed. Example: "(com.storedobject.core.Person)Employee" =&gt;
+     * "Employee"</p>
+     * <p>(2) "A.B.C." =&gt; "A.B.C.", "Animal.Lion" =&gt; "Lion" (because the letter just before ".Lion" is in
+     * small-case).</p>
      * @param s String to be converted.
      * @return Converted string.
      */
@@ -901,7 +927,8 @@ public class StringUtility {
     }
 
     /**
-     * Convert an integer list to a range string. For example, { 1, 2, 3, 5, 7, 8, 9 } will be converted to "1 - 3, 5, 7 - 9".
+     * Convert an integer list to a range string.
+     * For example, { 1, 2, 3, 5, 7, 8, 9 } will be converted to "1 - 3, 5, 7 - 9".
      *
      * @param list List of numbers to be converted.
      * @return Range string
@@ -916,7 +943,8 @@ public class StringUtility {
     }
 
     /**
-     * Convert an int array into a range string. For example, an array { 1, 2, 3, 5, 7, 8, 9 } will be converted to "1 - 3, 5, 7 - 9".
+     * Convert an int array into a range string.
+     * For example, an array { 1, 2, 3, 5, 7, 8, 9 } will be converted to "1 - 3, 5, 7 - 9".
      *
      * @param n int array of numbers to be converted.
      * @return Range string
@@ -949,7 +977,8 @@ public class StringUtility {
     }
 
     /**
-     * Convert a range string to an int array. For example, "1 - 3, 5, 7 - 9" will be converted to an array { 1, 2, 3, 5, 7, 8, 9 }.
+     * Convert a range string to an int array.
+     * For example, "1 - 3, 5, 7 - 9" will be converted to an array { 1, 2, 3, 5, 7, 8, 9 }.
      *
      * @param s String to be converted.
      * @return int array containing the numbers. Null will be returned if the parameter passed contains errors.
@@ -1039,39 +1068,13 @@ public class StringUtility {
         char firstLetter = x[0];
         for(i = 0; i < x.length; i++) {
             switch(x[i]) {
-                case 'B':
-                case 'F':
-                case 'P':
-                case 'V':
-                    x[i] = '1';
-                    break;
-                case 'C':
-                case 'G':
-                case 'J':
-                case 'K':
-                case 'Q':
-                case 'S':
-                case 'X':
-                case 'Z':
-                    x[i] = '2';
-                    break;
-                case 'D':
-                case 'T':
-                    x[i] = '3';
-                    break;
-                case 'L':
-                    x[i] = '4';
-                    break;
-                case 'M':
-                case 'N':
-                    x[i] = '5';
-                    break;
-                case 'R':
-                    x[i] = '6';
-                    break;
-                default:
-                    x[i] = '0';
-                    break;
+                case 'B', 'F', 'P', 'V' -> x[i] = '1';
+                case 'C', 'G', 'J', 'K', 'Q', 'S', 'X', 'Z' -> x[i] = '2';
+                case 'D', 'T' -> x[i] = '3';
+                case 'L' -> x[i] = '4';
+                case 'M', 'N' -> x[i] = '5';
+                case 'R' -> x[i] = '6';
+                default -> x[i] = '0';
             }
         }
         StringBuilder output = new StringBuilder("" + firstLetter);
@@ -1854,11 +1857,10 @@ public class StringUtility {
                 String substring = s.substring(0, s.length() - 2);
                 if(s.endsWith("DB")) {
                     neg = 3;
-                    s = substring.trim();
                 } else {
                     neg = 4;
-                    s = substring.trim();
                 }
+                s = substring.trim();
             }
         }
         StringBuilder sb = new StringBuilder();
@@ -1942,21 +1944,10 @@ public class StringUtility {
             s += decimalDigits;
         }
         switch(neg) {
-            case 1:
-                s = "-" + s;
-                break;
-
-            case 2:
-                s += "-";
-                break;
-
-            case 3:
-                s += " DB";
-                break;
-
-            case 4:
-                s += " CR";
-                break;
+            case 1 -> s = "-" + s;
+            case 2 -> s += "-";
+            case 3 -> s += " DB";
+            case 4 -> s += " CR";
         }
         return s;
     }
