@@ -179,7 +179,7 @@ public abstract class Address {
         }
         if(lines.length > 5) {
             a.postalCode = lines[5];
-            a.setPostalCode(a.postalCode);
+            a.setPC(a.postalCode);
         }
         int m = 6;
         for(int i = 0; i < a.lines.length; i++) {
@@ -246,13 +246,13 @@ public abstract class Address {
         if(apartmentName == null || apartmentName.isBlank()) {
             throw new SOException("Blank " + getTypeValue() + " Number/Name");
         }
-        if(!checkPC()) {
-            valid = false;
-            throw new SOException("Invalid " + getPostalCodeCaption());
-        }
         valid = parse();
         if(!valid) {
             throw new SOException("Invalid address");
+        }
+        if(!checkPC()) {
+            valid = false;
+            throw new SOException("Invalid " + getPostalCodeCaption());
         }
     }
 
@@ -270,13 +270,13 @@ public abstract class Address {
         setStreetName(address.streetName);
         setAreaName(address.areaName);
         setPOBox(address.poBox);
-        setPostalCode(address.postalCode);
+        setPC(address.postalCode);
         lines = new String[getExtraLines()];
         for(int i = 0; i < lines.length; i++) {
             lines[i] = i < address.lines.length ? address.lines[i] : "";
         }
         try {
-            valid = valid && checkPC() && parse();
+            valid = valid && parse() && checkPC();
         } catch (Throwable e) {
             valid = false;
         }
@@ -309,8 +309,9 @@ public abstract class Address {
     public static Address create(Country country) {
         Address a;
         try {
-            a = (Address)Address.class.getClassLoader().loadClass("com.storedobject.common." + country.getShortName() + "Address").
-                    getDeclaredConstructor().newInstance();
+            a = (Address)Address.class.getClassLoader().loadClass("com.storedobject.common."
+                            + country.getShortName() + "Address")
+                    .getDeclaredConstructor().newInstance();
         } catch (Throwable error) {
             a = new XXAddress();
         }
@@ -915,11 +916,15 @@ public abstract class Address {
      * @param postalCode Postal Code
      */
     public final void setPostalCode(String postalCode) {
+        setPC(postalCode);
+        valid = valid && checkPC();
+    }
+
+    private void setPC(String postalCode) {
         this.postalCode = postalCode == null ? "" : postalCode.trim().toUpperCase();
         if(this.postalCode.chars().allMatch(c -> c == '0')) {
             this.postalCode = "";
         }
-        valid = valid && checkPC();
     }
 
     /**
