@@ -147,13 +147,18 @@ public class HTMLText implements StyledBuilder {
     }
 
     /**
-     * Append valid HTML text.
+     * Append valid HTML text. It should not contain any top-level elements such as html, body or head. Also, no
+     * scripts can be added.
      *
      * @return Self-reference is returned.
      */
     public HTMLText appendHTML(String html) {
+        String h = StringUtility.pack(html).toUpperCase();
+        if(h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD") || h.contains("<SCRIPT")) {
+            throw new SORuntimeException("HTML should not contain top-level elements & scripts");
+        }
         value.append(html);
-        newline = StringUtility.pack(html).toUpperCase().endsWith(NEW_LINE);
+        newline = h.endsWith(NEW_LINE);
         return this;
     }
 
