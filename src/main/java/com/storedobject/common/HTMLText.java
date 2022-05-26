@@ -154,8 +154,9 @@ public class HTMLText implements StyledBuilder {
      */
     public HTMLText appendHTML(String html) {
         String h = StringUtility.pack(html).toUpperCase();
-        if(h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD") || h.contains("<SCRIPT")) {
-            throw new SORuntimeException("HTML should not contain top-level elements & scripts");
+        if(h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD") || h.contains("<SCRIPT")
+                || h.contains("<STYLE")) {
+            throw new SORuntimeException("HTML should not contain top-level elements, style tags & scripts");
         }
         value.append(html);
         newline = h.endsWith(NEW_LINE);

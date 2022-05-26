@@ -609,7 +609,7 @@ public class DateUtility {
     * Formats the given date
     *
     * @param date
-    * @return formatted date in MM dd yyyy HH:MM:SS AM/ PM
+    * @return formatted date in MM dd yyyy HH:MM:SS
     */
     public static <D extends java.util.Date> String formatWithTime(D date) {
         if(date == null) {
@@ -626,12 +626,11 @@ public class DateUtility {
     * Formats the given date
     *
     * @param date
-    * @return formatted date in MM dd, yyyy HH:MM:SS AM/ PM
+    * @return formatted date in MM dd, yyyy HH:MM:SS AM/PM
     */    
     public static <D extends java.util.Date> String formatWithTimeHHMM(D date) {
         return date == null ? null : hhmmDateFormat.format(date);
     }
-
     
     public static <D extends java.util.Date> String formatTime(D date) {
         return timeFormat.format(date);
