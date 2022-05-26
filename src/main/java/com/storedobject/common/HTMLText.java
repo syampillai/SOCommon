@@ -148,7 +148,7 @@ public class HTMLText implements StyledBuilder {
 
     /**
      * Append valid HTML text. It should not contain any top-level elements such as html, body or head. Also, no
-     * scripts can be added.
+     * scripts and sytle tags can be added.
      *
      * @return Self-reference is returned.
      */
