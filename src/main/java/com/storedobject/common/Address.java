@@ -252,7 +252,7 @@ public abstract class Address {
         }
         if(!checkPC()) {
             valid = false;
-            throw new SOException("Invalid " + getPostalCodeCaption());
+            throw new SOException("Invalid " + getPostalCodeCaption() + " (" + postalCode + ")");
         }
     }
 
@@ -346,24 +346,25 @@ public abstract class Address {
         }
         String line = apartmentName(s);
         boolean separateBuilding = separateBuildingLine();
-        if(!separateBuilding) {
-            line += " " + buildingName();
-            line = line.trim();
+        String bn = buildingName();
+        if(!separateBuilding && !bn.isBlank()) {
+            line = (line + ", " + bn).trim();
         }
         slines.add(line);
+        String sn = street();
         if(separateBuilding) {
             if(streetNameFirst) {
-                slines.add(buildingName());
+                slines.add(bn);
             } else if(apartmentCode == '1' || apartmentCode == '2') { // Office or house
-                slines.add(street());
-                slines.add(buildingName());
+                slines.add(sn);
+                slines.add(bn);
             } else {
-                slines.add(buildingName());
-                slines.add(street());
+                slines.add(bn);
+                slines.add(sn);
             }
         } else {
             if(!streetNameFirst) {
-                slines.add(street());
+                slines.add(sn);
             }
         }
         slines.add(areaName());
