@@ -23,6 +23,7 @@ package com.storedobject.common;
  */
 public class HTMLText implements StyledBuilder {
 
+    public static boolean ALLOW_TOP_LEVEL = false;
     private static final String NEW_LINE = "<BR/>";
     private static final String space = "&nbsp;";
     protected final StringBuilder value = new StringBuilder();
@@ -154,8 +155,8 @@ public class HTMLText implements StyledBuilder {
      */
     public HTMLText appendHTML(String html) {
         String h = StringUtility.pack(html).toUpperCase();
-        if(h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD") || h.contains("<SCRIPT")
-                || h.contains("<STYLE")) {
+        if(!ALLOW_TOP_LEVEL && h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD")
+                || h.contains("<SCRIPT") || h.contains("<STYLE")) {
             throw new SORuntimeException("HTML should not contain top-level elements, style tags & scripts");
         }
         value.append(html);
@@ -224,5 +225,9 @@ public class HTMLText implements StyledBuilder {
     @Override
     public HTMLText append(Object object) {
         return append(object, new String[] { });
+    }
+
+    public static void setAllowTopLevelHTML() {
+        ALLOW_TOP_LEVEL = true;
     }
 }
