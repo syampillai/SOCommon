@@ -16,7 +16,7 @@
 
 package com.storedobject.common;
 
-public interface ComputedValue<T> extends Cloneable {
+public interface ComputedValue<T> extends Cloneable, Displayable {
 
 	boolean isComputed();
 	void setComputed(boolean computed);
