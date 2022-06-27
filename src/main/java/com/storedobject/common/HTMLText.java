@@ -155,8 +155,8 @@ public class HTMLText implements StyledBuilder {
      */
     public HTMLText appendHTML(String html) {
         String h = StringUtility.pack(html).toUpperCase();
-        if(!ALLOW_TOP_LEVEL && h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD")
-                || h.contains("<SCRIPT") || h.contains("<STYLE")) {
+        if(!ALLOW_TOP_LEVEL && (h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD")
+                || h.contains("<SCRIPT") || h.contains("<STYLE"))) {
             throw new SORuntimeException("HTML should not contain top-level elements, style tags & scripts");
         }
         value.append(html);
