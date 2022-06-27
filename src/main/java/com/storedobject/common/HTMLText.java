@@ -155,9 +155,11 @@ public class HTMLText implements StyledBuilder {
      */
     public HTMLText appendHTML(String html) {
         String h = StringUtility.pack(html).toUpperCase();
-        if(!ALLOW_TOP_LEVEL && (h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD")
-                || h.contains("<SCRIPT") || h.contains("<STYLE"))) {
-            throw new SORuntimeException("HTML should not contain top-level elements, style tags & scripts");
+        if(h.contains("<HTML") || h.contains("<BODY") || h.contains("<HEAD")
+                || h.contains("<SCRIPT") || h.contains("<STYLE")) {
+            if(!ALLOW_TOP_LEVEL) {
+                throw new SORuntimeException("HTML should not contain top-level elements, style tags & scripts");
+            }
         }
         value.append(html);
         newline = h.endsWith(NEW_LINE);
@@ -229,5 +231,9 @@ public class HTMLText implements StyledBuilder {
 
     public static void setAllowTopLevelHTML() {
         ALLOW_TOP_LEVEL = true;
+    }
+
+    public static boolean isAllowTopLevel() {
+        return ALLOW_TOP_LEVEL;
     }
 }
