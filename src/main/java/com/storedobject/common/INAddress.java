@@ -30,11 +30,11 @@ public final class INAddress extends Address {
     private static final String[] states = new String[] {
             "Andra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattishgarh",
             "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
-            "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madya Pradesh", "Maharashtra",
+            "Jammu & Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madya Pradesh", "Maharashtra",
             "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajastan",
             "Sikkim", "Tamilnadu", "Telengana", "Tripura", "Uttar Pradesh", "Uttarakhand",
             "West Bengal", "Andaman and Nicobar", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu",
-            "Lakhshadweep", "National Capital Territory of Delhi", "Pondicherry"
+            "Lakhshadweep", "Leh", "National Capital Territory of Delhi", "Pondicherry"
     };
     private static final String[][] districts = new String[][] {
             { // Andra Pradesh

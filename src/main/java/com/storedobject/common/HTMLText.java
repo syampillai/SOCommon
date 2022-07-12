@@ -233,7 +233,7 @@ public class HTMLText implements StyledBuilder {
         ALLOW_TOP_LEVEL = true;
     }
 
-    public static boolean isAllowTopLevel() {
+    public static boolean isAllowTopLevelHTML() {
         return ALLOW_TOP_LEVEL;
     }
 }
