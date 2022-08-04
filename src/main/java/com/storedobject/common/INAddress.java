@@ -16,6 +16,8 @@
 
 package com.storedobject.common;
 
+import java.util.ArrayList;
+
 /**
  * IN Address<BR>
  * line[0]: Post Office<BR>
@@ -331,7 +333,7 @@ public final class INAddress extends Address {
 
     @Override
     int poBoxPosition() {
-        return 5;
+        return 3;
     }
 
     @Override
@@ -352,5 +354,30 @@ public final class INAddress extends Address {
     @Override
     public boolean isPostalCodeMandatory() {
         return false;
+    }
+
+    @Override
+    protected void arrangeLines(ArrayList<String> lines) {
+        int n = lines.size();
+        String line, pin;
+        for(int i = 0; i < n; i++) {
+            line = lines.get(i);
+            if(line == null) {
+                continue;
+            }
+            if(line.endsWith("(District)")) {
+                lines.set(i, line + ", " + lines.get(n - 2));
+                lines.set(n - 2, null);
+            } else if(line.startsWith("P.O. ")) {
+                for(int j = i + 1; j < n; j++) {
+                    pin = lines.get(j);
+                    if(pin != null && pin.startsWith("PIN")) {
+                        lines.set(i, line + ", " + pin);
+                        lines.set(j, null);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

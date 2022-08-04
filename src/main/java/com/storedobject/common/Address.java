@@ -19,6 +19,7 @@ package com.storedobject.common;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class to check and manipulate mailing address information. Address is a {@link String} containing multiple lines
@@ -150,7 +151,7 @@ public abstract class Address {
         Country country = Country.get(Country.check(lines[0].substring(0, 2)));
         Address a = create(country);
         a.apartmentCode = lines[0].charAt(2);
-        a.setApartmentName(lines[0].substring(3).trim());
+        a.apartmentName = lines[0].substring(3).trim();
         switch (a.apartmentCode) {
             case '0':
                 if(lines[1].isEmpty() && StringUtility.isDigit(a.apartmentName)) {
@@ -238,12 +239,12 @@ public abstract class Address {
             setBuildingName("");
         }
         if(apartmentName == null) {
-            setApartmentName("");
+            apartmentName = "";
         }
         if(postalCode == null) {
             postalCode = "";
         }
-        if(apartmentName == null || apartmentName.isBlank()) {
+        if(apartmentName.isBlank()) {
             throw new SOException("Blank " + getTypeValue() + " Number/Name");
         }
         valid = parse();
@@ -264,8 +265,8 @@ public abstract class Address {
      */
     public boolean copy(Address address) {
         valid = true;
-        setType(address.apartmentCode);
         setApartmentName(address.apartmentName);
+        setType(address.apartmentCode);
         setBuildingName(address.buildingName);
         setStreetName(address.streetName);
         setAreaName(address.areaName);
@@ -383,27 +384,17 @@ public abstract class Address {
         return slines;
     }
 
-    /**
-     * Convert the list of address lines to line-feed delimited address that can be printed or displayed. Country name
-     * will be added at the end.
-     *
-     * @param lines Lines of the address as a list.
-     * @param personName Name of the person to be printed (Name should contain title as the first word - Example: Mr. Tim John).
-     *                   <code>null</code> could be passed if no name to be printed.
-     * @return Line-feed delimited string that can be printed or displayed.
-     */
     private String toString(List<String> lines, String personName) {
-        StringBuilder s = new StringBuilder();
+        ArrayList<String> list = new ArrayList<>();
         if(personName != null) {
             if(apartmentCode != '3') { // Not an office
                 if(splitNameTitle() && personName.contains(" ")) {
                     int p = personName.indexOf(' ');
-                    s.append(personName, 0, p).append('\n');
-                    s.append(personName.substring(p + 1).trim());
+                    list.add(personName.substring(0, p));
+                    list.add(personName.substring(p + 1).trim());
                 } else {
-                    s.append(personName);
+                    list.add(personName);
                 }
-                s.append('\n');
                 personName = null;
             }
         }
@@ -411,41 +402,46 @@ public abstract class Address {
         int pbPos = poBoxPosition(), pinPos = postalCodePosition();
         for(int i = 0; i < lines.size(); i++) {
             if(personName != null && i == 1) {
-                s.append(personName).append('\n');
+                list.add(personName);
             }
             if(poBox > 0 && pbPos >= 0 && i >= pbPos) {
                 pbPos = Integer.MIN_VALUE;
                 String pb = poBoxPrefix();
                 if(!pb.isEmpty()) {
-                    s.append(pb).append(' ');
+                    pb += " ";
                 }
-                s.append(poBox).append(poBoxSuffix()).append('\n');
+                list.add(pb + poBox + poBoxSuffix());
             }
             if(!postalCode.isEmpty() && pinPos >= 0 && i >= pinPos) {
                 pinPos = Integer.MIN_VALUE;
-                s.append(postalCodePrefix()).append(postalCode()).append(postalCodeSuffix()).append('\n');
+                list.add(postalCodePrefix() + postalCode() + postalCodeSuffix());
             }
             line = lines.get(i);
             if(line != null && !line.isEmpty()) {
-                s.append(line).append('\n');
+                list.add(line);
             }
         }
         if(poBox > 0 && pbPos > 0) {
-            s.append(getPOBoxName()).append(' ').append(poBox).append('\n');
+            String pb = poBoxPrefix();
+            if(!pb.isEmpty()) {
+                pb += " ";
+            }
+            list.add(pb + poBox + poBoxSuffix());
         }
         if(!postalCode.isEmpty() && pinPos > 0) {
-            s.append(postalCodePrefix()).append(postalCode()).append(postalCodeSuffix()).append('\n');
+            list.add(postalCodePrefix() + postalCode() + postalCodeSuffix());
         }
         if(country != null) {
-            s.append(country.getName()).append('\n');
+            list.add(country.getName());
         }
-        return s.toString();
+        arrangeLines(list);
+        return list.stream().filter(l -> l != null && !l.isEmpty()).collect(Collectors.joining("\n"));
     }
 
     /**
-     * Convert the address into a human readable String representation.
+     * Convert the address into a human-readable String representation.
      *
-     * @return Human readable String representation with required "new lines".
+     * @return Human-readable String representation with required "new lines".
      */
     @Override
     public final String toString() {
@@ -457,7 +453,7 @@ public abstract class Address {
      * personal address or second name in the case of office addresses.
      * .
      * @param personName Person name to be included
-     * @return Human readable String representation with required "new lines".
+     * @return Human-readable String representation with required "new lines".
      */
     public String toString(String personName) {
         String s = toString(toStrings(), personName);
@@ -465,6 +461,14 @@ public abstract class Address {
             s = s.substring(0, s.length() - 1);
         }
         return s;
+    }
+
+    /**
+     * This method is invoked for arranging the address lines to be displayed.
+     *
+     * @param lines Address lines.
+     */
+    protected void arrangeLines(ArrayList<String> lines) {
     }
 
     /**
@@ -711,6 +715,7 @@ public abstract class Address {
      */
     public void setApartmentName(String apartmentName) {
         this.apartmentName = apartmentName;
+        apartmentCode = '0';
     }
 
     /**
@@ -729,6 +734,7 @@ public abstract class Address {
      */
     public void setVillaName(String villaName) {
         this.apartmentName = villaName;
+        apartmentCode = '1';
     }
 
     /**
@@ -747,6 +753,7 @@ public abstract class Address {
      */
     public void setHouseName(String houseName) {
         this.apartmentName = houseName;
+        apartmentCode = '2';
     }
 
     /**
@@ -765,6 +772,7 @@ public abstract class Address {
      */
     public void setOfficeName(String officeName) {
         this.apartmentName = officeName;
+        apartmentCode = '3';
     }
 
     /**
