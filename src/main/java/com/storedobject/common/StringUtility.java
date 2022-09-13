@@ -2198,7 +2198,7 @@ public class StringUtility {
             return (String)message;
         }
         if(message instanceof java.sql.Time) {
-            return DateUtility.timeFormat().format((java.sql.Time)message);
+            return DateUtility.timeFormat24().format((java.sql.Time)message);
         }
         if(message instanceof java.util.Date) {
             return DateUtility.format((java.util.Date)message);

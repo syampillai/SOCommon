@@ -53,6 +53,7 @@ public class DateUtility {
     private final static DateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
     private final static DateFormat longFormat = new SimpleDateFormat("MMM dd yyyy hh:mm:ss a", Locale.getDefault());
     private final static DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a", Locale.getDefault());
+    private final static DateFormat timeFormat24 = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
     private final static DateFormat hhmmFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private final static DateFormat hhmmDateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
     private final static DateFormatSymbols formatSymbols = new DateFormatSymbols();
@@ -1024,5 +1025,9 @@ public class DateUtility {
 
     public static DateFormat timeFormat() {
         return (DateFormat)timeFormat.clone();
+    }
+
+    public static DateFormat timeFormat24() {
+        return (DateFormat)timeFormat24.clone();
     }
 }

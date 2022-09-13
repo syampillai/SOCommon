@@ -715,7 +715,6 @@ public abstract class Address {
      */
     public void setApartmentName(String apartmentName) {
         this.apartmentName = apartmentName;
-        apartmentCode = '0';
     }
 
     /**
@@ -977,6 +976,7 @@ public abstract class Address {
      *
      * @return True/false.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isPostalCodeMandatory() {
         return isPostalCodeAddress();
     }
