@@ -16,8 +16,6 @@
 
 package com.storedobject.common;
 
-import java.util.function.Function;
-
 /**
  * An interface that converts some type of object to a {@link String}.
  *

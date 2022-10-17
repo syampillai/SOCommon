@@ -20,18 +20,27 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+/**
+ * SVG creator.
+ *
+ * @author Syam
+ */
 public class SVG implements TextContentGenerator {
 
-    private static final String HEADER = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
-            "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n" +
-            "<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"";
-    private ArrayList<String> texts = new ArrayList<>();
+    private static final String HEADER = """
+            <?xml version="1.0" encoding="utf-8"?>
+            <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink\"""";
+    private final ArrayList<String> texts = new ArrayList<>();
     private int transformPointer = 5;
     private double width = 1024, height = 1024, translateX, translateY, scaleX, scaleY, rotate, rotateX, rotateY;
     private String fill, stroke;
     private boolean root = true;
     private Hashtable<Integer, SVG> children = null;
 
+    /**
+     * Constructor.
+     */
     public SVG() {
         texts.add(HEADER);
         texts.add(""); // 1: Dimensions (width, height, view box). May be set later.
@@ -41,6 +50,9 @@ public class SVG implements TextContentGenerator {
         next();
     }
 
+    /**
+     * Create the next block (Next g tag).
+     */
     public void next() {
         texts.add(texts.size() - 1, "<g");
         texts.add(texts.size() - 1, ""); // <- Transforms (translate, scale, rotate)
@@ -63,41 +75,85 @@ public class SVG implements TextContentGenerator {
         texts.set(1, " width=\"" + width + "pt\" height=\"" + height + "pt\" viewBox=\"0 0 " + width + " " + height + "\"");
     }
 
+    /**
+     * Set width.
+     *
+     * @param width Width.
+     */
     public void setWidth(double width) {
         this.width = width;
         width();
     }
 
+    /**
+     * Get the width.
+     *
+     * @return Width.
+     */
     public double getWidth() {
         return width;
     }
 
+    /**
+     * Set the height.
+     *
+     * @param height Height.
+     */
     public void setHeight(double height) {
         this.height = height;
         width();
     }
 
+    /**
+     * Get the height.
+     *
+     * @return Height.
+     */
     public double getHeight() {
         return height;
     }
 
+    /**
+     * Translate.
+     *
+     * @param x X.
+     * @param y Y.
+     */
     public void translate(double x, double y) {
         translateX = x;
         translateY = y;
         transform();
     }
 
+    /**
+     * Scale.
+     *
+     * @param x X.
+     * @param y Y.
+     */
     public void scale(double x, double y) {
         scaleX = x;
         scaleY = y;
         transform();
     }
 
+    /**
+     * Rotate.
+     *
+     * @param angleInDegrees Angle in degrees.
+     */
     public void rotate(double angleInDegrees) {
         rotate = angleInDegrees;
         transform();
     }
 
+    /**
+     * Rotate.
+     *
+     * @param angleInDegrees Angle in degrees.
+     * @param rotateX X.
+     * @param rotateY Y.
+     */
     public void rotate(double angleInDegrees, double rotateX, double rotateY) {
         rotate = angleInDegrees;
         this.rotateX = rotateX;
@@ -105,6 +161,11 @@ public class SVG implements TextContentGenerator {
         transform();
     }
 
+    /**
+     * Create a child SVG.
+     *
+     * @return SVG child created.
+     */
     public SVG child() {
         if(children == null) {
             children = new Hashtable<>();
@@ -115,6 +176,11 @@ public class SVG implements TextContentGenerator {
         return child;
     }
 
+    /**
+     * Add a valid SVG command directly. (Note: No error checking is done).
+     *
+     * @param text Command text to add.
+     */
     public void command(String text) {
         texts.add(texts.size() - 2, text);
     }
@@ -159,11 +225,21 @@ public class SVG implements TextContentGenerator {
         texts.set(transformPointer + 1, s.toString());
     }
 
+    /**
+     * Fill.
+     *
+     * @param fill Fill pattern.
+     */
     public final void setFill(String fill) {
         this.fill = fill;
         fill();
     }
 
+    /**
+     * Stroke.
+     *
+     * @param stroke Stroke to set.
+     */
     public final void setStroke(String stroke) {
         this.stroke = stroke;
         fill();
@@ -179,8 +255,16 @@ public class SVG implements TextContentGenerator {
         return "svg";
     }
 
+    /**
+     * This is where you create your content by invoking various other methods available in this class. So,
+     * you may override this method.
+     */
+    public void generateContent() {
+    }
+
     @Override
-    public void generateContent(Writer w) throws Exception {
+    public final void generateContent(Writer w) throws Exception {
+        generateContent();
         int start = 0, end = texts.size();
         if(!root) {
             start = 5;
