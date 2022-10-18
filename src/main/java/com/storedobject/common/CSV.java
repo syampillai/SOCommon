@@ -133,4 +133,14 @@ public abstract class CSV implements TextContentGenerator {
     public Function<Object, String> getConverter() {
         return converter;
     }
+
+    @Override
+    public final String getContentType() {
+        return "text/csv";
+    }
+
+    @Override
+    public final String getFileExtension() {
+        return "csv";
+    }
 }
