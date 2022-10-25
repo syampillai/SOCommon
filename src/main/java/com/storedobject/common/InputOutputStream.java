@@ -100,6 +100,15 @@ public class InputOutputStream {
     }
 
     /**
+     * Abort the streams. After this operation, this can not be reused too.
+     */
+    public void abort() {
+        IO.close(reader, writer);
+        reusable = false;
+        rEOF = wEOF = true;
+    }
+
+    /**
      * Set an exception to the input stream so that someone will get it when they try to read something from it.
      *
      * @param e Exception to set.
@@ -132,9 +141,8 @@ public class InputOutputStream {
             int c;
             synchronized (buffer) {
                 c = buffer[rPointer] & 0xFF;
+                ++consumed;
             }
-            //noinspection NonAtomicOperationOnVolatileField
-            ++consumed;
             if(++rPointer == buffer.length) {
                 rPointer = 0;
             }
@@ -181,9 +189,8 @@ public class InputOutputStream {
             }
             synchronized (buffer) {
                 buffer[wPointer] = (byte)(0xFF & b);
+                ++generated;
             }
-            //noinspection NonAtomicOperationOnVolatileField
-            ++generated;
             if(++wPointer == buffer.length) {
                 wPointer = 0;
             }

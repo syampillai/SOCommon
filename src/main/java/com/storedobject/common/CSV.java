@@ -104,6 +104,9 @@ public abstract class CSV implements TextContentGenerator {
      */
     public void writeRow() throws IOException {
         if(writer == null) {
+            writer = getWriter();
+        }
+        if(writer == null) {
             throw new IOException("Not generating");
         }
         for(int i = 0; i < columns.length; i++) {
@@ -113,6 +116,7 @@ public abstract class CSV implements TextContentGenerator {
             writer.write(columns[i]);
         }
         writer.write("\r\n");
+        writer.flush();
     }
 
     /**
@@ -132,6 +136,15 @@ public abstract class CSV implements TextContentGenerator {
      */
     public Function<Object, String> getConverter() {
         return converter;
+    }
+
+    /**
+     * Get the writer that takes the output. (You should not write anything directly to it).
+     *
+     * @return The writer.
+     */
+    protected Writer getWriter() {
+        return writer;
     }
 
     @Override
