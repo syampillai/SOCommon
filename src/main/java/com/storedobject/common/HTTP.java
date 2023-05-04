@@ -38,16 +38,16 @@ public class HTTP {
 
     private final static CookieManager cookieManager = new CookieManager();
     static {
-        System.setProperty("jsse.enableSNIExtension", "false"); // Workaround
         CookieHandler.setDefault(cookieManager);
     }
+    private static final String JSON_TYPE = "application/json";
     private final URL url;
     private String contentType = "application/x-www-form-urlencoded";
     private HttpURLConnection connection;
     private boolean allowHTTPErrors = false;
-    private boolean json = false;
-    private final boolean post;
+    private String method;
     private boolean ajaxMode = false;
+    private boolean sni = true;
     private SSLSocketFactory socketFactory;
 
     /**
@@ -92,7 +92,7 @@ public class HTTP {
      */
     public HTTP(URL url, boolean post) {
         this.url = url;
-        this.post = post;
+        this.method = post ? "POST" : "GET";
     }
 
     private HttpURLConnection conn() throws IOException {
@@ -121,13 +121,37 @@ public class HTTP {
             connection.setUseCaches(false);
             connection.setConnectTimeout(30 * 1000);
             connection.setReadTimeout(30 * 1000);
-            connection.setRequestMethod(post || json ? "POST" : "GET");
+            connection.setRequestMethod(method);
+            if(JSON_TYPE.equals(contentType)) {
+                connection.setRequestProperty("Accept", contentType);
+            }
             if(ajaxMode) {
                 connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
             }
         } catch(Exception e) {
             freeUp();
         }
+    }
+
+    /**
+     * Set request method ("GET", "POST", etc.)
+     *
+     * @param method The method to set.
+     */
+    public void setMethod(String method) {
+        if(this.method.equals(method)) {
+            return;
+        }
+        this.method = method;
+    }
+
+    /**
+     * Get the request method.
+     *
+     * @return Method.
+     */
+    public String getMethod() {
+        return method;
     }
 
     private void freeUp() {
@@ -151,7 +175,6 @@ public class HTTP {
      * Set the content type to JSON ("application/json").
      */
     public void setJSONMode() {
-        json = true;
         contentType = "application/json";
     }
 
@@ -164,8 +187,27 @@ public class HTTP {
     public void setBasicAuthentication(String user, String password) {
         String a = user + ":" + password;
         a = Base64.getEncoder().encodeToString(a.getBytes(StandardCharsets.UTF_8));
+        setRequestProperty("Authorization", "Basic " + a);
+    }
+
+    /**
+     * Set basic authentication.
+     *
+     * @param key Bearer key.
+     */
+    public void setBearerAuthentication(String key) {
+        setRequestProperty("Authorization", "Bearer " + key);
+    }
+
+    /**
+     * Set a request property directly.
+     *
+     * @param propertyName Name of the property.
+     * @param propertyValue Value of the property.
+     */
+    public void setRequestProperty(String propertyName, String propertyValue) {
         try {
-            conn().setRequestProperty("Authorization", "Basic " + a);
+            conn().setRequestProperty(propertyName, propertyValue);
         } catch(IOException ignored) {
         }
     }
@@ -252,7 +294,7 @@ public class HTTP {
      * @throws Exception If any exception occurs.
      */
     public void post(Map<String, Object> parameters) throws Exception {
-        if(json) {
+        if(JSON_TYPE.equals(contentType)) {
             post(new JSON(parameters).toString());
         } else {
             post(parameters.entrySet().stream().map(e -> e.getKey() + "=" + encode(e.getValue().toString())).
@@ -323,7 +365,17 @@ public class HTTP {
      * @throws Exception If any exception occurs.
      */
     public HttpURLConnection getConnection() throws Exception {
-        conn().connect();
+        String sniProperty = "jsse.enableSNIExtension";
+        synchronized(cookieManager) {
+            try {
+                if(!sni) {
+                    System.setProperty(sniProperty, "false");
+                }
+                conn().connect();
+            } finally {
+                System.clearProperty(sniProperty);
+            }
+        }
         return connection;
     }
 
@@ -356,5 +408,13 @@ public class HTTP {
      */
     public void setSSLSocketFactory(SSLSocketFactory socketFactory) {
         this.socketFactory = socketFactory;
+    }
+
+    /**
+     * Disable SNI extension. By default, it's enabled.
+     * <p>Note: This will disable SNI extension system-wide while connecting and it will be enabled again.</p>
+     */
+    public void disableSNIExtension() {
+        this.sni = false;
     }
 }
