@@ -323,7 +323,7 @@ public class XML {
 
     private static class SimpleNamespaceContext implements NamespaceContext {
 
-        private Map<String, String> prefMap;
+        private final Map<String, String> prefMap;
 
         public SimpleNamespaceContext(final Map<String, String> prefMap) {
             this.prefMap = prefMap;
@@ -340,8 +340,7 @@ public class XML {
             throw new UnsupportedOperationException();
         }
 
-        @SuppressWarnings("rawtypes")
-        public Iterator getPrefixes(String uri) {
+        public Iterator<String> getPrefixes(String uri) {
             throw new UnsupportedOperationException();
         }
     }
