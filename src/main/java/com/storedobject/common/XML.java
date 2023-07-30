@@ -33,14 +33,14 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
+import java.util.function.Function;
 
 /**
  * Simple XML utility for XPath element extraction.
@@ -52,7 +52,9 @@ public class XML {
     private DocumentBuilder documentBuilder;
     private Document document;
     private XPath xPath;
-    private XPathExpression xPathExpression;
+    private final NamespaceContextMap nsMap = new NamespaceContextMap();
+    private String prefix = XMLConstants.DEFAULT_NS_PREFIX;
+    private boolean pack = true;
 
     public XML() {
     }
@@ -98,6 +100,16 @@ public class XML {
     }
 
     protected void customizePathFactory(@SuppressWarnings("unused") XPathFactory pathFactory) {
+    }
+
+    /**
+     * Whether to pack the XML structure by removing all the unwanted text nodes or not. The default value is
+     * <code>true</code>. Packing reduces human readability.
+     *
+     * @param pack True/false.
+     */
+    public void setPack(boolean pack) {
+        this.pack = pack;
     }
 
     public void ignoreDTDs() {
@@ -147,27 +159,88 @@ public class XML {
         setNamespace();
     }
 
+    public void setNamespacePrefix(String prefix) {
+        if(prefix == null) {
+            prefix = XMLConstants.DEFAULT_NS_PREFIX;
+        }
+        String current = nsMap.get(this.prefix);
+        this.prefix = prefix;
+        if(current != null) {
+            nsMap.put(prefix, current);
+        }
+    }
+
+    public String getNamespacePrefix(String uri) {
+        return nsMap.getPrefix(uri);
+    }
+
+    public String getNamespaceURI(String prefix) {
+        return nsMap.getNamespaceURI(prefix);
+    }
+
     private void setNamespace() {
-        Node root = document.getDocumentElement();
-        NamedNodeMap rootList = root.getAttributes();
-        HashMap<String, String> nsMap = new HashMap<>();
+        if(pack) {
+            clean(document);
+        }
+        setNamespace(document.getDocumentElement());
+        xPath.setNamespaceContext(nsMap);
+    }
+
+    private void setNamespace(final Node node) {
+        if(node == null) {
+            return;
+        }
+        Node curr = node;
+        NamedNodeMap attributes = curr.getAttributes();
+        if(attributes == null) {
+            return;
+        }
         int i = 0;
         String ns;
         while(true) {
-            root = rootList.item(i++);
-            if(root == null) {
+            curr = attributes.item(i++);
+            if(curr == null) {
                 break;
             }
-            if(root.getNodeType() != Node.ATTRIBUTE_NODE) {
+            if(curr.getNodeType() != Node.ATTRIBUTE_NODE) {
                 continue;
             }
-            ns = root.getNodeName();
-            if(!ns.startsWith("xmlns:")) {
-                continue;
+            ns = curr.getNodeName();
+            if(ns.equals("xmlns")) {
+                nsMap.put(prefix, curr.getNodeValue());
+            } else if(ns.startsWith("xmlns:")) {
+                nsMap.put(ns.substring(6), curr.getNodeValue());
             }
-            nsMap.put(ns.substring(6), root.getNodeValue());
         }
-        xPath.setNamespaceContext(new SimpleNamespaceContext(nsMap));
+        NodeList nodes = node.getChildNodes();
+        i = 0;
+        while(true) {
+            curr = nodes.item(i++);
+            if(curr == null) {
+                return;
+            }
+            setNamespace(curr);
+        }
+    }
+
+    private static void clean(Node node) {
+        NodeList children = node.getChildNodes();
+        for (int n = children.getLength() - 1; n >= 0; n--) {
+            Node child = children.item(n);
+            short nodeType = child.getNodeType();
+            if (nodeType == Node.ELEMENT_NODE) {
+                clean(child);
+            } else if (nodeType == Node.TEXT_NODE) {
+                String trimmedNodeVal = child.getNodeValue().trim();
+                if (trimmedNodeVal.length() == 0){
+                    node.removeChild(child);
+                } else {
+                    child.setNodeValue(trimmedNodeVal);
+                }
+            } else if (nodeType == Node.COMMENT_NODE) {
+                node.removeChild(child);
+            }
+        }
     }
 
     public void set(URL url) throws Exception {
@@ -176,18 +249,6 @@ public class XML {
         }
         HTTP http = new HTTP(url);
         set(http.getInputStream());
-    }
-
-    public boolean check(String xpath) throws Exception {
-        return check(document, xpath);
-    }
-
-    public String get(String xpath) throws Exception {
-        return get(document, xpath);
-    }
-
-    public Number getNumber(String xpath) throws Exception {
-        return getNumber(document, xpath);
     }
 
     public ArrayList<String> list(String xpath) throws Exception {
@@ -202,42 +263,156 @@ public class XML {
         return getNode(document, xpath);
     }
 
+    /**
+     * Extract the boolean value of a path.
+     *
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     */
+    public boolean check(String xpath) throws Exception {
+        return check(document, xpath);
+    }
+
+    /**
+     * Extract the text value of a path.
+     *
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     * @deprecated Use {@link #getText(String)} instead.
+     */
+    @Deprecated
+    public String get(String xpath) throws Exception {
+        return getText(xpath);
+    }
+
+    /**
+     * Extract the text value of a path.
+     *
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     */
+    public String getText(String xpath) throws Exception {
+        return getText(document, xpath);
+    }
+
+    /**
+     * Extract the numeric value of a path.
+     *
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     */
+    public Number getNumber(String xpath) throws Exception {
+        return getNumber(document, xpath);
+    }
+
+    /**
+     * Extract the boolean value of a path.
+     *
+     * @param node Node.
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     */
     public boolean check(Node node, String xpath) throws Exception {
         if(node != document && xpath.startsWith("/")) {
             xpath = "." + xpath;
         }
-        xPathExpression = xPath.compile(xpath);
-        return (Boolean) xPathExpression.evaluate(node, XPathConstants.BOOLEAN);
+        return (Boolean) xPath.evaluate(xpath, node, XPathConstants.BOOLEAN);
     }
 
+    /**
+     * Set a text value to the given node if it is a "text node". If the node is not a "text node", the value will
+     * be set to its first child if that is a "text node". Else, it will recursively go down until a "text node" is
+     * found. Please note that the recursive traversal happens only through the first children.
+     *
+     * @param xpathToNode XPath's expression to reach the node.
+     * @param value Value to set.
+     * @return True if the value was successfully set. Otherwise, false.
+     */
+    public boolean setText(String xpathToNode, String value) {
+        try {
+            return setText(getNode(xpathToNode), value);
+        } catch(Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Set a text value to the given node if it is a "text node". If the node is not a "text node", the value will
+     * be set to its first child if that is a "text node". Else, it will recursively go down until a "text node" is
+     * found. Please note that the recursive traversal happens only through the first children.
+     *
+     * @param node Node for which value to be set.
+     * @param value Value to set.
+     * @return True if the value was successfully set. Otherwise, false.
+     */
+    public boolean setText(Node node, String value) {
+        if(node == null) {
+            return false;
+        }
+        if(node.getNodeType() != Node.TEXT_NODE) {
+            NodeList nodes = node.getChildNodes();
+            if(nodes.getLength() == 0) {
+                return false;
+            }
+            return setText(nodes.item(0), value);
+        }
+        if(value == null) {
+            value = "";
+        }
+        node.setNodeValue(value);
+        return value.equals(node.getNodeValue());
+    }
+
+    /**
+     * Extract the text value of a path under a given node.
+     *
+     * @param node Node.
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     * @deprecated Use {@link #getText(Node, String)} instead.
+     */
     public String get(Node node, String xpath) throws Exception {
+        return getText(node, xpath);
+    }
+
+    /**
+     * Extract the text value of a path under a given node.
+     *
+     * @param node Node.
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     */
+    public String getText(Node node, String xpath) throws Exception {
         if(node != document && xpath.startsWith("/")) {
             xpath = "." + xpath;
         }
-        xPathExpression = xPath.compile(xpath);
-        return (String) xPathExpression.evaluate(node, XPathConstants.STRING);
+        return (String) xPath.evaluate(xpath, node, XPathConstants.STRING);
     }
 
+    /**
+     * Extract the numeric value of a path under a given node.
+     *
+     * @param node Node.
+     * @param xpath XPath.
+     * @return Value.
+     * @throws Exception If any error occurs.
+     */
     public Number getNumber(Node node, String xpath) throws Exception {
         if(node != document && xpath.startsWith("/")) {
             xpath = "." + xpath;
         }
-        xPathExpression = xPath.compile(xpath);
-        return (Number) xPathExpression.evaluate(node, XPathConstants.NUMBER);
+        return (Number) xPath.evaluate(xpath, node, XPathConstants.NUMBER);
     }
 
     public ArrayList<String> list(Node node, String xpath) throws Exception {
-        if(node != document && xpath.startsWith("/")) {
-            xpath = "." + xpath;
-        }
-        ArrayList<String> results = new ArrayList<>();
-        xPathExpression = xPath.compile(xpath);
-        NodeList nodes = (NodeList) xPathExpression.evaluate(node, XPathConstants.NODESET);
-        for (int i = 0; i < nodes.getLength(); i++){
-            node = nodes.item(i);
-            results.add(value(node));
-        }
-        return results;
+        return listX(node, xpath, XML::value);
     }
 
     private static String value(Node node) {
@@ -251,14 +426,17 @@ public class XML {
     }
 
     public ArrayList<Node> listNodes(Node node, String xpath) throws Exception {
+        return listX(node, xpath, n -> n);
+    }
+
+    private <T> ArrayList<T> listX(Node node, String xpath, Function<Node, T> func) throws Exception {
         if(node != document && xpath.startsWith("/")) {
             xpath = "." + xpath;
         }
-        ArrayList<Node> results = new ArrayList<>();
-        xPathExpression = xPath.compile(xpath);
-        NodeList nodes = (NodeList) xPathExpression.evaluate(node, XPathConstants.NODESET);
+        ArrayList<T> results = new ArrayList<>();
+        NodeList nodes = (NodeList) xPath.evaluate(xpath, node, XPathConstants.NODESET);
         for (int i = 0; i < nodes.getLength(); i++){
-            results.add(nodes.item(i));
+            results.add(func.apply(nodes.item(i)));
         }
         return results;
     }
@@ -267,8 +445,7 @@ public class XML {
         if(node != document && xpath.startsWith("/")) {
             xpath = "." + xpath;
         }
-        xPathExpression = xPath.compile(xpath);
-        return (Node) xPathExpression.evaluate(node, XPathConstants.NODE);
+        return (Node) xPath.evaluate(xpath, node, XPathConstants.NODE);
     }
 
     public String toString() {
@@ -321,27 +498,38 @@ public class XML {
         return document;
     }
 
-    private static class SimpleNamespaceContext implements NamespaceContext {
+    private static class NamespaceContextMap extends HashMap<String, String> implements NamespaceContext {
 
-        private final Map<String, String> prefMap;
-
-        public SimpleNamespaceContext(final Map<String, String> prefMap) {
-            this.prefMap = prefMap;
-            this.prefMap.put(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI);
-            this.prefMap.put(XMLConstants.XML_NS_PREFIX, XMLConstants.XML_NS_URI);
-            this.prefMap.put(XMLConstants.XMLNS_ATTRIBUTE, XMLConstants.XMLNS_ATTRIBUTE_NS_URI);
+        public NamespaceContextMap() {
+            put(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI);
+            put(XMLConstants.XML_NS_PREFIX, XMLConstants.XML_NS_URI);
+            put(XMLConstants.XMLNS_ATTRIBUTE, XMLConstants.XMLNS_ATTRIBUTE_NS_URI);
         }
 
+        @Override
         public String getNamespaceURI(String prefix) {
-            return prefMap.get(prefix);
+            return get(prefix);
         }
 
+        @Override
         public String getPrefix(String uri) {
-            throw new UnsupportedOperationException();
+            for(String k: keySet()) {
+                if(get(k).equals(uri)) {
+                    return k;
+                }
+            }
+            return null;
         }
 
+        @Override
         public Iterator<String> getPrefixes(String uri) {
-            throw new UnsupportedOperationException();
+            List<String> prefixes = new ArrayList<>();
+            keySet().forEach(k -> {
+                if(get(k).equals(uri)) {
+                    prefixes.add(k);
+                }
+            });
+            return prefixes.iterator();
         }
     }
 }

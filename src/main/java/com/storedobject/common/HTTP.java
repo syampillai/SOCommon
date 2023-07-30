@@ -179,6 +179,15 @@ public class HTTP {
     }
 
     /**
+     * Set content type.
+     *
+     * @param contentType Content type to set.
+     */
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    /**
      * Set basic authentication.
      *
      * @param user User.
@@ -231,7 +240,7 @@ public class HTTP {
     public InputStream getInputStream() throws Exception {
         getConnection();
         if(!allowHTTPErrors && connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new Exception(connection.getResponseMessage());
+            throw new Exception(connection.getResponseCode() + ": " + connection.getResponseMessage());
         }
         return connection.getInputStream();
     }
