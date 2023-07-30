@@ -114,16 +114,8 @@ public class SOAP {
      */
     public XML getXML() {
         if(xml.getDocument() == null) {
-            StringBuilder s = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-            s.append("<").append(prefixSOAP).append(":Envelope xmlns:")
-            .append(prefixSOAP).append("=\"").append(ENVELOPE_NS[version]).append("\"")
-                    .append(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"")
-                    .append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n<")
-                    .append(prefixSOAP).append(":Header></").append(prefixSOAP).append(":Header>\n<")
-                    .append(prefixSOAP).append(":Body></").append(prefixSOAP).append(":Body>\n</")
-                    .append(prefixSOAP).append(":Envelope>");
             try {
-                xml.set(s.toString());
+                setTemplate(null);
             } catch(Exception ignored) {
             }
         }
@@ -235,10 +227,20 @@ public class SOAP {
      * <p>Note: If you don't have a template, you can just construct the XML by adding necessary sub-structures
      * to the Header and/or Body nodes obtained via {@link #getHeader()}/{@link #getBody()}.</p>
      *
-     * @param templateSOAP String representing the SOAP
+     * @param templateSOAP String representing the SOAP. If it is null or empty, a minimal SOAP template is
+     *                     automatically created.
      * @throws Exception If the template is not a valid SOAP XML.
      */
     public void setTemplate(String templateSOAP) throws Exception {
+        if(templateSOAP == null || templateSOAP.isBlank()) {
+            templateSOAP = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<" + prefixSOAP + ":Envelope xmlns:" +
+                    prefixSOAP + "=\"" + ENVELOPE_NS[version] + "\"" +
+                    " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"" +
+                    " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n<" +
+                    prefixSOAP + ":Header></" + prefixSOAP + ":Header>\n<" +
+                    prefixSOAP + ":Body></" + prefixSOAP + ":Body>\n</" +
+                    prefixSOAP + ":Envelope>";
+        }
         xml.set(templateSOAP);
         int v = -1;
         String p;
@@ -256,7 +258,8 @@ public class SOAP {
     }
 
     /**
-     * Send the request. After this call, the XML returned by {@link #getXML()} will contain the SOAP response.
+     * Send the request. After this call, the XML returned by {@link #getXML()} will contain the SOAP response until
+     * it is reset via a call to {@link #setTemplate(String)}.
      *
      * @exception Exception Raised if any error occurs and in that case, the SOAP structure will be in an erroneous
      * state.
