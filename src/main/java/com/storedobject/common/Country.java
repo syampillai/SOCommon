@@ -296,7 +296,7 @@ public final class Country {
     /**
      * Get country for a given short name.
      *
-     * @param shortName Short name of the country (as per ISO 2 letter code)
+     * @param shortName Short name of the country (as per ISO 2-letter code)
      * @return Country.
      */
     public static Country get(String shortName) {
@@ -642,10 +642,12 @@ public final class Country {
             }
         }
         switch (list.size()) {
-            case 0:
+            case 0 -> {
                 return null;
-            case 1:
+            }
+            case 1 -> {
                 return list.get(0);
+            }
         }
         int m = 0;
         Country fullyMatched = null;
