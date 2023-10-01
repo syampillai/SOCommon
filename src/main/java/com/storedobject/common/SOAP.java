@@ -78,6 +78,14 @@ public class SOAP {
         http.setContentType(this.version == 0 ? "text/xml" : "application/soap+xml");
     }
 
+    /**
+     * Get the HTTP connection associated with this SOAP.
+     *
+     * @return HTTP connection instance.
+     */
+    public HTTP getHTTP() {
+        return http;
+    }
 
     /**
      * Whether to pack the SOAP XML structure by removing all the unwanted text nodes or not. The default value is
