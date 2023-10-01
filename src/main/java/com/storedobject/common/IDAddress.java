@@ -61,12 +61,10 @@ public class IDAddress extends XXAddress {
 
     @Override
     public String getLineCaption(int index) {
-        switch(index) {
-            case 0:
-                return "City/Town";
-            case 1:
-                return "Province";
-        }
-        return null;
+        return switch (index) {
+            case 0 -> "City/Town";
+            case 1 -> "Province";
+            default -> null;
+        };
     }
 }

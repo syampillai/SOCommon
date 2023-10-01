@@ -136,18 +136,13 @@ public class IBAN {
         if(country == null) {
             return -2;
         }
-        switch (country.getShortName()) {
-            case "AE":
-                return 23;
-            case "CH":
-                return 21;
-            case "GB":
-            case "GE":
-                return 22;
-            case "PK":
-                return 24;
-        }
-        return -1;
+        return switch (country.getShortName()) {
+            case "AE" -> 23;
+            case "CH" -> 21;
+            case "GB", "GE" -> 22;
+            case "PK" -> 24;
+            default -> -1;
+        };
     }
 
     /**

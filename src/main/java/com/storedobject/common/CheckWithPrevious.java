@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 public class CheckWithPrevious<T> implements Predicate<T> {
 
     private T previous;
-    private BiPredicate<? super T, ? super T> checker;
+    private final BiPredicate<? super T, ? super T> checker;
 
     /**
     * Constructor

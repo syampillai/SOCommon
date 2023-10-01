@@ -41,8 +41,8 @@ import javax.net.ssl.*;
 public class LDAP {
 
     private static final String USER_PRINCIPAL_NAME = "userPrincipalName";
-    private String domainName;
-    private static String[] userAttributes = {
+    private final String domainName;
+    private static final String[] userAttributes = {
             "distinguishedName", "cn", "name", "uid",
             "sn", "givenname", "memberOf", "samaccountname",
             USER_PRINCIPAL_NAME,
@@ -192,9 +192,9 @@ public class LDAP {
 
     public class User {
 
-        private String distinguishedName;
-        private String userPrincipal;
-        private String commonName;
+        private final String distinguishedName;
+        private final String userPrincipal;
+        private final String commonName;
 
         public User(Attributes attr) throws javax.naming.NamingException {
             userPrincipal = (String) attr.get(USER_PRINCIPAL_NAME).get();

@@ -21,8 +21,8 @@ import java.util.function.Function;
 
 public class ConvertedIterable<FROM, TO> implements Iterable<TO> {
 
-    private Iterable<FROM> original;
-    private Function<FROM, TO> converter;
+    private final Iterable<FROM> original;
+    private final Function<FROM, TO> converter;
 
     public ConvertedIterable(Iterable<FROM> original, Function<FROM, TO> converter) {
         this.original = original;
@@ -36,7 +36,7 @@ public class ConvertedIterable<FROM, TO> implements Iterable<TO> {
 
     private class Loop<E> implements Iterator<E> {
 
-        private Iterator<FROM> loop;
+        private final Iterator<FROM> loop;
 
         private Loop(Iterator<FROM> loop) {
             this.loop = loop;

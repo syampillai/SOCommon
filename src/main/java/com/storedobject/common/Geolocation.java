@@ -704,10 +704,9 @@ public class Geolocation implements Storable {
 
     @Override
     public boolean equals(Object another) {
-        if(!(another instanceof Geolocation)) {
+        if(!(another instanceof Geolocation a)) {
             return false;
         }
-        Geolocation a = (Geolocation)another;
         return latitude == a.latitude && longitude == a.longitude && altitude == a.altitude;
     }
 }
