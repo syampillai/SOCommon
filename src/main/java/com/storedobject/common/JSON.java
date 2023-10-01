@@ -39,13 +39,18 @@ public class JSON {
     public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final JSON EMPTY = createInt();
+    private static final String EMPTY_STRING = "\"\"";
 
     private JsonNode value = null;
 
     /**
-     * Construct a <code>null</code> JSON.
+     * Construct an empty JSON.
      */
     public JSON() {
+        try {
+            set(EMPTY_STRING);
+        } catch (IOException ignored) {
+        }
     }
 
     /**
@@ -119,7 +124,7 @@ public class JSON {
 
     private static JSON createInt() {
         try {
-            return new JSON("\"\"");
+            return new JSON(EMPTY_STRING);
         } catch(IOException e) {
             return null;
         }
@@ -151,6 +156,13 @@ public class JSON {
      * @param object JSON to construct from this Object.
      */
     public void set(Object object) {
+        if(object == null) {
+            try {
+                set(EMPTY_STRING);
+            } catch (IOException ignored) {
+            }
+            return;
+        }
         value = mapper.valueToTree(object);
     }
 
@@ -162,6 +174,7 @@ public class JSON {
      */
     public void set(String json) throws IOException {
         if(json == null) {
+            set(EMPTY_STRING);
             return;
         }
         set(new StringReader(json));
@@ -175,6 +188,7 @@ public class JSON {
      */
     public void set(InputStream stream) throws IOException {
         if(stream == null) {
+            set(EMPTY_STRING);
             return;
         }
         set(IO.getReader(stream));
@@ -188,6 +202,7 @@ public class JSON {
      */
     public void set(Reader reader) throws IOException {
         if(reader == null) {
+            set(EMPTY_STRING);
             return;
         }
         value = mapper.readTree(reader);
@@ -202,6 +217,7 @@ public class JSON {
      */
     public void set(URL url) throws Exception {
         if(url == null) {
+            set(EMPTY_STRING);
             return;
         }
         HTTP http = new HTTP(url);

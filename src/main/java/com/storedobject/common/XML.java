@@ -31,6 +31,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -446,6 +447,22 @@ public class XML {
             xpath = "." + xpath;
         }
         return (Node) xPath.evaluate(xpath, node, XPathConstants.NODE);
+    }
+
+    public String toPrettyString() {
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", 4);
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            Writer out = new StringWriter();
+            transformer.transform(new DOMSource(document), new StreamResult(out));
+            return out.toString();
+        } catch (Exception e) {
+            return toString();
+        }
     }
 
     public String toString() {
