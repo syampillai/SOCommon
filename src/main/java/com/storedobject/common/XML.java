@@ -31,7 +31,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -164,7 +163,7 @@ public class XML {
         if(prefix == null) {
             prefix = XMLConstants.DEFAULT_NS_PREFIX;
         }
-        String current = nsMap.get(this.prefix);
+        String current = nsMap.remove(this.prefix);
         this.prefix = prefix;
         if(current != null) {
             nsMap.put(prefix, current);
@@ -181,6 +180,7 @@ public class XML {
 
     private void setNamespace() {
         if(pack) {
+            document.getDocumentElement().normalize();
             clean(document);
         }
         setNamespace(document.getDocumentElement());
@@ -338,6 +338,7 @@ public class XML {
         try {
             return setText(getNode(xpathToNode), value);
         } catch(Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -450,15 +451,16 @@ public class XML {
     }
 
     public String toPrettyString() {
+        return toPrettyString(document);
+    }
+
+    public String toPrettyString(Node node) {
         try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setAttribute("indent-number", 4);
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            Transformer transformer = createTransformer(4);
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, node == document ? "no" : "yes");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             Writer out = new StringWriter();
-            transformer.transform(new DOMSource(document), new StreamResult(out));
+            transformer.transform(new DOMSource(node), new StreamResult(out));
             return out.toString();
         } catch (Exception e) {
             return toString();
@@ -496,12 +498,15 @@ public class XML {
     }
 
     private void write(DOMSource source, StreamResult result) throws Exception {
-        createTransformer().transform(source, result);
+        createTransformer(0).transform(source, result);
         result.getWriter().flush();
     }
 
-    private Transformer createTransformer() throws Exception {
+    private Transformer createTransformer(int intent) throws Exception {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        if(intent > 0) {
+            transformerFactory.setAttribute("indent-number", 4);
+        }
         Transformer transformer = transformerFactory.newTransformer();
         if (document.getDoctype() != null){
             String systemValue = (new File(document.getDoctype().getSystemId())).getName();

@@ -281,4 +281,8 @@ public class SOAP {
     public String toString() {
         return getXML().toString();
     }
+
+    public String toPrettyString() {
+        return getXML().toPrettyString();
+    }
 }
