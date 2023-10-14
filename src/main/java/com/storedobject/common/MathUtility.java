@@ -17,7 +17,9 @@
 package com.storedobject.common;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.concurrent.atomic.*;
 
 /**
 * Math utility functions
@@ -27,16 +29,57 @@ import java.math.RoundingMode;
 public class MathUtility {
 
     public static BigDecimal toBigDecimal(Object value) {
-        String v;
         if(value == null) {
             return null;
         }
         if(value instanceof BigValue) {
         	value = ((BigValue)value).getValue();
         }
-        if(value instanceof BigDecimal) {
-            return (BigDecimal)value;
+        if(value instanceof Number) {
+            if (value instanceof BigDecimal v) {
+                return v;
+            }
+            if(value instanceof BigInteger v) {
+                return new BigDecimal(v);
+            }
+            if(value instanceof Double v) {
+                return BigDecimal.valueOf(v);
+            }
+            if(value instanceof Float v) {
+                return BigDecimal.valueOf(v);
+            }
+            if(value instanceof Long v) {
+                return BigDecimal.valueOf(v);
+            }
+            if(value instanceof Integer v) {
+                return BigDecimal.valueOf(v);
+            }
+            if(value instanceof Short v) {
+                return BigDecimal.valueOf(v);
+            }
+            if(value instanceof Byte v) {
+                return BigDecimal.valueOf(v);
+            }
+            if(value instanceof AtomicInteger v) {
+                return BigDecimal.valueOf(v.get());
+            }
+            if(value instanceof AtomicLong v) {
+                return BigDecimal.valueOf(v.get());
+            }
+            if(value instanceof DoubleAccumulator v) {
+                return BigDecimal.valueOf(v.get());
+            }
+            if(value instanceof DoubleAdder v) {
+                return BigDecimal.valueOf(v.sum());
+            }
+            if(value instanceof LongAccumulator v) {
+                return BigDecimal.valueOf(v.get());
+            }
+            if(value instanceof LongAdder v) {
+                return BigDecimal.valueOf(v.sum());
+            }
         }
+        String v;
         v = value.toString().trim();
         if(v.length() == 0) {
             return null;
