@@ -231,16 +231,19 @@ public class HTTP {
     }
 
     /**
-     * Get the input stream to read the response. (If HTTP errors are not allowed,an exception will be raised
-     * if the response is not HTTP OK.
+     * Get the input stream to read the response. If HTTP errors are not allowed,an exception will be raised
+     * if the response is not HTTP OK. If HTTP errors are allowed, the "error stream" is returned.
      *
      * @return Stream to read the response.
      * @throws Exception If any error occurs.
      */
     public InputStream getInputStream() throws Exception {
         getConnection();
-        if(!allowHTTPErrors && connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new Exception(connection.getResponseCode() + ": " + connection.getResponseMessage());
+        if(connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            if(!allowHTTPErrors) {
+                throw new Exception(connection.getResponseCode() + ": " + connection.getResponseMessage());
+            }
+            return connection.getErrorStream();
         }
         return connection.getInputStream();
     }
@@ -249,7 +252,7 @@ public class HTTP {
      * Get the response as a "reader".
      *
      * @return Get the response via a reader.
-     * @throws Exception If any error occurs.
+     * @throws Exception If any error occurs. (See {@link #getInputStream()}).
      */
     public BufferedReader getReader() throws Exception {
         return IO.getReader(getInputStream());
