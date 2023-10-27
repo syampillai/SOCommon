@@ -66,6 +66,15 @@ public class JSON {
     }
 
     /**
+     * Construct a JSON instance from the string argument.
+     *
+     * @param json JSON representation string.
+     */
+    public JSON(String json) {
+        set(json);
+    }
+
+    /**
      * Create a blank JSON.
      *
      * @return Empty JSON.
