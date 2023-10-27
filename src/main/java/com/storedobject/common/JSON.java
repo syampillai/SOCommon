@@ -66,15 +66,6 @@ public class JSON {
     }
 
     /**
-     * Construct a JSON instance from the string argument.
-     *
-     * @param json JSON representation string.
-     */
-    public JSON(String json) {
-        set(json);
-    }
-
-    /**
      * Create a blank JSON.
      *
      * @return Empty JSON.
@@ -116,6 +107,7 @@ public class JSON {
         try {
             if(object instanceof String s) {
                 set(new StringReader(s));
+                return;
             }
             if (object instanceof InputStream stream) {
                 set(IO.getReader(stream));
