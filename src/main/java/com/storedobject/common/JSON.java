@@ -38,7 +38,7 @@ public class JSON {
      */
     public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static final JSON EMPTY = createInt();
+    private static final JSON EMPTY = new JSON();
     private static final String EMPTY_STRING = "\"\"";
 
     private JsonNode value = null;
@@ -47,56 +47,17 @@ public class JSON {
      * Construct an empty JSON.
      */
     public JSON() {
-        try {
-            set(EMPTY_STRING);
-        } catch (IOException ignored) {
-        }
+        this(EMPTY_STRING);
     }
 
     /**
-     * Construct JSON from a String.
-     *
-     * @param json JSON to construct.
-     * @throws IOException If any exception happens while parsing.
-     */
-    public JSON(String json) throws IOException {
-        set(json);
-    }
-
-    /**
-     * Construct JSON from a stream.
-     *
-     * @param stream JSON to construct from this stream.
-     * @throws IOException If any exception happens while parsing.
-     */
-    public JSON(InputStream stream) throws IOException {
-        set(stream);
-    }
-
-    /**
-     * Construct JSON from a reader.
-     *
-     * @param reader JSON to construct from this reader.
-     * @throws IOException If any exception happens while parsing.
-     */
-    public JSON(Reader reader) throws IOException {
-        set(reader);
-    }
-
-    /**
-     * Construct JSON from a URL.
-     *
-     * @param url JSON to construct from this URL.
-     * @throws Exception If any exception happens while parsing.
-     */
-    public JSON(URL url) throws Exception {
-        set(url);
-    }
-
-    /**
-     * Construct JSON from an Object that could hopefully parse into a JSON compatible String. Typically, it could be
-     * a {@link Map} or some sort of array or collection. It could also be a standalone object that can be converted
-     * to a valid JSON string. Also, instances of another {@link JSON} can be passed.
+     * Construct a JSON instance from an Object that could hopefully parse into a JSON compatible String.
+     * Typically, it could be a {@link Map} or some sort of array or collection. It could also be a standalone object
+     * that can be converted to a valid JSON string. Otherwise, the following types are handled as special cases: (1) A
+     * {@link JsonNode} instance - directly set internally, (2) Another {@link JSON} instance - directly set internally,
+     * (3) An {@link InputStream} instance - expects a string value from the stream, (4) An instance of a
+     * {@link Reader} - expects a string value from it, (5) A {@link URL} instance - content of the {@link URL} is
+     * read and processed.
      *
      * @param object JSON to construct from this Object.
      */
@@ -113,46 +74,54 @@ public class JSON {
         return EMPTY;
     }
 
-    private static JSON createInt() {
-        try {
-            return new JSON(EMPTY_STRING);
-        } catch(IOException e) {
-            return null;
-        }
-    }
-
     /**
-     * Create a JSON object by parsing the string passed. If the string can not be parsed to a valid JSON, an
-     * empty JSON is created and no exceptions are thrown.
+     * Construct a JSON instance from an Object that could hopefully parse into a JSON compatible String.
+     * Typically, it could be a {@link Map} or some sort of array or collection. It could also be a standalone object
+     * that can be converted to a valid JSON string. Otherwise, the following types are handled as special cases: (1) A
+     * {@link JsonNode} instance - directly set internally, (2) Another {@link JSON} instance - directly set internally,
+     * (3) An {@link InputStream} instance - expects a string value from the stream, (4) An instance of a
+     * {@link Reader} - expects a string value from it, (5) A {@link URL} instance - content of the {@link URL} is
+     * read and processed.
      *
-     * @param json JSON string to parse.
-     * @return Returns the JSON object or an empty JSON if parsing failed.
+     * @param object JSON to construct from this Object.
      */
-    public static JSON create(String json) {
-        if(json == null || json.isEmpty()) {
-            return EMPTY;
-        }
-        try {
-            return new JSON(json);
-        } catch(IOException e) {
-            return EMPTY;
-        }
+    public static JSON create(Object object) {
+        return new JSON(object);
     }
 
     /**
      * Set JSON from an Object that could hopefully parse into a JSON compatible String. Typically, it could be
      * a {@link Map} or some sort of array or collection. It could also be a standalone object that can be converted
-     * to a valid JSON string. Also, instances of {@link JsonNode} and {@link JSON} can be passed.
+     * to a valid JSON string. Otherwise, the following types are handled as special cases: (1) A {@link JsonNode}
+     * instance - directly set internally, (2) Another {@link JSON} instance - directly set internally,
+     * (3) An {@link InputStream} instance - expects a string value from the stream, (4) An instance of a
+     * {@link Reader} - expects a string value from it, (5) A {@link URL} instance - content of the {@link URL} is
+     * read and processed.
      *
      * @param object JSON to construct from this Object.
      */
     public void set(Object object) {
         if(object == null) {
-            try {
-                set(EMPTY_STRING);
-            } catch (IOException ignored) {
+            object = EMPTY_STRING;
+        }
+        try {
+            if(object instanceof String s) {
+                set(new StringReader(s));
             }
-            return;
+            if (object instanceof InputStream stream) {
+                set(IO.getReader(stream));
+                return;
+            }
+            if (object instanceof Reader reader) {
+                set(reader);
+                return;
+            }
+            if(object instanceof URL url) {
+                set(url);
+                return;
+            }
+        } catch (Exception e) {
+            throw new SORuntimeException(e);
         }
         if(object instanceof JsonNode jsonNode) {
             value = jsonNode;
@@ -166,26 +135,12 @@ public class JSON {
     }
 
     /**
-     * Set from a String.
-     *
-     * @param json JSON to set from this String.
-     * @throws IOException If any exception happens while parsing.
-     */
-    public void set(String json) throws IOException {
-        if(json == null) {
-            set(EMPTY_STRING);
-            return;
-        }
-        set(new StringReader(json));
-    }
-
-    /**
      * Set from a stream.
      *
      * @param stream JSON to set from this stream.
      * @throws IOException If any exception happens while parsing.
      */
-    public void set(InputStream stream) throws IOException {
+    private void set(InputStream stream) throws IOException {
         if(stream == null) {
             set(EMPTY_STRING);
             return;
@@ -199,11 +154,7 @@ public class JSON {
      * @param reader JSON to set from this Reader.
      * @throws IOException If any exception happens while parsing.
      */
-    public void set(Reader reader) throws IOException {
-        if(reader == null) {
-            set(EMPTY_STRING);
-            return;
-        }
+    private void set(Reader reader) throws IOException {
         value = mapper.readTree(reader);
         IO.close(reader);
     }
@@ -214,11 +165,7 @@ public class JSON {
      * @param url JSON to set from this URL.
      * @throws Exception If any exception happens while parsing.
      */
-    public void set(URL url) throws Exception {
-        if(url == null) {
-            set(EMPTY_STRING);
-            return;
-        }
+    private void set(URL url) throws Exception {
         HTTP http = new HTTP(url);
         set(http.getInputStream());
     }
@@ -598,9 +545,8 @@ public class JSON {
      *
      * @param jss JSS string.
      * @return JSON created from the parsed JSS.
-     * @throws IOException If any exception happens while parsing.
      */
-    public static JSON fromJSS(String jss) throws IOException {
+    public static JSON fromJSS(String jss) {
         jss = parseJSS(jss);
         return jss == null ? new JSON() : new JSON(jss);
     }
