@@ -94,18 +94,9 @@ public class JSON {
     }
 
     /**
-     * Construct JSON from another JSON node.
-     *
-     * @param json JSON to construct from this JSON node.
-     */
-    public JSON(JsonNode json) {
-        value = json;
-    }
-
-    /**
      * Construct JSON from an Object that could hopefully parse into a JSON compatible String. Typically, it could be
      * a {@link Map} or some sort of array or collection. It could also be a standalone object that can be converted
-     * to a valid JSON string.
+     * to a valid JSON string. Also, instances of another {@link JSON} can be passed.
      *
      * @param object JSON to construct from this Object.
      */
@@ -151,7 +142,7 @@ public class JSON {
     /**
      * Set JSON from an Object that could hopefully parse into a JSON compatible String. Typically, it could be
      * a {@link Map} or some sort of array or collection. It could also be a standalone object that can be converted
-     * to a valid JSON string.
+     * to a valid JSON string. Also, instances of {@link JsonNode} and {@link JSON} can be passed.
      *
      * @param object JSON to construct from this Object.
      */
@@ -161,6 +152,14 @@ public class JSON {
                 set(EMPTY_STRING);
             } catch (IOException ignored) {
             }
+            return;
+        }
+        if(object instanceof JsonNode jsonNode) {
+            value = jsonNode;
+            return;
+        }
+        if(object instanceof JSON json) {
+            value = json.value;
             return;
         }
         value = mapper.valueToTree(object);
