@@ -238,4 +238,9 @@ public class USAddress extends Address {
         }
         return null;
     }
+
+    @Override
+    String postalCode() {
+        return postalCode; // No trimming of leading zeros
+    }
 }
