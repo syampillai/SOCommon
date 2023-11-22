@@ -972,7 +972,7 @@ public abstract class Address {
     }
 
     /**
-     * Is postal code is mandatory?
+     * Is postal code mandatory?
      *
      * @return True/false.
      */
