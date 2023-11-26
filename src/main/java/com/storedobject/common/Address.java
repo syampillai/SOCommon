@@ -148,7 +148,8 @@ public abstract class Address {
         if(lines[0].length() < 4) {
             error(address, "First line");
         }
-        Country country = Country.get(Country.check(lines[0].substring(0, 2)));
+        String cc = lines[0].substring(0, 2);
+        Country country = "XX".equals(cc) ? null : Country.get(Country.check(cc));
         Address a = create(country);
         a.apartmentCode = lines[0].charAt(2);
         a.apartmentName = lines[0].substring(3).trim();
@@ -480,7 +481,7 @@ public abstract class Address {
         if(!isValid()) {
             return null;
         }
-        StringBuilder s = new StringBuilder(country.getShortName());
+        StringBuilder s = new StringBuilder(country == null ? "XX" : country.getShortName());
         s.append(apartmentCode).append(apartmentName).append('\n').append(buildingName).append('\n');
         s.append(streetName).append('\n').append(areaName).append('\n').append(poBox).append('\n').append(postalCode);
         for(String line: lines) {
