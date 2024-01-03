@@ -384,6 +384,7 @@ public class XML {
      * @throws Exception If any error occurs.
      * @deprecated Use {@link #getText(Node, String)} instead.
      */
+    @Deprecated
     public String get(Node node, String xpath) throws Exception {
         return getText(node, xpath);
     }

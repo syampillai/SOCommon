@@ -49,22 +49,4 @@ public class XXAddress extends Address {
         }
         return "Address Line (" + (index + 1) + ")";
     }
-
-    public static void main(String[] args) {
-        Address a = Address.create((Country) null);
-        a.setApartmentName("105 Al Ghaf 1B");
-        a.setStreetName("Street No. 1");
-        a.setAreaName("Emaar Greens");
-        a.setLine(0, "Test Line 1");
-        a.setLine(1, "United Arab Emirates");
-        System.err.println(a.isValid());
-        System.err.println(a.getCountry());
-        System.err.println("-----");
-        System.err.println(a);
-        System.err.println("------");
-        System.err.println(a.encode());
-        System.err.println("-----");
-        a = Address.create(a.encode());
-        System.err.println(a);
-    }
 }
