@@ -16,9 +16,13 @@
 
 package com.storedobject.common;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -38,6 +42,17 @@ public class JSON {
      */
     public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
     private static final ObjectMapper mapper = new ObjectMapper();
+    static {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(BigDecimal.class, new JsonSerializer<>() {
+            @Override
+            public void serialize(BigDecimal value, JsonGenerator gen, SerializerProvider serializers)
+                    throws IOException {
+                gen.writeRawValue(value.toPlainString());
+            }
+        });
+        mapper.registerModule(module);
+    }
     private static final JSON EMPTY = new JSON();
     private static final String EMPTY_STRING = "\"\"";
 
