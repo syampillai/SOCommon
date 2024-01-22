@@ -21,6 +21,7 @@ import java.util.Collection;
 /**
  * An ArrayList that has the properties of a Set (Only one instance will appear even if duplicate elements are added).
  *
+ * @param <E> Value type.
  * @author Syam
  */
 public class ArrayListSet<E> extends ArrayList<E> {

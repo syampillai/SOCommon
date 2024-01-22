@@ -18,9 +18,10 @@ package com.storedobject.common;
 
 import java.util.function.BiFunction;
 /**
-* Accumulator function that is used to calculate a sum or product of a series of values.
-*
-* @author Syam
+ * Accumulator function that is used to accumulate values (for example, a sum or a product) of a series of values.
+ *
+ * @param <T> Value type.
+ * @author Syam
 **/
 public class Accumulator<T> {
 
@@ -30,7 +31,7 @@ public class Accumulator<T> {
     /**
     * Create an Accumulator instance by passing a ByFunction.
     *
-    * @param accumulator ByFunction with function arguments and result of the same type.
+    * @param accumulator Bi-function with function arguments and result of the same type.
     **/
     public Accumulator(BiFunction<T, T, T> accumulator) {
         this.accumulator = accumulator;

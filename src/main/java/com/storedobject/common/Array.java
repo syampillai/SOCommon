@@ -25,10 +25,11 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
-* An array implementation with variable size.
-*
-* @author Syam
-**/
+ * An array implementation with variable size.
+ *
+ * @param <T> Value type.
+ * @author Syam
+ **/
 public class Array<T> implements Loop<T>, List<T> {
 
     private final T[] array;

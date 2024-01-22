@@ -21,6 +21,7 @@ import java.util.function.BiFunction;
 /**
  * A class that provides multithreaded synchronized Accumulator functionality
  *
+ * @param <T> Value type.
  * @author Syam
  **/
 public class ParallelAccumulator<T> extends Accumulator<T> {

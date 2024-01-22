@@ -16,10 +16,13 @@
 
 package com.storedobject.common;
 /**
-* A functional interface that accepts 3 arguments of type T1, T2, T3 for performing an operation with no return value.
-*
-* @author Syam
-**/
+ * A functional interface that accepts 3 arguments of type T1, T2, T3 for performing an operation with no return value.
+ *
+ * @param <T1> Type of value 1.
+ * @param <T2> Type of value 2.
+ * @param <T3> Type of value 3.
+ * @author Syam
+ **/
 @FunctionalInterface
 public interface TriConsumer<T1, T2, T3> {
     
