@@ -19,12 +19,16 @@ package com.storedobject.common;
 import java.util.Collection;
 
 /**
-* An ArrayList implementation
-*
-* @author Syam
-**/
+ * Enhanced array list.
+ *
+ * @param <E> Element type.
+ * @author Syam
+ */
 public class ArrayList<E> extends java.util.ArrayList<E> {
 
+    /**
+     * Default constructor.
+     */
     public ArrayList() {
     }
 
