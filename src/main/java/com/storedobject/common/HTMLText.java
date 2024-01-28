@@ -274,10 +274,13 @@ public class HTMLText implements StyledBuilder {
             return value;
         }
         value.append("<span style=\"display:inline;");
-        if(styles.length == 1 && styles[0].indexOf(':') < 0) {
+        if(styles.length == 1 && styles[0] != null && styles[0].indexOf(':') < 0) {
             styles[0] = "color:" + styles[0];
         }
         for(String style: styles) {
+            if(style == null) {
+                continue;
+            }
             value.append(style);
             if(!style.endsWith(";")) {
                 value.append(";");

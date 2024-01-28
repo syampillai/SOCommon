@@ -183,5 +183,32 @@ public interface StyledBuilder {
             }
             return new Style(n.trim(), s.trim());
         }
+
+        /**
+         * Create an array of Style instances from the given string that may contain multiple styles. (Note: If invalid
+         * styles are part of the input, the output can contain null values corresponding to the invalid inputs).
+         *
+         * @param multipleStyles String containing multiple styles.
+         * @return Style array.
+         */
+        public static Style[] array(String multipleStyles) {
+            if(multipleStyles == null) {
+                return new Style[]{};
+            }
+            multipleStyles = multipleStyles.trim().replace('\n', ';');
+            if(multipleStyles.isBlank()) {
+                return new Style[]{};
+            }
+            while (multipleStyles.contains(";;")) {
+                multipleStyles = multipleStyles.replace(";;", ";");
+            }
+            String[] ss = multipleStyles.split(";");
+            Style[] styles = new Style[ss.length];
+            int i = 0;
+            for(String s: ss) {
+                styles[i++] = create(s);
+            }
+            return styles;
+       }
     }
 }
