@@ -25,6 +25,8 @@ import java.util.function.Consumer;
  */
 public interface StyledBuilder {
 
+    static final String[] EMPTY_STRINGS = new String[]{};
+
     /**
      * Append an object.
      *
@@ -42,6 +44,15 @@ public interface StyledBuilder {
      */
     default StyledBuilder append(Object object, String color) {
         return append(object);
+    }
+
+    /**
+     * Set a value. (Previous content if any will be cleared).
+     *
+     * @param object Object (value) to set.
+     */
+    default void setValue(Object object) {
+        clearContent().append(object, EMPTY_STRINGS);
     }
 
     /**

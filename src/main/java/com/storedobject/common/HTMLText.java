@@ -23,7 +23,6 @@ package com.storedobject.common;
  */
 public class HTMLText implements StyledBuilder {
 
-    private static final String[] EMPTY_STRINGS = new String[]{};
     public static boolean ALLOW_TOP_LEVEL = false;
     private static final String NEW_LINE = "<BR/>";
     private static final String space = "&nbsp;";
