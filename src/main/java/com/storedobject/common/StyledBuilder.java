@@ -16,6 +16,8 @@
 
 package com.storedobject.common;
 
+import java.util.function.Consumer;
+
 /**
  * Build something with "styles".
  *
@@ -53,6 +55,16 @@ public interface StyledBuilder {
     }
 
     /**
+     * Set a value with the given styles. (Previous content if any will be cleared).
+     *
+     * @param object Object (value) to set.
+     * @param styles Styles to be set.
+     */
+    default void setValue(Object object, Style... styles) {
+        clearContent().append(object, styles);
+    }
+
+    /**
      * Append an object with the given style.
      *
      * @param object Object to append.
@@ -60,6 +72,17 @@ public interface StyledBuilder {
      * @return Self-reference is returned.
      */
     default StyledBuilder append(Object object, String... styles) {
+        return append(object);
+    }
+
+    /**
+     * Append an object with the given style. Default implementation ignores styles.
+     *
+     * @param object Object to append.
+     * @param styles Styles to be set.
+     * @return Self-reference is returned.
+     */
+    default StyledBuilder append(Object object, Style... styles) {
         return append(object);
     }
 
@@ -110,4 +133,55 @@ public interface StyledBuilder {
      * @return Self-reference is returned.
      */
     StyledBuilder clearContent();
+
+    /**
+     * Apply styles to a consumer.
+     *
+     * @param styles Styles text. It will be parsed create styles.
+     * @param element Element that accepts the styles.
+     */
+    public static void apply(String styles, Consumer<Style> element) {
+        styles = styles.replace('\n', ';');
+        while (styles.contains(";;")) {
+            styles = styles.replace(";;", ";");
+        }
+        String[] ss = styles.split(";");
+        Style style;
+        for(String s: ss) {
+            style = Style.create(s);
+            if(style != null) {
+                element.accept(style);
+            }
+        }
+    }
+
+    /**
+     * Representation of HTML style.
+     *
+     * @param name Name of the style.
+     * @param value Value of the style.
+     *
+     * @author Syam
+     */
+    public record Style(String name, String value) {
+
+        /**
+         * Create a style from the given string.
+         *
+         * @param s Text from which the style can be created. (It is of the form "color: red").
+         * @return Style instance if an instance can be created. Otherwise, null.
+         */
+        public static Style create(String s) {
+            int p = s.indexOf(':');
+            if(p <= 0) {
+                return null;
+            }
+            String n = s.substring(0, p);
+            s = s.substring(p + 1);
+            if(n.isBlank() || s.isBlank()) {
+                return null;
+            }
+            return new Style(n.trim(), s.trim());
+        }
+    }
 }

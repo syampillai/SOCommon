@@ -23,6 +23,7 @@ package com.storedobject.common;
  */
 public class HTMLText implements StyledBuilder {
 
+    private static final String[] EMPTY_STRINGS = new String[]{};
     public static boolean ALLOW_TOP_LEVEL = false;
     private static final String NEW_LINE = "<BR/>";
     private static final String space = "&nbsp;";
@@ -33,7 +34,7 @@ public class HTMLText implements StyledBuilder {
      * Constructor.
      */
     public HTMLText() {
-        this(null);
+        this(null, EMPTY_STRINGS);
     }
 
     /**
@@ -44,6 +45,25 @@ public class HTMLText implements StyledBuilder {
      */
     public HTMLText(Object object, String... style) {
         append(object, style);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param object Object to be added.
+     * @param style Styles to be set.
+     */
+    public HTMLText(Object object, Style... style) {
+        append(object, style);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param object Object to be added.
+     */
+    public HTMLText(Object object) {
+        this(object, EMPTY_STRINGS);
     }
 
     @Override
@@ -147,6 +167,53 @@ public class HTMLText implements StyledBuilder {
         return this;
     }
 
+    private static boolean allNulls(Style... styles) {
+        if(styles == null) {
+            return true;
+        }
+        for(Style s: styles) {
+            if(s != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void addStyle(Style style) {
+        if(style == null) {
+            return;
+        }
+        String n = style.name().trim(), v = style.value().trim();
+        if(n.isBlank()) {
+            return;
+        }
+        while(v.endsWith(";")) {
+            v = v.substring(0, v.length() - 1);
+        }
+        if(v.isBlank()) {
+            return;
+        }
+        value.append(n).append(":").append(v).append(";");
+    }
+
+    @Override
+    public HTMLText append(Object object, Style... styles) {
+        if(allNulls(styles)) {
+            return append(object);
+        }
+        if(object == null) {
+            return this;
+        }
+        String text = encode(object);
+        newline = StringUtility.pack(text).toUpperCase().endsWith(NEW_LINE);
+        value.append("<span style=\"display:inline;");
+        for(Style s: styles) {
+            addStyle(s);
+        }
+        value.append("\">").append(text).append("</span>");
+        return this;
+    }
+
     /**
      * Append valid HTML text. It should not contain any top-level elements such as html, body or head. Also, no
      * scripts and style tags can be added.
@@ -203,7 +270,7 @@ public class HTMLText implements StyledBuilder {
     }
 
     private StringBuilder styleS(String[] styles) {
-        if(styles.length == 0) {
+        if(styles == null || styles.length == 0) {
             return value;
         }
         value.append("<span style=\"display:inline;");
@@ -221,18 +288,27 @@ public class HTMLText implements StyledBuilder {
     }
 
     private String styleE(String[] styles) {
-        return styles.length > 0 ? "</span>" : "";
+        return styles != null && styles.length > 0 ? "</span>" : "";
     }
 
     @Override
     public HTMLText append(Object object) {
-        return append(object, new String[] { });
+        return append(object, EMPTY_STRINGS);
     }
 
+    /**
+     * If this method is invoked ever, top-leve HTML elements will be allowed while building the HTML content. This
+     * could cause unexpected changes to the existing HTML on the page.
+     */
     public static void setAllowTopLevelHTML() {
         ALLOW_TOP_LEVEL = true;
     }
 
+    /**
+     * Whether top-level HTML elements are allowed or not.
+     *
+     * @return True/false.
+     */
     public static boolean isAllowTopLevelHTML() {
         return ALLOW_TOP_LEVEL;
     }
