@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
  *
  * @author Syam
  */
+@SuppressWarnings("UnusedReturnValue")
 public class HTTP {
 
     private final static CookieManager cookieManager = new CookieManager();
