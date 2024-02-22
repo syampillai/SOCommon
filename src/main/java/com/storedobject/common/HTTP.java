@@ -39,6 +39,7 @@ public class HTTP {
     private final static CookieManager cookieManager = new CookieManager();
     static {
         CookieHandler.setDefault(cookieManager);
+        System.setProperty("jdk.httpclient.allowRestrictedHeaders", "host");
     }
     private static final String JSON_TYPE = "application/json";
     private final URL url;
