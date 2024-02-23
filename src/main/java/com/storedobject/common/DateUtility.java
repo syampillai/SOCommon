@@ -667,12 +667,12 @@ public class DateUtility {
     }
 
     /**
-     * Compare two dates and get the difference
-     *
+     * Compare two dates
+     .     *
      * @param <D> Date-type
      * @param one Date to compare
      * @param two Date to compare
-     * @return 0 if one == two, +ve 1 if one > two and -ve 1 if one < two
+     * @return A negative integer, zero, or a positive integer as 'one' is less than, equal to, or greater than 'two'.
      */
     public static <D extends java.util.Date> int compareTo(D one, D two) {
         int v1 = getYear(one), v2 = getYear(two);
