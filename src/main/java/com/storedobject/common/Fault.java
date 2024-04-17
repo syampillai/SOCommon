@@ -116,27 +116,27 @@ public class Fault {
     }
 
     // Common fault values
-    Fault TECHNICAL_FAULT = new Fault(Integer.MIN_VALUE, "Technical error");
-    Fault ACCOUNT_NOT_FOUND = new Fault(100001, "Account not found");
-    Fault ACCOUNT_ALREADY_EXISTS = new Fault(100002, "Account already exists");
-    Fault INVALID_DATE = new Fault(100003, "Invalid date");
-    Fault INVALID_PERIOD = new Fault(100004, "Invalid period");
-    Fault INVALID_AMOUNT = new Fault(100005, "Invalid amount");
-    Fault INVALID_CURRENCY = new Fault(100006, "Invalid currency");
-    Fault NOT_A_CUSTOMER_ACCOUNT = new Fault(100007, "Not a customer account");
-    Fault TRANSACTION_NOT_BALANCED = new Fault(100008, "Transaction not balanced");
-    Fault ACTION_NOT_SPECIFIED = new Fault(100009, "Action not specified");
-    Fault UNKNOWN_ACTION = new Fault(1000010, "Unknown action");
-    Fault VOUCHER_NOT_FOUND = new Fault(1000011, "Voucher not found");
-    Fault TRANSACTION_APPROVAL_ERROR = new Fault(1000012, "Transaction approval error");
-    Fault REQUESTING_SYSTEM_NOT_RECOGNIZED = new Fault(1000013, "Requesting system not recognized");
-    Fault NO_ENTRIES_FOUND = new Fault(1000014, "No entries found");
-    Fault MULTIPLE_ENTRIES_FOUND = new Fault(1000015, "Multiple entries");
-    Fault DUPLICATE_ENTRY_FOUND = new Fault(1000016, "Duplicate entry");
-    Fault DUPLICATE_REFERENCE_FOUND = new Fault(1000017, "Duplicate reference");
-    Fault REFERENCE_NOT_FOUND = new Fault(1000018, "Reference does not exist");
-    Fault CUSTOMER_NOT_FOUND = new Fault(1000019, "Customer does not exist");
-    Fault NOT_ENOUGH_BALANCE = new Fault(1000020, "Not enough balance");
-    Fault REFERENCE_ALREADY_EXISTS = new Fault(1000021, "Reference already exists");
-    Fault REFERENCE_NOT_SPECIFIED = new Fault(1000022, "Reference not specified");
+    public static final Fault TECHNICAL_FAULT = new Fault(Integer.MIN_VALUE, "Technical error");
+    public static final Fault ACCOUNT_NOT_FOUND = new Fault(100001, "Account not found");
+    public static final Fault ACCOUNT_ALREADY_EXISTS = new Fault(100002, "Account already exists");
+    public static final Fault INVALID_DATE = new Fault(100003, "Invalid date");
+    public static final Fault INVALID_PERIOD = new Fault(100004, "Invalid period");
+    public static final Fault INVALID_AMOUNT = new Fault(100005, "Invalid amount");
+    public static final Fault INVALID_CURRENCY = new Fault(100006, "Invalid currency");
+    public static final Fault NOT_A_CUSTOMER_ACCOUNT = new Fault(100007, "Not a customer account");
+    public static final Fault TRANSACTION_NOT_BALANCED = new Fault(100008, "Transaction not balanced");
+    public static final Fault ACTION_NOT_SPECIFIED = new Fault(100009, "Action not specified");
+    public static final Fault UNKNOWN_ACTION = new Fault(1000010, "Unknown action");
+    public static final Fault VOUCHER_NOT_FOUND = new Fault(1000011, "Voucher not found");
+    public static final Fault TRANSACTION_APPROVAL_ERROR = new Fault(1000012, "Transaction approval error");
+    public static final Fault REQUESTING_SYSTEM_NOT_RECOGNIZED = new Fault(1000013, "Requesting system not recognized");
+    public static final Fault NO_ENTRIES_FOUND = new Fault(1000014, "No entries found");
+    public static final Fault MULTIPLE_ENTRIES_FOUND = new Fault(1000015, "Multiple entries");
+    public static final Fault DUPLICATE_ENTRY_FOUND = new Fault(1000016, "Duplicate entry");
+    public static final Fault DUPLICATE_REFERENCE_FOUND = new Fault(1000017, "Duplicate reference");
+    public static final Fault REFERENCE_NOT_FOUND = new Fault(1000018, "Reference does not exist");
+    public static final Fault CUSTOMER_NOT_FOUND = new Fault(1000019, "Customer does not exist");
+    public static final Fault NOT_ENOUGH_BALANCE = new Fault(1000020, "Not enough balance");
+    public static final Fault REFERENCE_ALREADY_EXISTS = new Fault(1000021, "Reference already exists");
+    public static final Fault REFERENCE_NOT_SPECIFIED = new Fault(1000022, "Reference not specified");
 }
