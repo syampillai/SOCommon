@@ -116,27 +116,43 @@ public class Fault {
     }
 
     // Common fault values
+
     public static final Fault TECHNICAL_FAULT = new Fault(Integer.MIN_VALUE, "Technical error");
-    public static final Fault ACCOUNT_NOT_FOUND = new Fault(100001, "Account not found");
-    public static final Fault ACCOUNT_ALREADY_EXISTS = new Fault(100002, "Account already exists");
-    public static final Fault INVALID_DATE = new Fault(100003, "Invalid date");
-    public static final Fault INVALID_PERIOD = new Fault(100004, "Invalid period");
-    public static final Fault INVALID_AMOUNT = new Fault(100005, "Invalid amount");
-    public static final Fault INVALID_CURRENCY = new Fault(100006, "Invalid currency");
-    public static final Fault NOT_A_CUSTOMER_ACCOUNT = new Fault(100007, "Not a customer account");
-    public static final Fault TRANSACTION_NOT_BALANCED = new Fault(100008, "Transaction not balanced");
-    public static final Fault ACTION_NOT_SPECIFIED = new Fault(100009, "Action not specified");
-    public static final Fault UNKNOWN_ACTION = new Fault(1000010, "Unknown action");
-    public static final Fault VOUCHER_NOT_FOUND = new Fault(1000011, "Voucher not found");
-    public static final Fault TRANSACTION_APPROVAL_ERROR = new Fault(1000012, "Transaction approval error");
-    public static final Fault REQUESTING_SYSTEM_NOT_RECOGNIZED = new Fault(1000013, "Requesting system not recognized");
-    public static final Fault NO_ENTRIES_FOUND = new Fault(1000014, "No entries found");
-    public static final Fault MULTIPLE_ENTRIES_FOUND = new Fault(1000015, "Multiple entries");
-    public static final Fault DUPLICATE_ENTRY_FOUND = new Fault(1000016, "Duplicate entry");
-    public static final Fault DUPLICATE_REFERENCE_FOUND = new Fault(1000017, "Duplicate reference");
-    public static final Fault REFERENCE_NOT_FOUND = new Fault(1000018, "Reference does not exist");
-    public static final Fault CUSTOMER_NOT_FOUND = new Fault(1000019, "Customer does not exist");
-    public static final Fault NOT_ENOUGH_BALANCE = new Fault(1000020, "Not enough balance");
-    public static final Fault REFERENCE_ALREADY_EXISTS = new Fault(1000021, "Reference already exists");
-    public static final Fault REFERENCE_NOT_SPECIFIED = new Fault(1000022, "Reference not specified");
+    public static final Fault UNCATEGORIZED_FAULT = new Fault(Integer.MAX_VALUE, "Uncategorized error");
+
+    public static final Fault ACCOUNT_ALREADY_EXISTS = new Fault(100100, "Account already exists");
+    public static final Fault ACCOUNT_NOT_FOUND = new Fault(100101, "Account not found");
+    public static final Fault ACCOUNT_NOT_SPECIFIED = new Fault(100102, "Account not specified");
+
+    public static final Fault CUSTOMER_NOT_FOUND = new Fault(100111, "Customer does not exist");
+    public static final Fault NOT_A_CUSTOMER_ACCOUNT = new Fault(100112, "Not a customer account");
+    public static final Fault NOT_A_LOAN_ACCOUNT = new Fault(100113, "Not a loan account");
+
+    public static final Fault INVALID_DATE = new Fault(100200, "Invalid date");
+    public static final Fault INVALID_PERIOD = new Fault(100201, "Invalid period");
+    public static final Fault INVALID_AMOUNT = new Fault(100202, "Invalid amount");
+    public static final Fault INVALID_CURRENCY = new Fault(100203, "Invalid currency");
+
+    public static final Fault TRANSACTION_APPROVAL_ERROR = new Fault(100400, "Transaction approval error");
+    public static final Fault TRANSACTION_NOT_BALANCED = new Fault(100401, "Transaction not balanced");
+    public static final Fault TRANSACTION_NOT_FOUND = new Fault(100402, "Transaction does not exist");
+    public static final Fault NOT_ENOUGH_BALANCE = new Fault(100411, "Not enough balance");
+    public static final Fault EMPTY_NARRATION = new Fault(100412, "Empty narration");
+    public static final Fault VOUCHER_NOT_FOUND = new Fault(100499, "Voucher not found");
+
+    public static final Fault ACTION_NOT_SPECIFIED = new Fault(100500, "Action not specified");
+    public static final Fault UNKNOWN_ACTION = new Fault(100501, "Unknown action");
+
+    public static final Fault DUPLICATE_ENTRY_FOUND = new Fault(100700, "Duplicate entry");
+    public static final Fault NO_ENTRIES_FOUND = new Fault(100701, "No entries found");
+    public static final Fault MULTIPLE_ENTRIES_FOUND = new Fault(100702, "Multiple entries");
+
+    public static final Fault DUPLICATE_REFERENCE_FOUND = new Fault(100800, "Duplicate reference");
+    public static final Fault REFERENCE_NOT_FOUND = new Fault(100801, "Reference does not exist");
+    public static final Fault REFERENCE_ALREADY_EXISTS = new Fault(100802, "Reference already exists");
+    public static final Fault REFERENCE_NOT_SPECIFIED = new Fault(100803, "Reference not specified");
+
+    public static final Fault NOT_ALLOWED = new Fault(100901, "Not allowed");
+    public static final Fault ILLEGAL_ACCESS = new Fault(100902, "Illegal access");
+    public static final Fault EXTERNAL_SYSTEM_NOT_RECOGNIZED = new Fault(100999, "External system not recognized");
 }

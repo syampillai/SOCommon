@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update version to 4.7.0, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update version to 4.7.1, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Fault.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Fault.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,6 +112,11 @@
       <workItem from="1713372235891" duration="3401000" />
       <workItem from="1713375725030" duration="87000" />
       <workItem from="1713376216119" duration="18000" />
+      <workItem from="1713376392090" duration="230000" />
+      <workItem from="1713376969404" duration="21000" />
+      <workItem from="1713378100878" duration="21000" />
+      <workItem from="1713379483573" duration="3807000" />
+      <workItem from="1713383794002" duration="561000" />
     </task>
     <task id="LOCAL-00001" summary="Version updated to 4.4.1&#10;&#10;Compiled with Java 17.&#10;Code clean up.">
       <option name="closed" value="true" />
@@ -375,14 +382,29 @@
       <option name="project" value="LOCAL" />
       <updated>1713375585016</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Update version to 4.7.1, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity.">
+      <option name="closed" value="true" />
+      <created>1713376570003</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1713376570003</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Update version to 4.7.1, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity.">
+      <option name="closed" value="true" />
+      <created>1713376584700</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1713376584700</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.4.1&#10;&#10;Compiled with Java 17.&#10;Code clean up." />
     <MESSAGE value="Version updated to 4.4.2&#10;&#10;Compiled with Java 17.&#10;New method: XML.toPrettyString&#10;Code improvement: JSON" />
     <MESSAGE value="Version updated to 4.4.3&#10;&#10;Compiled with Java 17.&#10;New method: XML.toPrettyString&#10;Code improvement: JSON" />
     <MESSAGE value="Version updated to 4.4.4&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.toPrettyString&#10;Fixed bug in XML.setText(...)" />
@@ -407,6 +429,7 @@
     <MESSAGE value="Version updated to 4.5.12&#10;&#10;Compiled with Java 17.&#10;New methods in DateUtility" />
     <MESSAGE value="Version updated to 4.6.0&#10;&#10;Compiled with Java 17.&#10;New class: DaemonThread" />
     <MESSAGE value="Update version to 4.7.0, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update version to 4.7.0, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
+    <MESSAGE value="Update version to 4.7.1, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update version to 4.7.1, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
   </component>
 </project>
