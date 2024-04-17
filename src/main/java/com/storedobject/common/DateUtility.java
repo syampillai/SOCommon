@@ -100,7 +100,7 @@ public class DateUtility {
     }
 
     /**
-     * Get start date of year for a give date
+     * Get start date of year for a given date
      *
      * @param <D> Date-type
      * @param date Date for which the start of the year is to be returned
@@ -164,10 +164,10 @@ public class DateUtility {
     }
 
     /**
-     * Get start date of a month. Month is calculated by adding an offset to the month corresponding to a given date
+     * Get starting date of a month.
      *
      * @param <D> Date-type
-     * @param monthOffset An integer offset value that has to be added to the month corresponding to a given date
+     * @param monthOffset An integer offset value that needs to be added to the month corresponding to a given date.
      * @return Start date of month
      */
     public static <D extends java.util.Date> D startOfMonth(int monthOffset, D date) {
@@ -176,7 +176,7 @@ public class DateUtility {
     }
 
     /**
-     * Get end date of current month
+     * Get end date of current month.
      *
      * @return End date of current month
      */
@@ -1032,13 +1032,13 @@ public class DateUtility {
             s.append(y).append("Y");
         }
         if(m > 0) {
-            if(s.length() > 0) {
+            if(!s.isEmpty()) {
                 s.append(" ");
             }
             s.append(m).append("M");
         }
         if(d > 0) {
-            if(s.length() > 0) {
+            if(!s.isEmpty()) {
                 s.append(" ");
             }
             s.append(d).append("D");
