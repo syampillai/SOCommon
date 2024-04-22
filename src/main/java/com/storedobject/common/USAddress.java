@@ -272,4 +272,13 @@ public class USAddress extends Address {
     public String getZIPCode() {
         return getPostalCode();
     }
+
+    /**
+     * Retrieves the city name for this USAddress.
+     *
+     * @return The city name.
+     */
+    public String getCity() {
+        return getAreaName();
+    }
 }
