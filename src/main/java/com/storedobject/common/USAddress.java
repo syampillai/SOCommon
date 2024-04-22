@@ -243,4 +243,33 @@ public class USAddress extends Address {
     String postalCode() {
         return postalCode; // No trimming of leading zeros
     }
+
+    /**
+     * Returns the name of the state for this USAddress.
+     *
+     * @return The name of the state.
+     */
+    public String getStateName() {
+        ZIP zip = getZIP();
+        return zip == null ? "" : zip.state.substring(2);
+    }
+
+    /**
+     * Retrieves the state code of the given USAddress.
+     *
+     * @return The two-character state code of the address. Returns an empty string if no ZIP is available.
+     */
+    public String getStateCode() {
+        ZIP zip = getZIP();
+        return zip == null ? "" : zip.state.substring(0, 2);
+    }
+
+    /**
+     * Retrieves the ZIP code for this USAddress.
+     *
+     * @return The ZIP code.
+     */
+    public String getZIPCode() {
+        return getPostalCode();
+    }
 }
