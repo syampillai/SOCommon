@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode, getCity) have been added to the USAddress class to return state name, state code, ZIP Code, and city name respectively. This enriches the functionality offered by the USAddress class for address handling.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality.">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +120,8 @@
       <workItem from="1713439395952" duration="21000" />
       <workItem from="1713627222327" duration="30000" />
       <workItem from="1713828577588" duration="806000" />
-      <workItem from="1714055723567" duration="1678000" />
+      <workItem from="1714055723567" duration="1788000" />
+      <workItem from="1714067598748" duration="99000" />
     </task>
     <task id="LOCAL-00001" summary="Version updated to 4.4.1&#10;&#10;Compiled with Java 17.&#10;Code clean up.">
       <option name="closed" value="true" />
@@ -427,14 +427,21 @@
       <option name="project" value="LOCAL" />
       <updated>1713829258502</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality.">
+      <option name="closed" value="true" />
+      <created>1714067508188</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1714067508188</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.4.4&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.toPrettyString&#10;Fixed bug in XML.setText(...)&#10;Code clean up" />
     <MESSAGE value="Version updated to 4.4.5&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.getHTTP()." />
     <MESSAGE value="Version updated to 4.4.6&#10;&#10;Compiled with Java 17.&#10;Function enhancement: MathUtility.toBigDecimal" />
     <MESSAGE value="Version updated to 4.4.6&#10;&#10;Compiled with Java 17.&#10;HTTP class: HTTP.getInputStream() now returns the error stream if an http response is not Ok and some payload still exists." />
@@ -459,6 +466,7 @@
     <MESSAGE value="Update version to 4.7.2, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
     <MESSAGE value="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode) have been added to the USAddress class to return state name, state code, and ZIP Code respectively. This enriches the functionality offered by the USAddress class for address handling." />
     <MESSAGE value="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode, getCity) have been added to the USAddress class to return state name, state code, ZIP Code, and city name respectively. This enriches the functionality offered by the USAddress class for address handling." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode, getCity) have been added to the USAddress class to return state name, state code, ZIP Code, and city name respectively. This enriches the functionality offered by the USAddress class for address handling." />
+    <MESSAGE value="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality." />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality." />
   </component>
 </project>
