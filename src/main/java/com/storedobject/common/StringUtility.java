@@ -1414,7 +1414,7 @@ public class StringUtility {
     }
 
     /**
-     * Concatenate two strings.
+     * Concatenate two string arrays.
      *
      * @param first First string.
      * @param second Second string.
@@ -1531,9 +1531,18 @@ public class StringUtility {
             return new String[] { s };
         }
         pos = length;
+        char c;
         while(pos >= 0) {
-            if(Character.isWhitespace(s.charAt(pos))) {
-                return concat(new String[] { s.substring(0, pos).trim() }, split(s.substring(pos + 1), length));
+            c = s.charAt(pos);
+            if(Character.isWhitespace(c)) {
+                return concat(new String[] { s.substring(0, pos).trim() },
+                        split(s.substring(pos + 1), length));
+            }
+            switch (c) {
+                case ',', ';', ':' -> {
+                    return concat(new String[]{s.substring(0, pos + 1).trim()},
+                            split(s.substring(pos + 1), length));
+                }
             }
             --pos;
         }
