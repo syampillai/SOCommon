@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
 import java.net.MalformedURLException;
 
 /**
- * SOAP client - A simple SOAP utility for sending/receiving/manipulating SOAP messages. The default the SOAP
+ * SOAP client - A simple SOAP utility for sending/receiving/manipulating SOAP messages. The default SOAP
  * version supported is "1.2".
  *
  * @author Syam
@@ -290,7 +290,30 @@ public class SOAP {
         return getXML().toString();
     }
 
+    /**
+     * Returns the XML associated with this SOAP request in a pretty string format.
+     *
+     * @return The XML in pretty string format.
+     */
     public String toPrettyString() {
         return getXML().toPrettyString();
+    }
+
+    /**
+     * Set the connection timeout for the HTTP request.
+     *
+     * @param timeout the connection timeout in milliseconds
+     */
+    public void setConnectTimeout(int timeout) {
+        http.setConnectTimeout(timeout);
+    }
+
+    /**
+     * Sets the read timeout for the HTTP connection.
+     *
+     * @param timeout The read timeout in milliseconds.
+     */
+    public void setReadTimeout(int timeout) {
+        http.setReadTimeout(timeout);
     }
 }

@@ -51,6 +51,7 @@ public class HTTP {
     private boolean ajaxMode = false;
     private boolean sni = true;
     private SSLSocketFactory socketFactory;
+    private int readTimeout = 30000, connectTimeout = 30000;
 
     /**
      * Create a connection. (By default, GET method will be used).
@@ -121,8 +122,8 @@ public class HTTP {
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setUseCaches(false);
-            connection.setConnectTimeout(30 * 1000);
-            connection.setReadTimeout(30 * 1000);
+            connection.setConnectTimeout(connectTimeout);
+            connection.setReadTimeout(readTimeout);
             connection.setRequestMethod(method);
             if(JSON_TYPE.equals(contentType)) {
                 connection.setRequestProperty("Accept", contentType);
@@ -430,5 +431,31 @@ public class HTTP {
      */
     public void disableSNIExtension() {
         this.sni = false;
+    }
+
+    /**
+     * Set the read timeout for the connection. If the timeout is less than or equal to 0, the default timeout
+     * of 30000 milliseconds will be used.
+     *
+     * @param readTimeout The read timeout in milliseconds.
+     */
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout <= 0 ? 30000 : readTimeout;
+        if(connection != null) {
+            connection.setReadTimeout(this.readTimeout);
+        }
+    }
+
+    /**
+     * Set the connection timeout for the HTTP request. If the timeout is less than or equal to 0,
+     * the default timeout of 30000 milliseconds will be used.
+     *
+     * @param connectTimeout the connection timeout in milliseconds
+     */
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout <= 0 ? 30000 : connectTimeout;
+        if(connection != null) {
+            connection.setConnectTimeout(this.connectTimeout);
+        }
     }
 }
