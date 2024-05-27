@@ -40,7 +40,6 @@ public class SOAP {
             "http://www.w3.org/2003/05/soap-envelope",
     };
     private int version;
-    private final String actionSOAP;
     private String prefixSOAP = "SOAP-Env";
     private final XML xml = new XML();
     private final HTTP http;
@@ -61,10 +60,10 @@ public class SOAP {
      * @param actionSOAP SOAP action.
      */
     public SOAP(String serviceURL, String actionSOAP) throws MalformedURLException {
-        this.actionSOAP = actionSOAP == null ? "" : actionSOAP;
         this.xml.setNamespacePrefix("b");
         this.http = new HTTP(serviceURL, true);
         setVersionSOAP(Version.V_1_2);
+        http.setRequestProperty("SOAPAction", actionSOAP == null ? "" : actionSOAP);
     }
 
     /**
@@ -273,7 +272,6 @@ public class SOAP {
      * state.
      */
     public void request() throws Exception {
-        http.setRequestProperty("SOAPAction", actionSOAP);
         http.post(getXML().toString());
         xml.set(http.read());
     }
