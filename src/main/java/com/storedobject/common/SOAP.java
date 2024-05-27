@@ -43,6 +43,7 @@ public class SOAP {
     private String prefixSOAP = "SOAP-Env";
     private final XML xml = new XML();
     private final HTTP http;
+    private final String actionSOAP;
 
     /**
      * Constructor.
@@ -60,10 +61,10 @@ public class SOAP {
      * @param actionSOAP SOAP action.
      */
     public SOAP(String serviceURL, String actionSOAP) throws MalformedURLException {
+        this.actionSOAP = actionSOAP == null ? "" : actionSOAP;
         this.xml.setNamespacePrefix("b");
         this.http = new HTTP(serviceURL, true);
         setVersionSOAP(Version.V_1_2);
-        http.setRequestProperty("SOAPAction", actionSOAP == null ? "" : actionSOAP);
     }
 
     /**
@@ -272,12 +273,14 @@ public class SOAP {
      * state.
      */
     public void request() throws Exception {
+        http.done();
+        http.setRequestProperty("SOAPAction", actionSOAP);
         http.post(getXML().toString());
         xml.set(http.read());
     }
 
     /**
-     * Close the resources associated with this instance. This instance should not be used after calling this.
+     * Close the resources associated with this instance. This instance may not be used after calling this.
      */
     public void close() {
        http.close();

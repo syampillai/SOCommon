@@ -163,7 +163,7 @@ public class HTTP {
                 IO.close(getInputStream());
             } catch(Exception ignored) {
             }
-            connection = null;
+            close();
         }
     }
 

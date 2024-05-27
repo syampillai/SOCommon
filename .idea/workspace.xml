@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Add configurable timeouts to HTTP and SOAP classes&#10;&#10;Timeout settings for HTTP and SOAP connections are now configurable. Two new methods have been added to each class to set the read and connection timeouts, while previously hard-coded values have been replaced. Project version has also been bumped to 4.7.5.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update version to 4.7.6 and refactor SOAP class&#10;&#10;The application version in pom.xml has been upgraded to 4.7.6. The SOAPAction assignment has been relocated to the constructor in the SOAP class, which improves the clarity and readability of the code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,8 +96,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
       </set>
     </attachedChunks>
   </component>
@@ -126,7 +127,8 @@
       <workItem from="1714067821573" duration="292000" />
       <workItem from="1714091461015" duration="426000" />
       <workItem from="1714091983329" duration="522000" />
-      <workItem from="1716823181758" duration="463000" />
+      <workItem from="1716823181758" duration="642000" />
+      <workItem from="1716825408985" duration="1402000" />
     </task>
     <task id="LOCAL-00001" summary="Version updated to 4.4.1&#10;&#10;Compiled with Java 17.&#10;Code clean up.">
       <option name="closed" value="true" />
@@ -456,14 +458,21 @@
       <option name="project" value="LOCAL" />
       <updated>1714092477190</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Update version to 4.7.6 and refactor SOAP class&#10;&#10;The application version in pom.xml has been upgraded to 4.7.6. The SOAPAction assignment has been relocated to the constructor in the SOAP class, which improves the clarity and readability of the code.">
+      <option name="closed" value="true" />
+      <created>1716823681323</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1716823681323</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.4.6&#10;&#10;Compiled with Java 17.&#10;Function enhancement: MathUtility.toBigDecimal" />
     <MESSAGE value="Version updated to 4.4.6&#10;&#10;Compiled with Java 17.&#10;HTTP class: HTTP.getInputStream() now returns the error stream if an http response is not Ok and some payload still exists." />
     <MESSAGE value="Version updated to 4.4.8&#10;&#10;Compiled with Java 17.&#10;HTTP class: HTTP.getInputStream() now returns the error stream if an http response is not Ok and some payload still exists." />
     <MESSAGE value="Version updated to 4.5.0&#10;&#10;Compiled with Java 17.&#10;JSON class can understand more parameter types when an Object type is passed to the constructor or to the JSON.set method.&#10;Existing code may require a re-compilation." />
@@ -488,6 +497,7 @@
     <MESSAGE value="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode, getCity) have been added to the USAddress class to return state name, state code, ZIP Code, and city name respectively. This enriches the functionality offered by the USAddress class for address handling." />
     <MESSAGE value="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality." />
     <MESSAGE value="Add configurable timeouts to HTTP and SOAP classes&#10;&#10;Timeout settings for HTTP and SOAP connections are now configurable. Two new methods have been added to each class to set the read and connection timeouts, while previously hard-coded values have been replaced. Project version has also been bumped to 4.7.5." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add configurable timeouts to HTTP and SOAP classes&#10;&#10;Timeout settings for HTTP and SOAP connections are now configurable. Two new methods have been added to each class to set the read and connection timeouts, while previously hard-coded values have been replaced. Project version has also been bumped to 4.7.5." />
+    <MESSAGE value="Update version to 4.7.6 and refactor SOAP class&#10;&#10;The application version in pom.xml has been upgraded to 4.7.6. The SOAPAction assignment has been relocated to the constructor in the SOAP class, which improves the clarity and readability of the code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update version to 4.7.6 and refactor SOAP class&#10;&#10;The application version in pom.xml has been upgraded to 4.7.6. The SOAPAction assignment has been relocated to the constructor in the SOAP class, which improves the clarity and readability of the code." />
   </component>
 </project>
