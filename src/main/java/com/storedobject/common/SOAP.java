@@ -275,8 +275,16 @@ public class SOAP {
     public void request() throws Exception {
         http.done();
         http.setRequestProperty("SOAPAction", actionSOAP);
+        requesting();
         http.post(getXML().toString());
         xml.set(http.read());
+    }
+
+    /**
+     * This method is invoked just before the request is sent to the server. You may apply additional controls to
+     * the HTTP request.
+     */
+    public void requesting() {
     }
 
     /**
