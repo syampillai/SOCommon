@@ -277,7 +277,12 @@ public class SOAP {
         http.setRequestProperty("SOAPAction", actionSOAP);
         requesting();
         http.post(getXML().toString());
-        xml.set(http.read());
+        String response  = http.read();
+        try {
+            xml.set(response);
+        } catch (Exception e) {
+            throw new Exception("XML:\n" + response, e);
+        }
     }
 
     /**
