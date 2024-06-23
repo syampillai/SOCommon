@@ -199,10 +199,10 @@ public class XML {
     }
 
     /**
-     * Sets the contents of the XML document by parsing the given XML from a reader.
+     * Sets the value of the object using the provided XML representation.
      *
-     * @param reader The reader object to read XML from.
-     * @throws Exception If an error occurs during XML parsing or if the reader is null.
+     * @param xml  the XML representation of the object
+     * @throws Exception if an error occurs during the XML parsing or object setting process
      */
     public void set(String xml) throws Exception {
         if(xml == null) {
@@ -212,10 +212,10 @@ public class XML {
     }
 
     /**
-     * Sets the contents of the XML document by parsing the XML from the given Reader object.
+     * Sets the input stream.
      *
-     * @param reader The Reader object providing the XML content.
-     * @throws Exception If an error occurs during the XML parsing or initialization.
+     * @param stream The input stream to set.
+     * @throws Exception If an error occurs.
      */
     public void set(InputStream stream) throws Exception {
         if(stream == null) {
