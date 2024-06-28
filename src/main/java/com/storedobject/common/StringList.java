@@ -28,6 +28,7 @@ import java.util.stream.StreamSupport;
  *
  * @author Syam
  */
+@SuppressWarnings("NullableProblems")
 public class StringList implements Iterable<String>, List<String> {
 
     private static final String[] empty_array = new String[] { };
@@ -270,8 +271,8 @@ public class StringList implements Iterable<String>, List<String> {
 
     @Override
     public int indexOf(Object o) {
-        if(o instanceof String) {
-            return indexOf((String)o);
+        if(o instanceof String s) {
+            return indexOf(s);
         }
         return -1;
     }
@@ -282,8 +283,8 @@ public class StringList implements Iterable<String>, List<String> {
             return -1;
         }
         int p = indexOf(s), i;
-        while(p > 0) {
-            i = indexOf(s, p);
+        while(true) {
+            i = indexOf(s, p + 1);
             if(i < 0) {
                 break;
             }
@@ -354,10 +355,23 @@ public class StringList implements Iterable<String>, List<String> {
         return StringUtility.indexOf(array, element, from, to);
     }
 
+    /**
+     * Returns the index of the first occurrence of an element in the list that satisfies the given filter.
+     *
+     * @param filter the predicate used to test elements in the list
+     * @return the index of the first matching element, or -1 if no element satisfies the filter
+     */
     public int indexOf(Predicate<String> filter) {
         return indexOf(filter, 0, size());
     }
 
+    /**
+     * Returns the index of the first element that matches the given predicate starting from the specified index.
+     *
+     * @param filter the predicate used to match elements
+     * @param from   the index to start the search from (inclusive)
+     * @return the index of the first matching element or -1 if no match is found
+     */
     public int indexOf(Predicate<String> filter, int from) {
         return indexOf(filter, from, size());
     }
