@@ -127,6 +127,8 @@ public class Fault {
     public static final Fault CUSTOMER_NOT_FOUND = new Fault(100111, "Customer does not exist");
     public static final Fault NOT_A_CUSTOMER_ACCOUNT = new Fault(100112, "Not a customer account");
     public static final Fault NOT_A_LOAN_ACCOUNT = new Fault(100113, "Not a loan account");
+    public static final Fault NOT_A_DEPOSIT_ACCOUNT = new Fault(100114, "Not a deposit account");
+    public static final Fault NOT_A_GL_ACCOUNT = new Fault(100115, "Not a GL account");
 
     public static final Fault INVALID_DATE = new Fault(100200, "Invalid date");
     public static final Fault INVALID_PERIOD = new Fault(100201, "Invalid period");
@@ -136,6 +138,7 @@ public class Fault {
     public static final Fault TRANSACTION_APPROVAL_ERROR = new Fault(100400, "Transaction approval error");
     public static final Fault TRANSACTION_NOT_BALANCED = new Fault(100401, "Transaction not balanced");
     public static final Fault TRANSACTION_NOT_FOUND = new Fault(100402, "Transaction does not exist");
+    public static final Fault PARTIAL_TRANSACTION_COMMITTED = new Fault(100403, "Partial transaction committed");
     public static final Fault NOT_ENOUGH_BALANCE = new Fault(100411, "Not enough balance");
     public static final Fault EMPTY_NARRATION = new Fault(100412, "Empty narration");
     public static final Fault VOUCHER_NOT_FOUND = new Fault(100499, "Voucher not found");
