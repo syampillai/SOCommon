@@ -26,15 +26,23 @@ import java.io.OutputStream;
  *
  * @author Syam
  */
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * A class that combines an {@link InputStream} and an {@link OutputStream}. One thread may be writing to it and another
+ * may be reading from it.
+ */
 public class InputOutputStream {
 
-    private final byte[] buffer;
-    private int wPointer = 0, rPointer = 0;
-    private volatile int generated = 0, consumed = 0;
-    private boolean wEOF = false, rEOF = false, wWait = false, rWait = false;
+    private final BlockingQueue<Byte> bufferQueue;
     private IStream reader;
     private OStream writer;
+    private volatile boolean wEOF = false, rEOF = false;
     private boolean reusable;
+    private static final long TIMEOUT_SECONDS = 50;  // Timeout duration
 
     /**
      * Constructor with a default buffer size of 8K.
@@ -49,10 +57,10 @@ public class InputOutputStream {
      * @param bufferSize Buffer size
      */
     public InputOutputStream(int bufferSize) {
-        if(bufferSize < 64) {
+        if (bufferSize < 64) {
             bufferSize = 64;
         }
-        buffer = new byte[bufferSize];
+        bufferQueue = new ArrayBlockingQueue<>(bufferSize);
     }
 
     /**
@@ -61,7 +69,7 @@ public class InputOutputStream {
      * @return Input stream.
      */
     public InputStream getInputStream() {
-        if(reader == null) {
+        if (reader == null) {
             reader = new IStream();
         }
         return reader;
@@ -73,7 +81,7 @@ public class InputOutputStream {
      * @return Output stream.
      */
     public OutputStream getOutputStream() {
-        if(writer == null) {
+        if (writer == null) {
             writer = new OStream();
         }
         return writer;
@@ -123,50 +131,39 @@ public class InputOutputStream {
 
         @Override
         public int read() throws IOException {
-            while(generated == consumed) {
-                if(external != null) {
-                    throw new IOException(external);
-                }
-                if(rEOF) { // Reader was closed
-                    throw new IOException("Stream already closed");
-                }
-                if(wEOF || wWait) { // Writing was closed
-                    if(generated != consumed) { // Trying for the last time
-                        break;
-                    }
-                    return -1;
-                }
-                Thread.yield();
+            if (external != null) {
+                throw new IOException(external);
             }
-            int c;
-            synchronized (buffer) {
-                c = buffer[rPointer] & 0xFF;
-                ++consumed;
+            try {
+                if (rEOF) {
+                    return -1; // End of stream
+                }
+                Byte b = bufferQueue.poll(TIMEOUT_SECONDS, TimeUnit.SECONDS);  // Wait with timeout
+                if (b == null) {
+                    throw new IOException("Read operation timed out");
+                }
+                return b & 0xFF;
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IOException("Thread interrupted", e);
             }
-            if(++rPointer == buffer.length) {
-                rPointer = 0;
-            }
-            return c;
         }
 
+        @Override
         public int available() {
-            return generated - consumed;
+            return bufferQueue.size();
         }
 
         @Override
         public void close() {
-            if(rEOF) {
+            if (rEOF) {
                 return;
             }
-            if(wWait && reusable) {
-                rPointer = wPointer = generated = consumed = 0;
-                rWait = wWait = false;
+            if (reusable) {
+                bufferQueue.clear();
+                rEOF = wEOF = false;
             } else {
-                if(reusable) {
-                    rWait = true;
-                } else {
-                    rEOF = true;
-                }
+                rEOF = true;
             }
         }
     }
@@ -175,41 +172,33 @@ public class InputOutputStream {
 
         @Override
         public void write(int b) throws IOException {
-            while(true) {
-                if(wEOF) { // Writer was closed
-                    throw new IOException("Stream already closed");
-                }
-                if(rEOF) {
-                    throw new IOException("No consumer");
-                }
-                if(!wWait && ((generated - consumed) < buffer.length)) {
-                    break;
-                }
-                Thread.yield();
+            if (wEOF) {
+                throw new IOException("Stream already closed");
             }
-            synchronized (buffer) {
-                buffer[wPointer] = (byte)(0xFF & b);
-                ++generated;
+            if (rEOF) {
+                throw new IOException("No consumer");
             }
-            if(++wPointer == buffer.length) {
-                wPointer = 0;
+            try {
+                boolean success = bufferQueue.offer((byte) b, TIMEOUT_SECONDS, TimeUnit.SECONDS);  // Wait with timeout
+                if (!success) {
+                    throw new IOException("Write operation timed out");
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IOException("Thread interrupted", e);
             }
         }
 
         @Override
         public void close() {
-            if(wEOF) {
+            if (wEOF) {
                 return;
             }
-            if(rWait && reusable) {
-                rPointer = wPointer = generated = consumed = 0;
-                rWait = wWait = false;
+            if (reusable) {
+                bufferQueue.clear();
+                rEOF = wEOF = false;
             } else {
-                if(reusable) {
-                    wWait = true;
-                } else {
-                    wEOF = true;
-                }
+                wEOF = true;
             }
         }
     }

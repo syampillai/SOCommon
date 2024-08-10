@@ -120,7 +120,9 @@ public final class ResourceDisposal {
         public ResourceOwnerReference(ResourceOwner referent, AutoCloseable resource, ReferenceQueue<? super ResourceOwner> q) {
             super(referent, q);
             this.resource = resource;
-            stack.add(this);
+            synchronized (stack) {
+                stack.add(this);
+            }
         }
 
         private void close() {
