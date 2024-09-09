@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml." />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,8 +97,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.300" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.300" />
       </set>
     </attachedChunks>
   </component>
@@ -131,14 +136,19 @@
       <workItem from="1719135609795" duration="540000" />
       <workItem from="1719581010520" duration="1267000" />
       <workItem from="1720753393746" duration="610000" />
-    </task>
-    <task id="LOCAL-00001" summary="Version updated to 4.4.1&#10;&#10;Compiled with Java 17.&#10;Code clean up.">
-      <option name="closed" value="true" />
-      <created>1691164683633</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1691164683633</updated>
+      <workItem from="1720754014747" duration="39000" />
+      <workItem from="1720803079927" duration="32000" />
+      <workItem from="1720847153647" duration="545000" />
+      <workItem from="1720847844569" duration="847000" />
+      <workItem from="1720859075389" duration="622000" />
+      <workItem from="1721838294309" duration="67000" />
+      <workItem from="1721840303789" duration="54000" />
+      <workItem from="1721841332889" duration="716000" />
+      <workItem from="1723198215327" duration="3039000" />
+      <workItem from="1725877554223" duration="113000" />
+      <workItem from="1725877676803" duration="72000" />
+      <workItem from="1725877760691" duration="1608000" />
+      <workItem from="1725879379446" duration="413000" />
     </task>
     <task id="LOCAL-00002" summary="Version updated to 4.4.2&#10;&#10;Compiled with Java 17.&#10;New method: XML.toPrettyString&#10;Code improvement: JSON">
       <option name="closed" value="true" />
@@ -524,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720753966149</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml.">
+      <option name="closed" value="true" />
+      <created>1720754024584</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1720754024584</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

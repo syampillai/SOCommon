@@ -155,19 +155,7 @@ public class InputOutputStream {
 
         @Override
         public void close() {
-            if(rEOF) {
-                return;
-            }
-            if(wWait && reusable) {
-                rPointer = wPointer = generated = consumed = 0;
-                rWait = wWait = false;
-            } else {
-                if(reusable) {
-                    rWait = true;
-                } else {
-                    rEOF = true;
-                }
-            }
+            InputOutputStream.this.close();
         }
     }
 
@@ -198,18 +186,22 @@ public class InputOutputStream {
 
         @Override
         public void close() {
-            if(wEOF) {
-                return;
-            }
-            if(rWait && reusable) {
-                rPointer = wPointer = generated = consumed = 0;
-                rWait = wWait = false;
+            InputOutputStream.this.close();
+        }
+    }
+
+    private void close() {
+        if(wEOF) {
+            return;
+        }
+        if(rWait && reusable) {
+            rPointer = wPointer = generated = consumed = 0;
+            rWait = wWait = false;
+        } else {
+            if(reusable) {
+                wWait = true;
             } else {
-                if(reusable) {
-                    wWait = true;
-                } else {
-                    wEOF = true;
-                }
+                wEOF = true;
             }
         }
     }

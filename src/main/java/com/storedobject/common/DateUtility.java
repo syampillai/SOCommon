@@ -24,6 +24,8 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -1058,31 +1060,171 @@ public class DateUtility {
         return difference(from, addDay(from, days));
     }
 
+    /**
+     * Returns the maximum possible date value.
+     *
+     * @return the maximum date value available
+     */
     public static Date maximumDate() {
         return MAX_VALUE;
     }
 
+    /**
+     * Returns an array of month names.
+     *
+     * @return an array of Strings representing the names of the months.
+     */
     public static String[] getMonthNames() {
         return monthNames;
     }
 
+    /**
+     * Retrieves the names of the days in a week.
+     *
+     * @return a string array containing the names of the days in a week
+     */
     public static String[] getWeekNames() {
         return weekNames;
     }
 
+    /**
+     * Returns a clone of the Java DateFormat instance.
+     *
+     * @return a clone of the Java DateFormat instance.
+     */
     public static DateFormat dateFormat() {
         return (DateFormat)dateFormat.clone();
     }
 
+    /**
+     * Returns a clone of the default date and time format.
+     *
+     * @return a clone of the default date and time format.
+     */
     public static DateFormat dateTimeFormat() {
         return (DateFormat)dateTimeFormat.clone();
     }
 
+    /**
+     * Retrieves a clone of the time format used by the application.
+     *
+     * @return A clone of the time format.
+     */
     public static DateFormat timeFormat() {
         return (DateFormat)timeFormat.clone();
     }
 
+    /**
+     * Returns a cloned instance of the default 24-hour time format.
+     * The returned DateFormat object can be used to format time values
+     * in the 24-hour format.
+     *
+     * @return a cloned instance of the default 24-hour time format
+     */
     public static DateFormat timeFormat24() {
         return (DateFormat)timeFormat24.clone();
+    }
+
+    /**
+     * Converts a given date to Greenwich Mean Time (GMT) based on the provided time zone.
+     *
+     * @param date the date to be converted to GMT
+     * @param fromTimeZone the time zone of the given date, represented as a string
+     * @return the converted date in GMT
+     */
+    public <D extends java.util.Date> D toGMT(D date, String fromTimeZone) {
+        return toGMT(date, fromTimeZone == null ? null : ZoneId.of(fromTimeZone));
+    }
+
+    /**
+     * Converts the given date to GMT (Greenwich Mean Time) by converting its time zone to GMT.
+     *
+     * @param date The date to be converted to GMT.
+     * @param fromTimeZone The time zone of the given date. If null, the default time zone of the system will be used.
+     * @return The converted date in GMT.
+     */
+    public <D extends java.util.Date> D toGMT(D date, TimeZone fromTimeZone) {
+        return toGMT(date, fromTimeZone == null ? null : fromTimeZone.toZoneId());
+    }
+
+    /**
+     * Converts a given date to the GMT timezone.
+     *
+     * @param date The date to convert.
+     * @param fromZoneId The zoneId of the date to convert from.
+     * @param <D> The type of the date.
+     * @return The converted date in GMT timezone.
+     */
+    public <D extends java.util.Date> D toGMT(D date, ZoneId fromZoneId) {
+        return toGMT(date, fromZoneId == null ? null : fromZoneId.getRules().getOffset(localTime(date)));
+    }
+
+    /**
+     * Converts the given date to GMT (Greenwich Mean Time) by subtracting the offset
+     * caused by the provided ZoneOffset.
+     *
+     * @param date the date to convert to GMT
+     * @param fromZoneOffset the ZoneOffset that represents the offset from GMT
+     * @param <D> the type of date to convert, must extend java.util.Date
+     * @return the converted date in GMT
+     */
+    public <D extends java.util.Date> D toGMT(D date, ZoneOffset fromZoneOffset) {
+        if(fromZoneOffset == null) {
+            return date;
+        }
+        D d = clone(date);
+        d.setTime(d.getTime() - (fromZoneOffset.getTotalSeconds() * 1000L));
+        return d;
+    }
+
+    /**
+     * Converts the given date from GMT to the specified time zone.
+     *
+     * @param date The date object to convert from GMT to the specified time zone. Cannot be null.
+     * @param toTimeZone The target time zone to convert the date to. Can be null.
+     * @return The converted date object in the specified time zone, or the original date object if toTimeZone is null.
+     * @throws DateTimeException If the time zone identifier is invalid.
+     */
+    public <D extends java.util.Date> D fromGMT(D date, String toTimeZone) {
+        return fromGMT(date, toTimeZone == null ? null : ZoneId.of(toTimeZone));
+    }
+
+    /**
+     * Converts a given date from GMT (Greenwich Mean Time) to the specified time zone.
+     *
+     * @param date the date to be converted from GMT
+     * @param toTimeZone the target time zone to convert the date to, can be null
+     * @return the converted date in the specified time zone
+     */
+    public <D extends java.util.Date> D fromGMT(D date, TimeZone toTimeZone) {
+        return fromGMT(date, toTimeZone == null ? null : toTimeZone.toZoneId());
+    }
+
+    /**
+     * Converts the given date from GMT (Greenwich Mean Time) to a specified time zone.
+     *
+     * @param date      the date to be converted
+     * @param toZoneId  the target time zone ID to convert the date to
+     * @param <D>       the type of the date object
+     * @return the converted date in the specified time zone
+     */
+    public <D extends java.util.Date> D fromGMT(D date, ZoneId toZoneId) {
+        return fromGMT(date, toZoneId == null ? null : toZoneId.getRules().getOffset(localTime(date)));
+    }
+
+    /**
+     * Translates a given date from GMT to a specified time zone.
+     *
+     * @param dateGMT the date to be translated from GMT to the specified time zone.
+     * @param toZoneOffset the time zone offset to be applied to the date. If null, the date will not be modified.
+     * @return the translated date in the specified time zone, or the original date if no offset is provided.
+     */
+    public <D extends java.util.Date> D fromGMT(D dateGMT, ZoneOffset toZoneOffset) {
+        if(toZoneOffset == null) {
+            return dateGMT;
+        }
+        D d = clone(dateGMT);
+        d.setTime(d.getTime() + (toZoneOffset.getTotalSeconds() * 1000L));
+        return d;
     }
 }
