@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,22 +148,8 @@
       <workItem from="1725877676803" duration="72000" />
       <workItem from="1725877760691" duration="1608000" />
       <workItem from="1725879379446" duration="413000" />
-    </task>
-    <task id="LOCAL-00002" summary="Version updated to 4.4.2&#10;&#10;Compiled with Java 17.&#10;New method: XML.toPrettyString&#10;Code improvement: JSON">
-      <option name="closed" value="true" />
-      <created>1696158331645</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1696158331645</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Version updated to 4.4.2&#10;&#10;Compiled with Java 17.&#10;New method: XML.toPrettyString&#10;Code improvement: JSON">
-      <option name="closed" value="true" />
-      <created>1696158474539</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1696158474539</updated>
+      <workItem from="1725897458201" duration="380000" />
+      <workItem from="1725898561671" duration="1246000" />
     </task>
     <task id="LOCAL-00004" summary="Version updated to 4.4.2&#10;&#10;Compiled with Java 17.&#10;New method: XML.toPrettyString&#10;Code improvement: JSON">
       <option name="closed" value="true" />
@@ -542,14 +527,29 @@
       <option name="project" value="LOCAL" />
       <updated>1720754024584</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking.">
+      <option name="closed" value="true" />
+      <created>1725897673053</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1725897673053</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking.">
+      <option name="closed" value="true" />
+      <created>1725897704291</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1725897704291</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.5.3&#10;&#10;Compiled with Java 17.&#10;JSON class can understand more parameter types when an Object type is passed to the constructor or to the JSON.set method.&#10;All extra type-specific constructors and set methods are dropped. &#10;Existing code may require a re-compilation." />
     <MESSAGE value="Version updated to 4.5.3&#10;&#10;Compiled with Java 17." />
     <MESSAGE value="Version updated to 4.5.4&#10;&#10;Compiled with Java 17.&#10;Removed left-trimming of US postal codes starting with zeros." />
     <MESSAGE value="Version updated to 4.5.6&#10;&#10;Compiled with Java 17.&#10;XXAddress is more usable now." />
@@ -574,6 +574,7 @@
     <MESSAGE value="Add comprehensive comments in XML.java and update project version&#10;&#10;Added detailed Javadoc comments to almost all methods in XML.java to improve the code's readability and maintainability. Also, the project version was updated from 4.7.8 to 4.7.9 in the pom.xml file." />
     <MESSAGE value="Update project version and enhance JavaDoc in StringList&#10;&#10;The project version has been incremented in the pom.xml file, from 4.7.9 to 4.7.10. Moreover, new comprehensive JavaDoc comments were added and minor refactorings were made in StringList to improve code readability and maintainability." />
     <MESSAGE value="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml." />
+    <MESSAGE value="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking." />
   </component>
 </project>

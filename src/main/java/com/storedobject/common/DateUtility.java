@@ -1132,7 +1132,7 @@ public class DateUtility {
      * @param fromTimeZone the time zone of the given date, represented as a string
      * @return the converted date in GMT
      */
-    public <D extends java.util.Date> D toGMT(D date, String fromTimeZone) {
+    public static <D extends java.util.Date> D toGMT(D date, String fromTimeZone) {
         return toGMT(date, fromTimeZone == null ? null : ZoneId.of(fromTimeZone));
     }
 
@@ -1143,7 +1143,7 @@ public class DateUtility {
      * @param fromTimeZone The time zone of the given date. If null, the default time zone of the system will be used.
      * @return The converted date in GMT.
      */
-    public <D extends java.util.Date> D toGMT(D date, TimeZone fromTimeZone) {
+    public static <D extends java.util.Date> D toGMT(D date, TimeZone fromTimeZone) {
         return toGMT(date, fromTimeZone == null ? null : fromTimeZone.toZoneId());
     }
 
@@ -1155,7 +1155,7 @@ public class DateUtility {
      * @param <D> The type of the date.
      * @return The converted date in GMT timezone.
      */
-    public <D extends java.util.Date> D toGMT(D date, ZoneId fromZoneId) {
+    public static <D extends java.util.Date> D toGMT(D date, ZoneId fromZoneId) {
         return toGMT(date, fromZoneId == null ? null : fromZoneId.getRules().getOffset(localTime(date)));
     }
 
@@ -1168,7 +1168,7 @@ public class DateUtility {
      * @param <D> the type of date to convert, must extend java.util.Date
      * @return the converted date in GMT
      */
-    public <D extends java.util.Date> D toGMT(D date, ZoneOffset fromZoneOffset) {
+    public static <D extends java.util.Date> D toGMT(D date, ZoneOffset fromZoneOffset) {
         if(fromZoneOffset == null) {
             return date;
         }
@@ -1184,7 +1184,7 @@ public class DateUtility {
      * @param toTimeZone The target time zone to convert the date to. Can be null.
      * @return The converted date object in the specified time zone, or the original date object if toTimeZone is null.
      */
-    public <D extends java.util.Date> D fromGMT(D date, String toTimeZone) {
+    public static <D extends java.util.Date> D fromGMT(D date, String toTimeZone) {
         return fromGMT(date, toTimeZone == null ? null : ZoneId.of(toTimeZone));
     }
 
@@ -1195,7 +1195,7 @@ public class DateUtility {
      * @param toTimeZone the target time zone to convert the date to, can be null
      * @return the converted date in the specified time zone
      */
-    public <D extends java.util.Date> D fromGMT(D date, TimeZone toTimeZone) {
+    public static <D extends java.util.Date> D fromGMT(D date, TimeZone toTimeZone) {
         return fromGMT(date, toTimeZone == null ? null : toTimeZone.toZoneId());
     }
 
@@ -1207,7 +1207,7 @@ public class DateUtility {
      * @param <D>       the type of the date object
      * @return the converted date in the specified time zone
      */
-    public <D extends java.util.Date> D fromGMT(D date, ZoneId toZoneId) {
+    public static <D extends java.util.Date> D fromGMT(D date, ZoneId toZoneId) {
         return fromGMT(date, toZoneId == null ? null : toZoneId.getRules().getOffset(localTime(date)));
     }
 
@@ -1218,7 +1218,7 @@ public class DateUtility {
      * @param toZoneOffset the time zone offset to be applied to the date. If null, the date will not be modified.
      * @return the translated date in the specified time zone, or the original date if no offset is provided.
      */
-    public <D extends java.util.Date> D fromGMT(D dateGMT, ZoneOffset toZoneOffset) {
+    public static <D extends java.util.Date> D fromGMT(D dateGMT, ZoneOffset toZoneOffset) {
         if(toZoneOffset == null) {
             return dateGMT;
         }
