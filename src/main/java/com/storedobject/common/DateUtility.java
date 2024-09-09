@@ -1183,7 +1183,6 @@ public class DateUtility {
      * @param date The date object to convert from GMT to the specified time zone. Cannot be null.
      * @param toTimeZone The target time zone to convert the date to. Can be null.
      * @return The converted date object in the specified time zone, or the original date object if toTimeZone is null.
-     * @throws DateTimeException If the time zone identifier is invalid.
      */
     public <D extends java.util.Date> D fromGMT(D date, String toTimeZone) {
         return fromGMT(date, toTimeZone == null ? null : ZoneId.of(toTimeZone));
