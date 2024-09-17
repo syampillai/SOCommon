@@ -148,15 +148,7 @@
       <workItem from="1725898561671" duration="1380000" />
       <workItem from="1725900833939" duration="6000" />
       <workItem from="1726171116002" duration="579000" />
-      <workItem from="1726584911067" duration="418000" />
-    </task>
-    <task id="LOCAL-00006" summary="Version updated to 4.4.4&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.toPrettyString&#10;Fixed bug in XML.setText(...)">
-      <option name="closed" value="true" />
-      <created>1696179734722</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1696179734722</updated>
+      <workItem from="1726584911067" duration="476000" />
     </task>
     <task id="LOCAL-00007" summary="Version updated to 4.4.4&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.toPrettyString&#10;Fixed bug in XML.setText(...)">
       <option name="closed" value="true" />
@@ -542,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726585242904</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="4.8.2&#10;Dependency update.">
+      <option name="closed" value="true" />
+      <created>1726585375790</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1726585375790</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
