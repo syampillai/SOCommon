@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update version to 4.8.1 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.1. Refactored InputOutputStream and made GMT conversion methods in DateUtility static. Enhanced workspace.xml with detailed change tracking.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="4.8.2&#10;Dependency update." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,8 +92,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.300" />
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.300" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
       </set>
     </attachedChunks>
   </component>
@@ -150,14 +148,7 @@
       <workItem from="1725898561671" duration="1380000" />
       <workItem from="1725900833939" duration="6000" />
       <workItem from="1726171116002" duration="579000" />
-    </task>
-    <task id="LOCAL-00005" summary="Version updated to 4.4.3&#10;&#10;Compiled with Java 17.&#10;New method: XML.toPrettyString&#10;Code improvement: JSON">
-      <option name="closed" value="true" />
-      <created>1696176766483</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1696176766483</updated>
+      <workItem from="1726584911067" duration="418000" />
     </task>
     <task id="LOCAL-00006" summary="Version updated to 4.4.4&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.toPrettyString&#10;Fixed bug in XML.setText(...)">
       <option name="closed" value="true" />
@@ -543,14 +534,21 @@
       <option name="project" value="LOCAL" />
       <updated>1725899833468</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="4.8.2&#10;Dependency update.">
+      <option name="closed" value="true" />
+      <created>1726585242904</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1726585242904</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.5.4&#10;&#10;Compiled with Java 17.&#10;Removed left-trimming of US postal codes starting with zeros." />
     <MESSAGE value="Version updated to 4.5.6&#10;&#10;Compiled with Java 17.&#10;XXAddress is more usable now." />
     <MESSAGE value="Version updated to 4.5.7&#10;&#10;Compiled with Java 17.&#10;Minor code refactoring." />
     <MESSAGE value="Version updated to 4.5.7&#10;&#10;Compiled with Java 17.&#10;While JSONing BigDecimals, scientific notation was used. This is changed to plain value." />
@@ -575,6 +573,7 @@
     <MESSAGE value="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml." />
     <MESSAGE value="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking." />
     <MESSAGE value="Update version to 4.8.1 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.1. Refactored InputOutputStream and made GMT conversion methods in DateUtility static. Enhanced workspace.xml with detailed change tracking." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update version to 4.8.1 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.1. Refactored InputOutputStream and made GMT conversion methods in DateUtility static. Enhanced workspace.xml with detailed change tracking." />
+    <MESSAGE value="4.8.2&#10;Dependency update." />
+    <option name="LAST_COMMIT_MESSAGE" value="4.8.2&#10;Dependency update." />
   </component>
 </project>
