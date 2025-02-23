@@ -20,10 +20,12 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 /**
-* A class used to check/ compare the current value with the previous value in a series of values and returns a boolean result.
-* 
-* @author Syam
-**/
+ * A class used to check/ compare the current value with the previous value in a series of values and returns a boolean result.
+ *
+ * @param <T> Parameter type.
+ *
+ * @author Syam
+ **/
 public class CheckWithPrevious<T> implements Predicate<T> {
 
     private T previous;

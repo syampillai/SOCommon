@@ -16,9 +16,13 @@
 
 package com.storedobject.common;
 /**
-* A functional interface that implements TriFunction. In a TriFunction we specify the types of 3 arguments and a return value.
-*
-* @author Syam
+ * A functional interface that implements TriFunction. In a TriFunction we specify the types of 3 arguments and a return value.
+ *
+ * @param <T1> parameter type 1.
+ * @param <T2> parameter type 2.
+ * @param <T3> parameter type 3.
+ * @param <R> Return type.
+ * @author Syam
 **/
 @FunctionalInterface
 public interface TriFunction<T1, T2, T3, R> {

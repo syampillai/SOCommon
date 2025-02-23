@@ -448,7 +448,7 @@ public class StringUtility {
     }
 
     /**
-     * Convert a byte array into a String of hex values. Each is converted to 2 hex charaters.
+     * Convert a byte array into a String of hex values. Each is converted to 2 hex characters.
      * For example, StringUtility.toHex( new byte[ ] { 10, 17, 19, 4, 11 } ) will return "0A1113040B".
      * @param bytes The byte array to be converted.
      * @return The result String
@@ -669,10 +669,10 @@ public class StringUtility {
     }
 
     /**
-     * Converts time duration to human readable string "hours:minutes".
+     * Converts time duration to human-readable string "hours:minutes".
      *
      * @param duration Time duration to convert in minutes.
-     * @return Human readable string. Example: 63 will be converted to "01:03".
+     * @return Human-readable string. Example: 63 will be converted to "01:03".
      */
     public static String minutesToString(int duration) {
         int m = Math.abs(duration) % 60;
@@ -680,10 +680,10 @@ public class StringUtility {
     }
 
     /**
-     * Converts minutes of the day to human readable AM/PM string.
+     * Converts minutes of the day to human-readable AM/PM string.
      *
      * @param time Time to convert in minutes (will be converted to the range 0 &lt;= minutes &lt; 1448).
-     * @return Human readable string. Example: 63 will be converted to "01:03 AM".
+     * @return Human-readable string. Example: 63 will be converted to "01:03 AM".
      */
     public static String minutesToAMPM(int time) {
         while(time < 0) {
@@ -1328,7 +1328,7 @@ public class StringUtility {
     /**
      * Insert a new element at the given index.
      *
-     * @param a Array for inserting the the new element.
+     * @param a Array for inserting the new element.
      * @param element Element to be inserted.
      * @param index Index
      * @return Resultant array with length greater than the length of the array passed.
@@ -1628,7 +1628,7 @@ public class StringUtility {
      *
      * @param s First string
      * @param t Second string
-     * @return Levenstein distance
+     * @return Levenshtein distance
      */
     public static int distanceLevenshtein(String s, String t) {
         if(s == null) {
@@ -1968,9 +1968,9 @@ public class StringUtility {
             "ninety" };
 
     /**
-     * Internal function to convert a 3 digit number to words. It will return empty string for zero.
-     * @param digit A 3 digit number as string
-     * @return 3 digit number in words.
+     * Internal function to convert a 3-digit number to words. It will return empty string for zero.
+     * @param digit A 3-digit number as string
+     * @return 3-digit number in words.
      */
     private static String words3(String digit) {
         StringBuilder digitBuilder = new StringBuilder(digit);
@@ -1983,7 +1983,7 @@ public class StringUtility {
         if(c0 != '0') {
             v = set1[c0 - '1'] + " hundred";
             if((c1 != '0') || (c2 != '0')) {
-                v += " and ";
+                v += " ";
             }
         }
         if(c1 != '0') {
@@ -1994,7 +1994,7 @@ public class StringUtility {
                 v += set3[c1 - '2'];
             }
             if(c2 != '0') {
-                v += " " ;
+                v += "-" ;
             }
         }
         if( c2 != '0' ) {
@@ -2077,19 +2077,19 @@ public class StringUtility {
         return wordsIndian(value.toString()).replace(",", "");
     }
 
-    private final static String[] crores = new String[]{"", " thousand", " lakhs", " crores"};
-    private final static String[] millions = new String[]{"", " thousand", " million", " billion", " trillion",
-            " quadrillion", " quintillion", " sextillion", " septillion"};
+    private final static String[] crores = new String[] { "", " thousand", " lakh", " crore" };
+    private final static String[] millions = new String[] { "", " thousand", " million", " billion", " trillion",
+            " quadrillion", " quintillion", " sextillion", " septillion" };
 
     /**
      * Internal method to convert a numerical non-empty string to words.
-     * @param s Numerial non-empty string
+     * @param s Numerical non-empty string
      * @return Words
      */
     private static String words(String s) {
         if(s.length() > (3 * millions.length)) {
             int n = s.length() - (millions.length - 1) * 3;
-            return words(s.substring(0, n)) + millions[millions.length - 1] + ", " + words(s.substring(n));
+            return words(s.substring(0, n)) + millions[millions.length - 1] + " " + words(s.substring(n));
         }
         if(s.equals("0")) {
             return zero;
@@ -2111,18 +2111,18 @@ public class StringUtility {
         if(w.isEmpty()) {
             return p;
         }
-        return p + ", " + w + millions[i];
+        return p + " " + w + millions[i];
     }
 
     /**
      * Internal method to convert a numerical non-empty string to words in Indian style.
-     * @param s Numerial non-empty string
+     * @param s Numerical non-empty string
      * @return Words
      */
     private static String wordsIndian(String s) {
         if(s.length() > (3 * (crores.length - 1) + 2)) {
             int n = s.length() - ((crores.length - 2) * 2 + 3);
-            return wordsIndian(s.substring(0, n)) + crores[crores.length - 1] + ", " + wordsIndian(s.substring(n));
+            return wordsIndian(s.substring(0, n)) + crores[crores.length - 1] + " " + wordsIndian(s.substring(n));
         }
         if(s.equals("0")) {
             return zero;
@@ -2145,7 +2145,7 @@ public class StringUtility {
         if(w.isEmpty()) {
             return p;
         }
-        return p + ", " + w + crores[i];
+        return p + " " + w + crores[i];
     }
 
     /**

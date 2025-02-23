@@ -234,7 +234,7 @@ public class HTTP {
     }
 
     /**
-     * Get the input stream to read the response. If HTTP errors are not allowed,an exception will be raised
+     * Get the input stream to read the response. If HTTP errors are not allowed, an exception will be raised
      * if the response is not HTTP OK. If HTTP errors are allowed, the "error stream" is returned.
      *
      * @return Stream to read the response.
