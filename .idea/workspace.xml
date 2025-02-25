@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.">
+      <change beforePath="$PROJECT_DIR$/jitpack.yml" beforeDir="false" afterPath="$PROJECT_DIR$/jitpack.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -176,15 +179,7 @@
       <workItem from="1740474418460" duration="300000" />
       <workItem from="1740474726587" duration="138000" />
       <workItem from="1740474871435" duration="328000" />
-      <workItem from="1740475325759" duration="509000" />
-    </task>
-    <task id="LOCAL-00010" summary="Version updated to 4.4.6&#10;&#10;Compiled with Java 17.&#10;Function enhancement: MathUtility.toBigDecimal">
-      <option name="closed" value="true" />
-      <created>1697283064641</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1697283064641</updated>
+      <workItem from="1740475325759" duration="1078000" />
     </task>
     <task id="LOCAL-00011" summary="Version updated to 4.4.6&#10;&#10;Compiled with Java 17.&#10;HTTP class: HTTP.getInputStream() now returns the error stream if an http response is not Ok and some payload still exists.">
       <option name="closed" value="true" />
@@ -570,7 +565,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740475575759</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.">
+      <option name="closed" value="true" />
+      <created>1740475843254</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1740475843254</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
