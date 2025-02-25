@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.">
-      <change beforePath="$PROJECT_DIR$/jitpack.yml" beforeDir="false" afterPath="$PROJECT_DIR$/jitpack.yml" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DaemonThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringCollector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,15 +184,10 @@
       <workItem from="1740474418460" duration="300000" />
       <workItem from="1740474726587" duration="138000" />
       <workItem from="1740474871435" duration="328000" />
-      <workItem from="1740475325759" duration="1078000" />
-    </task>
-    <task id="LOCAL-00011" summary="Version updated to 4.4.6&#10;&#10;Compiled with Java 17.&#10;HTTP class: HTTP.getInputStream() now returns the error stream if an http response is not Ok and some payload still exists.">
-      <option name="closed" value="true" />
-      <created>1698348567763</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1698348567763</updated>
+      <workItem from="1740475325759" duration="1835000" />
+      <workItem from="1740503847885" duration="21000" />
+      <workItem from="1740503894720" duration="107000" />
+      <workItem from="1740506953725" duration="2413000" />
     </task>
     <task id="LOCAL-00012" summary="Version updated to 4.4.8&#10;&#10;Compiled with Java 17.&#10;HTTP class: HTTP.getInputStream() now returns the error stream if an http response is not Ok and some payload still exists.">
       <option name="closed" value="true" />
@@ -573,14 +573,21 @@
       <option name="project" value="LOCAL" />
       <updated>1740475843254</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.">
+      <option name="closed" value="true" />
+      <created>1740476452342</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1740476452343</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.5.9&#10;&#10;Compiled with Java 17.&#10;Added new class: StyledBuilder.Style&#10;Added additional methods in StyledBuilder that accept StyledBuilder.Style instances as parameters.&#10;Documentation update." />
     <MESSAGE value="Version updated to 4.5.10&#10;&#10;Compiled with Java 17.&#10;New method: StyledBuilder.Style.array" />
     <MESSAGE value="Version updated to 4.5.11&#10;&#10;Compiled with Java 17.&#10;New method: StyledBuilder.setValue(Object object)" />
     <MESSAGE value="Version updated to 4.5.12&#10;&#10;Compiled with Java 17.&#10;New methods in DateUtility" />
@@ -605,6 +612,7 @@
     <MESSAGE value="4.8.4&#10;" />
     <MESSAGE value="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting." />
     <MESSAGE value="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
+    <MESSAGE value="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
   </component>
 </project>

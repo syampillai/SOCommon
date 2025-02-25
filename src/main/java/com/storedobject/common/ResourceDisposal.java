@@ -81,16 +81,14 @@ public final class ResourceDisposal {
         }
     }
 
-    private static class Cleaner extends Thread {
+    private static class Cleaner implements Runnable{
 
         private Cleaner() {
-            setDaemon(true);
-            start();
+            Thread.ofVirtual().start(this);
         }
 
         @Override
         public void run() {
-            //noinspection InfiniteLoopStatement
             while(true) {
                 try {
                     ResourceOwnerReference reference = (ResourceOwnerReference) referenceQueue.remove();
@@ -101,7 +99,9 @@ public final class ResourceDisposal {
                             release(reference);
                         }
                     }
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Restore the interrupted status
+                    return; // Exit now, we may have been interrupted for shutting down
                 }
             }
         }

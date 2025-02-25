@@ -21,11 +21,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
-public class StringCollector extends Thread {
+public class StringCollector implements Runnable {
 
     private BufferedReader in;
     private Exception exception = null;
     private StringBuilder s;
+    private final Thread collectorThread;
 
     public StringCollector(InputStream in) {
         this(IO.getReader(in));
@@ -33,7 +34,7 @@ public class StringCollector extends Thread {
 
     public StringCollector(Reader in) {
         this.in = IO.get(in);
-        start();
+        collectorThread = Thread.ofVirtual().start(this);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class StringCollector extends Thread {
     public String getString() {
         while(in != null) {
             try {
-                Thread.sleep(100);
+                collectorThread.join();
             } catch (InterruptedException ignored) {
             }
         }

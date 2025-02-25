@@ -123,30 +123,33 @@ public class InputOutputStream {
 
         @Override
         public int read() throws IOException {
-            while(generated == consumed) {
-                if(external != null) {
-                    throw new IOException(external);
-                }
-                if(rEOF) { // Reader was closed
-                    throw new IOException("Stream already closed");
-                }
-                if(wEOF || wWait) { // Writing was closed
-                    if(generated != consumed) { // Trying for the last time
-                        break;
-                    }
-                    return -1;
-                }
-                Thread.yield();
-            }
-            int c;
             synchronized (buffer) {
-                c = buffer[rPointer] & 0xFF;
+                while (generated == consumed) {
+                    if (external != null) {
+                        throw new IOException(external);
+                    }
+                    if (rEOF) {
+                        throw new IOException("Stream already closed");
+                    }
+                    if (wEOF || wWait) {
+                        return -1;
+                    }
+                    try {
+                        buffer.wait(); // Wait until notified
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+
+                int c = buffer[rPointer] & 0xFF;
                 ++consumed;
+
+                if (++rPointer == buffer.length) {
+                    rPointer = 0;
+                }
+
+                buffer.notifyAll(); // Notify the writer
+                return c;
             }
-            if(++rPointer == buffer.length) {
-                rPointer = 0;
-            }
-            return c;
         }
 
         public int available() {
@@ -163,24 +166,28 @@ public class InputOutputStream {
 
         @Override
         public void write(int b) throws IOException {
-            while(true) {
-                if(wEOF) { // Writer was closed
-                    throw new IOException("Stream already closed");
-                }
-                if(rEOF) {
-                    throw new IOException("No consumer");
-                }
-                if(!wWait && ((generated - consumed) < buffer.length)) {
-                    break;
-                }
-                Thread.yield();
-            }
             synchronized (buffer) {
-                buffer[wPointer] = (byte)(0xFF & b);
+                while ((generated - consumed) >= buffer.length) {
+                    if (wEOF) {
+                        throw new IOException("Stream already closed");
+                    }
+                    if (rEOF) {
+                        throw new IOException("No consumer");
+                    }
+                    try {
+                        buffer.wait(); // Wait until buffer has space
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+
+                buffer[wPointer] = (byte) (0xFF & b);
                 ++generated;
-            }
-            if(++wPointer == buffer.length) {
-                wPointer = 0;
+
+                if (++wPointer == buffer.length) {
+                    wPointer = 0;
+                }
+
+                buffer.notifyAll(); // Notify the reader
             }
         }
 
@@ -191,17 +198,26 @@ public class InputOutputStream {
     }
 
     private void close() {
-        if(wEOF) {
+        if (wEOF) {
             return;
         }
-        if(rWait && reusable) {
+
+        // If in reusable mode, and reader is waiting, reset everything.
+        if (rWait && reusable) {
+            // Reset buffer and pointers for reuse
             rPointer = wPointer = generated = consumed = 0;
             rWait = wWait = false;
+            // If the writer was waiting and now the reader is ready, resume writing
+            synchronized (buffer) {
+                buffer.notify();  // Wake up the writer if it is waiting
+            }
         } else {
-            if(reusable) {
-                wWait = true;
+            // If not reusable, or reader isn't waiting, mark EOF for both ends
+            if (reusable) {
+                wWait = true;  // Writer waits, but the stream isn't closed
             } else {
-                wEOF = true;
+                wEOF = true;  // Mark EOF permanently
+                rEOF = true;  // Also close the reader if necessary
             }
         }
     }

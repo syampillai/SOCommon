@@ -2193,33 +2193,35 @@ public class StringUtility {
     }
 
     static String toStringInt(Object message) {
-        if(message == null) {
-            return "[No data]";
-        }
-        if(message instanceof Double) {
-            String s = message.toString();
-            if(s.endsWith(".0") && s.length() > 2) {
-                s = s.substring(0, s.length() - 2);
+        switch (message) {
+            case null -> {
+                return "[No data]";
             }
-            return s;
-        }
-        if(message instanceof String) {
-            return (String)message;
-        }
-        if(message instanceof java.sql.Time) {
-            return DateUtility.timeFormat24().format((java.sql.Time)message);
-        }
-        if(message instanceof java.util.Date) {
-            return DateUtility.format((java.util.Date)message);
-        }
-        if(message instanceof Boolean) {
-            return (Boolean) message ? "Yes" : "No";
-        }
-        if(message instanceof EndUserMessage) {
-            return ((EndUserMessage) message).getEndUserMessage();
-        }
-        if(message instanceof Throwable) {
-            message = new SORuntimeException((Throwable)message);
+            case Double v -> {
+                String s = v.toString();
+                if (s.endsWith(".0") && s.length() > 2) {
+                    s = s.substring(0, s.length() - 2);
+                }
+                return s;
+            }
+            case String s -> {
+                return s;
+            }
+            case java.sql.Time time -> {
+                return DateUtility.timeFormat24().format(time);
+            }
+            case Date date -> {
+                return DateUtility.format(date);
+            }
+            case Boolean b -> {
+                return b ? "Yes" : "No";
+            }
+            case EndUserMessage endUserMessage -> {
+                return endUserMessage.getEndUserMessage();
+            }
+            case Throwable throwable -> message = new SORuntimeException(throwable);
+            default -> {
+            }
         }
         String m = message.toString();
         return m == null ? ("[NULL value] of " + message.getClass()) : m;
