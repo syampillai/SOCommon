@@ -28,7 +28,7 @@ import java.util.concurrent.Future;
  */
 public class Executor {
 
-    private static final java.util.concurrent.ExecutorService executor = Executors.newCachedThreadPool();
+    private static final java.util.concurrent.ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
     /**
      * Submit a command for execution.

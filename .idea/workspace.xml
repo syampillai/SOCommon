@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="4.8.3&#10;Dependency update.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CheckWithPrevious.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CheckWithPrevious.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TriFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TriFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jitpack.yml" beforeDir="false" afterPath="$PROJECT_DIR$/jitpack.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Executor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Executor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,8 +73,8 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
@@ -82,6 +82,19 @@
   }
 }</component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SOCommon" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="SOCommon" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="SOCommon" />
       <method v="2">
@@ -164,15 +177,11 @@
       <workItem from="1739983001536" duration="744000" />
       <workItem from="1740217456898" duration="5864000" />
       <workItem from="1740230980737" duration="12000" />
-      <workItem from="1740312033793" duration="730000" />
-    </task>
-    <task id="LOCAL-00008" summary="Version updated to 4.4.4&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.toPrettyString&#10;Fixed bug in XML.setText(...)&#10;Code clean up">
-      <option name="closed" value="true" />
-      <created>1696180213374</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1696180213374</updated>
+      <workItem from="1740312033793" duration="1215000" />
+      <workItem from="1740473658333" duration="752000" />
+      <workItem from="1740474418460" duration="300000" />
+      <workItem from="1740474726587" duration="138000" />
+      <workItem from="1740474871435" duration="328000" />
     </task>
     <task id="LOCAL-00009" summary="Version updated to 4.4.5&#10;&#10;Compiled with Java 17.&#10;New method: SOAP.getHTTP().">
       <option name="closed" value="true" />
@@ -558,15 +567,21 @@
       <option name="project" value="LOCAL" />
       <updated>1726585883709</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting.">
+      <option name="closed" value="true" />
+      <created>1740313057977</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1740313057978</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.5.7&#10;&#10;Compiled with Java 17.&#10;Minor code refactoring." />
-    <MESSAGE value="Version updated to 4.5.7&#10;&#10;Compiled with Java 17.&#10;While JSONing BigDecimals, scientific notation was used. This is changed to plain value." />
     <MESSAGE value="Version updated to 4.5.8&#10;&#10;Compiled with Java 17.&#10;While JSONing BigDecimals, scientific notation was used. This is changed to plain value.&#10;Documentation update." />
     <MESSAGE value="Version updated to 4.5.9&#10;&#10;Compiled with Java 17.&#10;Added new class: StyledBuilder.Style&#10;Added additional methods in StyledBuilder that accept StyledBuilder.Style instances as parameters.&#10;Documentation update." />
     <MESSAGE value="Version updated to 4.5.10&#10;&#10;Compiled with Java 17.&#10;New method: StyledBuilder.Style.array" />
@@ -590,6 +605,8 @@
     <MESSAGE value="Update version to 4.8.1 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.1. Refactored InputOutputStream and made GMT conversion methods in DateUtility static. Enhanced workspace.xml with detailed change tracking." />
     <MESSAGE value="4.8.2&#10;Dependency update." />
     <MESSAGE value="4.8.3&#10;Dependency update." />
-    <option name="LAST_COMMIT_MESSAGE" value="4.8.3&#10;Dependency update." />
+    <MESSAGE value="4.8.4&#10;" />
+    <MESSAGE value="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting." />
   </component>
 </project>
