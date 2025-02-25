@@ -218,7 +218,7 @@ public class SOAP {
     }
 
     /**
-     * Get the SOAP Fault node (Available when response is received)..
+     * Get the SOAP Fault node (Available when response is received).
      *
      * @return Fault node. Null is returned if no Fault node exists.
      */

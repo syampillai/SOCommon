@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DaemonThread.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors.">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SystemProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SystemProcess.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,15 +182,7 @@
       <workItem from="1740475325759" duration="1835000" />
       <workItem from="1740503847885" duration="21000" />
       <workItem from="1740503894720" duration="107000" />
-      <workItem from="1740506953725" duration="2413000" />
-    </task>
-    <task id="LOCAL-00012" summary="Version updated to 4.4.8&#10;&#10;Compiled with Java 17.&#10;HTTP class: HTTP.getInputStream() now returns the error stream if an http response is not Ok and some payload still exists.">
-      <option name="closed" value="true" />
-      <created>1698348613593</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1698348613593</updated>
+      <workItem from="1740506953725" duration="3696000" />
     </task>
     <task id="LOCAL-00013" summary="Version updated to 4.5.0&#10;&#10;Compiled with Java 17.&#10;JSON class can understand more parameter types when an Object type is passed to the constructor or to the JSON.set method.&#10;Existing code may require a re-compilation.">
       <option name="closed" value="true" />
@@ -581,14 +568,21 @@
       <option name="project" value="LOCAL" />
       <updated>1740476452343</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors.">
+      <option name="closed" value="true" />
+      <created>1740509539937</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1740509539937</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.5.10&#10;&#10;Compiled with Java 17.&#10;New method: StyledBuilder.Style.array" />
     <MESSAGE value="Version updated to 4.5.11&#10;&#10;Compiled with Java 17.&#10;New method: StyledBuilder.setValue(Object object)" />
     <MESSAGE value="Version updated to 4.5.12&#10;&#10;Compiled with Java 17.&#10;New methods in DateUtility" />
     <MESSAGE value="Version updated to 4.6.0&#10;&#10;Compiled with Java 17.&#10;New class: DaemonThread" />
@@ -613,6 +607,7 @@
     <MESSAGE value="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting." />
     <MESSAGE value="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
     <MESSAGE value="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
+    <MESSAGE value="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors." />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors." />
   </component>
 </project>

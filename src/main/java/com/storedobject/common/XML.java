@@ -165,7 +165,7 @@ public class XML {
 
     /**
      * Sets the entity resolver of the document builder to ignore DTDs. This is useful when working with XML documents
-     * that reference DTDs but you want to ignore them during parsing.
+     * that reference DTDs, but you want to ignore them during parsing.
      */
     public void ignoreDTDs() {
         try {

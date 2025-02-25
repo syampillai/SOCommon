@@ -73,7 +73,7 @@ public class HTTP {
      * @throws MalformedURLException If URL is invalid.
      */
     public HTTP(String url, boolean post) throws MalformedURLException {
-        this(new URL(url), post);
+        this(URI.create(url).toURL(), post);
     }
 
     /**
