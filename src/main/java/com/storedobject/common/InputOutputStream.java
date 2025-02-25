@@ -135,19 +135,17 @@ public class InputOutputStream {
                         return -1;
                     }
                     try {
-                        buffer.wait(); // Wait until notified
+                        buffer.wait(5000); // Wait upto 5 seconds or until notified
                     } catch (InterruptedException ignored) {
                     }
                 }
-
                 int c = buffer[rPointer] & 0xFF;
                 ++consumed;
 
                 if (++rPointer == buffer.length) {
                     rPointer = 0;
                 }
-
-                buffer.notifyAll(); // Notify the writer
+                buffer.notify(); // Notify the writer
                 return c;
             }
         }
@@ -175,7 +173,7 @@ public class InputOutputStream {
                         throw new IOException("No consumer");
                     }
                     try {
-                        buffer.wait(); // Wait until buffer has space
+                        buffer.wait(5000); // Wait upto 5 seconds or until notified
                     } catch (InterruptedException ignored) {
                     }
                 }
@@ -186,8 +184,7 @@ public class InputOutputStream {
                 if (++wPointer == buffer.length) {
                     wPointer = 0;
                 }
-
-                buffer.notifyAll(); // Notify the reader
+                buffer.notify(); // Notify the reader
             }
         }
 
@@ -201,7 +198,6 @@ public class InputOutputStream {
         if (wEOF) {
             return;
         }
-
         // If in reusable mode, and reader is waiting, reset everything.
         if (rWait && reusable) {
             // Reset buffer and pointers for reuse

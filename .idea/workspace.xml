@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors.">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SystemProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SystemProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,15 +182,8 @@
       <workItem from="1740475325759" duration="1835000" />
       <workItem from="1740503847885" duration="21000" />
       <workItem from="1740503894720" duration="107000" />
-      <workItem from="1740506953725" duration="3696000" />
-    </task>
-    <task id="LOCAL-00013" summary="Version updated to 4.5.0&#10;&#10;Compiled with Java 17.&#10;JSON class can understand more parameter types when an Object type is passed to the constructor or to the JSON.set method.&#10;Existing code may require a re-compilation.">
-      <option name="closed" value="true" />
-      <created>1698388343674</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1698388343674</updated>
+      <workItem from="1740506953725" duration="4247000" />
+      <workItem from="1740518819833" duration="1493000" />
     </task>
     <task id="LOCAL-00014" summary="Version updated to 4.5.1&#10;&#10;Compiled with Java 17.&#10;JSON class can understand more parameter types when an Object type is passed to the constructor or to the JSON.set method.&#10;All extra type-specific constructors and set methods are dropped. &#10;Existing code may require a re-compilation.">
       <option name="closed" value="true" />
@@ -576,7 +569,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740509539937</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors.">
+      <option name="closed" value="true" />
+      <created>1740510813434</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1740510813435</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
