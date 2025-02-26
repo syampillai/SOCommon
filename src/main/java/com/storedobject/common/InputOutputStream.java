@@ -156,7 +156,25 @@ public class InputOutputStream {
 
         @Override
         public void close() {
-            InputOutputStream.this.close();
+            try {
+                if (rEOF) {
+                    return;
+                }
+                if (wWait && reusable) {
+                    rPointer = wPointer = generated = consumed = 0;
+                    rWait = wWait = false;
+                } else {
+                    if (reusable) {
+                        rWait = true;
+                    } else {
+                        rEOF = true;
+                    }
+                }
+            } finally {
+                synchronized (buffer) {
+                    buffer.notify();
+                }
+            }
         }
     }
 
@@ -190,30 +208,24 @@ public class InputOutputStream {
 
         @Override
         public void close() {
-            InputOutputStream.this.close();
-        }
-    }
-
-    private void close() {
-        if (wEOF) {
-            return;
-        }
-        // If in reusable mode, and reader is waiting, reset everything.
-        if (rWait && reusable) {
-            // Reset buffer and pointers for reuse
-            rPointer = wPointer = generated = consumed = 0;
-            rWait = wWait = false;
-            // If the writer was waiting and now the reader is ready, resume writing
-            synchronized (buffer) {
-                buffer.notify();  // Wake up the writer if it is waiting
-            }
-        } else {
-            // If not reusable, or reader isn't waiting, mark EOF for both ends
-            if (reusable) {
-                wWait = true;  // Writer waits, but the stream isn't closed
-            } else {
-                wEOF = true;  // Mark EOF permanently
-                rEOF = true;  // Also close the reader if necessary
+            try {
+                if (wEOF) {
+                    return;
+                }
+                if (rWait && reusable) {
+                    rPointer = wPointer = generated = consumed = 0;
+                    rWait = wWait = false;
+                } else {
+                    if (reusable) {
+                        wWait = true;
+                    } else {
+                        wEOF = true;
+                    }
+                }
+            } finally {
+                synchronized (buffer) {
+                    buffer.notify();
+                }
             }
         }
     }
