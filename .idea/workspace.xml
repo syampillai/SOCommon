@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Version 5.0.4  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +19,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -54,6 +56,7 @@
   &quot;keyToString&quot;: {
     &quot;Application.DateUtility.executor&quot;: &quot;Run&quot;,
     &quot;Application.HTMLText.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HTTP2.executor&quot;: &quot;Run&quot;,
     &quot;Application.JSON.executor&quot;: &quot;Run&quot;,
     &quot;Application.StringList.executor&quot;: &quot;Run&quot;,
     &quot;Application.StringUtility.executor&quot;: &quot;Run&quot;,
@@ -186,15 +189,13 @@
       <workItem from="1740506953725" duration="4247000" />
       <workItem from="1740518819833" duration="1671000" />
       <workItem from="1740593265779" duration="64000" />
-      <workItem from="1740598664710" duration="2541000" />
-    </task>
-    <task id="LOCAL-00015" summary="Version updated to 4.5.2&#10;&#10;Compiled with Java 17.&#10;JSON class can understand more parameter types when an Object type is passed to the constructor or to the JSON.set method.&#10;All extra type-specific constructors and set methods are dropped. &#10;Existing code may require a re-compilation.">
-      <option name="closed" value="true" />
-      <created>1698403008799</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1698403008799</updated>
+      <workItem from="1740598664710" duration="2734000" />
+      <workItem from="1740636381959" duration="562000" />
+      <workItem from="1741027884387" duration="19000" />
+      <workItem from="1741160881575" duration="618000" />
+      <workItem from="1741162073843" duration="37136000" />
+      <workItem from="1741206780908" duration="16000" />
+      <workItem from="1741206805998" duration="29000" />
     </task>
     <task id="LOCAL-00016" summary="Version updated to 4.5.3&#10;&#10;Compiled with Java 17.&#10;JSON class can understand more parameter types when an Object type is passed to the constructor or to the JSON.set method.&#10;All extra type-specific constructors and set methods are dropped. &#10;Existing code may require a re-compilation.">
       <option name="closed" value="true" />
@@ -580,14 +581,21 @@
       <option name="project" value="LOCAL" />
       <updated>1740520377014</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Version 5.0.4  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream">
+      <option name="closed" value="true" />
+      <created>1740602246230</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1740602246230</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version updated to 4.5.12&#10;&#10;Compiled with Java 17.&#10;New methods in DateUtility" />
     <MESSAGE value="Version updated to 4.6.0&#10;&#10;Compiled with Java 17.&#10;New class: DaemonThread" />
     <MESSAGE value="Update version to 4.7.0, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
     <MESSAGE value="Update version to 4.7.1, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
@@ -612,6 +620,7 @@
     <MESSAGE value="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
     <MESSAGE value="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors." />
     <MESSAGE value="Version 5.0.3  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Removed the deadlock situation in InputOutputStream." />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 5.0.3  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Removed the deadlock situation in InputOutputStream." />
+    <MESSAGE value="Version 5.0.4  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 5.0.4  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
   </component>
 </project>

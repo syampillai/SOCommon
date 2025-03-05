@@ -31,6 +31,9 @@ import java.util.stream.Collectors;
  * {@link #done()} should be invoked to clean up the previous request.
  * <p>Note: This is written before {@link java.net.http.HttpClient} was available in Java. So, it is better
  * to use that class and its related cousins instead of this class.</p>
+ * <p>New: Now a new version of HTTP class is added for making more efficient connection and easier content
+ * handling. See {@link HTTP2}. This class utilizes the latest {@link java.net.http.HttpClient} class in Java. I can
+ * also handle chunked and/or compressed content automatically.</p>
  *
  * @author Syam
  */
@@ -427,7 +430,7 @@ public class HTTP {
 
     /**
      * Disable SNI extension. By default, it's enabled.
-     * <p>Note: This will disable SNI extension system-wide while connecting and it will be enabled again.</p>
+     * <p>Note: This will disable SNI extension system-wide while connecting, and it will be enabled again.</p>
      */
     public void disableSNIExtension() {
         this.sni = false;

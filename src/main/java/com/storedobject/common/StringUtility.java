@@ -2228,10 +2228,16 @@ public class StringUtility {
     }
 
     public static String toString(InputStream stream) throws Exception {
+        if(stream == null) {
+            return null;
+        }
         return toString(IO.getReader(stream));
     }
 
     public static String toString(Reader reader) throws Exception {
+        if(reader == null) {
+            return null;
+        }
         StringCollector sc = new StringCollector(reader);
         String s = sc.getString();
         Exception e = sc.getException();
