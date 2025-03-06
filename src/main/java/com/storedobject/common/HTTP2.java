@@ -17,8 +17,12 @@
 package com.storedobject.common;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Authenticator;
+import java.net.InetAddress;
+import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -148,7 +152,7 @@ public class HTTP2 {
         String body;
         Exception exception;
         HttpResponse<InputStream> response; // HTTP2 will set this jst before reading the data
-        HttpClient httpClient;
+        HttpClient.Builder httpClientBuilder;
 
         /**
          * Sets the URL for the HTTP request.
@@ -158,6 +162,17 @@ public class HTTP2 {
          */
         public Builder url(String url) {
             this.url = url;
+            return this;
+        }
+
+        /**
+         * Configures the HTTP client with a custom authenticator.
+         *
+         * @param authenticator the {@link Authenticator} instance to handle authentication for requests
+         * @return the updated {@code Builder} instance for method chaining
+         */
+        public Builder authenticator(Authenticator authenticator) {
+            getClientBuilder().authenticator(authenticator);
             return this;
         }
 
@@ -321,7 +336,43 @@ public class HTTP2 {
          * @return the current Builder instance for method chaining
          */
         public Builder sslContext(SSLContext sslContext) {
-            this.httpClient = HttpClient.newBuilder().sslContext(sslContext).sslContext(sslContext).build();
+            getClientBuilder().sslContext(sslContext);
+            return this;
+        }
+
+        /**
+         * Configures the SSL parameters to be used for HTTPS connections in the request.
+         *
+         * @param sslParameters the {@link SSLParameters} instance to configure SSL settings
+         * @return the updated {@code Builder} instance for method chaining
+         */
+        public Builder sslParameters(SSLParameters sslParameters) {
+            getClientBuilder().sslParameters(sslParameters);
+            return this;
+        }
+
+        /**
+         * Configures the HTTP client to use the specified {@link ProxySelector} for proxy settings.
+         * The proxy selector determines the proxy to use for a given HTTP request.
+         *
+         * @param proxy the {@link ProxySelector} instance to configure proxy settings for the HTTP client
+         * @return the current {@code Builder} instance for method chaining
+         */
+        public Builder proxy(ProxySelector proxy) {
+            getClientBuilder().proxy(proxy);
+            return this;
+        }
+
+        /**
+         * Sets the local address for the HTTP client. This is used to specify the network
+         * interface from which the connection will be made.
+         *
+         * @param address the {@link InetAddress} representing the local address or network
+         *                interface to bind to.
+         * @return the updated {@code Builder} instance for method chaining.
+         */
+        public Builder localAddress(InetAddress address) {
+            getClientBuilder().localAddress(address);
             return this;
         }
 
@@ -440,8 +491,29 @@ public class HTTP2 {
             }
         }
 
+        /**
+         * Retrieves or initializes the {@link HttpClient.Builder} instance for configuring
+         * and building {@link HttpClient} objects. If the {@code httpClientBuilder} is null,
+         * this method initializes it.
+         * <p>Note: If this method is invoked a custom client builder is created that you can manipulate directly.
+         * It will not affect any other connections of {@link HTTP2}.</p>
+         * <p>Warning: Make sure that you don't call the {@link HttpClient.Builder#build()} method on the instance
+         * returned by this. It will be automatically called internally when required.</p>
+         *
+         * @return the {@link HttpClient.Builder} instance, either existing or newly constructed.
+         */
+        public HttpClient.Builder getClientBuilder() {
+            if(httpClientBuilder == null) {
+                httpClientBuilder = newHHttpClientBuilder();
+            }
+            return httpClientBuilder;
+        }
+
         private HttpClient httpClient() {
-            return httpClient == null ? HTTP2.httpClient : httpClient;
+            if (httpClientBuilder != null) {
+                return httpClientBuilder.build();
+            }
+            return HTTP2.httpClient;
         }
 
         private static class ChainedCustomizer extends ArrayList<Consumer<HttpRequest.Builder>>
