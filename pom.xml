@@ -11,7 +11,7 @@
 
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
-    <version>5.1.2</version>
+    <version>6.0.0</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -21,27 +21,26 @@
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
     <developers>
         <developer>
+            <id>syampillai</id>
             <name>Syam Pillai</name>
-            <email>syam@engravgroup.com</email>
-            <organization>Syam Pillai</organization>
-            <organizationUrl>https://github.com/syampillai</organizationUrl>
+            <email>syam.s.pillai@gmail.com</email>
+            <url>https://github.com/syampillai</url>
         </developer>
     </developers>
 
-    <distributionManagement>
+    <repositories>
         <repository>
-            <id>github</id>
-            <name>Syam Pillai</name>
-            <url>https://maven.pkg.github.com/syampillai/SOCommon</url>
+            <id>so-maven</id>
+            <url>https://storedobject.com/maven</url>
         </repository>
-    </distributionManagement>
+    </repositories>
 
     <dependencies>
 

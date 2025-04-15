@@ -47,6 +47,11 @@
       <option name="url" value="https://maven.pkg.github.com/syampillai/SOCommon" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="so-maven" />
+      <option name="name" value="so-maven" />
+      <option name="url" value="https://storedobject.com/maven" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="so-common" />
       <option name="name" value="Syam Pillai" />
       <option name="url" value="https://maven.pkg.github.com/syampillai/SOCommon" />

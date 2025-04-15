@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Version 5.1.1&#10;Refactor HTTP2 builder and improve client configurability&#10;&#10;Replaced HttpClient with HttpClient.Builder for flexible configuration in HTTP2. Added support for custom SSL parameters, proxy settings, local address binding, and authenticators. Ensured chaining-friendly methods to enhance extensibility.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Version 5.1.2&#10;&#10;Refactor HTTP2 builder for enhanced null-check handling&#10;&#10;Added null checks in HTTP2 builder methods for SSLContext, SSLParameters, ProxySelector, and local address to prevent unintended null configurations. Improved robustness and ensured method chaining remains unaffected in all scenarios.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +66,7 @@
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/syam/IdeaProjects/SOCommon/pom.xml&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/syam/IdeaProjects/SOComponents&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -198,14 +198,13 @@
       <workItem from="1741252217137" duration="2850000" />
       <workItem from="1741257673014" duration="1019000" />
       <workItem from="1741258796077" duration="6000" />
-    </task>
-    <task id="LOCAL-00018" summary="Version updated to 4.5.4&#10;&#10;Compiled with Java 17.&#10;Removed left-trimming of US postal codes starting with zeros.">
-      <option name="closed" value="true" />
-      <created>1700685720260</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1700685720260</updated>
+      <workItem from="1741467161940" duration="232000" />
+      <workItem from="1742036303144" duration="227000" />
+      <workItem from="1742036847191" duration="43000" />
+      <workItem from="1742037069319" duration="24000" />
+      <workItem from="1744213067317" duration="79000" />
+      <workItem from="1744703616386" duration="217000" />
+      <workItem from="1744704038859" duration="558000" />
     </task>
     <task id="LOCAL-00019" summary="Version updated to 4.5.4&#10;&#10;Compiled with Java 17.&#10;Removed left-trimming of US postal codes starting with zeros.">
       <option name="closed" value="true" />
@@ -591,14 +590,21 @@
       <option name="project" value="LOCAL" />
       <updated>1741256504632</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Version 5.1.2&#10;&#10;Refactor HTTP2 builder for enhanced null-check handling&#10;&#10;Added null checks in HTTP2 builder methods for SSLContext, SSLParameters, ProxySelector, and local address to prevent unintended null configurations. Improved robustness and ensured method chaining remains unaffected in all scenarios.">
+      <option name="closed" value="true" />
+      <created>1741467215917</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1741467215917</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update version to 4.7.2, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity." />
     <MESSAGE value="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode) have been added to the USAddress class to return state name, state code, and ZIP Code respectively. This enriches the functionality offered by the USAddress class for address handling." />
     <MESSAGE value="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode, getCity) have been added to the USAddress class to return state name, state code, ZIP Code, and city name respectively. This enriches the functionality offered by the USAddress class for address handling." />
     <MESSAGE value="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality." />
@@ -623,6 +629,7 @@
     <MESSAGE value="Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
     <MESSAGE value="Add HTTP2 utility class and update project to version 5.1.0&#10;&#10;Introduce a new HTTP2 class leveraging Java's HttpClient for HTTP/2 communication with enhanced features like chunked/compressed content handling. Updated HTTP to recommend HTTP2 for better efficiency. Also, incremented the project version to 5.1.0 in the pom.xml." />
     <MESSAGE value="Version 5.1.1&#10;Refactor HTTP2 builder and improve client configurability&#10;&#10;Replaced HttpClient with HttpClient.Builder for flexible configuration in HTTP2. Added support for custom SSL parameters, proxy settings, local address binding, and authenticators. Ensured chaining-friendly methods to enhance extensibility." />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 5.1.1&#10;Refactor HTTP2 builder and improve client configurability&#10;&#10;Replaced HttpClient with HttpClient.Builder for flexible configuration in HTTP2. Added support for custom SSL parameters, proxy settings, local address binding, and authenticators. Ensured chaining-friendly methods to enhance extensibility." />
+    <MESSAGE value="Version 5.1.2&#10;&#10;Refactor HTTP2 builder for enhanced null-check handling&#10;&#10;Added null checks in HTTP2 builder methods for SSLContext, SSLParameters, ProxySelector, and local address to prevent unintended null configurations. Improved robustness and ensured method chaining remains unaffected in all scenarios." />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 5.1.2&#10;&#10;Refactor HTTP2 builder for enhanced null-check handling&#10;&#10;Added null checks in HTTP2 builder methods for SSLContext, SSLParameters, ProxySelector, and local address to prevent unintended null configurations. Improved robustness and ensured method chaining remains unaffected in all scenarios." />
   </component>
 </project>
