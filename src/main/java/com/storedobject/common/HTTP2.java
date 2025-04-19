@@ -69,12 +69,14 @@ public class HTTP2 {
     }
 
     private static InputStream stream(Builder b) throws Exception {
+        b.error = null;
         b.response = b.httpClient().send(build(b.url, b.body, b.headers, b.requestCustomizer),
                 HttpResponse.BodyHandlers.ofInputStream());
         return b.response.statusCode() == 200 ? new DecompressingInputStream(b.response) : null;
     }
 
     private static <T> CompletableFuture<T> async(Builder b, Function<InputStream, T> transformer) {
+        b.error = null;
         return async(b).thenApply(r -> {
             b.response = r;
             if(r.statusCode() != 200) {
@@ -83,7 +85,7 @@ public class HTTP2 {
             try {
                 return transformer.apply(new DecompressingInputStream(r));
             } catch (Exception e) {
-                b.exception = e;
+                b.error(e);
                 return null;
             }
         });
@@ -150,9 +152,19 @@ public class HTTP2 {
         Map<String, String> headers;
         ChainedCustomizer requestCustomizer;
         String body;
-        Exception exception;
-        HttpResponse<InputStream> response; // HTTP2 will set this jst before reading the data
+        Exception error;
+        Consumer<Exception> exceptionHandler;
+        HttpResponse<InputStream> response; // HTTP2 will set this just before reading the data
         HttpClient.Builder httpClientBuilder;
+
+        void error(Exception e) {
+            if(error == null) {
+                error = e;
+            }
+            if(exceptionHandler != null) {
+                exceptionHandler.accept(e);
+            }
+        }
 
         /**
          * Sets the URL for the HTTP request.
@@ -173,6 +185,17 @@ public class HTTP2 {
          */
         public Builder authenticator(Authenticator authenticator) {
             getClientBuilder().authenticator(authenticator);
+            return this;
+        }
+
+        /**
+         * Sets the exception handler for handling exceptions. When an exception occurs, this handler will be invoked.
+         *
+         * @param exceptionHandler a consumer that defines how exceptions should be handled
+         * @return the current Builder instance with the exception handler configured
+         */
+        public Builder exceptionHandler(Consumer<Exception> exceptionHandler) {
+            this.exceptionHandler = exceptionHandler;
             return this;
         }
 
@@ -416,10 +439,9 @@ public class HTTP2 {
          * Retrieves and converts the response content stream into a string representation.
          *
          * @return the string representation of the response content
-         * @throws Exception if an error occurs while processing the stream
          */
-        public String string() throws Exception {
-            return StringUtility.toString(stream());
+        public String string() {
+            return toString(stream());
         }
 
         /**
@@ -442,6 +464,7 @@ public class HTTP2 {
             try {
                 return HTTP2.stream(this);
             } catch (Exception e) {
+                error(e);
                 return null;
             }
         }
@@ -491,20 +514,20 @@ public class HTTP2 {
             try {
                 return new JSON(in);
             } catch (Exception e) {
-                exception = e;
+                error(e);
                 return null;
             }
         }
 
         public Exception getException() {
-            return exception;
+            return error;
         }
 
         private XML toXML(InputStream in) {
             try {
                 return new XML(in);
             } catch (Exception e) {
-                exception = e;
+                error(e);
                 return null;
             }
         }
@@ -513,7 +536,7 @@ public class HTTP2 {
             try {
                 return StringUtility.toString(in);
             } catch (Exception e) {
-                exception = e;
+                error(e);
                 return null;
             }
         }
@@ -522,7 +545,7 @@ public class HTTP2 {
          * Retrieves or initializes the {@link HttpClient.Builder} instance for configuring
          * and building {@link HttpClient} objects. If the {@code httpClientBuilder} is null,
          * this method initializes it.
-         * <p>Note: If this method is invoked a custom client builder is created that you can manipulate directly.
+         * <p>Note: If this method is invoked, a custom client builder is created that you can manipulate directly.
          * It will not affect any other connections of {@link HTTP2}.</p>
          * <p>Warning: Make sure that you don't call the {@link HttpClient.Builder#build()} method on the instance
          * returned by this. It will be automatically called internally when required.</p>
@@ -622,7 +645,9 @@ public class HTTP2 {
         public DecompressingInputStream(HttpResponse<InputStream> response) throws IOException {
             InputStream in = new ChunkedInputStream(response);
             String contentEncoding = response.headers().firstValue("Content-Encoding").orElse(null);
-            boolean isCompressed = contentEncoding.equalsIgnoreCase("gzip") || contentEncoding.equalsIgnoreCase("deflate");
+            boolean isCompressed = contentEncoding != null &&
+                    (contentEncoding.equalsIgnoreCase("gzip")
+                            || contentEncoding.equalsIgnoreCase("deflate"));
             if (isCompressed) {
                 if (contentEncoding.equalsIgnoreCase("gzip")) {
                     in = new GZIPInputStream(in);
