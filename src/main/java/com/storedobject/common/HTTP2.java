@@ -72,16 +72,13 @@ public class HTTP2 {
         b.error = null;
         b.response = b.httpClient().send(build(b.url, b.body, b.headers, b.requestCustomizer),
                 HttpResponse.BodyHandlers.ofInputStream());
-        return b.response.statusCode() == 200 ? new DecompressingInputStream(b.response) : null;
+        return new DecompressingInputStream(b.response);
     }
 
     private static <T> CompletableFuture<T> async(Builder b, Function<InputStream, T> transformer) {
         b.error = null;
         return async(b).thenApply(r -> {
             b.response = r;
-            if(r.statusCode() != 200) {
-                return null;
-            }
             try {
                 return transformer.apply(new DecompressingInputStream(r));
             } catch (Exception e) {
