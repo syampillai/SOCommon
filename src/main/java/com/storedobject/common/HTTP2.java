@@ -238,7 +238,7 @@ public class HTTP2 {
         }
 
         /**
-         * Adds a header to the request being built. If the headers map is null, it initializes
+         * Adds a header to the request being built. If the header map is null, it initializes
          * the map and adds the key-value pair. Otherwise, it simply adds or updates the
          * key-value pair in the existing headers map.
          *

@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade to version 6.0.0&#10;&#10;Hosting repository has changed and README is updated accordingly.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +55,7 @@
     &quot;Application.JSON.executor&quot;: &quot;Run&quot;,
     &quot;Application.StringList.executor&quot;: &quot;Run&quot;,
     &quot;Application.StringUtility.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.so-common [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.so-common [deploy].executor&quot;: &quot;Run&quot;,
     &quot;Maven.so-common [install].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -204,15 +203,9 @@
       <workItem from="1744213067317" duration="79000" />
       <workItem from="1744703616386" duration="217000" />
       <workItem from="1744704038859" duration="771000" />
-      <workItem from="1745080834307" duration="3052000" />
-    </task>
-    <task id="LOCAL-00020" summary="Version updated to 4.5.6&#10;&#10;Compiled with Java 17.&#10;XXAddress is more usable now.">
-      <option name="closed" value="true" />
-      <created>1701020591374</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1701020591374</updated>
+      <workItem from="1745080834307" duration="3192000" />
+      <workItem from="1745084072947" duration="8000" />
+      <workItem from="1745318093901" duration="466000" />
     </task>
     <task id="LOCAL-00021" summary="Version updated to 4.5.7&#10;&#10;Compiled with Java 17.&#10;Minor code refactoring.">
       <option name="closed" value="true" />
@@ -598,15 +591,21 @@
       <option name="project" value="LOCAL" />
       <updated>1744704681651</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata.">
+      <option name="closed" value="true" />
+      <created>1745083998164</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1745083998165</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode, getCity) have been added to the USAddress class to return state name, state code, ZIP Code, and city name respectively. This enriches the functionality offered by the USAddress class for address handling." />
-    <MESSAGE value="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality." />
     <MESSAGE value="Add configurable timeouts to HTTP and SOAP classes&#10;&#10;Timeout settings for HTTP and SOAP connections are now configurable. Two new methods have been added to each class to set the read and connection timeouts, while previously hard-coded values have been replaced. Project version has also been bumped to 4.7.5." />
     <MESSAGE value="Update version to 4.7.6 and refactor SOAP class&#10;&#10;The application version in pom.xml has been upgraded to 4.7.6. The SOAPAction assignment has been relocated to the constructor in the SOAP class, which improves the clarity and readability of the code." />
     <MESSAGE value="Update version and refactor HTTP and SOAP methods&#10;&#10;Upgraded the project version to 4.7.7 in pom.xml. Refactored the HTTP's connection cleanup method and SOAP's request mechanism. The SOAPAction is now assigned during the request instead of during initialization, aiming for better code clarity." />
@@ -630,6 +629,8 @@
     <MESSAGE value="Version 5.1.1&#10;Refactor HTTP2 builder and improve client configurability&#10;&#10;Replaced HttpClient with HttpClient.Builder for flexible configuration in HTTP2. Added support for custom SSL parameters, proxy settings, local address binding, and authenticators. Ensured chaining-friendly methods to enhance extensibility." />
     <MESSAGE value="Version 5.1.2&#10;&#10;Refactor HTTP2 builder for enhanced null-check handling&#10;&#10;Added null checks in HTTP2 builder methods for SSLContext, SSLParameters, ProxySelector, and local address to prevent unintended null configurations. Improved robustness and ensured method chaining remains unaffected in all scenarios." />
     <MESSAGE value="Upgrade to version 6.0.0&#10;&#10;Hosting repository has changed and README is updated accordingly." />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade to version 6.0.0&#10;&#10;Hosting repository has changed and README is updated accordingly." />
+    <MESSAGE value="Upgrade to version 6.0.1&#10;&#10;Hosting repository has changed and README is updated accordingly." />
+    <MESSAGE value="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
   </component>
 </project>
