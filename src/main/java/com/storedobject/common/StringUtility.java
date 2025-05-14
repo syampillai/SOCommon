@@ -1512,7 +1512,7 @@ public class StringUtility {
      * if possible. "\r" (carriage return) characters will be removed.
      *
      * @param s String to split.
-     * @param length Length at which split happens.
+     * @param length Length at which the split happens.
      * @return Array of strings containing each part of the string.
      **/
     public static String[] split(String s, int length) {

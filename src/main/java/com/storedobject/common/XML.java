@@ -334,11 +334,8 @@ public class XML {
             if (nodeType == Node.ELEMENT_NODE) {
                 clean(child);
             } else if (nodeType == Node.TEXT_NODE) {
-                String trimmedNodeVal = child.getNodeValue().trim();
-                if (trimmedNodeVal.length() == 0){
+                if (child.getNodeValue().trim().isEmpty()){
                     node.removeChild(child);
-                } else {
-                    child.setNodeValue(trimmedNodeVal);
                 }
             } else if (nodeType == Node.COMMENT_NODE) {
                 node.removeChild(child);

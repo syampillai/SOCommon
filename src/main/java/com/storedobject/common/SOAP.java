@@ -69,7 +69,7 @@ public class SOAP {
 
     /**
      * Set the SOAP version.
-     * <p>Warning: This should be set before invoking any XML related methods!</p>
+     * <p>Warning: This should be set before invoking any XML-related methods!</p>
      *
      * @param version Version.
      */

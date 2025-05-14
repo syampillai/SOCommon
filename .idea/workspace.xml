@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update project version to 6.0.2 and clean up configurations&#10;&#10;Bumped the project version from 6.0.1 to 6.0.2 across pom.xml and README.md. Removed unused Maven plugins and unnecessary tasks from `.idea/workspace.xml` to streamline project configuration.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XML.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,8 +113,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.109" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.109" />
       </set>
     </attachedChunks>
   </component>
@@ -206,14 +212,9 @@
       <workItem from="1745318093901" duration="466000" />
       <workItem from="1745319225615" duration="191000" />
       <workItem from="1745327696096" duration="956000" />
-    </task>
-    <task id="LOCAL-00023" summary="Version updated to 4.5.8&#10;&#10;Compiled with Java 17.&#10;While JSONing BigDecimals, scientific notation was used. This is changed to plain value.&#10;Documentation update.">
-      <option name="closed" value="true" />
-      <created>1705919798039</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1705919798039</updated>
+      <workItem from="1745379748617" duration="328000" />
+      <workItem from="1747161981054" duration="215000" />
+      <workItem from="1747186709019" duration="1757000" />
     </task>
     <task id="LOCAL-00024" summary="Version updated to 4.5.8&#10;&#10;Compiled with Java 17.&#10;While JSONing BigDecimals, scientific notation was used. This is changed to plain value.&#10;Documentation update.">
       <option name="closed" value="true" />
@@ -599,14 +600,21 @@
       <option name="project" value="LOCAL" />
       <updated>1745328662111</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Update project version to 6.0.2 and clean up configurations&#10;&#10;Bumped the project version from 6.0.1 to 6.0.2 across pom.xml and README.md. Removed unused Maven plugins and unnecessary tasks from `.idea/workspace.xml` to streamline project configuration.">
+      <option name="closed" value="true" />
+      <created>1745380016533</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1745380016533</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add configurable timeouts to HTTP and SOAP classes&#10;&#10;Timeout settings for HTTP and SOAP connections are now configurable. Two new methods have been added to each class to set the read and connection timeouts, while previously hard-coded values have been replaced. Project version has also been bumped to 4.7.5." />
     <MESSAGE value="Update version to 4.7.6 and refactor SOAP class&#10;&#10;The application version in pom.xml has been upgraded to 4.7.6. The SOAPAction assignment has been relocated to the constructor in the SOAP class, which improves the clarity and readability of the code." />
     <MESSAGE value="Update version and refactor HTTP and SOAP methods&#10;&#10;Upgraded the project version to 4.7.7 in pom.xml. Refactored the HTTP's connection cleanup method and SOAP's request mechanism. The SOAPAction is now assigned during the request instead of during initialization, aiming for better code clarity." />
     <MESSAGE value="Update project version and refactor SOAP.java&#10;&#10;The project version in pom.xml has been updated from 4.7.7 to 4.7.8. In SOAP.java, a new method 'requesting' is introduced, which is invoked just prior to sending a request to the server, allowing for potential additional controls on the HTTP request." />
@@ -631,6 +639,7 @@
     <MESSAGE value="Upgrade to version 6.0.0&#10;&#10;Hosting repository has changed and README is updated accordingly." />
     <MESSAGE value="Upgrade to version 6.0.1&#10;&#10;Hosting repository has changed and README is updated accordingly." />
     <MESSAGE value="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
+    <MESSAGE value="Update project version to 6.0.2 and clean up configurations&#10;&#10;Bumped the project version from 6.0.1 to 6.0.2 across pom.xml and README.md. Removed unused Maven plugins and unnecessary tasks from `.idea/workspace.xml` to streamline project configuration." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update project version to 6.0.2 and clean up configurations&#10;&#10;Bumped the project version from 6.0.1 to 6.0.2 across pom.xml and README.md. Removed unused Maven plugins and unnecessary tasks from `.idea/workspace.xml` to streamline project configuration." />
   </component>
 </project>
