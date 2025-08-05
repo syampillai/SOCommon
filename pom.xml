@@ -16,7 +16,7 @@
     </properties>
 
     <artifactId>so-common</artifactId>
-    <version>6.0.3</version>
+    <version>6.0.4</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>

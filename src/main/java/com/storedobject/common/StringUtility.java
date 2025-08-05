@@ -66,7 +66,7 @@ public class StringUtility {
     }
 
     /**
-     * Convert to upper case.
+     * Convert to the upper case.
      * @param s String array to be converted.
      * @return Array
      */
@@ -98,7 +98,7 @@ public class StringUtility {
     }
 
     /**
-     * Convert to upper case.
+     * Convert to the upper case.
      * @param s Char array to be converted.
      * @return Array
      */
@@ -449,7 +449,7 @@ public class StringUtility {
 
     /**
      * Convert a byte array into a String of hex values. Each is converted to 2 hex characters.
-     * For example, StringUtility.toHex( new byte[ ] { 10, 17, 19, 4, 11 } ) will return "0A1113040B".
+     * For example, StringUtility.toHex(new byte[ ] { 10, 17, 19, 4, 11 }) will return "0A1113040B".
      * @param bytes The byte array to be converted.
      * @return The result String
      */
@@ -593,7 +593,7 @@ public class StringUtility {
     }
 
     /**
-     * Convert a string to proper case (first letter of each word will be capitalized).
+     * Convert a string to a proper case (the first letter of each word will be capitalized).
      * @param s String to be converted.
      * @return Converted string.
      */
@@ -628,7 +628,7 @@ public class StringUtility {
     }
 
     /**
-     * Convert each element of the string array to proper case (first letter of each word will be capitalized).
+     * Convert each element of the string array to a proper case (the first letter of each word will be capitalized).
      * @param a String array to be converted.
      * @return Array
      */
@@ -712,11 +712,11 @@ public class StringUtility {
 
     private final static String[] propositions = new String[] {
             "A", "After", "And", "As", "At", "Be", "Before", "By", "Down", "For", "From", "Of", "Off", "On", "Or", "Out", "Over", "In", "Not",
-            "Per", "The", "Till", "To", "Under", "Until", "Up", "With",
+            "Per", "The", "Till", "To", "Under", "Until", "Up", "Via", "With",
     };
 
     /**
-     * <p>Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
+     * <p>Make a label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
      * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences
      * after that keyword will be used for generating the label.</p>
      * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name",
@@ -906,7 +906,7 @@ public class StringUtility {
     }
 
     /**
-     * <p>Make label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
+     * <p>Make a label by inserting a space before each capital letter. Also, all dash characters ("-", "_") are
      * converted into " - ". Single quotes will be copied as such. If "as" keyword is found, the word sequences after
      * that keyword will be used for generating the label.</p>
      * <p>Examples: "ShortName" =&gt; "Short Name", "CountryName" =&gt; "Country Name",
@@ -1057,7 +1057,7 @@ public class StringUtility {
     }
 
     /**
-     * Converts a string into a 4 character soundex code.
+     * Converts a string into a 4-character soundex code.
      *
      * @param string The string to be converted.
      * @return The soundex coded string.
@@ -1131,7 +1131,7 @@ public class StringUtility {
 
     /**
      * Replaces all occurrences of 'target' with 'replacement' outside the quoted portion (single or double quotes).
-     * @param text String to operated on.
+     * @param text String to operate on.
      * @param target Target sequence to replace
      * @param replacement Replacement text
      * @return Replaced string
@@ -1203,7 +1203,7 @@ public class StringUtility {
      * Compute the modulus 11 check digit for the number passed.
      *
      * @param number Number
-     * @return Check digit. -1 is returned for invalid numbers.
+     * @return Check a digit. -1 is returned for invalid numbers.
      */
     public static int modulus11(long number) {
         return modulus11("" + number);
@@ -1213,7 +1213,7 @@ public class StringUtility {
      * Compute the modulus 11 check digit for the alphanumeric string passed.
      *
      * @param alphanumeric Input
-     * @return Check digit. -1 is returned for invalid numbers and -2 is returned for invalid strings.
+     * @return Check a digit. -1 is returned for invalid numbers and -2 is returned for invalid strings.
      */
     public static int modulus11(String alphanumeric) {
         if(alphanumeric == null) {
@@ -1249,7 +1249,7 @@ public class StringUtility {
     }
 
     /**
-     * Check the alphanumeric string passed to see if its ends with a modulus 11 check digit.
+     * Check the alphanumeric string passed to see if it ends with a modulus 11 check digit.
      *
      * @param alphanumeric Input
      * @return True or false.
@@ -1263,7 +1263,7 @@ public class StringUtility {
     }
 
     /**
-     * Check the number passed to see if its ends with a modulus 11 check digit.
+     * Check the number passed to see if it ends with a modulus 11 check digit.
      *
      * @param number Number
      * @return True or false.
@@ -1276,7 +1276,8 @@ public class StringUtility {
      * Stringify the object
      *
      * @param object Object to be stringified.
-     * @return String obtained from object.toString(). If object is null or toString method generate errors zero-length string will return.
+     * @return String obtained from object.toString(). If an object is null or toString method generates errors,
+     * a zero-length string will return.
      */
     public static String stringify(Object object) {
         String s;
@@ -1292,8 +1293,8 @@ public class StringUtility {
      * Get a duplicate string array copy of the array passed. Each element from the source array will be stringified.
      *
      * @param objects Array of any object copy.
-     * @return Copy of the array as string array. If the input is null, output will also be null.
-     * Null elements in the source array will generate null element in the output array.
+     * @return Copy of the array as a string array. If the input is null, the output will also be null.
+     * Null elements in the source array will generate a null element in the output array.
      */
     public static String[] copy(Object[] objects) {
         if(objects == null) {
@@ -1331,7 +1332,7 @@ public class StringUtility {
      * @param a Array for inserting the new element.
      * @param element Element to be inserted.
      * @param index Index
-     * @return Resultant array with length greater than the length of the array passed.
+     * @return Resultant array with a length greater than the length of the array passed.
      */
     public static String[] insert(String[] a, String element, int index) {
         if(a == null || index >= a.length) {
@@ -1353,7 +1354,7 @@ public class StringUtility {
      *
      * @param a Array to be increased.
      * @param element Element to be added.
-     * @return Resultant array with length greater than the length of the array passed.
+     * @return Resultant array with a length greater than the length of the array passed.
      *
      */
     public static String[] append(String[] a, String element) {
@@ -1552,7 +1553,7 @@ public class StringUtility {
     /**
      * Parse the string array into "properties". This is useful to parse "command line" parameters.
      *
-     * @param args Argument list as string array.
+     * @param args Argument list as a string array.
      * @return Properties containing all the argument values passed as the array.
      * @throws SOException if anything in the argument does not look like a "command line" parameter.
      */
@@ -1721,7 +1722,7 @@ public class StringUtility {
 
     /**
      * Formats a double value as a numeric string. Up to 14 fractional digits will be considered. If you want the
-     * thousands separation, please use {@link #format(double, boolean)}.
+     * thousand separations, please use {@link #format(double, boolean)}.
      *
      * @param value Double value to be converted.
      * @return Formatted value
@@ -1734,7 +1735,7 @@ public class StringUtility {
      * Formats a double value as a numeric string. Up to 14 fractional digits will be considered.
      *
      * @param value Double value to be converted.
-     * @param separated True if thousands separation is needed in the output.
+     * @param separated True if thousands of separations are needed in the output.
      * @return Formatted value
      */
     public static String format(double value, boolean separated) {
@@ -1745,7 +1746,7 @@ public class StringUtility {
      * Formats a double value as a numeric string (Indian style). Up to 14 fractional digits will be considered.
      *
      * @param value Double value to be converted.
-     * @param separated True if thousands separation is needed in the output.
+     * @param separated True if thousands of separations are needed in the output.
      * @return Formatted value
      */
     public static String formatIndian(double value, boolean separated) {
@@ -1753,7 +1754,7 @@ public class StringUtility {
     }
 
     /**
-     * Formats a double value as a numeric string with thousands separation.
+     * Formats a double value as a numeric string with a thousand separation.
      *
      * @param value Double value to be converted.
      * @param decimals Number of decimals required in the output string. Passing -1 causes all non-zero decimals up to
@@ -1771,12 +1772,12 @@ public class StringUtility {
     }
 
     /**
-     * Formats a double value as a numeric string with thousands separation.
+     * Formats a double value as a numeric string with a thousand separation.
      *
      * @param value Double value to be converted.
      * @param decimals Number of decimals required in the output string. Passing -1 causes all non-zero decimals up to
      * 14 positions to be incorporated.
-     * @param separated True if thousands separation is needed in the output.
+     * @param separated True if a thousand separation are needed in the output.
      * @return Formatted value
      */
     public static String format(double value, int decimals, boolean separated) {
@@ -1789,7 +1790,7 @@ public class StringUtility {
      * @param value Double value to be converted.
      * @param decimals Number of decimals required in the output string. Passing -1 causes all non-zero decimals up to
      * 14 positions to be incorporated.
-     * @param separated True if thousands separation is needed in the output.
+     * @param separated True if a thousand separation is needed in the output.
      * @return Formatted value
      */
     public static String formatIndian(double value, int decimals, boolean separated) {
@@ -1822,11 +1823,11 @@ public class StringUtility {
     }
 
     /**
-     * Formats a string as a numeric string with thousands separation.
+     * Formats a string as a numeric string with the thousand separations.
      *
      * @param s String of digits (can contain a decimal point).
      * @param decimals Number of decimals required in the output string.
-     * @param separated True if thousands separation is needed in the output.
+     * @param separated True if a thousand separation is needed in the output.
      * @return Formatted value
      */
     public static String format(String s, int decimals, boolean separated) {
@@ -1834,11 +1835,11 @@ public class StringUtility {
     }
 
     /**
-     * Formats a string as a numeric string with thousands separation (Indian style).
+     * Formats a string as a numeric string with a thousand separation (Indian style).
      *
      * @param s String of digits (can contain a decimal point).
      * @param decimals Number of decimals required in the output string.
-     * @param separated True if thousands separation is needed in the output.
+     * @param separated True if a thousand separation is needed in the output.
      * @return Formatted value
      */
     public static String formatIndian(String s, int decimals, boolean separated) {
@@ -1968,8 +1969,8 @@ public class StringUtility {
             "ninety" };
 
     /**
-     * Internal function to convert a 3-digit number to words. It will return empty string for zero.
-     * @param digit A 3-digit number as string
+     * Internal function to convert a 3-digit number to words. It will return an empty string for zero.
+     * @param digit A 3-digit number as a string
      * @return 3-digit number in words.
      */
     private static String words3(String digit) {
@@ -2149,7 +2150,7 @@ public class StringUtility {
     }
 
     /**
-     * See if 2 character sequences contain same sequence of characters
+     * See if 2 character sequences contain the same sequence of characters
      *
      * @param one First character sequence.
      * @param two Second character sequence.
@@ -2351,7 +2352,7 @@ public class StringUtility {
     /**
      * Replace variables in the source string with values returned by the filler. Variables in the source string are of the
      * form ${VariableName}.
-     * A sample source may look like "My name is ${name} and my age is ${age}". Here, 'name' and 'age' are the variables and
+     * A sample source may look like "My name is ${name} and my age is ${age}". Here, 'name' and 'age' are the variables, and
      * the values returned by filler.fill("name") and filler.fill("age") will be used to replace the variables in the string. So,
      * the resulting string will look like "My name is Syam Pillai and my age is 40" if the return values are "Syam Pillai" and "40"
      * respectively.
