@@ -53,7 +53,7 @@ public class DateUtility {
     private final static DateFormat tinyFormat = new SimpleDateFormat("MMM dd", Locale.getDefault());
     private final static DateFormat shortFormat = new SimpleDateFormat("MMM dd, yy", Locale.getDefault());
     private final static DateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-    private final static DateFormat longFormat = new SimpleDateFormat("MMM dd yyyy hh:mm:ss a", Locale.getDefault());
+    private final static DateFormat longFormat = new SimpleDateFormat("MMM dd yyyy HH:mm:ss", Locale.getDefault());
     private final static DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a", Locale.getDefault());
     private final static DateFormat timeFormat24 = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
     private final static DateFormat hhmmFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -77,23 +77,23 @@ public class DateUtility {
     /**
      * Get one day after the current date
      *
-     * @return One day after current date
+     * @return One day after the current date
      */
     public static Date tomorrow() {
         return addDay(today(), 1);
     }
 
     /**
-     * Get one day prior to current date
+     * Get one day prior to the current date
      *
-     * @return One day prior to current date
+     * @return One day prior to the current date
      */
     public static Date yesterday() {
         return addDay(today(), -1);
     }
 
     /**
-     * Get start date of the current year
+     * Get the start date of the current year
      *
      * @return Start date of the current year
      */
@@ -102,7 +102,7 @@ public class DateUtility {
     }
 
     /**
-     * Get start date of year for a given date
+     * Get the start date of year for a given date
      *
      * @param <D> Date-type
      * @param date Date for which the start of the year is to be returned
@@ -116,7 +116,7 @@ public class DateUtility {
     /**
      * Get end date of current year
      *
-     * @return End date of current year
+     * @return End date of the current year
      */
     public static Date endOfYear() {
         return endOfYear(today());
@@ -135,9 +135,9 @@ public class DateUtility {
     }
 
     /**
-     * Get start date of the current month
+     * Get the start date of the current month
      *
-     * @return Start date of current month
+     * @return Start date of the current month
      */
     public static Date startOfMonth() {
         return setDay(today(), 1);
@@ -155,7 +155,7 @@ public class DateUtility {
     }
 
     /**
-     * Get start date of a month. Month is calculated by adding an offset to the current month
+     * Get a start date of a month. Month is calculated by adding an offset to the current month
      *
      * @param monthOffset An integer offset value that has to be added to the current month value
      * @return Start date of month
@@ -166,7 +166,7 @@ public class DateUtility {
     }
 
     /**
-     * Get starting date of a month.
+     * Get a starting date of a month.
      *
      * @param <D> Date-type
      * @param monthOffset An integer offset value that needs to be added to the month corresponding to a given date.
@@ -180,7 +180,7 @@ public class DateUtility {
     /**
      * Get end date of current month.
      *
-     * @return End date of current month
+     * @return End date of the current month
      */
     public static Date endOfMonth() {
         return endOfMonth(0);
@@ -197,7 +197,7 @@ public class DateUtility {
     }
 
     /**
-     * Get end date of a month. Month is calculated by adding an offset to the current month
+     * Get an end date of a month. Month is calculated by adding an offset to the current month
      *
      * @param monthOffset An integer offset value that has to be added to the current month value
      * @return Start date of month
@@ -207,7 +207,7 @@ public class DateUtility {
     }
 
     /**
-     * Get end date of a month. Month is calculated by adding an offset to the month corresponding to a given date
+     * Get an end date of a month. Month is calculated by adding an offset to the month corresponding to a given date
      *
      * @param <D> Date-type
      * @param monthOffset An integer offset value that has to be added to the month corresponding to a given date
@@ -231,7 +231,7 @@ public class DateUtility {
     }
 
     /**
-     * Create and return Date instance for the current date
+     * Create and return the Date instance for the current date
      *
      * @return Current date
      */
@@ -240,7 +240,7 @@ public class DateUtility {
     }
 
     /**
-     * Create a Date instance for the specified day, month and year
+     * Create a Date instance when day, month, year are specified.
      *
      * @param year Year.
      * @param month Month (1-based, not 0-based).
@@ -254,7 +254,7 @@ public class DateUtility {
     }
 
     /**
-     * Get an java.sql.Date corresponding to a given java.util.Date
+     * Get a java.sql.Date corresponding to a given java.util.Date
      *
      * @param date Date of type java.util.Date
      * @return date
@@ -266,7 +266,7 @@ public class DateUtility {
     }
 
     /**
-     * Get date corresponding to a particular date value in a year
+     * Get a date corresponding to a particular date value in a year
      *
      * @param dateValue an integer representing the date
      * @return Date corresponding to the given date value in integer
@@ -280,7 +280,8 @@ public class DateUtility {
     }
 
     /**
-     * Get date by passing date string separated by comma or hyphen (, or -) in year, month and date format
+     * Get a date by passing date string separated by spaces, commas, hyphens, or slashes. It could contain just
+     * digits (with or without separators) or strings such as "Aug 15, 1947", "23 Jan 1998", etc.
      *
      * @param text Date in text format
      * @return Date corresponding to the given date text
@@ -295,6 +296,7 @@ public class DateUtility {
         String[] s;
         text = text.replace(",", " ");
         text = text.replace("-", " ");
+        text = text.replace("/", " ");
         while(text.indexOf("  ") > 0) {
             text = text.replace("  ", " ");
         }
@@ -321,7 +323,7 @@ public class DateUtility {
     }
 
     /**
-     * Get java.sql.Date by passing java.time.LocalDate
+     * Get the java.sql.Date from a java.time.LocalDate
      *
      * @param date LocalDate that has to be converted to java.sql.Date
      * @return date
@@ -368,7 +370,7 @@ public class DateUtility {
      *
      * @param <D> Date-type
      * @param date Date
-     * @return date LocalDateTime
+     * @return date Local date-time
      */
     public static <D extends java.util.Date> LocalDateTime localTime(D date) {
         return LocalDateTime.of(getYear(date), getMonth(date), getDay(date),
@@ -556,7 +558,7 @@ public class DateUtility {
     }
 
     /**
-     * Formats a given date in sql date format
+     * Formats a given date in SQL date format
      *
      * @param <D> Date-type
      * @param date Date
@@ -626,11 +628,7 @@ public class DateUtility {
         if(date == null) {
             return null;
         }
-        String s = longFormat.format(date);
-        if(date instanceof Timestamp && ((Timestamp)date).getNanos() > 0) {
-            return s.substring(0, s.length() - 3) + "." + ((Timestamp)date).getNanos() + s.substring(s.length() - 3);
-        }
-        return s;
+        return longFormat.format(date);
     }
 
     /**
@@ -657,12 +655,12 @@ public class DateUtility {
     }
 
     /**
-     * Check whether two dates are same
+     * Check whether two dates are the same
      *
      * @param <D> Date-type
      * @param one first date to compare
      * @param two second date to compare
-     * @return a boolean true if one and two are same, otherwise false
+     * @return a boolean true if one and two are the same, otherwise false
      */
     public static <D extends java.util.Date> boolean equals(D one, D two) {
         return compareTo(one, two) == 0;
@@ -670,7 +668,6 @@ public class DateUtility {
 
     /**
      * Compare two dates
-     .     *
      * @param <D> Date-type
      * @param one Date to compare
      * @param two Date to compare
@@ -738,7 +735,7 @@ public class DateUtility {
     }
 
     /**
-     * Get the week of the year (1 - 53/54).
+     * Get the week of the year.
      *
      * @param date Date
      * @return Week number.
@@ -813,11 +810,11 @@ public class DateUtility {
     }
 
     /**
-     * Adds a particular number of year to a specified date
+     * Adds a particular number of years to a specified date
      *
      * @param <D> Date-type
      * @param date The date to which the years are added
-     * @param year The number of year to add to the date passed
+     * @param year The number of years to add to the date passed
      * @return The date after adding the year offset
      */
     public static <D extends java.util.Date> D addYear(D date, int year) {
@@ -863,7 +860,7 @@ public class DateUtility {
     /**
      * Checks if a particular year specified is leap year
      * @param year Year
-     * @return true if year passed to the method is leap year
+     * @return true if the year passed to the method is leap year
      */
     public static boolean isLeapYear(int year) {
         return (new GregorianCalendar()).isLeapYear(year);
@@ -871,11 +868,11 @@ public class DateUtility {
 
 
     /**
-     * Checks if a particular year is leap year by taking in a date
+     * Checks if a particular year is a leap year by taking in a date
      *
      * @param <D> Date-type
      * @param date Date
-     * @return true if year in the date passed to the method is leap year
+     * @return true if the year in the date passed to the method is leap year
      */
     public static <D extends java.util.Date> boolean isLeapYear(D date) {
         GregorianCalendar c = new GregorianCalendar();
@@ -884,7 +881,7 @@ public class DateUtility {
     }
 
     /**
-     * Get difference in days between two dates
+     * Get the difference in days between two dates
      *
      * @param <D> Date-type
      * @param one Date that has to be subtracted from the greater date
@@ -896,7 +893,7 @@ public class DateUtility {
     }
 
     /**
-     * Get difference in days between two dates by considering the time as well
+     * Get the difference in days between two dates by considering the time as well
      *
      * @param one Date that has to be subtracted from the greater date
      * @param two The greater date from which the other date is subtracted
@@ -910,7 +907,7 @@ public class DateUtility {
     }
 
     /**
-     * Get difference in months between two dates
+     * Get the difference in months between two dates
      *
      * @param one Date that has to be subtracted from the greater date
      * @param two The greater date from which the other date is subtracted
@@ -939,6 +936,7 @@ public class DateUtility {
     public static <D extends java.util.Date> int get(D date, int field) {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(date);
+        //noinspection MagicConstant
         return c.get(field);
     }
 
@@ -963,6 +961,7 @@ public class DateUtility {
     private static <D extends java.util.Date> D add(D date, int field, int value) {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(date);
+        //noinspection MagicConstant
         c.add(field, value);
         D d = cook(date);
         d.setTime(c.getTimeInMillis());
@@ -972,6 +971,7 @@ public class DateUtility {
     private static <D extends java.util.Date> D set(D date, int field, int value) {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(date);
+        //noinspection MagicConstant
         c.set(field, value);
         D d = cook(date);
         d.setTime(c.getTimeInMillis());
@@ -979,11 +979,11 @@ public class DateUtility {
     }
 
     /**
-     * Validates and returns true if two dates passed to the method are same
+     * Validates and returns true if two dates passed to the method are the same
      * @param <D> Date-type
      * @param one First date
      * @param two Second date
-     * @return True if two dates passed to the method are same
+     * @return True if two dates passed to the method are the same
      */
     public static <D extends java.util.Date> boolean isSameDate(D one, D two) {
         if(one == null && two == null) {
@@ -996,12 +996,13 @@ public class DateUtility {
     }
 
     /**
-     * Get the difference between two dates in-terms of year, month and date
+     * Get the difference between two dates as a string representation in the form "3Y 2M 4D" (meaning 3 years,
+     * 2 months, 4 days). The respective parts may be absent for zero values unless the result is just "0D".
      *
      * @param <D> Date-type
      * @param one First date
      * @param two Second date
-     * @return The difference between the two specified dates in month date and year format
+     * @return Differences between the two dates as a string.
      */
     public static <D extends java.util.Date> String difference(D one, D two) {
         if(two.before(one)) {
@@ -1049,12 +1050,13 @@ public class DateUtility {
     }
 
     /**
-     * Get the difference between two dates in-terms of year, month and date by passing a date and an offset
+     * Get the difference between two dates as a string representation in the form "3Y 2M 4D" (meaning 3 years,
+     * 2 months, 4 days). The respective parts may be absent for zero values unless the result is just "0D".
      *
      * @param <D> Date-type
-     * @param from From date for finding the difference
-     * @param days offset added to from date to get to date
-     * @return Differences between the two dates
+     * @param from The first date
+     * @param days offset added to the date to get the second date
+     * @return Differences between the two dates as a string.
      */
     public static <D extends java.util.Date> String difference(D from, int days) {
         return difference(from, addDay(from, days));
@@ -1126,7 +1128,7 @@ public class DateUtility {
     }
 
     /**
-     * Converts a given date to Greenwich Mean Time (GMT) based on the provided time zone.
+     * Converts a given date to Greenwich Meantime (GMT) based on the provided time zone.
      *
      * @param date the date to be converted to GMT
      * @param fromTimeZone the time zone of the given date, represented as a string
@@ -1153,7 +1155,7 @@ public class DateUtility {
      * @param date The date to convert.
      * @param fromZoneId The zoneId of the date to convert from.
      * @param <D> The type of the date.
-     * @return The converted date in GMT timezone.
+     * @return The converted date in the GMT timezone.
      */
     public static <D extends java.util.Date> D toGMT(D date, ZoneId fromZoneId) {
         return toGMT(date, fromZoneId == null ? null : fromZoneId.getRules().getOffset(localTime(date)));
