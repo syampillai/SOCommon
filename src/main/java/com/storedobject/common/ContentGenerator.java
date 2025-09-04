@@ -45,7 +45,8 @@ public interface ContentGenerator {
 
     Map<String,String> ext = new HashMap<>();
 
-    static Map<String, String> extensionMap() {
+    @SuppressWarnings("SameReturnValue")
+    private static Map<String, String> extensionMap() {
         if(!ext.isEmpty()) {
             return ext;
         }
@@ -57,6 +58,9 @@ public interface ContentGenerator {
     }
 
     static String getFileExtension(String type) {
+        if(type == null) {
+            return "bin";
+        }
         if(type.startsWith("l:")) {
             type = type.substring(2);
         }

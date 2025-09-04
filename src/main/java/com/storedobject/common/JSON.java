@@ -120,21 +120,25 @@ public class JSON {
             object = EMPTY_STRING;
         }
         try {
-            if(object instanceof String s) {
-                set(new StringReader(s));
-                return;
-            }
-            if (object instanceof InputStream stream) {
-                set(IO.getReader(stream));
-                return;
-            }
-            if (object instanceof Reader reader) {
-                set(reader);
-                return;
-            }
-            if(object instanceof URL url) {
-                set(url);
-                return;
+            switch (object) {
+                case String s -> {
+                    set(new StringReader(s));
+                    return;
+                }
+                case InputStream stream -> {
+                    set(IO.getReader(stream));
+                    return;
+                }
+                case Reader reader -> {
+                    set(reader);
+                    return;
+                }
+                case URL url -> {
+                    set(url);
+                    return;
+                }
+                default -> {
+                }
             }
         } catch (Exception e) {
             throw new SORuntimeException(e);
@@ -577,7 +581,7 @@ public class JSON {
      * without any special processing. Example of a JSS is: { person: { name: 'Syam Pillai', age: 25 } }
      *
      * @param jss JSS string.
-     * @return A JSON compatible string.
+     * @return A JSON-compatible string.
      */
     public static String parseJSS(String jss) {
         if(jss != null) {

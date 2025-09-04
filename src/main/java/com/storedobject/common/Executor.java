@@ -30,6 +30,9 @@ public class Executor {
 
     private static final java.util.concurrent.ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
+    private Executor() {
+    }
+
     /**
      * Submit a command for execution.
      *
