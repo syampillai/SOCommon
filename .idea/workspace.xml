@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Updated the project version to 6.0.4&#10;&#10;Improved comments. DateUtility class uses 24-hour formats by default. StringUtility class's toString(Object) method correctly handles timestamps.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ProxyFactory.java" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.0.5 and introduce ProxyFactory utility&#10;&#10;Bumped the version from 6.0.4 to 6.0.5 in pom.xml and README.md. Added a new `ProxyFactory` class for dynamic proxy creation with enhanced classloader handling. Improved JSON object handling by switching to a `switch-case` structure. Refined `Executor`, `ContentGenerator`, and `.idea/workspace.xml` for better code and configuration clarity.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Executor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Executor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CSV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CSV.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,8 +110,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
       </set>
     </attachedChunks>
   </component>
@@ -231,15 +226,10 @@
       <workItem from="1755934329531" duration="12000" />
       <workItem from="1756008118769" duration="257000" />
       <workItem from="1756623861525" duration="182000" />
-      <workItem from="1756963022968" duration="3241000" />
-    </task>
-    <task id="LOCAL-00028" summary="Version updated to 4.5.11&#10;&#10;Compiled with Java 17.&#10;New method: StyledBuilder.setValue(Object object)">
-      <option name="closed" value="true" />
-      <created>1706457197195</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1706457197195</updated>
+      <workItem from="1756963022968" duration="3342000" />
+      <workItem from="1756971804897" duration="16000" />
+      <workItem from="1757564121914" duration="90000" />
+      <workItem from="1760202859479" duration="548000" />
     </task>
     <task id="LOCAL-00029" summary="Version updated to 4.5.12&#10;&#10;Compiled with Java 17.&#10;New methods in DateUtility">
       <option name="closed" value="true" />
@@ -625,14 +615,21 @@
       <option name="project" value="LOCAL" />
       <updated>1754565716225</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="Update the project version to 6.0.5 and introduce ProxyFactory utility&#10;&#10;Bumped the version from 6.0.4 to 6.0.5 in pom.xml and README.md. Added a new `ProxyFactory` class for dynamic proxy creation with enhanced classloader handling. Improved JSON object handling by switching to a `switch-case` structure. Refined `Executor`, `ContentGenerator`, and `.idea/workspace.xml` for better code and configuration clarity.">
+      <option name="closed" value="true" />
+      <created>1756971719217</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1756971719217</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add comprehensive comments in XML.java and update project version&#10;&#10;Added detailed Javadoc comments to almost all methods in XML.java to improve the code's readability and maintainability. Also, the project version was updated from 4.7.8 to 4.7.9 in the pom.xml file." />
     <MESSAGE value="Update project version and enhance JavaDoc in StringList&#10;&#10;The project version has been incremented in the pom.xml file, from 4.7.9 to 4.7.10. Moreover, new comprehensive JavaDoc comments were added and minor refactorings were made in StringList to improve code readability and maintainability." />
     <MESSAGE value="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml." />
     <MESSAGE value="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking." />
@@ -657,6 +654,7 @@
     <MESSAGE value="Update the project version to 6.0.3 and refine configurations&#10;&#10;Bumped the project version from 6.0.2 to 6.0.3 in pom.xml. Improved code clarity by fixing comments, trimming XML node logic, and refining JavaDocs. Cleaned up `.idea/workspace.xml` by removing obsolete tasks and dependencies to streamline the development setup." />
     <MESSAGE value="Update the project version to 6.0.4 and improve documentation&#10;&#10;Bumped the project version from 6.0.3 to 6.0.4 in pom.xml and README.md. Enhanced comments, fixed typos, and improved JavaDocs for better clarity. Refined `.idea/workspace.xml` by removing obsolete entries and updating index configurations." />
     <MESSAGE value="Updated the project version to 6.0.4&#10;&#10;Improved comments. DateUtility class uses 24-hour formats by default. StringUtility class's toString(Object) method correctly handles timestamps." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the project version to 6.0.4&#10;&#10;Improved comments. DateUtility class uses 24-hour formats by default. StringUtility class's toString(Object) method correctly handles timestamps." />
+    <MESSAGE value="Update the project version to 6.0.5 and introduce ProxyFactory utility&#10;&#10;Bumped the version from 6.0.4 to 6.0.5 in pom.xml and README.md. Added a new `ProxyFactory` class for dynamic proxy creation with enhanced classloader handling. Improved JSON object handling by switching to a `switch-case` structure. Refined `Executor`, `ContentGenerator`, and `.idea/workspace.xml` for better code and configuration clarity." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.0.5 and introduce ProxyFactory utility&#10;&#10;Bumped the version from 6.0.4 to 6.0.5 in pom.xml and README.md. Added a new `ProxyFactory` class for dynamic proxy creation with enhanced classloader handling. Improved JSON object handling by switching to a `switch-case` structure. Refined `Executor`, `ContentGenerator`, and `.idea/workspace.xml` for better code and configuration clarity." />
   </component>
 </project>

@@ -28,9 +28,15 @@ import java.util.function.Function;
  */
 public abstract class CSV implements TextContentGenerator {
 
-    private final String[] columns;
+    private String[] columns;
     private Function<Object, String> converter;
     private Writer writer;
+
+    /**
+     * Constructor.
+     */
+    public CSV() {
+    }
 
     /**
      * Constructor.
@@ -38,6 +44,25 @@ public abstract class CSV implements TextContentGenerator {
      * @param columnCount Number of columns.
      */
     public CSV(int columnCount) {
+        setColumnCount(columnCount);
+    }
+
+    /**
+     * Sets the number of columns to be used for the CSV content.
+     * The column count must be set before the writer is initialized.
+     * Additionally, the column count must be a positive integer.
+     *
+     * @param columnCount The number of columns to be set. Must be 1 or greater.
+     * @throws SORuntimeException If the column count is set after the writer is initialized
+     *                             or if an invalid column count (less than 1) is specified.
+     */
+    public void setColumnCount(int columnCount) {
+        if(writer != null) {
+            throw new SORuntimeException("Column count must be set before the writer is set");
+        }
+        if(columnCount < 1) {
+            throw new SORuntimeException("Invalid column count: " + columnCount);
+        }
         columns = new String[columnCount];
         Arrays.fill(columns, "");
     }
