@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.0.6 and enhance CSV class&#10;&#10;Bumped the version from 6.0.5 to 6.0.6 in pom.xml. Added a new constructor and a `setColumnCount` method in the `CSV` class, with improved error handling and flexibility in initializing columns. Updated `.idea/workspace.xml` to reflect recent changes and tasks.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.0.7 and implement AutoCloseable in InputOutputStream&#10;&#10;Bumped the version from 6.0.6 to 6.0.7 in pom.xml and README.md. Refactored `InputOutputStream` to implement `AutoCloseable` and added a `close()` method for resource management. Updated `.idea/workspace.xml` with recent changes and tasks.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/InputOutputStream.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,14 +235,8 @@
       <workItem from="1760203594080" duration="53000" />
       <workItem from="1760204552619" duration="114000" />
       <workItem from="1760204690313" duration="50000" />
-    </task>
-    <task id="LOCAL-00031" summary="Version updated to 4.5.12&#10;&#10;Compiled with Java 17.&#10;New methods in DateUtility">
-      <option name="closed" value="true" />
-      <created>1708689913177</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1708689913177</updated>
+      <workItem from="1760326825081" duration="269000" />
+      <workItem from="1760345003429" duration="4016000" />
     </task>
     <task id="LOCAL-00032" summary="Version updated to 4.6.0&#10;&#10;Compiled with Java 17.&#10;New class: DaemonThread">
       <option name="closed" value="true" />
@@ -625,14 +622,21 @@
       <option name="project" value="LOCAL" />
       <updated>1760203629279</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="Update the project version to 6.0.7 and implement AutoCloseable in InputOutputStream&#10;&#10;Bumped the version from 6.0.6 to 6.0.7 in pom.xml and README.md. Refactored `InputOutputStream` to implement `AutoCloseable` and added a `close()` method for resource management. Updated `.idea/workspace.xml` with recent changes and tasks.">
+      <option name="closed" value="true" />
+      <created>1760327054902</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1760327054902</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml." />
     <MESSAGE value="Update version to 4.8.0 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.0. Refactored InputOutputStream and added GMT conversion methods in DateUtility. Enhanced workspace.xml with detailed change tracking." />
     <MESSAGE value="Update version to 4.8.1 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.1. Refactored InputOutputStream and made GMT conversion methods in DateUtility static. Enhanced workspace.xml with detailed change tracking." />
     <MESSAGE value="4.8.2&#10;Dependency update." />
@@ -657,6 +661,7 @@
     <MESSAGE value="Updated the project version to 6.0.4&#10;&#10;Improved comments. DateUtility class uses 24-hour formats by default. StringUtility class's toString(Object) method correctly handles timestamps." />
     <MESSAGE value="Update the project version to 6.0.5 and introduce ProxyFactory utility&#10;&#10;Bumped the version from 6.0.4 to 6.0.5 in pom.xml and README.md. Added a new `ProxyFactory` class for dynamic proxy creation with enhanced classloader handling. Improved JSON object handling by switching to a `switch-case` structure. Refined `Executor`, `ContentGenerator`, and `.idea/workspace.xml` for better code and configuration clarity." />
     <MESSAGE value="Update the project version to 6.0.6 and enhance CSV class&#10;&#10;Bumped the version from 6.0.5 to 6.0.6 in pom.xml. Added a new constructor and a `setColumnCount` method in the `CSV` class, with improved error handling and flexibility in initializing columns. Updated `.idea/workspace.xml` to reflect recent changes and tasks." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.0.6 and enhance CSV class&#10;&#10;Bumped the version from 6.0.5 to 6.0.6 in pom.xml. Added a new constructor and a `setColumnCount` method in the `CSV` class, with improved error handling and flexibility in initializing columns. Updated `.idea/workspace.xml` to reflect recent changes and tasks." />
+    <MESSAGE value="Update the project version to 6.0.7 and implement AutoCloseable in InputOutputStream&#10;&#10;Bumped the version from 6.0.6 to 6.0.7 in pom.xml and README.md. Refactored `InputOutputStream` to implement `AutoCloseable` and added a `close()` method for resource management. Updated `.idea/workspace.xml` with recent changes and tasks." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.0.7 and implement AutoCloseable in InputOutputStream&#10;&#10;Bumped the version from 6.0.6 to 6.0.7 in pom.xml and README.md. Refactored `InputOutputStream` to implement `AutoCloseable` and added a `close()` method for resource management. Updated `.idea/workspace.xml` with recent changes and tasks." />
   </component>
 </project>

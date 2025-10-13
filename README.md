@@ -18,7 +18,7 @@ get some free time.
 <dependency>
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
-    <version>6.0.7</version>
+    <version>6.0.8</version>
 </dependency>
 ```
 

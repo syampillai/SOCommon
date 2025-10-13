@@ -35,6 +35,7 @@ public class InputOutputStream implements AutoCloseable {
     private IStream reader;
     private OStream writer;
     private boolean reusable;
+    private Runnable dataListener;
 
     /**
      * Constructor with a default buffer size of 8K.
@@ -117,6 +118,17 @@ public class InputOutputStream implements AutoCloseable {
         reader.external = e;
     }
 
+    /**
+     * Sets a listener that will be executed when specific data-related events occur.
+     * This method allows you to register a {@link Runnable} that will be triggered
+     * during data handling processes, enabling custom logic to be integrated.
+     *
+     * @param dataListener The {@link Runnable} to be executed as the data listener.
+     */
+    public void setDataListener(Runnable dataListener) {
+        this.dataListener = dataListener;
+    }
+
     private class IStream extends InputStream {
 
         private Exception external;
@@ -190,6 +202,9 @@ public class InputOutputStream implements AutoCloseable {
                     if (rEOF) {
                         throw new IOException("No consumer");
                     }
+                    if(dataListener != null) { // Someone wants to know about the data availability. We are full!
+                        dataListener.run();
+                    }
                     try {
                         buffer.wait(5000); // Wait upto 5 seconds or until notified
                     } catch (InterruptedException ignored) {
@@ -203,6 +218,9 @@ public class InputOutputStream implements AutoCloseable {
                     wPointer = 0;
                 }
                 buffer.notify(); // Notify the reader
+                if (dataListener != null) { // Someone wants to know about the data availability
+                    dataListener.run();
+                }
             }
         }
 
