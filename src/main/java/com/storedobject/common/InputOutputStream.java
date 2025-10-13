@@ -26,7 +26,7 @@ import java.io.OutputStream;
  *
  * @author Syam
  */
-public class InputOutputStream {
+public class InputOutputStream implements AutoCloseable {
 
     private final byte[] buffer;
     private int wPointer = 0, rPointer = 0;
@@ -228,5 +228,12 @@ public class InputOutputStream {
                 }
             }
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        IO.close(reader, writer);
+        reader = null;
+        writer = null;
     }
 }
