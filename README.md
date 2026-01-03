@@ -18,16 +18,6 @@ get some free time.
 <dependency>
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
-    <version>6.0.8</version>
+    <version>6.1.0</version>
 </dependency>
-```
-
-Make sure that you have included this in your POM:
-```xml
-  <repositories>
-    <repository>
-        <id>so-maven</id>
-        <url>https://storedobject.com/maven</url>
-    </repository>
-</repositories>
 ```

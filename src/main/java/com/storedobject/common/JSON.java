@@ -16,13 +16,16 @@
 
 package com.storedobject.common;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JacksonModule;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -41,22 +44,28 @@ public class JSON {
      * Type of JSON values.
      */
     public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
-    private static final ObjectMapper mapper = new ObjectMapper();
-    static {
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(BigDecimal.class, new JsonSerializer<>() {
-            @Override
-            public void serialize(BigDecimal value, JsonGenerator gen, SerializerProvider serializers)
-                    throws IOException {
-                gen.writeRawValue(value.toPlainString());
-            }
-        });
-        mapper.registerModule(module);
+    private static class BigDecimalSerializer extends StdSerializer<BigDecimal> {
+        public BigDecimalSerializer() {
+            super(BigDecimal.class);
+        }
+
+        @Override
+        public void serialize(BigDecimal value, JsonGenerator gen, SerializationContext provider) throws JacksonException {
+            gen.writeRawValue(value.toPlainString());
+        }
     }
+
+    private static final JsonMapper mapper = JsonMapper.builder().addModule(module()).build();
     private static final JSON EMPTY = new JSON();
     private static final String EMPTY_STRING = "\"\"";
 
     private JsonNode value = null;
+
+    private static JacksonModule module() {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(BigDecimal.class, new BigDecimalSerializer());
+        return module;
+    }
 
     /**
      * Construct an empty JSON.
@@ -158,9 +167,8 @@ public class JSON {
      * Set from a stream.
      *
      * @param stream JSON to set from this stream.
-     * @throws IOException If any exception happens while parsing.
      */
-    private void set(InputStream stream) throws IOException {
+    private void set(InputStream stream) {
         if(stream == null) {
             set(EMPTY_STRING);
             return;
@@ -172,9 +180,8 @@ public class JSON {
      * Set from a Reader.
      *
      * @param reader JSON to set from this Reader.
-     * @throws IOException If any exception happens while parsing.
      */
-    private void set(Reader reader) throws IOException {
+    private void set(Reader reader) {
         value = mapper.readTree(reader);
         IO.close(reader);
     }
@@ -196,7 +203,7 @@ public class JSON {
      * @return Keys as a List.
      */
     public List<String> keys() {
-        return value == null ? new ArrayList<>() : ListUtility.list(value.fieldNames());
+        return value == null ? new ArrayList<>() : ListUtility.list(value.propertyNames());
     }
 
     /**
@@ -208,7 +215,7 @@ public class JSON {
         if(value == null) {
             return Type.NULL;
         }
-        if(value.isTextual()) {
+        if(value.isString()) {
             return Type.STRING;
         }
         if(value.isNumber()) {
@@ -230,7 +237,7 @@ public class JSON {
      * @return The value.
      */
     public String getString() {
-        return value == null || !value.isTextual() ? null : value.textValue();
+        return value == null || !value.isString() ? null : value.stringValue();
     }
 
     /**

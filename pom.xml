@@ -7,21 +7,27 @@
     <parent>
         <groupId>com.storedobject</groupId>
         <artifactId>so-pom21</artifactId>
-        <version>1.1.8</version>
+        <version>1.1.11</version>
     </parent>
 
     <properties>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <so-name>SOCommon</so-name>
     </properties>
 
     <artifactId>so-common</artifactId>
-    <version>6.0.8</version>
+    <version>6.1.0</version>
     <packaging>jar</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>SO Common</name>
     <description>SO Common utility classes</description>
-    <url>https://github.com/syampillai/SOCommon</url>
+    <url>https://github.com/syampillai/${so-name}</url>
+
+    <scm>
+        <connection>scm:git:https://github.com/syampillai/${so-name}.git</connection>
+        <developerConnection>scm:git:https://github.com/syampillai/${so-name}.git</developerConnection>
+        <url>https://github.com/syampillai/${so-name}</url>
+        <tag>v${project.version}</tag>
+    </scm>
 
     <licenses>
         <license>
@@ -40,39 +46,32 @@
         </developer>
     </developers>
 
-    <repositories>
-        <repository>
-            <id>so-maven</id>
-            <url>https://storedobject.com/maven</url>
-        </repository>
-    </repositories>
-
     <dependencies>
 
         <!-- Jackson library for JSON -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.2</version>
+            <version>3.0.3</version>
         </dependency>
 
         <!-- For barcodes -->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
-            <version>3.5.3</version>
+            <version>3.5.4</version>
         </dependency>
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
-            <version>3.5.3</version>
+            <version>3.5.4</version>
         </dependency>
 
         <!-- Annotations -->
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>4.9.8</version>
             <scope>provided</scope>
         </dependency>
 
