@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.0.8 and enhance InputOutputStream&#10;&#10;Bumped the version from 6.0.7 to 6.0.8 in pom.xml and README.md. Added a `setDataListener` method in `InputOutputStream` to enable custom logic for data-related events. Updated `.idea/workspace.xml` to reflect recent changes and tasks.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`.">
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,15 +243,7 @@
       <workItem from="1767355118164" duration="226000" />
       <workItem from="1767355397731" duration="1293000" />
       <workItem from="1767357865517" duration="52000" />
-      <workItem from="1767423510412" duration="3450000" />
-    </task>
-    <task id="LOCAL-00033" summary="Update version to 4.7.0, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity.">
-      <option name="closed" value="true" />
-      <created>1713375585016</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1713375585016</updated>
+      <workItem from="1767423510412" duration="3840000" />
     </task>
     <task id="LOCAL-00034" summary="Update version to 4.7.1, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity.">
       <option name="closed" value="true" />
@@ -640,14 +629,21 @@
       <option name="project" value="LOCAL" />
       <updated>1760361238142</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`.">
+      <option name="closed" value="true" />
+      <created>1767427009464</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1767427009465</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update version to 4.8.1 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.1. Refactored InputOutputStream and made GMT conversion methods in DateUtility static. Enhanced workspace.xml with detailed change tracking." />
     <MESSAGE value="4.8.2&#10;Dependency update." />
     <MESSAGE value="4.8.3&#10;Dependency update." />
     <MESSAGE value="4.8.4&#10;" />
@@ -672,6 +668,7 @@
     <MESSAGE value="Update the project version to 6.0.6 and enhance CSV class&#10;&#10;Bumped the version from 6.0.5 to 6.0.6 in pom.xml. Added a new constructor and a `setColumnCount` method in the `CSV` class, with improved error handling and flexibility in initializing columns. Updated `.idea/workspace.xml` to reflect recent changes and tasks." />
     <MESSAGE value="Update the project version to 6.0.7 and implement AutoCloseable in InputOutputStream&#10;&#10;Bumped the version from 6.0.6 to 6.0.7 in pom.xml and README.md. Refactored `InputOutputStream` to implement `AutoCloseable` and added a `close()` method for resource management. Updated `.idea/workspace.xml` with recent changes and tasks." />
     <MESSAGE value="Update the project version to 6.0.8 and enhance InputOutputStream&#10;&#10;Bumped the version from 6.0.7 to 6.0.8 in pom.xml and README.md. Added a `setDataListener` method in `InputOutputStream` to enable custom logic for data-related events. Updated `.idea/workspace.xml` to reflect recent changes and tasks." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.0.8 and enhance InputOutputStream&#10;&#10;Bumped the version from 6.0.7 to 6.0.8 in pom.xml and README.md. Added a `setDataListener` method in `InputOutputStream` to enable custom logic for data-related events. Updated `.idea/workspace.xml` to reflect recent changes and tasks." />
+    <MESSAGE value="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`." />
   </component>
 </project>
