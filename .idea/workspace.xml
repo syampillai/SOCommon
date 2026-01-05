@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes.">
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -250,14 +248,7 @@
       <workItem from="1767507054642" duration="65000" />
       <workItem from="1767511432888" duration="66000" />
       <workItem from="1767512818294" duration="25000" />
-    </task>
-    <task id="LOCAL-00036" summary="Update version to 4.7.2, add Fault class, and improve documentation&#10;&#10;This commit adds a new 'Fault' class to handle system faults and errors. Additionally, minor changes are made to enhance the documentation of the DateUtility.java file, including correcting typos and improving phrasing for clarity.">
-      <option name="closed" value="true" />
-      <created>1713384366438</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1713384366438</updated>
+      <workItem from="1767642614067" duration="1151000" />
     </task>
     <task id="LOCAL-00037" summary="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode) have been added to the USAddress class to return state name, state code, and ZIP Code respectively. This enriches the functionality offered by the USAddress class for address handling.">
       <option name="closed" value="true" />
@@ -643,14 +634,21 @@
       <option name="project" value="LOCAL" />
       <updated>1767427364749</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1767642678655</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1767642678656</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="4.8.2&#10;Dependency update." />
     <MESSAGE value="4.8.3&#10;Dependency update." />
     <MESSAGE value="4.8.4&#10;" />
     <MESSAGE value="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting." />
@@ -675,6 +673,7 @@
     <MESSAGE value="Update the project version to 6.0.7 and implement AutoCloseable in InputOutputStream&#10;&#10;Bumped the version from 6.0.6 to 6.0.7 in pom.xml and README.md. Refactored `InputOutputStream` to implement `AutoCloseable` and added a `close()` method for resource management. Updated `.idea/workspace.xml` with recent changes and tasks." />
     <MESSAGE value="Update the project version to 6.0.8 and enhance InputOutputStream&#10;&#10;Bumped the version from 6.0.7 to 6.0.8 in pom.xml and README.md. Added a `setDataListener` method in `InputOutputStream` to enable custom logic for data-related events. Updated `.idea/workspace.xml` to reflect recent changes and tasks." />
     <MESSAGE value="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`." />
+    <MESSAGE value="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes." />
   </component>
 </project>
