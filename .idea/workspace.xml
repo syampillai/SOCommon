@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.2 and refine address handling&#10;&#10;Bumped the version from 6.1.1 to 6.1.2 in pom.xml and README.md. Updated the spelling of &quot;Kerala&quot; to&quot;Keralam&quot; in `INAddress` and removed the unnecessary exception for blank post office names. Adjusted `.idea/workspace.xml` to reflect recent changes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/INAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/INAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,8 +121,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.31033.145" />
       </set>
     </attachedChunks>
   </component>
@@ -258,14 +259,9 @@
       <workItem from="1767709293539" duration="851000" />
       <workItem from="1771413680909" duration="1622000" />
       <workItem from="1772434528324" duration="95000" />
-    </task>
-    <task id="LOCAL-00039" summary="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality.">
-      <option name="closed" value="true" />
-      <created>1714067508188</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1714067508188</updated>
+      <workItem from="1773229561622" duration="517000" />
+      <workItem from="1773230288429" duration="4000" />
+      <workItem from="1773230512139" duration="404000" />
     </task>
     <task id="LOCAL-00040" summary="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality.">
       <option name="closed" value="true" />
@@ -651,14 +647,21 @@
       <option name="project" value="LOCAL" />
       <updated>1767643776346</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="Update the project version to 6.1.2 and refine address handling&#10;&#10;Bumped the version from 6.1.1 to 6.1.2 in pom.xml and README.md. Updated the spelling of &quot;Kerala&quot; to&quot;Keralam&quot; in `INAddress` and removed the unnecessary exception for blank post office names. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1773229839275</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1773229839276</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="4.8.3&#10;Dependency update." />
     <MESSAGE value="4.8.4&#10;" />
     <MESSAGE value="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting." />
     <MESSAGE value="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
@@ -683,6 +686,7 @@
     <MESSAGE value="Update the project version to 6.0.8 and enhance InputOutputStream&#10;&#10;Bumped the version from 6.0.7 to 6.0.8 in pom.xml and README.md. Added a `setDataListener` method in `InputOutputStream` to enable custom logic for data-related events. Updated `.idea/workspace.xml` to reflect recent changes and tasks." />
     <MESSAGE value="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`." />
     <MESSAGE value="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes." />
+    <MESSAGE value="Update the project version to 6.1.2 and refine address handling&#10;&#10;Bumped the version from 6.1.1 to 6.1.2 in pom.xml and README.md. Updated the spelling of &quot;Kerala&quot; to&quot;Keralam&quot; in `INAddress` and removed the unnecessary exception for blank post office names. Adjusted `.idea/workspace.xml` to reflect recent changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.2 and refine address handling&#10;&#10;Bumped the version from 6.1.1 to 6.1.2 in pom.xml and README.md. Updated the spelling of &quot;Kerala&quot; to&quot;Keralam&quot; in `INAddress` and removed the unnecessary exception for blank post office names. Adjusted `.idea/workspace.xml` to reflect recent changes." />
   </component>
 </project>
