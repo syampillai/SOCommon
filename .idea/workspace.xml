@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes.">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/INAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/INAddress.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +43,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -62,6 +67,7 @@
     &quot;Maven.so-common [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.so-common [deploy].executor&quot;: &quot;Run&quot;,
     &quot;Maven.so-common [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -114,8 +120,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
-        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.334" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
       </set>
     </attachedChunks>
   </component>
@@ -248,23 +254,10 @@
       <workItem from="1767507054642" duration="65000" />
       <workItem from="1767511432888" duration="66000" />
       <workItem from="1767512818294" duration="25000" />
-      <workItem from="1767642614067" duration="1151000" />
-    </task>
-    <task id="LOCAL-00037" summary="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode) have been added to the USAddress class to return state name, state code, and ZIP Code respectively. This enriches the functionality offered by the USAddress class for address handling.">
-      <option name="closed" value="true" />
-      <created>1713829091148</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1713829091148</updated>
-    </task>
-    <task id="LOCAL-00038" summary="Update version to 4.7.3 and enhance USAddress class&#10;&#10;The version number in the pom.xml file has been incremented to 4.7.3. In addition, new methods (getStateName, getStateCode, getZIPCode, getCity) have been added to the USAddress class to return state name, state code, ZIP Code, and city name respectively. This enriches the functionality offered by the USAddress class for address handling.">
-      <option name="closed" value="true" />
-      <created>1713829258502</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1713829258502</updated>
+      <workItem from="1767642614067" duration="1224000" />
+      <workItem from="1767709293539" duration="851000" />
+      <workItem from="1771413680909" duration="1622000" />
+      <workItem from="1772434528324" duration="95000" />
     </task>
     <task id="LOCAL-00039" summary="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality.">
       <option name="closed" value="true" />
@@ -642,7 +635,23 @@
       <option name="project" value="LOCAL" />
       <updated>1767642678656</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1767643769779</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1767643769779</updated>
+    </task>
+    <task id="LOCAL-00087" summary="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1767643776346</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1767643776346</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

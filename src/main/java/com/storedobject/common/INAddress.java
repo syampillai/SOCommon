@@ -32,7 +32,7 @@ public final class INAddress extends Address {
     private static final String[] states = new String[] {
             "Andra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattishgarh",
             "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
-            "Jammu & Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madya Pradesh", "Maharashtra",
+            "Jammu & Kashmir", "Jharkhand", "Karnataka", "Keralam", "Madya Pradesh", "Maharashtra",
             "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajastan",
             "Sikkim", "Tamilnadu", "Telengana", "Tripura", "Uttar Pradesh", "Uttarakhand",
             "West Bengal", "Andaman and Nicobar", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu",
@@ -245,9 +245,6 @@ public final class INAddress extends Address {
 
     @Override
     protected boolean parse() throws SOException {
-        if(StringUtility.isWhite(getPostOfficeName())) {
-            throw new SOException("Blank Post Office");
-        }
         lines[lines.length - POS_STATE] = match(lines[lines.length - POS_STATE], states);
         int state = getState();
         lines[lines.length - POS_DISTRICT] = match(lines[lines.length - POS_DISTRICT], districts[state]);
