@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.2 and refine address handling&#10;&#10;Bumped the version from 6.1.1 to 6.1.2 in pom.xml and README.md. Updated the spelling of &quot;Kerala&quot; to&quot;Keralam&quot; in `INAddress` and removed the unnecessary exception for blank post office names. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.3 and upgrade parent dependency&#10;&#10;Bumped the version from 6.1.2 to 6.1.3 in pom.xml and README.md. Updated the parent dependency version from 1.1.13 to 1.1.14. Adjusted `.idea/workspace.xml` to reflect recent changes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,15 +260,9 @@
       <workItem from="1772434528324" duration="95000" />
       <workItem from="1773229561622" duration="517000" />
       <workItem from="1773230288429" duration="4000" />
-      <workItem from="1773230512139" duration="404000" />
-    </task>
-    <task id="LOCAL-00040" summary="Upgrade version to 4.7.4 and refactor string utility method&#10;&#10;The application version has been upgraded to 4.7.4. Additionally, the string utility method to concatenate two strings has been refactored to now concatenate two string arrays, enhancing the method functionality.">
-      <option name="closed" value="true" />
-      <created>1714067842603</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1714067842603</updated>
+      <workItem from="1773230512139" duration="517000" />
+      <workItem from="1773231167182" duration="5000" />
+      <workItem from="1773482361478" duration="138000" />
     </task>
     <task id="LOCAL-00041" summary="Add configurable timeouts to HTTP and SOAP classes&#10;&#10;Timeout settings for HTTP and SOAP connections are now configurable. Two new methods have been added to each class to set the read and connection timeouts, while previously hard-coded values have been replaced. Project version has also been bumped to 4.7.5.">
       <option name="closed" value="true" />
@@ -655,14 +648,21 @@
       <option name="project" value="LOCAL" />
       <updated>1773229839276</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="Update the project version to 6.1.3 and upgrade parent dependency&#10;&#10;Bumped the version from 6.1.2 to 6.1.3 in pom.xml and README.md. Updated the parent dependency version from 1.1.13 to 1.1.14. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1773230930489</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1773230930489</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="4.8.4&#10;" />
     <MESSAGE value="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting." />
     <MESSAGE value="Upgrade Java version and update to version 5.0.0&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.0. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
     <MESSAGE value="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
@@ -687,6 +687,7 @@
     <MESSAGE value="Update the project version to 6.1.0 and refactor JSON handling&#10;&#10;Bumped the version from 6.0.8 to 6.1.0 in pom.xml and README.md. Refactored the `JSON` class to use `JsonMapper` and `JacksonModule` for improved serialization and modularity. Updated dependencies to the latest versions and cleaned up `.idea/workspace.xml`." />
     <MESSAGE value="Update the project version to 6.1.1 and refine dependency management&#10;&#10;Bumped the version from 6.1.0 to 6.1.1 in pom.xml and README.md. Updated `jackson-databind` to use `${jackson-version}` for consistency. Adjusted `.idea/workspace.xml` to reflect recent changes." />
     <MESSAGE value="Update the project version to 6.1.2 and refine address handling&#10;&#10;Bumped the version from 6.1.1 to 6.1.2 in pom.xml and README.md. Updated the spelling of &quot;Kerala&quot; to&quot;Keralam&quot; in `INAddress` and removed the unnecessary exception for blank post office names. Adjusted `.idea/workspace.xml` to reflect recent changes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.2 and refine address handling&#10;&#10;Bumped the version from 6.1.1 to 6.1.2 in pom.xml and README.md. Updated the spelling of &quot;Kerala&quot; to&quot;Keralam&quot; in `INAddress` and removed the unnecessary exception for blank post office names. Adjusted `.idea/workspace.xml` to reflect recent changes." />
+    <MESSAGE value="Update the project version to 6.1.3 and upgrade parent dependency&#10;&#10;Bumped the version from 6.1.2 to 6.1.3 in pom.xml and README.md. Updated the parent dependency version from 1.1.13 to 1.1.14. Adjusted `.idea/workspace.xml` to reflect recent changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.3 and upgrade parent dependency&#10;&#10;Bumped the version from 6.1.2 to 6.1.3 in pom.xml and README.md. Updated the parent dependency version from 1.1.13 to 1.1.14. Adjusted `.idea/workspace.xml` to reflect recent changes." />
   </component>
 </project>

@@ -32,6 +32,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.zip.GZIPInputStream;
@@ -65,7 +66,8 @@ public class HTTP2 {
     private static HttpClient.Builder newHHttpClientBuilder() {
         return HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
-                .followRedirects(HttpClient.Redirect.NORMAL);
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .executor(Executors.newVirtualThreadPerTaskExecutor());
     }
 
     private static InputStream stream(Builder b) throws Exception {
