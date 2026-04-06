@@ -21,6 +21,22 @@ package com.storedobject.common;
 * @author Syam
 **/
 public interface ContentSearch {
+
+    /**
+     * Searches for value(s) that match the specified string pattern.
+     *
+     * @param pattern the string pattern used to perform the search.
+     * @return an object representing the search result, or null if no match is found.
+     */
     Object search(String pattern);
+
+    /**
+     * Continues the search for a value that matches the specified string pattern,
+     * starting from the given object.
+     *
+     * @param pattern the string pattern used for the search.
+     * @param from the object from which to continue the search.
+     * @return an object representing the next search result, or null if no further match is found.
+     */
     Object searchNext(String pattern, Object from);
 }

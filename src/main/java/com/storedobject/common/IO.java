@@ -37,6 +37,8 @@ public class IO {
     private static final int MIN_BUFFER_SIZE = 2048;
     private static final int MAX_BUFFER_SIZE = 64 * 1024;
 
+    private IO() {}
+
     /**
      * Copy one stream to another. Both the streams will be closed.
      * @param input Source stream
@@ -84,6 +86,7 @@ public class IO {
      * Copy one stream to another
      * @param input Source stream
      * @param output Destination stream
+     * @param bufferSize Buffer size to use for copying
      * @param close Whether to close the streams or not
      * @throws IOException I/O exception
      */

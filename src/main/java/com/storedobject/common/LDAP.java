@@ -38,6 +38,14 @@ import javax.naming.ldap.StartTlsResponse;
 import javax.naming.ldap.StartTlsRequest;
 import javax.net.ssl.*;
 
+/**
+ * The {@code LDAP} class provides an interface for interacting with an LDAP server.
+ * It allows authentication, user information retrieval, and user management within an LDAP domain.
+ * This class is designed to establish a connection to the LDAP server, fetch user data, and
+ * modify user attributes such as passwords.
+ *
+ * @author Syam
+ */
 public class LDAP {
 
     private static final String USER_PRINCIPAL_NAME = "userPrincipalName";
@@ -68,15 +76,45 @@ public class LDAP {
             }
     };
 
+    /**
+     * Constructs an LDAP instance for connecting to an LDAP server using the specified credentials
+     * and domain name. This constructor assumes no specific server is provided.
+     *
+     * @param username the username for authentication.
+     * @param password the password for authentication.
+     * @param domainName the domain name of the LDAP server.
+     * @throws NamingException if an error occurs during the LDAP connection setup.
+     */
     public LDAP(String username, String password, String domainName) throws NamingException {
         this(username, password, domainName, null);
     }
 
+    /**
+     * Constructs an LDAP instance for connecting to an LDAP server using the specified credentials,
+     * domain name, and LDAP server address.
+     *
+     * @param username the username used for authentication.
+     * @param password the password associated with the username for authentication.
+     * @param domainName the domain name of the LDAP server.
+     * @param server the address of the LDAP server. If null, a default server is assumed based on
+     *               the domain name.
+     * @throws NamingException if an error occurs during the LDAP connection setup.
+     */
     public LDAP(String username, String password, String domainName, String server) throws NamingException {
         this.domainName = domainName;
         context = getConnection(username, password, server);
     }
 
+    /**
+     * Closes the LDAP connection and releases associated resources.
+     *
+     * This method checks if the internal LDAP context is initialized and, if so,
+     * attempts to close it. Any {@link NamingException} that occurs during closure
+     * is caught and ignored.
+     *
+     * Once the context is closed, the internal reference to it is nullified to
+     * prevent further usage.
+     */
     public void close() {
         if(context != null) {
             try {
@@ -108,6 +146,16 @@ public class LDAP {
         return new InitialLdapContext(props, null);
     }
 
+    /**
+     * Retrieves a user by their username. This method searches for the user in the LDAP directory
+     * based on the provided username and returns an instance of the {@link User} class if found.
+     *
+     * @param username the username of the user to retrieve. It may include a domain in the format
+     *                 "username@domain" or "domain\\username." If the domain is not provided,
+     *                 the domain from the current authenticated context or instance configuration is used.
+     * @return an instance of the {@link User} class representing the user if found, or {@code null}
+     *         if the user could not be found or an error occurred during the search.
+     */
     public User getUser(String username) {
         try{
             String domainName = null;
@@ -142,6 +190,19 @@ public class LDAP {
         return null;
     }
 
+    /**
+     * Retrieves a list of users from the LDAP directory based on the current authenticated
+     * user's domain. This method searches for users of the object class "user" within the
+     * LDAP directory under the domain derived from the authenticated user's principal.
+     *
+     * If the authenticated user's principal contains a domain (e.g., "username@domain"),
+     * the domain is extracted and used within the query. The search includes attributes
+     * defined by the `userAttributes` field of the containing class.
+     *
+     * @return an {@code ArrayList} of {@link User} instances representing users in the
+     *         LDAP directory, or {@code null} if an error occurs during authentication
+     *         or directory search.
+     */
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         String authenticatedUser;
@@ -190,34 +251,77 @@ public class LDAP {
         return buf.toString();
     }
 
+    /**
+     * Represents an LDAP user with attributes fetched from an LDAP directory.
+     * This class provides methods to access user properties, convert the user into a
+     * string representation, and allows password modification for the user.
+     *
+     * @author Syam
+     */
     public class User {
 
         private final String distinguishedName;
         private final String userPrincipal;
         private final String commonName;
 
+        /**
+         * Constructs a new User instance by extracting values from the provided Attributes object.
+         *
+         * @param attr the Attributes object containing user attributes, such as user principal name,
+         *             common name, and distinguished name. Must not be null, and must include the
+         *             required attributes.
+         * @throws NamingException if an error occurs while accessing attributes from the
+         *                                      provided Attributes object.
+         */
         public User(Attributes attr) throws javax.naming.NamingException {
             userPrincipal = (String) attr.get(USER_PRINCIPAL_NAME).get();
             commonName = (String) attr.get("cn").get();
             distinguishedName = (String) attr.get("distinguishedName").get();
         }
 
+        /**
+         * Retrieves the user principal name for this user.
+         *
+         * @return the user principal name as a String.
+         */
         public String getUserPrincipal(){
             return userPrincipal;
         }
 
+        /**
+         * Retrieves the common name of the user.
+         *
+         * @return the common name as a String.
+         */
         public String getCommonName(){
             return commonName;
         }
 
+        /**
+         * Retrieves the distinguished name of the user.
+         *
+         * @return the distinguished name as a String.
+         */
         public String getDistinguishedName(){
             return distinguishedName;
         }
 
+        @Override
         public String toString(){
             return getDistinguishedName();
         }
 
+        /**
+         * Updates the password for the user stored in the LDAP directory.
+         * This method attempts to change the user's password by first removing the
+         * old password and then adding the new password using LDAP modify operations.
+         * It establishes an SSL/TLS connection with the LDAP server during the process.
+         *
+         * @param oldPass the current password of the user. Must not be null or empty.
+         * @param newPass the new password to set for the user. Must meet the LDAP server's password policy.
+         * @throws Exception if an error occurs during the password change process,
+         *                   such as connection issues, SSL configuration errors, or password policy violations.
+         */
         public void changePassword(String oldPass, String newPass) throws Exception {
             String dn = getDistinguishedName();
             StartTlsResponse tls;

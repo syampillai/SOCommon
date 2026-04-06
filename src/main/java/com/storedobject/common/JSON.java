@@ -42,8 +42,43 @@ public class JSON {
 
     /**
      * Type of JSON values.
+     *
+     * @author Syam
      */
-    public enum Type { NULL, STRING, NUMBER, BOOLEAN, ARRAY, JSON }
+    public enum Type {
+        /**
+         * Represents the null value in JSON.
+         * This is used to signify the absence of a value or a null entry in a JSON object or array.
+         */
+        NULL,
+        /**
+         * Represents a JSON string value.
+         * Used to denote textual data encapsulated within double quotes in JSON.
+         */
+        STRING,
+        /**
+         * Represents a JSON numeric value.
+         * This is used to denote integers or floating-point numbers in JSON format.
+         */
+        NUMBER,
+        /**
+         * Represents a JSON boolean value.
+         * This is used to denote `true` or `false` values in JSON format.
+         */
+        BOOLEAN,
+        /**
+         * Represents a JSON array value.
+         * This is used to denote an ordered collection of JSON values,
+         * which could include objects, arrays, strings, numbers, booleans, or nulls.
+         */
+        ARRAY,
+        /**
+         * Represents a JSON object value.
+         * This is used to denote an unordered collection of key-value pairs where keys are strings and values can be
+         * other JSON types such as objects, arrays, strings, numbers, booleans, or nulls.
+         */
+        JSON
+    }
     private static class BigDecimalSerializer extends StdSerializer<BigDecimal> {
         public BigDecimalSerializer() {
             super(BigDecimal.class);
@@ -108,6 +143,7 @@ public class JSON {
      * read and processed.
      *
      * @param object JSON to construct from this Object.
+     * @return JSON instance constructed from the given object
      */
     public static JSON create(Object object) {
         return new JSON(object);

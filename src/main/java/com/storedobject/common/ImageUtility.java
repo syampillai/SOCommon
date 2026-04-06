@@ -26,6 +26,9 @@ import java.awt.image.BufferedImage;
  */
 public class ImageUtility {
 
+    private ImageUtility() {
+    }
+
     /**
      * Convert an image to a {@link BufferedImage}.
      *

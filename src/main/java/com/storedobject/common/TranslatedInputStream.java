@@ -29,7 +29,40 @@ import java.util.Objects;
 public abstract class TranslatedInputStream extends FilterInputStream {
 
     private final InputOutputStream inout;
+    /**
+     * The input stream containing the original data to be translated.
+     * This stream serves as the source for translation operations
+     * performed by the {@code translate()} method.
+     *
+     * <ul>
+     *   <li>It is provided as a parameter during the construction of the containing class.</li>
+     *   <li>Ensures the availability of unmodified input data before translation.</li>
+     *   <li>Typically wrapped by a {@link FilterInputStream} for further processing.</li>
+     * </ul>
+     *
+     * This field is declared as {@code protected} to allow access in
+     * subclasses and {@code final} to ensure its reference cannot be changed.
+     */
     protected final InputStream in;
+    /**
+     * The buffered output stream used to hold the translated output data.
+     * This stream serves as the target for translation operations performed
+     * by the {@code translate()} method.
+     *
+     * <ul>
+     *   <li>It is a {@code BufferedOutputStream} to optimize write operations.</li>
+     *   <li>The data written to this stream reflects the translated content
+     *       based on the original input stream {@code in}.</li>
+     *   <li>Declared as {@code protected} to allow subclasses to access this
+     *       stream for customized translation behavior.</li>
+     *   <li>Declared as {@code final} to ensure its reference cannot be modified
+     *       after initialization.</li>
+     * </ul>
+     *
+     * This field is initialized during the construction of the containing class
+     * and is automatically managed, being closed along with the associated input
+     * stream.
+     */
     protected final BufferedOutputStream out;
 
     /**

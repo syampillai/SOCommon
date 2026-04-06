@@ -63,6 +63,9 @@ public class HTTP2 {
             "Accept-Encoding", "gzip, deflate"
     );
 
+    private HTTP2() {
+    }
+
     private static HttpClient.Builder newHHttpClientBuilder() {
         return HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
@@ -155,6 +158,9 @@ public class HTTP2 {
         Consumer<Exception> exceptionHandler;
         HttpResponse<InputStream> response; // HTTP2 will set this just before reading the data
         HttpClient.Builder httpClientBuilder;
+
+        private Builder() {
+        }
 
         void error(Exception e) {
             if(error == null) {
@@ -346,7 +352,10 @@ public class HTTP2 {
         }
 
         /**
-         * Configures the builder to accept any media type by setting the "Accept" header to "*/
+         * Configures the Builder to accept any type of content.
+         *
+         * @return the updated Builder instance configured to accept all media types
+         */
         public Builder acceptAny() {
             return accept("*/*");
         }
@@ -518,6 +527,11 @@ public class HTTP2 {
             }
         }
 
+        /**
+         * Retrieves the exception associated with the current context.
+         *
+         * @return the Exception object representing the error, or null if no exception is present.
+         */
         public Exception getException() {
             return error;
         }

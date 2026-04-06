@@ -16,14 +16,42 @@
 
 package com.storedobject.common;
 
+/**
+ * Represents a functional interface that encapsulates a single action to be performed.
+ * This interface extends {@code Runnable}, allowing implementations to be used in
+ * contexts where a {@code Runnable} is expected.
+ *
+ * This interface provides a single abstract method {@code act()} that must be
+ * implemented to define the specific action. Additionally, default implementations
+ * of {@code run()} and {@code execute()} are provided, both of which delegate
+ * their behavior to the {@code act()} method.
+ *
+ * @author Syam
+ */
 @FunctionalInterface
 public interface Action extends Runnable {
 
+    /**
+     * Performs the specific action encapsulated by this method. This is the primary
+     * abstract method of the functional interface, and concrete implementations
+     * must provide its definition to specify the desired behavior.
+     */
     void act();
 
+    /**
+     * Executes the action defined by the {@code act()} method.
+     * This default implementation delegates to the {@code act()} method,
+     * allowing the behavior of {@code run()} to be customized by providing
+     * a concrete implementation of {@code act()}.
+     */
     default void run() {
         act();
     }
 
+    /**
+     * Executes the action defined by the {@code act()} method.
+     * This default implementation directly delegates its behavior to the {@code act()} method,
+     * ensuring that the action is executed consistently wherever this method is invoked.
+     */
     default void execute() { act(); }
 }

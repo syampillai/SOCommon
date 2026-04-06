@@ -18,11 +18,40 @@ package com.storedobject.common;
 
 import java.util.function.Consumer;
 
+/**
+ * A functional interface that represents an operation on a single input
+ * that might throw a checked exception of a specific type.
+ *
+ * This interface is designed for use with lambda expressions or method
+ * references when a checked exception needs to be handled.
+ *
+ * @param <T> the type of the input argument to the operation
+ * @param <E> the type of exception that the operation might throw
+ *
+ * @author Syam
+ */
 @FunctionalInterface
 public interface EConsumer<T, E extends Exception> {
 
+    /**
+     * Performs an operation on the given input argument, potentially
+     * throwing a checked exception of a specific type.
+     *
+     * @param t the input argument to the operation
+     * @throws E if the operation encounters an exception
+     */
     void accept(T t) throws E;
 
+    /**
+     * Wraps an {@link EConsumer} into a standard {@link Consumer}, converting
+     * any checked exceptions thrown by the supplied {@link EConsumer} into an
+     * unchecked {@link SORuntimeException}.
+     *
+     * @param <T> the type of the input to the operation
+     * @param <E> the type of the exception that the {@link EConsumer} might throw
+     * @param consumer the {@link EConsumer} to wrap
+     * @return a {@link Consumer} that wraps the provided {@link EConsumer} and handles exceptions
+     */
     static <T, E extends Exception> Consumer<T> wrap(EConsumer<T, E> consumer) {
         return arg -> {
             try {

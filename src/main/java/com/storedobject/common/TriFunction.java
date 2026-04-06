@@ -32,6 +32,8 @@ public interface TriFunction<T1, T2, T3, R> {
     * @param t1 First argument passed of type T1
     * @param t2 Second argument passed of type T2
     * @param t3 Third argument passed of type T3
+     *
+    * @return The result of the function application.
     **/
     R accept(T1 t1, T2 t2, T3 t3);
 }

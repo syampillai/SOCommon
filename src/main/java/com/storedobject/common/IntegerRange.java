@@ -16,12 +16,33 @@
 
 package com.storedobject.common;
 
+/**
+ * Represents a range of integer values with a start point ("from") and an end point ("to").
+ * This class extends the generic {@code Range<T>} class and provides implementations
+ * for integer-specific behavior of range manipulation.
+ *
+ * The class is designed to handle ranges of {@code Integer} objects and ensures that
+ * the values within the range are represented and compared appropriately as integers.
+ *
+ * @author Syam
+ */
 public class IntegerRange extends Range<Integer> {
 
+    /**
+     * Default constructor for the {@code IntegerRange} class.
+     * Initializes the range with a starting value of 0 and an ending value of 0,
+     * effectively representing an empty or zero-length range.
+     */
     public IntegerRange() {
         this(0, 0);
     }
 
+    /**
+     * Constructs an {@code IntegerRange} instance with the specified start and end values.
+     *
+     * @param from the starting value of the range; must be a non-null {@code Integer}
+     * @param to the ending value of the range; must be a non-null {@code Integer}
+     */
     public IntegerRange(Integer from, Integer to) {
         super(from, to);
     }

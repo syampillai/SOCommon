@@ -23,5 +23,11 @@ package com.storedobject.common;
  */
 @FunctionalInterface
 public interface HasName {
+
+    /**
+     * Retrieves the name associated with this object.
+     *
+     * @return the name as a String
+     */
     String getName();
 }

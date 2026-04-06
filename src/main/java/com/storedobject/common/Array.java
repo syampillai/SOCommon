@@ -87,6 +87,12 @@ public class Array<T> implements Loop<T>, List<T> {
         return toString(", ");
     }
 
+    /**
+     * Converts the elements of the array into a single {@code String} separated by the specified delimiter.
+     *
+     * @param delimiter the string used to separate each element in the resulting string representation
+     * @return a string representation of the array elements, separated by the specified delimiter
+     */
     public String toString(String delimiter) {
         return "(" + stream().map(StringUtility::toString).collect(Collectors.joining(delimiter)) + ")";
     }

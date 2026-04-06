@@ -18,14 +18,40 @@ package com.storedobject.common;
 
 import java.lang.reflect.Method;
 
+/**
+ * A class that implements the MethodInvoker functional interface to facilitate the invocation
+ * of specific methods from a given class.
+ *
+ * The class provides mechanisms to resolve and invoke methods based on naming conventions
+ * such as "get", "is", or direct method names. If the method cannot be found or any errors occur,
+ * the invocation defaults to a null operation.
+ *
+ * @author Syam
+ */
 public class SimpleMethodInvoker implements MethodInvoker {
 
     private Method method;
 
+    /**
+     * Constructs a SimpleMethodInvoker instance by associating it with the specified {@link Method}.
+     * This method will be used for invocation through the invoker instance.
+     *
+     * @param method the {@link Method} to be invoked. It must not be null.
+     */
     public SimpleMethodInvoker(Method method) {
         this.method = method;
     }
 
+    /**
+     * Constructs a SimpleMethodInvoker by attempting to resolve a method in the specified class
+     * using a series of naming conventions. It first tries to find a method prefixed with "get",
+     * then "is", and finally it attempts to locate a method with the exact provided name.
+     * If a matching method is found, it is used as the target for invocation; otherwise, the method field is set to null.
+     *
+     * @param objectClass the class from which the method will be resolved. It must not be null.
+     * @param name the base name of the method to resolve. This is expected to be the method name
+     *             without the "get" or "is" prefix, if applicable. Must not be null or empty.
+     */
     public SimpleMethodInvoker(Class<?> objectClass, String name) {
         try {
             method = objectClass.getMethod("get" + name, (Class<?>[])null);

@@ -18,11 +18,39 @@ package com.storedobject.common;
 
 import java.util.function.BiConsumer;
 
+/**
+ * Represents a two-argument operation that can throw a checked exception.
+ * This is a functional interface and is meant to be used as a lambda expression or method reference.
+ *
+ * @param <T1> the type of the first input argument to the operation
+ * @param <T2> the type of the second input argument to the operation
+ * @param <E> the type of the exception that may be thrown by the operation
+ *
+ * @author Syam
+ */
 @FunctionalInterface
 public interface EBiConsumer<T1, T2, E extends Exception> {
 
+    /**
+     * Performs this operation on the given arguments, possibly throwing a checked exception.
+     *
+     * @param t1 the first input argument
+     * @param t2 the second input argument
+     * @throws E if an exception occurs during the operation
+     */
     void accept(T1 t1, T2 t2) throws E;
 
+    /**
+     * Wraps an {@code EBiConsumer} into a standard {@code BiConsumer}, converting any checked exceptions thrown
+     * by the {@code EBiConsumer} into a {@code SORuntimeException}.
+     *
+     * @param <T1> the type of the first input argument to the operation
+     * @param <T2> the type of the second input argument to the operation
+     * @param <E> the type of the exception that may be thrown by the {@code EBiConsumer}
+     * @param consumer the {@code EBiConsumer} to be wrapped
+     * @return a {@code BiConsumer} that delegates to the given {@code EBiConsumer} and wraps thrown
+     *         checked exceptions as {@code SORuntimeException}
+     */
     static <T1, T2, E extends Exception> BiConsumer<T1, T2> wrap(EBiConsumer<T1, T2, E> consumer) {
         return (arg1, arg2) -> {
             try {

@@ -33,7 +33,16 @@ public class SOAP {
      *
      * @author Syam
      */
-    public enum Version { V_1_1, V_1_2 }
+    public enum Version {
+        /**
+         * Represents the SOAP 1.1 version as defined in the SOAP protocol specifications.
+         */
+        V_1_1,
+        /**
+         * Represents the SOAP 1.2 version as defined in the SOAP protocol specifications.
+         */
+        V_1_2
+    }
 
     private static final String[] ENVELOPE_NS = new String[] {
             "http://schemas.xmlsoap.org/soap/envelope/",
@@ -49,6 +58,7 @@ public class SOAP {
      * Constructor.
      *
      * @param serviceURL Service URL.
+     * @throws MalformedURLException If the service URL is invalid.
      */
     public SOAP(String serviceURL) throws MalformedURLException {
         this(serviceURL, null);
@@ -59,6 +69,7 @@ public class SOAP {
      *
      * @param serviceURL Service URL.
      * @param actionSOAP SOAP action.
+     * @throws MalformedURLException If the SOAP action is invalid.
      */
     public SOAP(String serviceURL, String actionSOAP) throws MalformedURLException {
         this.actionSOAP = actionSOAP == null ? "" : actionSOAP;
@@ -136,16 +147,19 @@ public class SOAP {
      * @param xpath Path. Note: If Body elements don't have a prefix, use "b:" as the prefix.
      *
      * @return Node within the SOAP Body.
+     * @throws Exception If any error occurs.
      */
     public Node getNode(String xpath) throws Exception {
         return getXML().getNode(getBody(), xpath);
     }
 
     /**
-     * Set a text value to the given path in the body.
+     * Sets the text value of a node in the SOAP XML, identified by the specified XPath.
      *
-     * @param xpath Path. Note: If Body elements don't have a prefix, use "b:" as the prefix.
-     * @return True if the value was successfully set. Otherwise, false.
+     * @param xpath The XPath expression to locate the node within the SOAP XML.
+     * @param value The text value to set for the located node.
+     * @return True if the value was successfully set; false otherwise.
+     * @throws Exception If an error occurs while processing the SOAP XML or locating the node.
      */
     public boolean setText(String xpath, String value) throws Exception {
         return getXML().setText(getNode(xpath), value);
@@ -193,7 +207,7 @@ public class SOAP {
      * @param node Node.
      * @param xpath Path. Note: If Body elements don't have a prefix, use "b:" as the prefix.
      * @return Value.
-     * @throws Exception If any error occurs.
+     * @throws Exception If any error occurs during the operation.
      */
     public boolean check(Node node, String xpath) throws Exception {
         return getXML().check(getBody(), xpath);
@@ -203,6 +217,7 @@ public class SOAP {
      * Get the SOAP Header node.
      *
      * @return Header node.
+     * @throws Exception If any error occurs.
      */
     public Node getHeader() throws Exception {
         return getNodeInt("Header");
@@ -212,6 +227,7 @@ public class SOAP {
      * Get the SOAP Body node.
      *
      * @return Body node.
+     * @throws Exception If any error occurs.
      */
     public Node getBody() throws Exception {
         return getNodeInt("Body");
@@ -221,6 +237,7 @@ public class SOAP {
      * Get the SOAP Fault node (Available when response is received).
      *
      * @return Fault node. Null is returned if no Fault node exists.
+     * @throws Exception If any error occurs.
      */
     public Node getFault() throws Exception {
         return getNodeInt("Body/" + prefixSOAP + ":Fault");

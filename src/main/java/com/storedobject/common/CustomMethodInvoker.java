@@ -16,15 +16,34 @@
 
 package com.storedobject.common;
 
+/**
+ * An abstract base class that provides a customizable method invocation framework
+ * with support for caching the return type of the invoked method and handling
+ * attribute name assignment. This class implements the {@link MethodInvoker} interface
+ * and provides additional capabilities while delegating core behaviors to the interface.
+ *
+ * @author Syam
+ */
 public abstract class CustomMethodInvoker implements MethodInvoker {
 
     private final String attributeName;
     private Class<?> type = null;
 
+    /**
+     * Default constructor for the CustomMethodInvoker class.
+     * Initializes a new instance with a null attribute name.
+     * This constructor delegates to the parameterized constructor to ensure a consistent initialization process.
+     */
     public CustomMethodInvoker() {
         this(null);
     }
 
+    /**
+     * Constructs a new instance of CustomMethodInvoker with the specified attribute name.
+     *
+     * @param attributeName the name of the attribute to be associated with the method invoker,
+     *                      or null if no attribute name is specified.
+     */
     public CustomMethodInvoker(String attributeName) {
         this.attributeName = attributeName;
     }

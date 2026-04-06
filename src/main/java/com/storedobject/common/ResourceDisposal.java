@@ -38,6 +38,8 @@ public final class ResourceDisposal {
     private static boolean debug;
     private static Cleaner cleaner;
 
+    private ResourceDisposal() {}
+
     /**
      * Register me so that my resource will get closed automatically when I am garbage collected.
      *

@@ -28,6 +28,13 @@ public class ErrorText extends HTMLText {
     private Throwable error;
 
     /**
+     * Default constructor for the {@code ErrorText} class.
+     * This constructor initializes an instance of {@code ErrorText} without any predefined error object or error state.
+     */
+    public ErrorText() {
+    }
+
+    /**
      * Sets the error object associated with this instance. If an error object is already
      * set, this method will not overwrite it.
      *

@@ -16,12 +16,30 @@
 
 package com.storedobject.common;
 
+/**
+ * Represents a range of long values, defined by a starting (inclusive) and ending (inclusive) boundary.
+ * This class extends the generic {@code Range<Long>} and provides specific implementations
+ * for behavior associated with long numeric values.
+ *
+ * @author Syam
+ */
 public class LongRange extends Range<Long> {
 
+    /**
+     * Default constructor for the {@code LongRange} class.
+     * Initializes the range with a starting and ending boundary of 0.
+     * This represents an empty range where both boundaries are the same.
+     */
     public LongRange() {
         this(0L, 0L);
     }
 
+    /**
+     * Constructs a {@code LongRange} instance with the specified starting and ending boundaries.
+     *
+     * @param from the starting value of the range (inclusive); must be a non-null {@code Long}.
+     * @param to the ending value of the range (inclusive); must be a non-null {@code Long}.
+     */
     public LongRange(Long from, Long to) {
         super(from, to);
     }

@@ -32,6 +32,8 @@ import java.util.*;
  */
 public class StringUtility {
 
+    private StringUtility() {}
+
     /**
      * Convert a string to camelcase.
      * @param text Text to convert.
@@ -1676,10 +1678,27 @@ public class StringUtility {
         return p[n];
     }
 
+    /**
+     * Converts an integer value into a string representation using the provided array of value labels.
+     * Each bit in the integer value is matched with a corresponding label in the array.
+     *
+     * @param value       The integer value whose bits are to be interpreted.
+     * @param valueLabels An array of strings representing the labels for each bit position.
+     * @return A string that represents the bit values mapped to the corresponding labels.
+     */
     public static String bitsValue(int value, String[] valueLabels) {
         return bitsValue(value, StringList.create(valueLabels));
     }
 
+    /**
+     * Converts the bits in the given integer value into a comma-separated string
+     * based on the corresponding labels in the provided list.
+     *
+     * @param value the integer whose bits are to be processed
+     * @param valueLabels the list of labels corresponding to the bit positions
+     * @return a comma-separated string representing the labels for the set bits
+     *         in the integer value, in order of the bit positions
+     */
     public static String bitsValue(int value, StringList valueLabels) {
         StringBuilder sb = new StringBuilder();
         int i = 0;
@@ -1696,9 +1715,22 @@ public class StringUtility {
         return sb.toString();
     }
 
+    /**
+     * A specialized implementation of {@code ArrayList<String>} that initializes
+     * its elements based on an input array of strings.
+     *
+     * @author Syam
+     */
     @SuppressWarnings("serial")
     public static class List extends ArrayList<String> {
 
+        /**
+         * Constructs a new List object by initializing its elements with the strings
+         * from the provided array.
+         *
+         * @param array an array of strings used to populate the List; if null, the List
+         *              will remain empty
+         */
         public List(String[] array) {
             if(array == null) {
                 return;
@@ -1707,6 +1739,15 @@ public class StringUtility {
         }
     }
 
+    /**
+     * Compares two CharSequence objects for equality by checking if they have the same length
+     * and identical characters at each corresponding position.
+     *
+     * @param one the first CharSequence to compare
+     * @param two the second CharSequence to compare
+     * @return true if the two CharSequences are of the same length and have the same characters
+     *         at each position, false otherwise
+     */
     public static boolean same(CharSequence one, CharSequence two) {
         int len = one.length();
         if(len != two.length()) {
@@ -2178,14 +2219,34 @@ public class StringUtility {
         }
     }
 
+    /**
+     * Retrieves a string representation of the stack trace for the provided throwable.
+     *
+     * @param error the throwable object whose stack trace is to be retrieved
+     * @return the string representation of the stack trace
+     */
     public static String getTrace(Throwable error) {
         return SORuntimeException.getTrace(error);
     }
 
+    /**
+     * Retrieves the stack trace of the specified thread as a string.
+     *
+     * @param thread the thread whose stack trace is to be retrieved
+     * @return a string representation of the stack trace for the given thread
+     */
     public static String getTrace(Thread thread) {
         return SORuntimeException.getTrace(thread);
     }
 
+    /**
+     * Converts the provided object into its string representation. If the object
+     * implements the Displayable interface, its `toDisplay` method will be used
+     * to generate the string. Otherwise, a default string conversion is applied.
+     *
+     * @param message the object to be converted into a string representation
+     * @return the string representation of the provided object
+     */
     public static String toString(Object message) {
         if(message instanceof Displayable) {
             return ((Displayable)message).toDisplay();
@@ -2228,6 +2289,14 @@ public class StringUtility {
         return m == null ? ("[NULL value] of " + message.getClass()) : m;
     }
 
+    /**
+     * Converts the content of the given InputStream into a String.
+     *
+     * @param stream the InputStream to be converted; may be null.
+     * @return a String representation of the content of the InputStream,
+     *         or null if the provided InputStream is null.
+     * @throws Exception if an error occurs while reading the InputStream.
+     */
     public static String toString(InputStream stream) throws Exception {
         if(stream == null) {
             return null;
@@ -2235,6 +2304,15 @@ public class StringUtility {
         return toString(IO.getReader(stream));
     }
 
+    /**
+     * Converts the content of a {@code Reader} into a {@code String}.
+     *
+     * @param reader the {@code Reader} containing the input to be converted;
+     *               if {@code null}, the method will return {@code null}.
+     * @return a {@code String} representation of the content read from the provided {@code Reader},
+     *         or {@code null} if the input {@code Reader} is {@code null}.
+     * @throws Exception if there is an error while reading from the {@code Reader}.
+     */
     public static String toString(Reader reader) throws Exception {
         if(reader == null) {
             return null;
@@ -2310,6 +2388,17 @@ public class StringUtility {
         return f;
     }
 
+    /**
+     * Reads a single line of CSV (Comma-Separated Values) data from a BufferedReader
+     * and parses it into an array of strings. Handles multi-line fields enclosed
+     * in quotes and line continuations where necessary.
+     *
+     * @param reader The BufferedReader to read input from. Must not be null.
+     * @return An array of strings containing the parsed CSV fields, or null if the input line
+     *         is empty or null.
+     * @throws Exception If an error occurs during parsing or if a multi-line field is
+     *                   improperly terminated.
+     */
     public static String[] getCSV(BufferedReader reader) throws Exception {
         String line = reader.readLine();
         if(line == null || line.length() == 0) {
@@ -2419,10 +2508,26 @@ public class StringUtility {
         return s.toString();
     }
 
+    /**
+     * Adds the elements from the specified array to the given list.
+     *
+     * @param list the list to which elements should be added; must extend List of Strings
+     * @param items the array of strings to be added to the list
+     * @return the modified list containing the original elements and the new elements from the array
+     * @param <T> the type of the list
+     */
     public static <T extends java.util.List<String>> T collect(T list, String[] items) {
         return collect(list, StringList.create(items));
     }
 
+    /**
+     * Adds all elements from the specified StringList to the provided list and returns the updated list.
+     *
+     * @param list  the list to which elements will be added
+     * @param items the StringList containing elements to add to the list
+     * @return the updated list containing the added elements
+     * @param <T> the type of the list
+     */
     public static <T extends java.util.List<String>> T collect(T list, StringList items) {
         list.addAll(items);
         return list;

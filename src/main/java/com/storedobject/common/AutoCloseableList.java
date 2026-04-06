@@ -25,6 +25,12 @@ package com.storedobject.common;
 public class AutoCloseableList extends ArrayList<AutoCloseable> implements AutoCloseable {
 
     /**
+     * Constructor.
+     */
+    public AutoCloseableList() {
+    }
+
+    /**
      * Close all elements in this list. Any {@link Exception} thrown while closing any of its element will be ignored.
      */
     @Override

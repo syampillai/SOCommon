@@ -25,6 +25,9 @@ import java.math.BigInteger;
  */
 public class IBAN {
 
+    private IBAN() {
+    }
+
     private static final BigInteger NINETY_SEVEN = new BigInteger("97");
     private static final BigInteger HUNDRED = new BigInteger("100");
 

@@ -23,9 +23,29 @@ package com.storedobject.common;
  */
 public class HTMLText implements StyledBuilder {
 
+    /**
+     * A flag indicating whether top-level HTML elements such as html, body, and
+     * `head are allowed while building HTML content.
+     *
+     * When set to `true`, top-level elements can be included in the content, which may introduce
+     * unexpected modifications to the surrounding HTML structure. By default, this is set to `false`
+     * to ensure that only valid inner HTML content is added without altering the top-level structure.
+     */
     public static boolean ALLOW_TOP_LEVEL = false;
     private static final String NEW_LINE = "<BR/>";
     private static final String space = "&nbsp;";
+    /**
+     * A {@link StringBuilder} instance that serves as the primary container for constructing
+     * and managing the internal content of this HTMLText object.
+     * This field is used to build and store the current state of the HTML content being generated.
+     *
+     * <ul>
+     * <li>The {@code value} is marked as {@code protected} to allow access within the class,
+     * subclasses, and classes in the same package.</li>
+     * <li>The {@code final} modifier ensures that the reference to the {@link StringBuilder}
+     * cannot be changed once it has been initialized, maintaining data consistency.</li>
+     * </ul>
+     */
     protected final StringBuilder value = new StringBuilder();
     private boolean newline = true;
 
@@ -214,10 +234,13 @@ public class HTMLText implements StyledBuilder {
     }
 
     /**
-     * Append valid HTML text. It should not contain any top-level elements such as html, body or head. Also, no
-     * scripts and style tags can be added.
+     * Appends the provided HTML string to the current content. If the HTML string contains top-level elements such as
+     * HTML, BODY, HEAD, SCRIPT, or STYLE, an exception will be thrown unless top-level HTML elements
+     * are explicitly allowed.
      *
-     * @return Self-reference is returned.
+     * @param html The HTML string to be appended.
+     * @return The current instance of HTMLText for method chaining.
+     * @throws SORuntimeException If the HTML contains top-level elements or prohibited tags and top-level HTML is not allowed.
      */
     public HTMLText appendHTML(String html) {
         String h = StringUtility.pack(html).toUpperCase();

@@ -25,5 +25,11 @@ import java.math.BigDecimal;
  */
 @FunctionalInterface
 public interface BigValue {
+
+    /**
+     * Retrieves the {@link BigDecimal} value stored in the implementing class.
+     *
+     * @return the stored {@link BigDecimal} value
+     */
     BigDecimal getValue();
 }

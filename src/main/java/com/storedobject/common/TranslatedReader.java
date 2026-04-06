@@ -29,7 +29,19 @@ import java.util.Objects;
 public abstract class TranslatedReader extends FilterReader {
 
     private final InputOutputStream inout;
+    /**
+     * The underlying {@link Reader} providing the original input stream
+     * before translation. This reader is used as the source for processing
+     * in the translation logic defined in the {@link #translate()} method.
+     */
     protected final Reader in;
+    /**
+     * A {@link BufferedWriter} used to write the translated output of the
+     * input stream processed by this {@link TranslatedReader}. This writer
+     * acts as the destination for the translated data after applying the
+     * custom translation logic defined in the {@link #translate()} method.
+     * It is initialized to output to an underlying stream managed by this class.
+     */
     protected final BufferedWriter out;
 
     /**

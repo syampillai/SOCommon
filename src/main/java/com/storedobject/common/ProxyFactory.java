@@ -29,6 +29,9 @@ import java.util.Set;
  */
 public class ProxyFactory {
 
+    private ProxyFactory() {
+    }
+
     /**
      * Creates a dynamic proxy instance that implements the specified interfaces and routes method calls
      * to the provided {@link InvocationHandler}.

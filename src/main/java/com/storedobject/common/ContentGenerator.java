@@ -43,6 +43,18 @@ public interface ContentGenerator {
         return getFileExtension(getContentType());
     }
 
+    /**
+     * A map to store additional metadata or key-value pairs for content generation.
+     * The keys and values in this map are of type String.
+     *
+     * This field can be utilized to dynamically store and retrieve supplementary data
+     * associated with the content, such as configurations, attributes, or any other
+     * information relevant to the content being processed.
+     *
+     * Key considerations:
+     * - All keys and values must be non-null strings.
+     * - The map should be used in a thread-safe manner if accessed concurrently.
+     */
     Map<String,String> ext = new HashMap<>();
 
     @SuppressWarnings("SameReturnValue")
@@ -57,6 +69,18 @@ public interface ContentGenerator {
         return ext;
     }
 
+    /**
+     * Determines the file extension based on the provided MIME type.
+     * The method applies a series of checks and mappings to deduce the correct file
+     * extension, or defaults to specific values when the MIME type does not match
+     * well-known patterns.
+     *
+     * @param type The MIME type of the content. Examples include "application/pdf",
+     *             "audio/mpeg", or "image/jpeg". It can also be null.
+     * @return The file extension corresponding to the given MIME type (e.g., "pdf",
+     *         "mp3", "jpg"). Returns "bin" for null input or if no suitable
+     *         extension is determined, and may return null for certain unmapped cases.
+     */
     static String getFileExtension(String type) {
         if(type == null) {
             return "bin";

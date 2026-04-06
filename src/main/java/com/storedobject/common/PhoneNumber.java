@@ -25,6 +25,9 @@ package com.storedobject.common;
  */
 public final class PhoneNumber {
 
+    private PhoneNumber() {
+    }
+
     /**
      * Check correctness of the format of the given phone number.
      *

@@ -23,6 +23,9 @@ package com.storedobject.common;
  */
 public final class Email {
 
+    private Email() {
+    }
+
     /**
      * Check email format for the given email.
      *

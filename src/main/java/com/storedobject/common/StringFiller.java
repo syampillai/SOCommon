@@ -24,6 +24,13 @@ package com.storedobject.common;
  */
 public interface StringFiller {
 
+    /**
+     * Attempts to invoke a getter method corresponding to the specified name and
+     * converts the resulting value into a string representation.
+     *
+     * @param name the name to append to "get" to identify the getter method
+     * @return the stringified value returned by the getter method, or "?" if an exception occurs
+     */
     default String fill(String name) {
         try {
             return StringUtility.stringify(getClass().getMethod("get" + name, (Class<?>[])null).invoke(this, (Object[])null));

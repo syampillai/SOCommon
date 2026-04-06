@@ -16,17 +16,37 @@
 
 package com.storedobject.common;
 
-import java.net.URL;
-
+/**
+ * The IPLocation class fetches location and network-related information of a given IP address
+ * by querying the external API provided by `ipinfo.io`. If no IP address is provided, the class
+ * defaults to retrieving information for the IP address of the local machine or network.
+ *
+ * @author Syam
+ */
 public class IPLocation {
 
     private JSON details = null;
     private String ip;
 
+    /**
+     * Constructs an instance of the IPLocation class with the local machine's IP address.
+     * This constructor initializes the `IPLocation` object to fetch location and network-related
+     * information for the default IP address, which corresponds to the machine or network
+     * being used to execute the application.
+     */
     public IPLocation() {
         this("");
     }
 
+    /**
+     * Constructs an instance of the IPLocation class with a specified IP address.
+     * This constructor initializes the `IPLocation` object to fetch location and network-related
+     * information for the given IP address. If the provided IP address is invalid or empty,
+     * it will default to retrieving information based on the local machine's IP address.
+     *
+     * @param ip the IP address for which location and network-related information will be fetched.
+     *           If an empty string is provided, the local machine's IP address will be used.
+     */
     public IPLocation(String ip) {
         this.ip = ip;
     }
@@ -35,11 +55,7 @@ public class IPLocation {
         if(ip == null) {
             return;
         }
-        try {
-            details = new JSON(new URL("http://ipinfo.io" + (ip.isEmpty() ? "" : ("/" + ip)) + "/json"));
-        } catch(Exception e) {
-            details = null;
-        }
+        details = HTTP2.builder("https://ipinfo.io" + (ip.isEmpty() ? "" : ("/" + ip)) + "/json").json();
         ip = null;
     }
 
@@ -57,6 +73,14 @@ public class IPLocation {
         return error() ? null : details.getString(key);
     }
 
+    /**
+     * Retrieves the geographical location associated with the current or specified IP address.
+     * The location is parsed from a comma-separated string containing latitude and longitude values.
+     * If the location cannot be determined, this method returns null.
+     *
+     * @return a Geolocation object representing the latitude and longitude of the IP address,
+     *         or null if the location is unavailable or cannot be parsed.
+     */
     public Geolocation getLocation() {
         String loc = get("loc");
         if(loc == null) {
@@ -66,26 +90,62 @@ public class IPLocation {
         return new Geolocation(Double.parseDouble(loc.substring(0, comma)), Double.parseDouble(loc.substring(comma + 1)));
     }
 
+    /**
+     * Retrieves the IP address associated with the current IPLocation instance.
+     * If an error occurs or the IP address is unavailable, this method returns null.
+     *
+     * @return the IP address as a String, or null if the IP address is unavailable or an error occurs.
+     */
     public String getIP() {
         return error() ? null : get("ip");
     }
 
+    /**
+     * Retrieves the hostname associated with the current IPLocation instance.
+     * If an error occurs or the hostname is unavailable, this method returns null.
+     *
+     * @return the hostname as a String, or null if the hostname is unavailable or an error occurs.
+     */
     public String getHostName() {
         return error() ? null : get("hostname");
     }
 
+    /**
+     * Retrieves the city associated with the current IP address.
+     * If an error occurs or the city information is unavailable, this method returns null.
+     *
+     * @return the city as a String, or null if the city information is unavailable or an error occurs.
+     */
     public String getCity() {
         return error() ? null : get("city");
     }
 
+    /**
+     * Retrieves the region associated with the current IP address.
+     * If an error occurs or the region information is unavailable, this method returns null.
+     *
+     * @return the region as a String, or null if the region information is unavailable or an error occurs.
+     */
     public String getRegion() {
         return error() ? null : get("region");
     }
 
+    /**
+     * Retrieves the country associated with the current IP address.
+     * If an error occurs or the country information is unavailable, this method returns null.
+     *
+     * @return the country as a String, or null if the country information is unavailable or an error occurs.
+     */
     public String getCountry() {
         return error() ? null : get("country");
     }
 
+    /**
+     * Retrieves the organization associated with the current IP address.
+     * If an error occurs or the organization information is unavailable, this method returns null.
+     *
+     * @return the organization as a String, or null if the organization information is unavailable or an error occurs.
+     */
     public String getOrganization() {
         return error() ? null : get("org");
     }

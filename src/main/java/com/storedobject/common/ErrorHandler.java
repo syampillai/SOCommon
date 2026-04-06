@@ -16,7 +16,24 @@
 
 package com.storedobject.common;
 
+/**
+ * Represents a functional interface for handling errors or exceptions.
+ * Implementations of this interface define a single method to process
+ * a given throwable object.
+ *
+ * This interface can be used for centralized or custom error processing
+ * logic in applications, allowing developers to specify how various
+ * types of exceptions should be handled.
+ *
+ * @author Syam
+ */
 @FunctionalInterface
 public interface ErrorHandler {
+
+    /**
+     * Handles the given throwable, allowing custom processing or logging of the error.
+     *
+     * @param error the throwable to be handled; must not be null
+     */
     void handle(Throwable error);
 }

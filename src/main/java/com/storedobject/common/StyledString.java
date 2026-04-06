@@ -16,9 +16,20 @@
 
 package com.storedobject.common;
 
+/**
+ * A class that provides the ability to build and manipulate styled text using the {@link StyledBuilder} interface.
+ * StyledString internally uses a {@link StringBuilder} to manage its content.
+ *
+ * @author Syam
+ */
 public class StyledString implements StyledBuilder {
 
     private StringBuilder s = new StringBuilder();
+
+    /**
+     * Constructor.
+     */
+    public StyledString() {}
 
     @Override
     public StyledBuilder append(Object object) {
@@ -44,6 +55,7 @@ public class StyledString implements StyledBuilder {
         return s.length() == 0 || s.charAt(s.length() - 1) == '\n';
     }
 
+    @Override
     public String toString() {
         return s.toString();
     }

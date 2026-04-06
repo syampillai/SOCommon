@@ -660,9 +660,10 @@ public abstract class Address {
 
 
     /**
-     * Get the type code value for the given type.
+     * Retrieves the value associated with the given type character.
      *
-     * @return Type code value.
+     * @param type the character representing a type, which is used to retrieve the corresponding value
+     * @return the value associated with the specified type character, or null if the type is invalid
      */
     public static String getTypeValue(char type) {
         int i = type - '0';

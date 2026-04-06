@@ -19,11 +19,28 @@ package com.storedobject.common;
 import java.util.Iterator;
 import java.util.function.Function;
 
+/**
+ * A decorator class that transforms elements of an iterable by applying a conversion function.
+ * This class allows iteration over a collection of elements, converting each element from its
+ * original type to a different target type during iteration.
+ *
+ * @param <FROM> the type of the elements in the original iterable
+ * @param <TO> the type of the elements in the converted iterable
+ *
+ * @author Syam
+ */
 public class ConvertedIterable<FROM, TO> implements Iterable<TO> {
 
     private final Iterable<FROM> original;
     private final Function<FROM, TO> converter;
 
+    /**
+     * Constructs a ConvertedIterable instance by wrapping an existing iterable and applying a
+     * conversion function to its elements.
+     *
+     * @param original The original iterable containing elements of type FROM.
+     * @param converter The function used to convert elements from type FROM to type TO.
+     */
     public ConvertedIterable(Iterable<FROM> original, Function<FROM, TO> converter) {
         this.original = original;
         this.converter = converter;

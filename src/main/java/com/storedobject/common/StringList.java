@@ -32,6 +32,15 @@ import java.util.stream.StreamSupport;
 public class StringList implements Iterable<String>, List<String> {
 
     private static final String[] empty_array = new String[] { };
+    /**
+     * A constant representing an empty StringList instance. This is backed by an
+     * immutable, empty array and can be used to avoid creating new empty
+     * StringList objects unnecessarily.
+     *
+     * This constant is primarily intended for scenarios where an empty
+     * StringList is required, improving readability and reducing memory
+     * allocations.
+     */
     public static final StringList EMPTY = new StringList(empty_array);
     /**
      * Internal array to hold the {@link String} values.

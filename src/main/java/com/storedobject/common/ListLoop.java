@@ -18,5 +18,10 @@ package com.storedobject.common;
 
 import java.util.ListIterator;
 
+/**
+ * A specialized interface combining the functionality of Loop and ListIterator.
+ *
+ * @param <T> The type of elements managed by this ListLoop.
+ */
 public interface ListLoop<T> extends Loop<T>, ListIterator<T> {
 }

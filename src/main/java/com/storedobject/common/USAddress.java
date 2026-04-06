@@ -87,6 +87,14 @@ public class USAddress extends Address {
             new ZIP("VI United States Virgin Islands", 801, 851)
     };
 
+    /**
+     * Constructs an instance of the USAddress class.
+     * This default constructor initializes the class for use in representing
+     * and managing addresses within the United States.
+     */
+    USAddress() {
+    }
+
     @Override
     public int getExtraLines() {
         return 1;

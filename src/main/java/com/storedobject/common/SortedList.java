@@ -19,15 +19,47 @@ package com.storedobject.common;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * A custom implementation of an ArrayList that maintains its elements in sorted order.
+ * Elements are required to implement the {@link Comparable} interface.
+ *
+ * @param <E> the type of elements maintained by this list, extending {@link Comparable}.
+ *
+ * @author Syam
+ */
 public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
 
+    /**
+     * Constructs an empty SortedList with an initial capacity of ten.
+     * This list automatically maintains the sorting order of its elements.
+     * Elements added to the list must implement the {@link Comparable} interface.
+     */
     public SortedList() {
     }
 
+    /**
+     * Constructs an empty SortedList with the specified initial capacity.
+     * This list automatically maintains the sorting order of its elements.
+     * Elements added to the list must implement the {@link Comparable} interface.
+     *
+     * @param initialCapacity the initial capacity of the list.
+     *                        The capacity represents the number of elements that the list
+     *                        can hold before needing to resize.
+     * @throws IllegalArgumentException if the specified initial capacity is negative.
+     */
     public SortedList(int initialCapacity) {
         super(initialCapacity);
     }
 
+    /**
+     * Constructs a new SortedList with elements from the specified collection.
+     * The elements in the collection are added while maintaining their natural order.
+     * Duplicate elements are not added to the list.
+     *
+     * @param c the collection containing elements to be added to the sorted list.
+     *          All elements in the collection must implement the {@link Comparable} interface.
+     *          Passing a null collection results in a {@link NullPointerException}.
+     */
     public SortedList(Collection<E> c) {
         addAll(c);
     }

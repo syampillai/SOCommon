@@ -31,8 +31,31 @@ public class Script {
 
     /**
      * Supported languages. Availability depends on the JVM.
+     *
+     * @author Syam
      */
-    public enum Language { JavaScript, R, Python, Ruby }
+    public enum Language {
+        /**
+         * Represents the JavaScript programming language in the enumeration of supported languages.
+         * Used to denote JavaScript as a selectable or identifiable language option.
+         */
+        JavaScript,
+        /**
+         * Represents the R programming language in the enumeration of supported languages.
+         * Used to denote R as a selectable or identifiable language option.
+         */
+        R,
+        /**
+         * Represents the Python programming language in the enumeration of supported languages.
+         * Used to denote Python as a selectable or identifiable language option.
+         */
+        Python,
+        /**
+         * Represents the Ruby programming language in the enumeration of supported languages.
+         * Used to denote Ruby as a selectable or identifiable language option.
+         */
+        Ruby
+    }
 
     private static final ScriptEngineManager engineManager = new ScriptEngineManager();
     private final ScriptEngine engine;

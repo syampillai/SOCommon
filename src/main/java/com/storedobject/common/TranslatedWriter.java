@@ -27,7 +27,31 @@ import java.util.Objects;
 public abstract class TranslatedWriter extends FilterWriter {
 
     private final InputOutputStream inout;
+    /**
+     * A {@link BufferedReader} used to read input data for translation. This stream serves as the
+     * source for data that needs to be processed and written to the output writer.
+     *
+     * It reads the raw input from the underlying input-output stream and is used in conjunction
+     * with the {@link TranslatedWriter#translate()} method to perform on-the-fly translation of
+     * the input content.
+     *
+     * The lifecycle of this reader is managed internally, and it is expected to be closed automatically
+     * once the translation process is complete.
+     */
     protected final BufferedReader in;
+    /**
+     * The writer object to which the translated output is written. This writer acts as
+     * the destination for the processed content after being translated by the
+     * {@link TranslatedWriter#translate()} method.
+     *
+     * The lifecycle and closure of this writer are managed internally within the
+     * {@link TranslatedWriter} class to ensure resources are properly released after
+     * the translation process is completed.
+     *
+     * The translation process involves reading data from the {@link BufferedReader}
+     * (variable {@code in}), processing it, and then writing the resulting output
+     * to this writer.
+     */
     protected final Writer out;
 
     /**

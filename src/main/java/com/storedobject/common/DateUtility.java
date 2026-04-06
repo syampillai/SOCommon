@@ -64,6 +64,9 @@ public class DateUtility {
     private final static String[] weekNames = new String[]
             { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
+    private DateUtility() {
+    }
+
     /**
      * Get the current date
      *
@@ -170,6 +173,7 @@ public class DateUtility {
      *
      * @param <D> Date-type
      * @param monthOffset An integer offset value that needs to be added to the month corresponding to a given date.
+     * @param date Date for which the start of the month is to be returned.
      * @return Start date of month
      */
     public static <D extends java.util.Date> D startOfMonth(int monthOffset, D date) {
@@ -190,6 +194,7 @@ public class DateUtility {
      * Get end date of month for a give date
      *
      * @param date Date for which the end of the month is to be returned
+     * @param <D>  Date-type
      * @return Start date of month for a give date
      */
     public static <D extends java.util.Date> D endOfMonth(D date) {
@@ -211,6 +216,7 @@ public class DateUtility {
      *
      * @param <D> Date-type
      * @param monthOffset An integer offset value that has to be added to the month corresponding to a given date
+     * @param date Date for which the end of the month is to be returned.
      * @return End date of month
      */
     public static <D extends java.util.Date> D endOfMonth(int monthOffset, D date) {
@@ -257,6 +263,7 @@ public class DateUtility {
      * Get a java.sql.Date corresponding to a given java.util.Date
      *
      * @param date Date of type java.util.Date
+     * @param <D>  the type of the date parameter, which must extend java.util.Date
      * @return date
      */
     public static <D extends java.util.Date> Date create(D date) {
@@ -617,6 +624,7 @@ public class DateUtility {
      * Formats the given date into a string representing the month.
      *
      * @param date the date to be formatted; must not be null
+     * @param <D>  the type of the date parameter, which must extend java.util.Date
      * @return a string representation of the month extracted from the provided date
      */
     public static <D extends java.util.Date> String formatMonth(D date) {
@@ -713,6 +721,7 @@ public class DateUtility {
      * pre-defined time format.
      *
      * @param date the date object to be formatted; must be a subclass of java.util.Date
+     * @param <D>  the type of the date parameter, which must extend java.util.Date
      * @return a string representation of the formatted time
      */
     public static <D extends java.util.Date> String formatTime(D date) {
@@ -723,12 +732,19 @@ public class DateUtility {
      * Formats the given date into a string representing the time in HH:mm format.
      *
      * @param date the date object to format, must not be null
+     * @param <D>  the type of the date parameter, which must extend java.util.Date
      * @return a string representing the time in HH:mm format
      */
     public static <D extends java.util.Date> String formatHHMM(D date) {
         return hhmmFormat.format(date);
     }
 
+    /**
+     * Formats the given time in milliseconds into a string in HH:mm format.
+     *
+     * @param time the time in milliseconds to be formatted
+     * @return a string representation of the given time formatted as HH:mm
+     */
     public static String formatHHMM(long time) {
         return hhmmFormat.format(createTimestamp(time));
     }
@@ -814,6 +830,11 @@ public class DateUtility {
         return getMonthName(getMonth(date));
     }
 
+    /**
+     * Retrieves the current year based on the system's local date.
+     *
+     * @return the current year as an integer
+     */
     public static int getYear() {
         return getYear(today());
     }
@@ -909,6 +930,7 @@ public class DateUtility {
      * Retrieves the month from the given date as a zero-based value.
      *
      * @param date the date from which the month is to be extracted; must not be null
+     * @param <D>  the type of the date parameter, which must extend java.util.Date
      * @return the zero-based month (0 for January, 1 for February, ..., 11 for December)
      */
     public static <D extends java.util.Date> int getMonthZeroBased(D date) {
@@ -940,6 +962,7 @@ public class DateUtility {
      * Retrieves the day of the month from the specified date.
      *
      * @param date the date object from which the day of the month is to be extracted; must not be null
+     * @param <D>  the type of the date parameter, which must extend java.util.Date
      * @return the day of the month as an integer
      */
     public static <D extends java.util.Date> int getDay(D date) {
@@ -975,6 +998,7 @@ public class DateUtility {
      *
      * @param date The date to which the months are added
      * @param month The number of months to add to the date passed
+     * @param <D> Date-type
      * @return The date after adding the month offset
      */
     public static <D extends java.util.Date> D addMonth(D date, int month) {
@@ -1045,6 +1069,8 @@ public class DateUtility {
      *
      * @param one Date that has to be subtracted from the greater date
      * @param two The greater date from which the other date is subtracted
+     * @param considerTime Whether to consider the time component in the calculation
+     * @param <D> Date-type
      * @return The difference between date two and date one in days
      */
     public static <D extends java.util.Date> int getPeriodInDays(D one, D two, boolean considerTime) {
@@ -1059,6 +1085,7 @@ public class DateUtility {
      *
      * @param one Date that has to be subtracted from the greater date
      * @param two The greater date from which the other date is subtracted
+     * @param <D> Date-type
      * @return The difference between date two and date one in months
      */
     public static <D extends java.util.Date> int getPeriodInMonths(D one, D two) {
@@ -1291,6 +1318,7 @@ public class DateUtility {
      *
      * @param date the date to be converted to GMT
      * @param fromTimeZone the time zone of the given date, represented as a string
+     * @param <D> the type of the date parameter, which must extend java.util.Date
      * @return the converted date in GMT
      */
     public static <D extends java.util.Date> D toGMT(D date, String fromTimeZone) {
@@ -1302,6 +1330,7 @@ public class DateUtility {
      *
      * @param date The date to be converted to GMT.
      * @param fromTimeZone The time zone of the given date. If null, the default time zone of the system will be used.
+     * @param <D> the type of the date parameter, which must extend java.util.Date
      * @return The converted date in GMT.
      */
     public static <D extends java.util.Date> D toGMT(D date, TimeZone fromTimeZone) {
@@ -1343,6 +1372,7 @@ public class DateUtility {
      *
      * @param date The date object to convert from GMT to the specified time zone. Cannot be null.
      * @param toTimeZone The target time zone to convert the date to. Can be null.
+     * @param <D> the type of date to convert, must extend java.util.Date
      * @return The converted date object in the specified time zone, or the original date object if toTimeZone is null.
      */
     public static <D extends java.util.Date> D fromGMT(D date, String toTimeZone) {
@@ -1354,6 +1384,7 @@ public class DateUtility {
      *
      * @param date the date to be converted from GMT
      * @param toTimeZone the target time zone to convert the date to, can be null
+     * @param <D> the type of date to convert, must extend java.util.Date
      * @return the converted date in the specified time zone
      */
     public static <D extends java.util.Date> D fromGMT(D date, TimeZone toTimeZone) {
@@ -1377,6 +1408,7 @@ public class DateUtility {
      *
      * @param dateGMT the date to be translated from GMT to the specified time zone.
      * @param toZoneOffset the time zone offset to be applied to the date. If null, the date will not be modified.
+     * @param <D> the type of date to convert, must extend java.util.Date
      * @return the translated date in the specified time zone, or the original date if no offset is provided.
      */
     public static <D extends java.util.Date> D fromGMT(D dateGMT, ZoneOffset toZoneOffset) {

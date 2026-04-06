@@ -22,8 +22,24 @@ package com.storedobject.common;
  * @author Syam
  */
 public enum LogicalOperator {
+    /**
+     * Logical OR operator. Represents the logical disjunction operation, where the result
+     * is true if at least one of the operands is true.
+     */
     OR,
+    /**
+     * Logical AND operator. Represents the logical conjunction operation, where the result
+     * is true only if both operands are true.
+     */
     AND,
+    /**
+     * Logical NOT OR operator. Represents the negation of the logical OR operation.
+     * The result is true only if both operands are false.
+     */
     NOT_OR,
+    /**
+     * Logical NOT AND operator. Represents the negation of the logical AND operation.
+     * The result is true only if at least one of the operands is false.
+     */
     NOT_AND,
 }

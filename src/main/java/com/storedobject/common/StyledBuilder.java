@@ -25,6 +25,14 @@ import java.util.function.Consumer;
  */
 public interface StyledBuilder {
 
+    /**
+     * A constant representing an empty array of strings.
+     *
+     * This value is used as a generic placeholder or default value
+     * for scenarios where an empty array of strings is required. It
+     * serves as an immutable constant and is useful to avoid creating
+     * unnecessary new instances of empty arrays in the codebase.
+     */
     static final String[] EMPTY_STRINGS = new String[]{};
 
     /**

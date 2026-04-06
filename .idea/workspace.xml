@@ -4,8 +4,76 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.4 and improve error handling&#10;&#10;Bumped version from 6.1.3 to 6.1.4 in pom.xml and README.md. Updated `StringUtility` to use commas instead of ampersands for joining value labels. Added `OTP_MISMATCH` fault type in `Fault` class. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AEAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AEAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Action.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Array.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Array.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AutoCloseableList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AutoCloseableList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Barcode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Barcode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/BigValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/BigValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CSV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CSV.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ComputedValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ComputedValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Condition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ConvertedIterable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ConvertedIterable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CustomMethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CustomMethodInvoker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Email.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Geolocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Geolocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTMLText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTMLText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HasName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HasName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IBAN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IBAN.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IPLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IPLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ImageUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ImageUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IntegerRange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IntegerRange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LDAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LDAP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LogicalOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LogicalOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LongRange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LongRange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MYAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MYAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MathUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MathUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MethodInvoker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/PhoneNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/PhoneNumber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ProxyFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ProxyFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Range.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SORuntimeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SORuntimeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Script.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Script.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Sequencer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Sequencer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SimpleMethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SimpleMethodInvoker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SortedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SortedList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringFiller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringFiller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledMethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledMethodInvoker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledString.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledString.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedInputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedInputStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedOutputStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TriFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TriFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XML.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/annotation/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/annotation/Module.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +114,9 @@
     <commands />
     <urls />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -55,40 +126,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.DateUtility.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HTMLText.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HTTP2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.JSON.executor&quot;: &quot;Run&quot;,
-    &quot;Application.StringList.executor&quot;: &quot;Run&quot;,
-    &quot;Application.StringUtility.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [deploy].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/syam/IdeaProjects/SOComponents&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.DateUtility.executor": "Run",
+    "Application.HTMLText.executor": "Run",
+    "Application.HTTP2.executor": "Run",
+    "Application.IPLocation.executor": "Run",
+    "Application.JSON.executor": "Run",
+    "Application.StringList.executor": "Run",
+    "Application.StringUtility.executor": "Run",
+    "Maven.so-common [clean].executor": "Run",
+    "Maven.so-common [deploy].executor": "Run",
+    "Maven.so-common [install].executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/syam/IdeaProjects/SOComponents",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="SOCommon" />
@@ -271,22 +343,7 @@
       <workItem from="1775459626293" duration="291000" />
       <workItem from="1775459994508" duration="9000" />
       <workItem from="1775460181988" duration="55000" />
-    </task>
-    <task id="LOCAL-00043" summary="Update version and refactor HTTP and SOAP methods&#10;&#10;Upgraded the project version to 4.7.7 in pom.xml. Refactored the HTTP's connection cleanup method and SOAP's request mechanism. The SOAPAction is now assigned during the request instead of during initialization, aiming for better code clarity.">
-      <option name="closed" value="true" />
-      <created>1716826883163</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1716826883163</updated>
-    </task>
-    <task id="LOCAL-00044" summary="Update project version and refactor SOAP.java&#10;&#10;The project version in pom.xml has been updated from 4.7.7 to 4.7.8. In SOAP.java, a new method 'requesting' is introduced, which is invoked just prior to sending a request to the server, allowing for potential additional controls on the HTTP request.">
-      <option name="closed" value="true" />
-      <created>1716830094752</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1716830094752</updated>
+      <workItem from="1775460491895" duration="18961000" />
     </task>
     <task id="LOCAL-00045" summary="Add comprehensive comments in XML.java and update project version&#10;&#10;Added detailed Javadoc comments to almost all methods in XML.java to improve the code's readability and maintainability. Also, the project version was updated from 4.7.8 to 4.7.9 in the pom.xml file.">
       <option name="closed" value="true" />
@@ -664,15 +721,29 @@
       <option name="project" value="LOCAL" />
       <updated>1775459800099</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="Update the project version to 6.1.5 and upgrade parent dependency to use latest jackson lib.&#10;&#10;Bumped version from 6.1.4 to 6.1.5 in pom.xml and README.md. Updated the parent dependency version from 1.1.14 to 1.1.15. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1775460644319</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1775460644320</updated>
+    </task>
+    <task id="LOCAL-00093" summary="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM.">
+      <option name="closed" value="true" />
+      <created>1775463262951</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1775463262951</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Upgrade Java version and update to version 5.0.1&#10;&#10;Updated project to use Java 21 (JDK and Maven configuration). Bumped version in pom.xml to 5.0.1. Replaced thread executor with virtual threads for improved performance.  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions." />
-    <MESSAGE value="Version 5.0.2  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Replace daemon threads with virtual threads for improved performance&#10;&#10;Dropped the class DaemonThread. You can use virtual thread instead of such a class.  &#10;&#10;Replaced all custom daemon thread implementations with virtual threads to leverage modern concurrency features. The transition improves system resource management and aligns with Java 21's capabilities. Also included minor bug fixes and optimizations for thread-safe behaviors." />
     <MESSAGE value="Version 5.0.3  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Removed the deadlock situation in InputOutputStream." />
     <MESSAGE value="Version 5.0.4  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
     <MESSAGE value="Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
@@ -696,6 +767,8 @@
     <MESSAGE value="Update the project version to 6.1.3 and upgrade parent dependency&#10;&#10;Bumped the version from 6.1.2 to 6.1.3 in pom.xml and README.md. Updated the parent dependency version from 1.1.13 to 1.1.14. Adjusted `.idea/workspace.xml` to reflect recent changes." />
     <MESSAGE value="Add OTP mismatch fault and update StringUtility conjunction formatting &#10;&#10;Introduced a new `Fault` for OTP mismatch (code 100903). Changed conjunction formatting in `StringUtility` to use a comma instead of &quot; &amp; &quot; for improved readability. Adjusted `.idea/workspace.xml` to reflect changes." />
     <MESSAGE value="Update the project version to 6.1.4 and improve error handling&#10;&#10;Bumped version from 6.1.3 to 6.1.4 in pom.xml and README.md. Updated `StringUtility` to use commas instead of ampersands for joining value labels. Added `OTP_MISMATCH` fault type in `Fault` class. Adjusted `.idea/workspace.xml` to reflect recent changes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the project version to 6.1.4 and improve error handling&#10;&#10;Bumped version from 6.1.3 to 6.1.4 in pom.xml and README.md. Updated `StringUtility` to use commas instead of ampersands for joining value labels. Added `OTP_MISMATCH` fault type in `Fault` class. Adjusted `.idea/workspace.xml` to reflect recent changes." />
+    <MESSAGE value="Update the project version to 6.1.5 and upgrade parent dependency to use latest jackson lib.&#10;&#10;Bumped version from 6.1.4 to 6.1.5 in pom.xml and README.md. Updated the parent dependency version from 1.1.14 to 1.1.15. Adjusted `.idea/workspace.xml` to reflect recent changes." />
+    <MESSAGE value="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM." />
   </component>
 </project>

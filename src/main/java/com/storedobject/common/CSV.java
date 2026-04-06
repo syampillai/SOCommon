@@ -71,6 +71,7 @@ public abstract class CSV implements TextContentGenerator {
      * Override this method for adding content to the CSV. Typically, you call {@link #setValue(int, Object)} (or its
      * variants - {@link #setValues(Object...)} or {@link #setValuesFrom(int, Object...)}) for each column value and
      * call {@link #writeRow()} to write out each row.
+     * @throws Exception if an error occurs during content generation
      */
     public abstract void generateContent() throws Exception;
 
@@ -126,6 +127,7 @@ public abstract class CSV implements TextContentGenerator {
 
     /**
      * Write out the current row.
+     * @throws IOException if an I/O error occurs
      */
     public void writeRow() throws IOException {
         if(writer == null) {

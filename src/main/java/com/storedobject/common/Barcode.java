@@ -36,6 +36,11 @@ import java.util.Objects;
  */
 public class Barcode {
 
+    /**
+     * Represents various barcode formats supported for encoding and decoding.
+     *
+     * @author Syam
+     */
     @SuppressWarnings("unused")
     public enum Format {
 

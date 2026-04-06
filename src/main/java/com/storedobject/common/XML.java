@@ -94,6 +94,9 @@ public class XML {
 
     /**
      * XML class represents an XML document.
+     *
+     * @param url The URL of the XML document.
+     * @throws Exception If an error occurs.
      */
     public XML(URL url) throws Exception {
         set(url);

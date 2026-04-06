@@ -27,7 +27,27 @@ import java.util.Objects;
 public abstract class TranslatedOutputStream extends FilterOutputStream {
 
     private final InputOutputStream inout;
+    /**
+     * A {@link BufferedInputStream} used to read input data that needs to be translated
+     * before being written to the underlying output stream. This variable is intended to
+     * serve as the source of data for the translation process.
+     *
+     * The {@link #translate()} method of the enclosing class should read data from this stream,
+     * perform the translation, and write the results to the output stream.
+     */
     protected final BufferedInputStream in;
+    /**
+     * The underlying output stream to which the translated data is written.
+     * This stream serves as the destination for the data after it has been
+     * translated by the {@link #translate()} method of the enclosing
+     * {@code TranslatedOutputStream} class.
+     *
+     * The data processed from the {@link BufferedInputStream} variable
+     * {@code in} is transformed and ultimately written to this stream.
+     *
+     * This field is final, ensuring that the reference to the output stream
+     * cannot be reassigned after initialization.
+     */
     protected final OutputStream out;
 
     /**
