@@ -64,7 +64,13 @@ public class DateUtility {
     private final static String[] weekNames = new String[]
             { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
-    private DateUtility() {
+    /**
+     * A utility class for performing date-related operations.
+     * This class is not intended to be instantiated directly.
+     * The constructor is protected to prevent unauthorized instantiation from outside the class
+     * while allowing inheritance if necessary.
+     */
+    protected DateUtility() {
     }
 
     /**

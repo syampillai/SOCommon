@@ -4,77 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AEAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AEAddress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Array.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Array.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AutoCloseableList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/AutoCloseableList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Barcode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Barcode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/BigValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/BigValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CSV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CSV.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ComputedValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ComputedValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Condition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ContentSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ConvertedIterable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ConvertedIterable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CustomMethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/CustomMethodInvoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EBiFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/EFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ETriFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Email.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ErrorText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Geolocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Geolocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTMLText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTMLText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HasName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HasName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IBAN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IBAN.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IPLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IPLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ImageUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ImageUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IntegerRange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/IntegerRange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LDAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LDAP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListLoop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ListUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LogicalOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LogicalOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LongRange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LongRange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MYAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MYAddress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MathUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MathUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/MethodInvoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/PhoneNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/PhoneNumber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ProxyFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ProxyFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Range.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/ResourceDisposal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOAP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SOException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SORuntimeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SORuntimeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Script.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Script.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Sequencer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Sequencer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SimpleMethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SimpleMethodInvoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SortedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/SortedList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringFiller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringFiller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledMethodInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledMethodInvoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledString.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StyledString.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedInputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedInputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedOutputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TranslatedWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TriFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/TriFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XML.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/annotation/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/annotation/Module.java" afterDir="false" />
-    </list>
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="6.1.5&#10;All classes are now documented." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -343,15 +273,7 @@
       <workItem from="1775459626293" duration="291000" />
       <workItem from="1775459994508" duration="9000" />
       <workItem from="1775460181988" duration="55000" />
-      <workItem from="1775460491895" duration="18961000" />
-    </task>
-    <task id="LOCAL-00045" summary="Add comprehensive comments in XML.java and update project version&#10;&#10;Added detailed Javadoc comments to almost all methods in XML.java to improve the code's readability and maintainability. Also, the project version was updated from 4.7.8 to 4.7.9 in the pom.xml file.">
-      <option name="closed" value="true" />
-      <created>1719135900943</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1719135900943</updated>
+      <workItem from="1775460491895" duration="19252000" />
     </task>
     <task id="LOCAL-00046" summary="Add comprehensive comments in XML.java and update project version&#10;&#10;Added detailed Javadoc comments to almost all methods in XML.java to improve the code's readability and maintainability. Also, the project version was updated from 4.7.8 to 4.7.9 in the pom.xml file.">
       <option name="closed" value="true" />
@@ -737,14 +659,21 @@
       <option name="project" value="LOCAL" />
       <updated>1775463262951</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="6.1.5&#10;All classes are now documented.">
+      <option name="closed" value="true" />
+      <created>1775483305867</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1775483305868</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version 5.0.3  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Removed the deadlock situation in InputOutputStream." />
     <MESSAGE value="Version 5.0.4  &#10;Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
     <MESSAGE value="Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
     <MESSAGE value="Add HTTP2 utility class and update project to version 5.1.0&#10;&#10;Introduce a new HTTP2 class leveraging Java's HttpClient for HTTP/2 communication with enhanced features like chunked/compressed content handling. Updated HTTP to recommend HTTP2 for better efficiency. Also, incremented the project version to 5.1.0 in the pom.xml." />
@@ -769,6 +698,7 @@
     <MESSAGE value="Update the project version to 6.1.4 and improve error handling&#10;&#10;Bumped version from 6.1.3 to 6.1.4 in pom.xml and README.md. Updated `StringUtility` to use commas instead of ampersands for joining value labels. Added `OTP_MISMATCH` fault type in `Fault` class. Adjusted `.idea/workspace.xml` to reflect recent changes." />
     <MESSAGE value="Update the project version to 6.1.5 and upgrade parent dependency to use latest jackson lib.&#10;&#10;Bumped version from 6.1.4 to 6.1.5 in pom.xml and README.md. Updated the parent dependency version from 1.1.14 to 1.1.15. Adjusted `.idea/workspace.xml` to reflect recent changes." />
     <MESSAGE value="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM." />
+    <MESSAGE value="6.1.5&#10;All classes are now documented." />
+    <option name="LAST_COMMIT_MESSAGE" value="6.1.5&#10;All classes are now documented." />
   </component>
 </project>

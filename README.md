@@ -16,6 +16,6 @@ added to the existing methods, I tried to revamp the existing code
 <dependency>
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
-    <version>6.1.5</version>
+    <version>6.1.6</version>
 </dependency>
 ```

@@ -16,7 +16,7 @@
 
     <groupId>com.storedobject</groupId>
     <artifactId>so-common</artifactId>
-    <version>6.1.5</version>
+    <version>6.1.6</version>
     <packaging>jar</packaging>
 
     <name>SO Common</name>

@@ -32,7 +32,13 @@ import java.util.*;
  */
 public class StringUtility {
 
-    private StringUtility() {}
+    /**
+     * A utility class providing a collection of static methods for performing
+     * various operations and manipulations on strings. This constructor is
+     * protected to prevent direct instantiation of the utility class, ensuring
+     * that it is used in a static context only.
+     */
+    protected StringUtility() {}
 
     /**
      * Convert a string to camelcase.

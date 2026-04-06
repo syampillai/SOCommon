@@ -28,7 +28,15 @@ import java.util.concurrent.atomic.*;
 */
 public class MathUtility {
 
-    private MathUtility() {
+    /**
+     * A utility class providing a collection of mathematical helper methods.
+     * This class is not designed to be instantiated and serves as a container
+     * for static methods related to mathematical operations.
+     *
+     * The constructor is protected to prevent direct instantiation by external
+     * code, while still allowing subclassing if needed.
+     */
+    protected MathUtility() {
     }
 
     /**
