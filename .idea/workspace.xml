@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Update the project version to 6.1.3 and upgrade parent dependency&#10;&#10;Bumped the version from 6.1.2 to 6.1.3 in pom.xml and README.md. Updated the parent dependency version from 1.1.13 to 1.1.14. Adjusted `.idea/workspace.xml` to reflect recent changes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Fault.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Fault.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,39 +56,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.DateUtility.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HTMLText.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HTTP2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.JSON.executor&quot;: &quot;Run&quot;,
-    &quot;Application.StringList.executor&quot;: &quot;Run&quot;,
-    &quot;Application.StringUtility.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [deploy].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/syam/IdeaProjects/SOComponents&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.DateUtility.executor": "Run",
+    "Application.HTMLText.executor": "Run",
+    "Application.HTTP2.executor": "Run",
+    "Application.JSON.executor": "Run",
+    "Application.StringList.executor": "Run",
+    "Application.StringUtility.executor": "Run",
+    "Maven.so-common [clean].executor": "Run",
+    "Maven.so-common [deploy].executor": "Run",
+    "Maven.so-common [install].executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/syam/IdeaProjects/SOComponents",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="SOCommon" />
@@ -263,14 +264,11 @@
       <workItem from="1773230512139" duration="517000" />
       <workItem from="1773231167182" duration="5000" />
       <workItem from="1773482361478" duration="138000" />
-    </task>
-    <task id="LOCAL-00041" summary="Add configurable timeouts to HTTP and SOAP classes&#10;&#10;Timeout settings for HTTP and SOAP connections are now configurable. Two new methods have been added to each class to set the read and connection timeouts, while previously hard-coded values have been replaced. Project version has also been bumped to 4.7.5.">
-      <option name="closed" value="true" />
-      <created>1714092477190</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1714092477190</updated>
+      <workItem from="1773482570701" duration="42000" />
+      <workItem from="1773482635993" duration="9000" />
+      <workItem from="1774625912243" duration="167000" />
+      <workItem from="1774626527071" duration="12000" />
+      <workItem from="1775130753651" duration="800000" />
     </task>
     <task id="LOCAL-00042" summary="Update version to 4.7.6 and refactor SOAP class&#10;&#10;The application version in pom.xml has been upgraded to 4.7.6. The SOAPAction assignment has been relocated to the constructor in the SOAP class, which improves the clarity and readability of the code.">
       <option name="closed" value="true" />
@@ -656,7 +654,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773230930489</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="Update the project version to 6.1.3 and upgrade parent dependency&#10;&#10;Bumped the version from 6.1.2 to 6.1.3 in pom.xml and README.md. Updated the parent dependency version from 1.1.13 to 1.1.14. Adjusted `.idea/workspace.xml` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1773482583421</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1773482583422</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -1686,7 +1686,7 @@ public class StringUtility {
         while(value > 0 && i < valueLabels.size()) {
             if((value & 1) == 1) {
                 if(sb.length() > 0) {
-                    sb.append(" & ");
+                    sb.append(", ");
                 }
                 sb.append(valueLabels.get(i));
             }

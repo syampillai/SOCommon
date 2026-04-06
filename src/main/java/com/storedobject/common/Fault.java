@@ -157,5 +157,6 @@ public class Fault {
 
     public static final Fault NOT_ALLOWED = new Fault(100901, "Not allowed");
     public static final Fault ILLEGAL_ACCESS = new Fault(100902, "Illegal access");
+    public static final Fault OTP_MISMATCH = new Fault(100903, "OTP mismatch");
     public static final Fault EXTERNAL_SYSTEM_NOT_RECOGNIZED = new Fault(100999, "External system not recognized");
 }
