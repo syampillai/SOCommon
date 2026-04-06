@@ -107,18 +107,41 @@ public final class PKAddress extends Address {
         return super.convert(lineNumber);
     }
 
+    /**
+     * Retrieves the name of the place from the address data.
+     *
+     * @return The name of the place extracted from the address lines.
+     */
     public String getPlaceName() {
         return lines[lines.length - POS_PLACE];
     }
 
+    /**
+     * Sets the name of the place in the address data.
+     *
+     * @param placeName The name of the place to set. If null, it is replaced with an empty string.
+     */
     public void setPlaceName(String placeName) {
         lines[lines.length - POS_PLACE] = placeName == null ? "" : placeName;
     }
 
+    /**
+     * Retrieves the province identifier from the address data.
+     *
+     * @return The province identifier extracted from the address lines.
+     * @throws SOException If an error occurs while extracting the province information.
+     */
     public int getProvince() throws SOException {
         return extractNumber(lines.length - POS_PROVINCE);
     }
 
+    /**
+     * Sets the province identifier in the address data.
+     *
+     * @param province The province identifier to set. The value is adjusted to
+     *                 ensure it falls within the valid range based on the number
+     *                 of provinces available.
+     */
     public void setProvince(int province) {
         int district;
         try {
@@ -130,14 +153,31 @@ public final class PKAddress extends Address {
         setDistrict(district);
     }
 
+    /**
+     * Retrieves the name of the province from the address data.
+     *
+     * @return The name of the province extracted from the address lines.
+     */
     public String getProvinceName() {
         return extractName(lines.length - POS_PROVINCE, provinces);
     }
 
+    /**
+     * Retrieves the district identifier from the address data.
+     *
+     * @return The district identifier extracted from the address lines.
+     * @throws SOException If an error occurs while extracting the district information.
+     */
     public int getDistrict() throws SOException {
         return extractNumber(lines.length - POS_DISTRICT);
     }
 
+    /**
+     * Sets the district identifier in the address data.
+     *
+     * @param district The district identifier to set. The value is adjusted to ensure it
+     *                 falls within the valid range of districts for the specified province.
+     */
     public void setDistrict(int district) {
         int state;
         try {
@@ -149,14 +189,32 @@ public final class PKAddress extends Address {
         lines[lines.length - POS_DISTRICT] = "" + (district % districts.length);
     }
 
+    /**
+     * Retrieves the name of the district from the address data.
+     *
+     * @return The name of the district extracted from the address lines.
+     * @throws SOException If an error occurs while extracting the district information.
+     */
     public String getDistrictName() throws SOException {
         return extractName(lines.length - POS_DISTRICT, districts[getProvince()]);
     }
 
+    /**
+     * Retrieves the list of provinces available in the address data.
+     *
+     * @return An array of strings containing the names of all provinces.
+     */
     public static String[] getProvinces() {
         return provinces;
     }
 
+    /**
+     * Retrieves the list of districts for a specified state.
+     *
+     * @param state The index of the state for which the districts are to be retrieved.
+     *              The index corresponds to the position of the state in a predefined collection of states.
+     * @return An array of strings containing the names of the districts for the specified state.
+     */
     public static String[] getDistricts(int state) {
         return districts[state];
     }

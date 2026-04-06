@@ -18,6 +18,13 @@ package com.storedobject.common;
 
 import java.util.regex.Pattern;
 
+/**
+ * Represents an address specific to Great Britain with additional functionality
+ * for handling British postal codes and post towns. This class extends the
+ * Address class to provide GB-specific implementation details.
+ *
+ * @author Syam
+ */
 public class GBAddress extends Address {
 
     private final int POS_POST_TOWN = 1;
@@ -26,6 +33,9 @@ public class GBAddress extends Address {
                     "?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE " +
                     "?CX|GIR ?0A{2}|SAN ?TA1)$");
 
+    /**
+     * Constructor.
+     */
     GBAddress() {
     }
 
@@ -70,11 +80,24 @@ public class GBAddress extends Address {
         return 1;
     }
 
+    /**
+     * Retrieves the post town from the address lines. The post town is
+     * a specific required component of postal addresses in Great Britain.
+     *
+     * @return the name of the post town as a String. If the post town is not defined,
+     *         an empty string is returned.
+     */
     public String getPostTown() {
         String s = lines[lines.length - POS_POST_TOWN];
         return s == null ? "" : s;
     }
 
+    /**
+     * Sets the post town for the address. The post town is converted to uppercase
+     * and any leading or trailing whitespace is trimmed before being assigned.
+     *
+     * @param postTown the name of the post town to be set. This should not be null or blank.
+     */
     public void setPostTown(String postTown) {
         lines[lines.length - POS_POST_TOWN] = postTown.toUpperCase().trim();
     }

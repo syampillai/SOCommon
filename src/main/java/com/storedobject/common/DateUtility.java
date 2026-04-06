@@ -34,7 +34,7 @@ import java.util.TimeZone;
 import static java.util.Calendar.*;
 
 /**
- * Date utility functions.(Old {@link java.util.Date} and its cousin {@link Date} are still used in JDBC).
+ * Date utility functions. (Old {@link java.util.Date} and its cousin {@link Date} are still used in JDBC).
  *
  * @author Syam
  */
@@ -418,37 +418,71 @@ public class DateUtility {
         return time(date.getTime());
     }
 
+    /**
+     * Creates a {@link Timestamp} instance from the specified epoch time.
+     *
+     * @param time Epoch time in milliseconds.
+     * @return Timestamp corresponding to the given epoch time.
+     */
     public static Timestamp createTimestamp(long time) {
         return timestamp(time);
     }
 
+    /**
+     * Creates a {@link Timestamp} instance from the specified {@link java.util.Date}.
+     *
+     * @param date Date to convert.
+     * @return Timestamp corresponding to the given date.
+     */
     public static Timestamp createTimestamp(java.util.Date date) {
         return timestamp(date.getTime());
     }
 
     /**
-     * Gets the current date and time value
+     * Gets the current date and time value as a {@link Time}.
      *
-     * @return time
+     * @return Current time value.
      */
     public static Time time() {
         return time(System.currentTimeMillis());
     }
 
+    /**
+     * Trims the millisecond portion of the given time value.
+     *
+     * @param time Time value to trim.
+     * @return Time value with trimmed milliseconds.
+     */
     public static Time trimMillis(Time time) {
         return trim(time, 10000L);
     }
 
-
+    /**
+     * Trims the seconds portion of the given time value.
+     *
+     * @param time Time value to trim.
+     * @return Time value with trimmed seconds.
+     */
     public static Time trimSeconds(Time time) {
         return trim(time, 60000L);
     }
 
+    /**
+     * Trims the minutes portion of the given time value.
+     *
+     * @param time Time value to trim.
+     * @return Time value with trimmed minutes.
+     */
     public static Time trimMinutes(Time time) {
         return trim(time, 3600000L);
     }
 
-
+    /**
+     * Trims the hours portion of the given time value.
+     *
+     * @param time Time value to trim.
+     * @return Time value with trimmed hours.
+     */
     public static Time trimHours(Time time) {
         return trim(time, 86400000L);
     }
@@ -532,18 +566,44 @@ public class DateUtility {
         return timestamp(d.getTime());
     }
 
+    /**
+     * Trims the milliseconds portion of the provided {@link Timestamp}.
+     *
+     * @param time the {@link Timestamp} object to be trimmed; must not be null
+     * @return a new {@link Timestamp} object with the milliseconds trimmed
+     */
     public static Timestamp trimMillis(Timestamp time) {
         return trim(time, 10000L);
     }
 
+    /**
+     * Trims the seconds and milliseconds from the given Timestamp, rounding down to the nearest minute.
+     *
+     * @param time the Timestamp to be trimmed; must not be null
+     * @return a new Timestamp representing the time rounded down to the nearest minute
+     */
     public static Timestamp trimSeconds(Timestamp time) {
         return trim(time, 60000L);
     }
 
+    /**
+     * Adjusts the given Timestamp by removing the minutes and seconds components, effectively rounding
+     * down to the start of the nearest hour.
+     *
+     * @param time the Timestamp object to be trimmed; must not be null.
+     * @return a new Timestamp object with minutes and seconds set to zero, or null if the input is null.
+     */
     public static Timestamp trimMinutes(Timestamp time) {
         return trim(time, 3600000L);
     }
 
+    /**
+     * Trims the hours, minutes, seconds, and milliseconds from the given Timestamp,
+     * effectively resetting the time to midnight of the same date.
+     *
+     * @param time the Timestamp to be trimmed; must not be null
+     * @return a new Timestamp set to midnight of the same date as the input
+     */
     public static Timestamp trimHours(Timestamp time) {
         return trim(time, 86400000L);
     }
@@ -553,6 +613,12 @@ public class DateUtility {
         return timestamp(t * tail);
     }
 
+    /**
+     * Formats the given date into a string representing the month.
+     *
+     * @param date the date to be formatted; must not be null
+     * @return a string representation of the month extracted from the provided date
+     */
     public static <D extends java.util.Date> String formatMonth(D date) {
         return monthFormat.format(date);
     }
@@ -642,10 +708,23 @@ public class DateUtility {
         return date == null ? null : hhmmDateFormat.format(date);
     }
 
+    /**
+     * Formats the given date object into a string representation according to the
+     * pre-defined time format.
+     *
+     * @param date the date object to be formatted; must be a subclass of java.util.Date
+     * @return a string representation of the formatted time
+     */
     public static <D extends java.util.Date> String formatTime(D date) {
         return timeFormat.format(date);
     }
 
+    /**
+     * Formats the given date into a string representing the time in HH:mm format.
+     *
+     * @param date the date object to format, must not be null
+     * @return a string representing the time in HH:mm format
+     */
     public static <D extends java.util.Date> String formatHHMM(D date) {
         return hhmmFormat.format(date);
     }
@@ -694,6 +773,13 @@ public class DateUtility {
         return Integer.compare(v1, v2);
     }
 
+    /**
+     * Retrieves the numeric value of a month based on its name.
+     *
+     * @param monthName the name of the month to be converted to its numeric representation
+     * @return the numeric value of the month (1 for January, 2 for February, etc.),
+     *         or 0 if the month name is not recognized
+     */
     public static int getMonth(String monthName) {
         String[] m = monthNames;
         int loop = 2, i;
@@ -706,11 +792,24 @@ public class DateUtility {
         return 0;
     }
 
+    /**
+     * Returns the name of the month corresponding to the given month number.
+     *
+     * @param m the month number (1 for January, 2 for February, ..., 12 for December)
+     * @return the name of the month, or null if the input month number is out of range
+     */
     public static String getMonthName(int m) {
         if(m < 1 || m > 12) return null;
         return monthNames[m-1];
     }
 
+    /**
+     * Retrieves the name of the month for the specified date.
+     *
+     * @param <D>   The type of the Date object, which must extend {@link java.util.Date}.
+     * @param date  The date object from which the month name will be derived. Must not be null.
+     * @return      The full name of the month corresponding to the provided date.
+     */
     public static <D extends java.util.Date> String getMonthName(D date) {
         return getMonthName(getMonth(date));
     }
@@ -730,6 +829,14 @@ public class DateUtility {
         return get(date, YEAR);
     }
 
+    /**
+     * Sets the specified year for the given date object and returns the updated date.
+     *
+     * @param <D>   the type of the date object, which must extend {@link java.util.Date}
+     * @param date  the date object to modify
+     * @param year  the year to set in the date object
+     * @return the updated date object with the specified year set
+     */
     public static <D extends java.util.Date> D setYear(D date, int year) {
         return set(date, YEAR, year);
     }
@@ -769,18 +876,41 @@ public class DateUtility {
         return ((c.get(DAY_OF_YEAR) - 1) * 24) + c.get(HOUR_OF_DAY) + 1;
     }
 
+    /**
+     * Retrieves the current month as an integer value.
+     *
+     * @return the current month, where January is 1 and December is 12
+     */
     public static int getMonth() {
         return getMonth(today());
     }
 
+    /**
+     * Returns the month of the year for the given date.
+     *
+     * @param <D>   The type of the date parameter, which must extend java.util.Date.
+     * @param date  The date object from which the month is to be extracted.
+     * @return      The month of the year as an integer (1 for January, 2 for February, ..., 12 for December).
+     */
     public static <D extends java.util.Date> int getMonth(D date) {
         return get(date, MONTH) + 1;
     }
 
+    /**
+     * Retrieves the current month as a zero-based index (0 for January, 1 for February, etc.).
+     *
+     * @return the zero-based index of the current month
+     */
     public static int getMonthZeroBased() {
         return getMonthZeroBased(today());
     }
 
+    /**
+     * Retrieves the month from the given date as a zero-based value.
+     *
+     * @param date the date from which the month is to be extracted; must not be null
+     * @return the zero-based month (0 for January, 1 for February, ..., 11 for December)
+     */
     public static <D extends java.util.Date> int getMonthZeroBased(D date) {
         return get(date, MONTH);
     }
@@ -797,14 +927,33 @@ public class DateUtility {
         return set(date, MONTH, month - 1);
     }
 
+    /**
+     * Retrieves the current day of the month based on the system's current date.
+     *
+     * @return the day of the month as an integer
+     */
     public static int getDay() {
         return getDay(today());
     }
 
+    /**
+     * Retrieves the day of the month from the specified date.
+     *
+     * @param date the date object from which the day of the month is to be extracted; must not be null
+     * @return the day of the month as an integer
+     */
     public static <D extends java.util.Date> int getDay(D date) {
         return get(date, DATE);
     }
 
+    /**
+     * Sets the day of the given date to the specified day value.
+     *
+     * @param <D>   the type of the date object, which must extend {@code java.util.Date}
+     * @param date  the date object whose day is to be set
+     * @param day   the day value to set in the date object
+     * @return      the updated date object with the new day value
+     */
     public static <D extends java.util.Date> D setDay(D date, int day) {
         return set(date, DATE, day);
     }
@@ -865,7 +1014,6 @@ public class DateUtility {
     public static boolean isLeapYear(int year) {
         return (new GregorianCalendar()).isLeapYear(year);
     }
-
 
     /**
      * Checks if a particular year is a leap year by taking in a date
@@ -933,6 +1081,17 @@ public class DateUtility {
         return v;
     }
 
+    /**
+     * Returns the value of the specified calendar field extracted from the given date.
+     *
+     * @param <D>   the type of the date, which must extend {@link java.util.Date}
+     * @param date  the date object from which the field value should be extracted
+     * @param field the calendar field to retrieve (e.g., {@link Calendar#YEAR},
+     *              {@link Calendar#MONTH}, etc.)
+     * @return the value of the specified calendar field for the given date
+     * @throws NullPointerException if the date is null
+     * @throws IllegalArgumentException if the specified field is not a valid calendar field
+     */
     public static <D extends java.util.Date> int get(D date, int field) {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(date);

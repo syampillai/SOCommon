@@ -240,6 +240,9 @@ public final class INAddress extends Address {
             }
     };
 
+    /**
+     * Constructor.
+     */
     INAddress() {
     }
 
@@ -274,18 +277,44 @@ public final class INAddress extends Address {
         return super.convert(lineNumber);
     }
 
+    /**
+     * Retrieves the name of the post office associated with this address.
+     *
+     * @return The name of the post office as a String.
+     */
     public String getPostOfficeName() {
         return lines[lines.length - POS_PO];
     }
 
+    /**
+     * Sets the name of the post office associated with this address.
+     *
+     * @param name The name of the post office to be set. If the value is null,
+     *             it sets an empty string as the post office name.
+     */
     public void setPostOfficeName(String name) {
         lines[lines.length - POS_PO] = name == null ? "" : name;
     }
 
+    /**
+     * Retrieves the state code associated with this address.
+     *
+     * @return The state code as an integer.
+     * @throws SOException If an error occurs during the extraction process.
+     */
     public int getState()throws SOException {
         return extractNumber(lines.length - POS_STATE);
     }
 
+    /**
+     * Sets the state code for this address. The state index is calculated in a cyclic manner
+     * based on the total number of states. If an error occurs while retrieving the district,
+     * a default value of 0 is used.
+     *
+     * @param state The state code to be set. The value should be a non-negative integer.
+     *              The method ensures its validity by taking the modulo with the total
+     *              number of available states.
+     */
     public void setState(int state) {
         int district;
         try {
@@ -297,14 +326,33 @@ public final class INAddress extends Address {
         setDistrict(district);
     }
 
+    /**
+     * Retrieves the name of the state associated with this address.
+     *
+     * @return The name of the state as a String.
+     */
     public String getStateName() {
         return extractName(lines.length - POS_STATE, states);
     }
 
+    /**
+     * Retrieves the district code associated with this address.
+     *
+     * @return The district code as an integer.
+     * @throws SOException If an error occurs during the extraction process.
+     */
     public int getDistrict()throws SOException {
         return extractNumber(lines.length - POS_DISTRICT);
     }
 
+    /**
+     * Sets the district code for this address. The district is calculated in a cyclic manner
+     * based on the total number of districts available for the state. If an error occurs while
+     * retrieving the state, a default state of 0 is used.
+     *
+     * @param district The district code to be set. The value is normalized by taking the modulo
+     *                 with the total number of districts available for the determined state.
+     */
     public void setDistrict(int district) {
         int state;
         try {
@@ -316,14 +364,32 @@ public final class INAddress extends Address {
         lines[lines.length - POS_DISTRICT] = "" + (district % districts.length);
     }
 
+    /**
+     * Retrieves the name of the district associated with this address.
+     *
+     * @return The district name as a String.
+     * @throws SOException If an error occurs during the extraction process.
+     */
     public String getDistrictName() throws SOException {
         return extractName(lines.length - POS_DISTRICT, districts[getState()]);
     }
 
+    /**
+     * Retrieves the list of states associated with the address.
+     *
+     * @return An array of Strings representing the states.
+     */
     public static String[] getStates() {
         return states;
     }
 
+    /**
+     * Retrieves the list of districts associated with the specified state.
+     *
+     * @param state The state code for which the districts are to be retrieved. The value is
+     *              expected to correspond to an index within the valid range of states.
+     * @return An array of Strings representing the districts associated with the specified state.
+     */
     public static String[] getDistricts(int state) {
         return districts[state];
     }

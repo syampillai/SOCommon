@@ -21,6 +21,8 @@ package com.storedobject.common;
  *
  * This class provides methods to retrieve information about the fault, replace the fault message or code,
  * and append additional information to the fault message.
+ *
+ * @author Syam
  */
 public class Fault {
 
@@ -117,46 +119,175 @@ public class Fault {
 
     // Common fault values
 
+    /**
+     * A technical fault indicating an unexpected internal error.
+     * <p>
+     * Use this when the failure is not caused by invalid user input or a business-rule violation.
+     */
     public static final Fault TECHNICAL_FAULT = new Fault(Integer.MIN_VALUE, "Technical error");
+
+    /**
+     * A fallback fault used when no specific category applies to the error.
+     */
     public static final Fault UNCATEGORIZED_FAULT = new Fault(Integer.MAX_VALUE, "Uncategorized error");
 
+    /**
+     * Indicates that an account with the same identifier already exists.
+     */
     public static final Fault ACCOUNT_ALREADY_EXISTS = new Fault(100100, "Account already exists");
+
+    /**
+     * Indicates that the requested account could not be found.
+     */
     public static final Fault ACCOUNT_NOT_FOUND = new Fault(100101, "Account not found");
+
+    /**
+     * Indicates that the account identifier was not provided.
+     */
     public static final Fault ACCOUNT_NOT_SPECIFIED = new Fault(100102, "Account not specified");
 
+    /**
+     * Indicates that the requested customer could not be found.
+     */
     public static final Fault CUSTOMER_NOT_FOUND = new Fault(100111, "Customer does not exist");
+
+    /**
+     * Indicates that the account is not a customer account.
+     */
     public static final Fault NOT_A_CUSTOMER_ACCOUNT = new Fault(100112, "Not a customer account");
+
+    /**
+     * Indicates that the account is not a loan account.
+     */
     public static final Fault NOT_A_LOAN_ACCOUNT = new Fault(100113, "Not a loan account");
+
+    /**
+     * Indicates that the account is not a deposit account.
+     */
     public static final Fault NOT_A_DEPOSIT_ACCOUNT = new Fault(100114, "Not a deposit account");
+
+    /**
+     * Indicates that the account is not a general ledger account.
+     */
     public static final Fault NOT_A_GL_ACCOUNT = new Fault(100115, "Not a GL account");
 
+    /**
+     * Indicates that a date value is invalid.
+     */
     public static final Fault INVALID_DATE = new Fault(100200, "Invalid date");
+
+    /**
+     * Indicates that a period value is invalid.
+     */
     public static final Fault INVALID_PERIOD = new Fault(100201, "Invalid period");
+
+    /**
+     * Indicates that an amount value is invalid.
+     */
     public static final Fault INVALID_AMOUNT = new Fault(100202, "Invalid amount");
+
+    /**
+     * Indicates that a currency value is invalid.
+     */
     public static final Fault INVALID_CURRENCY = new Fault(100203, "Invalid currency");
 
+    /**
+     * Indicates that transaction approval failed.
+     */
     public static final Fault TRANSACTION_APPROVAL_ERROR = new Fault(100400, "Transaction approval error");
+
+    /**
+     * Indicates that a transaction is not balanced.
+     */
     public static final Fault TRANSACTION_NOT_BALANCED = new Fault(100401, "Transaction not balanced");
+
+    /**
+     * Indicates that the requested transaction could not be found.
+     */
     public static final Fault TRANSACTION_NOT_FOUND = new Fault(100402, "Transaction does not exist");
+
+    /**
+     * Indicates that only part of the transaction was committed.
+     */
     public static final Fault PARTIAL_TRANSACTION_COMMITTED = new Fault(100403, "Partial transaction committed");
+
+    /**
+     * Indicates that the available balance is insufficient for the requested operation.
+     */
     public static final Fault NOT_ENOUGH_BALANCE = new Fault(100411, "Not enough balance");
+
+    /**
+     * Indicates that a narration is required but was not provided.
+     */
     public static final Fault EMPTY_NARRATION = new Fault(100412, "Empty narration");
+
+    /**
+     * Indicates that the requested voucher could not be found.
+     */
     public static final Fault VOUCHER_NOT_FOUND = new Fault(100499, "Voucher not found");
 
+    /**
+     * Indicates that an action was required but not specified.
+     */
     public static final Fault ACTION_NOT_SPECIFIED = new Fault(100500, "Action not specified");
+
+    /**
+     * Indicates that the requested action is not recognized.
+     */
     public static final Fault UNKNOWN_ACTION = new Fault(100501, "Unknown action");
 
+    /**
+     * Indicates that a duplicate entry was found.
+     */
     public static final Fault DUPLICATE_ENTRY_FOUND = new Fault(100700, "Duplicate entry");
+
+    /**
+     * Indicates that no entries were found.
+     */
     public static final Fault NO_ENTRIES_FOUND = new Fault(100701, "No entries found");
+
+    /**
+     * Indicates that multiple entries were found where a single entry was expected.
+     */
     public static final Fault MULTIPLE_ENTRIES_FOUND = new Fault(100702, "Multiple entries");
 
+    /**
+     * Indicates that a duplicate reference was found.
+     */
     public static final Fault DUPLICATE_REFERENCE_FOUND = new Fault(100800, "Duplicate reference");
+
+    /**
+     * Indicates that the requested reference could not be found.
+     */
     public static final Fault REFERENCE_NOT_FOUND = new Fault(100801, "Reference does not exist");
+
+    /**
+     * Indicates that a reference with the same value already exists.
+     */
     public static final Fault REFERENCE_ALREADY_EXISTS = new Fault(100802, "Reference already exists");
+
+    /**
+     * Indicates that the reference identifier was not provided.
+     */
     public static final Fault REFERENCE_NOT_SPECIFIED = new Fault(100803, "Reference not specified");
 
+    /**
+     * Indicates that the current operation is not allowed.
+     */
     public static final Fault NOT_ALLOWED = new Fault(100901, "Not allowed");
+
+    /**
+     * Indicates that access is illegal or prohibited.
+     */
     public static final Fault ILLEGAL_ACCESS = new Fault(100902, "Illegal access");
+
+    /**
+     * Indicates that the one-time password does not match.
+     */
     public static final Fault OTP_MISMATCH = new Fault(100903, "OTP mismatch");
+
+    /**
+     * Indicates that the external system is not recognized.
+     */
     public static final Fault EXTERNAL_SYSTEM_NOT_RECOGNIZED = new Fault(100999, "External system not recognized");
 }
