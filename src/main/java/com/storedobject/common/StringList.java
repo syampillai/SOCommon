@@ -44,8 +44,9 @@ public class StringList implements Iterable<String>, List<String> {
     public static final StringList EMPTY = new StringList(empty_array);
     /**
      * Internal array to hold the {@link String} values.
+     * This is protected to allow access from subclasses.
      */
-    String[] array;
+    protected String[] array;
 
     private StringList(String list) {
         this(toArray(list));
@@ -184,6 +185,13 @@ public class StringList implements Iterable<String>, List<String> {
         return s;
     }
 
+    /**
+     * Compares this StringList with another object for equality.
+     * Two StringLists are considered equal if they contain the same strings in the same order.
+     *
+     * @param o The object to compare with.
+     * @return true if equal, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -192,31 +200,68 @@ public class StringList implements Iterable<String>, List<String> {
         return Arrays.equals(array, strings.array);
     }
 
+    /**
+     * Returns the hash code for this StringList.
+     *
+     * @return Hash code.
+     */
     @Override
     public int hashCode() {
         return Arrays.hashCode(array);
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param index Index at which the element is to be inserted.
+     * @param element Element to be inserted.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public void add(int index, String element) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param c Collection containing elements to be added.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public boolean addAll(Collection<? extends String> c) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param e Element to be added.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public boolean add(String e) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Checks if the list is empty.
+     *
+     * @return true if empty, false otherwise.
+     */
     @Override
     public boolean isEmpty() {
         return array.length == 0;
     }
 
+    /**
+     * Checks if the list contains the specified element.
+     *
+     * @param o Element to search for.
+     * @return true if found, false otherwise.
+     */
     @Override
     public boolean contains(Object o) {
         if(!(o instanceof String)) {
@@ -225,6 +270,11 @@ public class StringList implements Iterable<String>, List<String> {
         return indexOf((String)o) >= 0;
     }
 
+    /**
+     * Returns an array containing all of the elements in this list in proper sequence.
+     *
+     * @return An array containing the elements.
+     */
     @Override
     public Object[] toArray() {
         String[] s = array();
@@ -233,51 +283,121 @@ public class StringList implements Iterable<String>, List<String> {
         return a;
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param a The array into which the elements of the list are to be stored.
+     * @param <T> Type of the array elements.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public <T> T[] toArray(T[] a) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param o Element to be removed.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public boolean remove(Object o) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns true if this list contains all of the elements of the specified collection.
+     *
+     * @param c Collection to be checked for containment in this list.
+     * @return true if all elements are found, false otherwise.
+     */
     @Override
     public boolean containsAll(Collection<?> c) {
         return c.stream().noneMatch(item -> indexOf(item) < 0);
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param index Index at which the elements are to be inserted.
+     * @param c Collection containing elements to be added.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public boolean addAll(int index, Collection<? extends String> c) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param c Collection containing elements to be removed.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public boolean removeAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param c Collection containing elements to be retained.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public boolean retainAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public void clear() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param index Index of the element to replace.
+     * @param element Element to be stored at the specified position.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public String set(int index, String element) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param index Index of the element to be removed.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public String remove(int index) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns the index of the first occurrence of the specified element in this list,
+     * or -1 if this list does not contain the element.
+     *
+     * @param o Element to search for.
+     * @return Index of the element or -1.
+     */
     @Override
     public int indexOf(Object o) {
         if(o instanceof String s) {
@@ -286,6 +406,13 @@ public class StringList implements Iterable<String>, List<String> {
         return -1;
     }
 
+    /**
+     * Returns the index of the last occurrence of the specified element in this list,
+     * or -1 if this list does not contain the element.
+     *
+     * @param o Element to search for.
+     * @return Last index of the element or -1.
+     */
     @Override
     public int lastIndexOf(Object o) {
         if(!(o instanceof String s)) {
@@ -302,21 +429,45 @@ public class StringList implements Iterable<String>, List<String> {
         return p;
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public ListIterator<String> listIterator() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Always throws {@link UnsupportedOperationException} as StringList is immutable.
+     *
+     * @param index Starting index.
+     * @return Never returns.
+     * @throws UnsupportedOperationException always.
+     */
     @Override
     public ListIterator<String> listIterator(int index) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns the element at the specified position in this list.
+     *
+     * @param index Index of the element to return.
+     * @return The element at the specified position.
+     */
     @Override
     public String get(int index) {
         return array[index];
     }
 
+    /**
+     * Returns the number of elements in this list.
+     *
+     * @return The number of elements.
+     */
     @Override
     public int size() {
         return array.length;
@@ -543,6 +694,11 @@ public class StringList implements Iterable<String>, List<String> {
         return StreamSupport.stream(i.spliterator(), false);
     }
 
+    /**
+     * Returns an iterator over the elements in this list in proper sequence.
+     *
+     * @return An iterator.
+     */
     @Override
     public Iterator<String> iterator() {
         return new SLIterator(0, array.length);
@@ -705,11 +861,11 @@ public class StringList implements Iterable<String>, List<String> {
         if(lists == null || lists.length == 0) {
             return EMPTY;
         }
-        StringList[] slist = new StringList[lists.length];
-        for(int i = 0; i < slist.length; i++) {
-            slist[i] = StringList.create(lists[i]);
+        StringList[] sList = new StringList[lists.length];
+        for(int i = 0; i < sList.length; i++) {
+            sList[i] = StringList.create(lists[i]);
         }
-        return concat(slist);
+        return concat(sList);
     }
 
     /**

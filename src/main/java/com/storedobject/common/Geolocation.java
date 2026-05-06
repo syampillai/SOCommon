@@ -839,6 +839,11 @@ public class Geolocation implements Storable {
         this.altitude = altitudeInMeters;
     }
 
+    /**
+     * Get the storable value for this Geolocation.
+     *
+     * @return Storable value.
+     */
     @Override
     public String getStorableValue() {
         return "ROW(" + latitude + "," + longitude + "," + altitude + ")::GL";

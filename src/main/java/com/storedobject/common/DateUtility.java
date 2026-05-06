@@ -26,10 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import static java.util.Calendar.*;
 
@@ -58,11 +55,24 @@ public class DateUtility {
     private final static DateFormat timeFormat24 = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
     private final static DateFormat hhmmFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private final static DateFormat hhmmDateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
-    private final static DateFormatSymbols formatSymbols = new DateFormatSymbols();
-    private final static String[] monthNames = new String[]
-            { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-    private final static String[] weekNames = new String[]
-            { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    private final static DateFormatSymbols formatSymbols = new DateFormatSymbols(Locale.getDefault());
+    private static final SimpleDateFormat weekNameFormat = new SimpleDateFormat("EEE");
+    private final static String[] monthNames = new String[12];
+    private final static String[] weekNames = new String[7];
+    static {
+        System.arraycopy(formatSymbols.getMonths(), 0, monthNames, 0, monthNames.length);
+        System.arraycopy(formatSymbols.getWeekdays(), 1, weekNames, 0, weekNames.length);
+        for(int i = 0; i < monthNames.length; i++) {
+            if(monthNames[i].length() > 3) {
+                monthNames[i] = monthNames[i].substring(0, 3);
+            }
+        }
+        for(int i = 0; i < weekNames.length; i++) {
+            if(weekNames[i].length() > 3) {
+                weekNames[i] = weekNames[i].substring(0, 3);
+            }
+        }
+    }
 
     /**
      * A utility class for performing date-related operations.
@@ -837,6 +847,29 @@ public class DateUtility {
     }
 
     /**
+     * Returns the name of the week corresponding to the given integer value.
+     *
+     * @param w an integer representing the week number (1 through 5)
+     * @return the name of the week as a string if the input is valid;
+     *         null if the input is outside the range of 1 to 5
+     */
+    public static String getWeekName(int w) {
+        if(w < 1 || w > 5) return null;
+        return weekNames[w-1];
+    }
+
+    /**
+     * Returns the name of the week corresponding to the provided date.
+     *
+     * @param <D> The type of the date object, which must extend {@link java.util.Date}.
+     * @param date The date object for which the week name is to be retrieved.
+     * @return The name of the week as a string, formatted based on the date provided.
+     */
+    public static <D extends java.util.Date> String getWeekName(D date) {
+        return weekNameFormat.format(date);
+    }
+
+    /**
      * Retrieves the current year based on the system's local date.
      *
      * @return the current year as an integer
@@ -846,11 +879,11 @@ public class DateUtility {
     }
 
     /**
-     * Gets the year value for a particular date
+     * Get the year value for a particular date.
      *
-     * @param <D> Date-type
-     * @param date Date
-     * @return year corresponding to the date passed
+     * @param <D> Date-type.
+     * @param date Date.
+     * @return Year corresponding to the date passed.
      */
     public static <D extends java.util.Date> int getYear(D date) {
         return get(date, YEAR);
@@ -944,12 +977,12 @@ public class DateUtility {
     }
 
     /**
-     * Sets the month of this date to the specified value.
+     * Set the month of this date to the specified value.
      *
-     * @param <D> Date-type
-     * @param date The original date
-     * @param month the month value that has to be set
-     * @return Date after setting the month value
+     * @param <D> Date-type.
+     * @param date The original date.
+     * @param month The month value that has to be set (1 to 12).
+     * @return Date after setting the month value.
      */
     public static <D extends java.util.Date> D setMonth(D date, int month) {
         return set(date, MONTH, month - 1);

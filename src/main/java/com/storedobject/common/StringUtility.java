@@ -651,10 +651,11 @@ public class StringUtility {
     }
 
     /**
-     * Find the next whitespace position.
-     * @param s String to be searched.
+     * Finds the next whitespace position in the given string starting from the specified index.
+     *
+     * @param s The string to be searched.
      * @param from The position from which the search should start.
-     * @return The next whitespace position or the string length if nothing found.
+     * @return The next whitespace position or the string length if no whitespace is found.
      */
     public int findWhitespace(String s, int from) {
         while(!Character.isWhitespace(s.charAt(from))) {
@@ -664,10 +665,11 @@ public class StringUtility {
     }
 
     /**
-     * Find the next non-whitespace position.
-     * @param s String to be searched.
+     * Finds the next non-whitespace position in the given string starting from the specified index.
+     *
+     * @param s The string to be searched.
      * @param from The position from which the search should start.
-     * @return The next non-whitespace position or the string length if nothing found.
+     * @return The next non-whitespace position or the string length if no non-whitespace is found.
      */
     public int findNonWhitespace(String s, int from) {
         while(Character.isWhitespace(s.charAt(from))) {

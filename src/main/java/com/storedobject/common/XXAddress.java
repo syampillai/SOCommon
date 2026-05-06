@@ -23,6 +23,9 @@ package com.storedobject.common;
  */
 public class XXAddress extends Address {
 
+    /**
+     * Package-private constructor.
+     */
     XXAddress() {
     }
 

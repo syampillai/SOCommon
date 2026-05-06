@@ -48,46 +48,46 @@ public abstract class Address {
     /**
      * Country of the address.
      */
-    Country country;
+    protected Country country;
     /**
      * Apartment code. '0' - Apartment, '1' - Villa, '2' - House, '3' - Office, '4' - Flat, '5' - Suite
      */
-    char apartmentCode = '0';
+    protected char apartmentCode = '0';
     /**
      * Apartment name.
      */
-    String apartmentName;
+    protected String apartmentName;
     /**
      * Building name.
      */
-    String buildingName;
+    protected String buildingName;
     /**
      * Street name.
      */
-    String streetName;
+    protected String streetName;
     /**
      * Area name.
      */
-    String areaName;
+    protected String areaName;
     /**
      * Post Box number
      */
-    int poBox;
+    protected int poBox;
     /**
      * Postal code.
      */
-    String postalCode;
+    protected String postalCode;
     /**
-     * Extra ines in the address.
+     * Extra lines in the address.
      */
-    String[] lines;
+    protected String[] lines;
     /**
      * Whether the address is valid or not.
      */
-    boolean valid;
+    protected boolean valid;
 
     /**
-     * Constructor.
+     * Package-private constructor.
      */
     Address() {
     }
