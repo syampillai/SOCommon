@@ -4,18 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="6.1.6  &#10;Provided protected constructors in utilities classes so they can be sub-classed.  &#10;All classes are now documented.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/LogWriter.java" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="6.1.7&#10;Documented all classes and methods, improved visibility modifiers, enhanced address handling, added `HTTP2` logging and retry utilities, and introduced `LogWriter` for customizable logging.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/DateUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Geolocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Geolocation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/HTTP2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XXAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/XXAddress.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,8 +130,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.31033.145" />
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.24374.151" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.24374.151" />
       </set>
     </attachedChunks>
   </component>
@@ -292,15 +285,9 @@
       <workItem from="1775485604716" duration="467000" />
       <workItem from="1777956519318" duration="254000" />
       <workItem from="1778039611132" duration="2504000" />
-      <workItem from="1778044574803" duration="6005000" />
-    </task>
-    <task id="LOCAL-00047" summary="Add comprehensive comments in XML.java and update project version&#10;&#10;Added detailed Javadoc comments to almost all methods in XML.java to improve the code's readability and maintainability. Also, the project version was updated from 4.7.8 to 4.7.9 in the pom.xml file.">
-      <option name="closed" value="true" />
-      <created>1719136020816</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1719136020816</updated>
+      <workItem from="1778044574803" duration="6427000" />
+      <workItem from="1778521368606" duration="98000" />
+      <workItem from="1781126285405" duration="1253000" />
     </task>
     <task id="LOCAL-00048" summary="Update project version and enhance JavaDoc in StringList&#10;&#10;The project version has been incremented in the pom.xml file, from 4.7.9 to 4.7.10. Moreover, new comprehensive JavaDoc comments were added and minor refactorings were made in StringList to improve code readability and maintainability.">
       <option name="closed" value="true" />
@@ -686,14 +673,21 @@
       <option name="project" value="LOCAL" />
       <updated>1775485915659</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="6.1.7&#10;Documented all classes and methods, improved visibility modifiers, enhanced address handling, added `HTTP2` logging and retry utilities, and introduced `LogWriter` for customizable logging.">
+      <option name="closed" value="true" />
+      <created>1778050634859</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1778050634860</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Note: Requires Java 21. If you want to use older versions of Java, please use 4.x versions.&#10;&#10;Corrected the closing-sequence error situation in InputOutputStream" />
     <MESSAGE value="Add HTTP2 utility class and update project to version 5.1.0&#10;&#10;Introduce a new HTTP2 class leveraging Java's HttpClient for HTTP/2 communication with enhanced features like chunked/compressed content handling. Updated HTTP to recommend HTTP2 for better efficiency. Also, incremented the project version to 5.1.0 in the pom.xml." />
     <MESSAGE value="Version 5.1.1&#10;Refactor HTTP2 builder and improve client configurability&#10;&#10;Replaced HttpClient with HttpClient.Builder for flexible configuration in HTTP2. Added support for custom SSL parameters, proxy settings, local address binding, and authenticators. Ensured chaining-friendly methods to enhance extensibility." />
     <MESSAGE value="Version 5.1.2&#10;&#10;Refactor HTTP2 builder for enhanced null-check handling&#10;&#10;Added null checks in HTTP2 builder methods for SSLContext, SSLParameters, ProxySelector, and local address to prevent unintended null configurations. Improved robustness and ensured method chaining remains unaffected in all scenarios." />
@@ -718,6 +712,7 @@
     <MESSAGE value="Refine address handling and enhance documentation&#10;&#10;Refactored `INAddress`, `GBAddress`, `PKAddress`, and `Fault` classes to improve address handling, add support for various address components, and clarify fault definitions. Enhanced documentation with detailed annotations for existing and new methods in the `DateUtility`, `ErrorText`, and other utility classes.  &#10;&#10;Jackson lib dependency is updated to the latest available version by upgrading the parent POM." />
     <MESSAGE value="6.1.5&#10;All classes are now documented." />
     <MESSAGE value="6.1.6  &#10;Provided protected constructors in utilities classes so they can be sub-classed.  &#10;All classes are now documented." />
-    <option name="LAST_COMMIT_MESSAGE" value="6.1.6  &#10;Provided protected constructors in utilities classes so they can be sub-classed.  &#10;All classes are now documented." />
+    <MESSAGE value="6.1.7&#10;Documented all classes and methods, improved visibility modifiers, enhanced address handling, added `HTTP2` logging and retry utilities, and introduced `LogWriter` for customizable logging." />
+    <option name="LAST_COMMIT_MESSAGE" value="6.1.7&#10;Documented all classes and methods, improved visibility modifiers, enhanced address handling, added `HTTP2` logging and retry utilities, and introduced `LogWriter` for customizable logging." />
   </component>
 </project>

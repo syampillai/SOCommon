@@ -864,96 +864,12 @@ public class HTTP2 {
         }
     }
 
-    /**
-     * Handles chunked transfer encoding properly.
-     * Fixed version with proper CRLF validation.
-     */
-    private static class ChunkedInputStream extends InputStream {
-
-        private final InputStream in;
-        private final boolean isChunked;
-        private int chunkSize = -1;
-        private int chunkPos = 0;
-
-        public ChunkedInputStream(HttpResponse<InputStream> response) {
-            this.in = response.body();
-            String transferEncoding = response.headers().firstValue("Transfer-Encoding").orElse(null);
-            this.isChunked = "chunked".equalsIgnoreCase(transferEncoding);
-        }
-
-        @Override
-        public int read() throws IOException {
-            if (!isChunked) {
-                return in.read();
-            }
-            if (chunkSize == 0) {
-                return -1;
-            }
-            if (chunkSize == -1 || chunkPos >= chunkSize) {
-                chunkSize = readChunkSize();
-                if (chunkSize == 0) {
-                    return -1;
-                }
-                chunkPos = 0;
-                // Read and discard CR LF after chunk
-                readCrLf();
-            }
-            chunkPos++;
-            return in.read();
-        }
-
-        private int readChunkSize() throws IOException {
-            StringBuilder hex = new StringBuilder();
-            int b;
-            while ((b = in.read()) != -1) {
-                if (b == '\r') {
-                    int next = in.read();
-                    if (next != '\n') {
-                        throw new IOException("Invalid chunk encoding: expected LF after CR");
-                    }
-                    break;
-                }
-                hex.append((char) b);
-            }
-            if (hex.length() == 0) {
-                throw new IOException("Invalid chunk encoding: empty chunk size");
-            }
-            try {
-                return Integer.parseInt(hex.toString(), 16);
-            } catch (NumberFormatException e) {
-                throw new IOException("Invalid chunk encoding: invalid hex number", e);
-            }
-        }
-
-        private void readCrLf() throws IOException {
-            int cr = in.read();
-            int lf = in.read();
-            if (cr != '\r' || lf != '\n') {
-                throw new IOException("Invalid chunk encoding: expected CRLF after chunk data");
-            }
-        }
-
-        @Override
-        public int available() throws IOException {
-            return isChunked ? 0 : in.available();
-        }
-
-        @Override
-        public void close() throws IOException {
-            in.close();
-        }
-    }
-
-    /**
-     * Handles decompression of gzip and deflate encoded responses.
-     * Fixed version with proper resource cleanup on error.
-     */
     private static class DecompressingInputStream extends InputStream {
 
         private final InputStream decompressedStream;
 
         public DecompressingInputStream(HttpResponse<InputStream> response) throws IOException {
-            InputStream in = new ChunkedInputStream(response);
+            InputStream in = response.body();
             try {
                 String contentEncoding = response.headers().firstValue("Content-Encoding").orElse(null);
                 if (contentEncoding != null) {
