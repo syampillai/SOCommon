@@ -267,7 +267,7 @@ public class JSON {
     }
 
     /**
-     * Get this as a String. If value is <code>null</code,
+     * Get this as a String. If value is <code>null</code>,
      * <code>null</code> will be returned. Otherwise, the stringified value is returned.
      *
      * @return The strinified value.

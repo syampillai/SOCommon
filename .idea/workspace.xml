@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/JSON.java" afterDir="false" />
-    </list>
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="6.1.9  &#10;Refactored `JSON#getString()` methods to handle non-string values more effectively. Updated project version to 6.1.9 in `pom.xml` and adjusted `README.md` to reflect recent changes." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,61 +46,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0000000000032414" />
-      <entry key="S5" value="1.0000253685396843" />
-      <entry key="S10" value="1.0050367191408498" />
-      <entry key="S30" value="1.1715396664310733" />
-      <entry key="S60" value="1.425181103908077" />
-      <entry key="M2" value="1.7490778189435612" />
-      <entry key="M5" value="2.2530097891452665" />
-      <entry key="M10" value="2.8133391888156565" />
-      <entry key="M15" value="3.6357070193766834" />
-      <entry key="M30" value="7.035094358331203" />
-      <entry key="H1" value="12.63310484059974" />
-      <entry key="H2" value="18.110207807301343" />
-      <entry key="H4" value="22.012830404173297" />
-      <entry key="D1" value="26.080971811875997" />
-      <entry key="W1" value="26.866373748078313" />
+      <entry key="MS100" value="1.0000035346529461" />
+      <entry key="MS500" value="1.081221191403465" />
+      <entry key="S2" value="1.5338476544625936" />
+      <entry key="S5" value="1.777997054670946" />
+      <entry key="S10" value="1.8864727639209562" />
+      <entry key="S30" value="2.123530380381422" />
+      <entry key="S60" value="2.3956739316027518" />
+      <entry key="M2" value="2.730876525328237" />
+      <entry key="M5" value="3.2436022194748193" />
+      <entry key="M10" value="3.807459416195541" />
+      <entry key="M15" value="4.630639593017311" />
+      <entry key="M30" value="8.030189912896924" />
+      <entry key="H1" value="13.62870055173167" />
+      <entry key="H2" value="19.10705064440333" />
+      <entry key="H4" value="23.01091156587651" />
+      <entry key="D1" value="27.080592889035916" />
+      <entry key="W1" value="27.86631798577168" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="4.720326272476815E-238" />
-      <entry key="S2" value="4.6611492000177443E-60" />
-      <entry key="S5" value="1.850960717163554E-24" />
-      <entry key="S10" value="1.3605001716881748E-12" />
-      <entry key="S30" value="1.1080674572635695E-4" />
-      <entry key="S60" value="0.010526478588439315" />
-      <entry key="M2" value="0.10261514862097837" />
-      <entry key="M5" value="0.41447343657307245" />
-      <entry key="M10" value="0.7541896227304264" />
-      <entry key="M15" value="1.0354244554476257" />
-      <entry key="M30" value="1.842677694757162" />
-      <entry key="H1" value="3.0301080814182892" />
-      <entry key="H2" value="4.166791230160325" />
-      <entry key="H4" value="4.972477296279556" />
-      <entry key="D1" value="5.810756403780016" />
-      <entry key="W1" value="5.972486310061859" />
+      <entry key="MS500" value="3.833905236636438E-239" />
+      <entry key="S2" value="2.488343567521602E-60" />
+      <entry key="S5" value="1.4400054554293252E-24" />
+      <entry key="S10" value="1.200002273093399E-12" />
+      <entry key="S30" value="1.0626592401605715E-4" />
+      <entry key="S60" value="0.010308536730646179" />
+      <entry key="M2" value="0.10154731251374408" />
+      <entry key="M5" value="0.4127427793207619" />
+      <entry key="M10" value="0.7526133949112801" />
+      <entry key="M15" value="1.0339812871310616" />
+      <entry key="M30" value="1.841393090493653" />
+      <entry key="H1" value="3.0290516925526516" />
+      <entry key="H2" value="4.166064831059023" />
+      <entry key="H4" value="4.972043849980701" />
+      <entry key="D1" value="5.810671980993342" />
+      <entry key="W1" value="5.972473913911336" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="8.862491751144147E-4" />
-      <entry key="MS500" value="0.24519475099713783" />
-      <entry key="S2" value="0.7036841876638392" />
-      <entry key="S5" value="0.8688793312805987" />
-      <entry key="S10" value="0.9362151289480137" />
-      <entry key="S30" value="1.136943828383733" />
-      <entry key="S60" value="1.4089642459961005" />
-      <entry key="M2" value="1.8302293080676093" />
-      <entry key="M5" value="2.6520890901700698" />
-      <entry key="M10" value="3.5561248230497053" />
-      <entry key="M15" value="4.660655732296466" />
-      <entry key="M30" value="8.867612891348013" />
-      <entry key="H1" value="15.654603388397913" />
-      <entry key="H2" value="22.271095957428557" />
-      <entry key="H4" value="26.981809363657653" />
-      <entry key="D1" value="31.891052559470847" />
-      <entry key="W1" value="32.83876101563814" />
+      <entry key="MS100" value="3.537785529311722E-6" />
+      <entry key="MS500" value="0.10113620120532846" />
+      <entry key="S2" value="0.9095078075264017" />
+      <entry key="S5" value="1.4539457307917425" />
+      <entry key="S10" value="1.707800266612521" />
+      <entry key="S30" value="2.0493726172087445" />
+      <entry key="S60" value="2.3590886737694845" />
+      <entry key="M2" value="2.8007773110913123" />
+      <entry key="M5" value="3.636839585829705" />
+      <entry key="M10" value="4.546602694294347" />
+      <entry key="M15" value="5.652765944721095" />
+      <entry key="M30" value="9.860733784042951" />
+      <entry key="H1" value="16.648797081458234" />
+      <entry key="H2" value="23.267039093943904" />
+      <entry key="H4" value="27.979370214923275" />
+      <entry key="D1" value="32.89057469495188" />
+      <entry key="W1" value="33.83869078184382" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -347,14 +342,6 @@
       <workItem from="1778044574803" duration="6427000" />
       <workItem from="1778521368606" duration="98000" />
       <workItem from="1781126285405" duration="1433000" />
-    </task>
-    <task id="LOCAL-00049" summary="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml.">
-      <option name="closed" value="true" />
-      <created>1720753966149</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1720753966149</updated>
     </task>
     <task id="LOCAL-00050" summary="Add new Fault codes and update version to 4.7.11&#10;&#10;Introduced new Fault codes related to deposit account, GL account, and partial transaction commitment. Also, updated project version in pom.xml from 4.7.10 to 4.7.11. No key changes in workspace.xml.">
       <option name="closed" value="true" />
@@ -740,14 +727,21 @@
       <option name="project" value="LOCAL" />
       <updated>1781127619952</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="6.1.9  &#10;Refactored `JSON#getString()` methods to handle non-string values more effectively. Updated project version to 6.1.9 in `pom.xml` and adjusted `README.md` to reflect recent changes.">
+      <option name="closed" value="true" />
+      <created>1790327532834</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1790327532858</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Version 5.1.2&#10;&#10;Refactor HTTP2 builder for enhanced null-check handling&#10;&#10;Added null checks in HTTP2 builder methods for SSLContext, SSLParameters, ProxySelector, and local address to prevent unintended null configurations. Improved robustness and ensured method chaining remains unaffected in all scenarios." />
     <MESSAGE value="Upgrade to version 6.0.0&#10;&#10;Hosting repository has changed and README is updated accordingly." />
     <MESSAGE value="Upgrade to version 6.0.1&#10;&#10;Hosting repository has changed and README is updated accordingly." />
     <MESSAGE value="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
@@ -772,6 +766,7 @@
     <MESSAGE value="6.1.7&#10;Documented all classes and methods, improved visibility modifiers, enhanced address handling, added `HTTP2` logging and retry utilities, and introduced `LogWriter` for customizable logging." />
     <MESSAGE value="6.1.8  &#10;Removed custom chunked transfer decoding in `HTTP2`, relying on Java's HTTP client's built-in feature. Incremented project version to 6.1.8 in `pom.xml` and updated dependencies in `README.md`." />
     <MESSAGE value="6.1.9  &#10;Refactored `JSON#getString()` methods to improve handling of non-string values. Incremented project version to 6.1.9 in `pom.xml`. Adjusted `.idea/workspace.xml` to reflect recent changes." />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="6.1.9  &#10;Refactored `JSON#getString()` methods to handle non-string values more effectively. Updated project version to 6.1.9 in `pom.xml` and adjusted `README.md` to reflect recent changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="6.1.9  &#10;Refactored `JSON#getString()` methods to handle non-string values more effectively. Updated project version to 6.1.9 in `pom.xml` and adjusted `README.md` to reflect recent changes." />
   </component>
 </project>
