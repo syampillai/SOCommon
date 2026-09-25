@@ -267,13 +267,13 @@ public class JSON {
     }
 
     /**
-     * Get this as a String. If value is <code>null</code> or if the {@link Type} is different,
-     * <code>null</code> will be returned.
+     * Get this as a String. If value is <code>null</code,
+     * <code>null</code> will be returned. Otherwise, the stringified value is returned.
      *
-     * @return The value.
+     * @return The strinified value.
      */
     public String getString() {
-        return value == null || !value.isString() ? null : value.stringValue();
+        return value == null ? null : (value.isString() ? value.stringValue() : value.toString());
     }
 
     /**
@@ -360,11 +360,10 @@ public class JSON {
 
     /**
      * Get the value for the given key as a String. <code>Null</code> will be returned if this
-     * is <code>null</code>, key is <code>null</code>, no value exists for the given key or the value type is
-     * not matching.
+     * is <code>null</code>, key is <code>null</code>, no value exists for the given key.
      *
      * @param key Key.
-     * @return Value for the key.
+     * @return Stringified value for the key.
      */
     public String getString(String key) {
         JSON json = get(key);
