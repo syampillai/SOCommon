@@ -27,13 +27,26 @@ package com.storedobject.common;
 @FunctionalInterface
 public interface TriFunction<T1, T2, T3, R> {
     /**
-    * Accepts 3 arguments of the specified types T1, T2, T3 and returns a value of specified type R
-    * 
-    * @param t1 First argument passed of type T1
-    * @param t2 Second argument passed of type T2
-    * @param t3 Third argument passed of type T3
+     * Accepts 3 arguments of the specified types T1, T2, T3 and returns a value of specified type R
      *
-    * @return The result of the function application.
-    **/
-    R accept(T1 t1, T2 t2, T3 t3);
+     * @param t1 First argument passed of type T1
+     * @param t2 Second argument passed of type T2
+     * @param t3 Third argument passed of type T3
+     *
+     * @return The result of the function application.
+     **/
+    R apply(T1 t1, T2 t2, T3 t3);
+
+    /**
+     * Apply 3 arguments of the specified types T1, T2, T3 and returns a value of specified type R
+     *
+     * @param t1 First argument passed of type T1
+     * @param t2 Second argument passed of type T2
+     * @param t3 Third argument passed of type T3
+     *
+     * @return The result of the function application.
+     **/
+    default R accept(T1 t1, T2 t2, T3 t3) {
+        return apply(t1, t2, t3);
+    }
 }
