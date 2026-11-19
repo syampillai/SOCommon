@@ -27,11 +27,12 @@ public class NPAddress extends Address {
 
     NPAddress() {
         setCity("Kathmandu");
+        setPostalCode("44600");
     }
 
     @Override
     public int getExtraLines() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -77,9 +78,32 @@ public class NPAddress extends Address {
         lines[0] = "" + ward;
     }
 
+    /**
+     * Get the district.
+     *
+     * @return District.
+     */
+    public String getDistrict() {
+        return lines[1];
+    }
+
+    /**
+     * Set the district.
+     *
+     * @param district District.
+     */
+    public void setDistrict(String district) {
+        lines[1] = district;
+    }
+
+    @Override
+    public boolean isPostalCodeMandatory() {
+        return true;
+    }
+
     @Override
     int postalCodePosition() {
-        return Integer.MAX_VALUE;
+        return -1;
     }
 
     @Override
@@ -94,17 +118,17 @@ public class NPAddress extends Address {
 
     @Override
     String postalCodePrefix() {
-        return "";
+        return getCity() + " ";
     }
 
     @Override
-    String postalCodeSuffix() {
-        return " NEPAL";
+    protected boolean isCountryUpperCase() {
+        return true;
     }
 
     @Override
-    protected boolean isCountryNeeded() {
-        return false;
+    String areaName() {
+        return (super.areaName() + " " + getPostalCode()).trim();
     }
 
     @Override
@@ -118,7 +142,10 @@ public class NPAddress extends Address {
     }
 
     @Override
-    String convert(int lineNumber) throws SOException {
-        return null;
+    String convert(int lineNumber) {
+        if(lineNumber == 0) return null;
+        String line = lines[lineNumber];
+        if(line == null || line.isEmpty()) return null;
+        return line + " District";
     }
 }

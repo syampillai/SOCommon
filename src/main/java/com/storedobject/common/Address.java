@@ -924,7 +924,7 @@ public abstract class Address {
      * @return True or false.
      */
     public final boolean isPostalCodeAddress() {
-        return postalCodePosition() >= 0;
+        return postalCodePosition() >= 0 || isPostalCodeMandatory();
     }
 
     /**
@@ -996,7 +996,7 @@ public abstract class Address {
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isPostalCodeMandatory() {
-        return isPostalCodeAddress();
+        return postalCodePosition() >= 0;
     }
 
     /**
@@ -1045,7 +1045,7 @@ public abstract class Address {
     }
 
     private boolean checkPC() {
-        if(postalCodePosition() < 0) { // Not a postal code based address
+        if(!isPostalCodeAddress()) { // Not a postal code based address
             return true;
         }
         if(postalCode == null) {
@@ -1091,7 +1091,7 @@ public abstract class Address {
     }
 
     /**
-     * Get the apartment name prefixed with the given prefix.
+     * Get the apartment name prefixed with the given prefix (for output).
      *
      * @param prefix Prefix
      * @return Prefixed value.
@@ -1101,7 +1101,7 @@ public abstract class Address {
     }
 
     /**
-     * Get the building name.
+     * Get the building name for output.
      *
      * @return Building name.
      */
@@ -1110,7 +1110,7 @@ public abstract class Address {
     }
 
     /**
-     * Get the street name.
+     * Get the street name for output.
      *
      * @return Street name.
      */
@@ -1127,7 +1127,7 @@ public abstract class Address {
     }
 
     /**
-     * Get area name.
+     * Get area name for output.
      *
      * @return Area name.
      */

@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade project version to 6.1.11 and update parent POM to 1.1.18.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/NPAddress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Refine address handling, add NPAddress support, and upgrade version to 6.2.0&#10;&#10;Refactored `Address` class with extensible methods for country formatting and line building. Added `NPAddress` for Nepal-specific addresses with ward support. Updated `USAddress` line formatting and ZIP code handling. Simplified `StringUtility#toString()` with pattern matching. Upgraded project version to 6.2.0 in `pom.xml` and `README.md`.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/NPAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/NPAddress.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,61 +50,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0" />
-      <entry key="S5" value="1.0" />
-      <entry key="S10" value="1.0000000000014229" />
-      <entry key="S30" value="1.0002308011976047" />
-      <entry key="S60" value="1.0291018074444067" />
-      <entry key="M2" value="1.336874900907127" />
-      <entry key="M5" value="2.49297113630245" />
-      <entry key="M10" value="3.701863273264559" />
-      <entry key="M15" value="4.935914913397076" />
-      <entry key="M30" value="10.944284034187817" />
-      <entry key="H1" value="27.792177220644575" />
-      <entry key="H2" value="59.466498956234226" />
-      <entry key="H4" value="98.72615778003308" />
-      <entry key="D1" value="163.75457769693043" />
-      <entry key="W1" value="180.08071861180832" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="3.593454419259414E-120" />
+      <entry key="S5" value="1.66803383658098E-48" />
+      <entry key="S10" value="1.2915238428232677E-24" />
+      <entry key="S30" value="1.0890233223175131E-8" />
+      <entry key="S60" value="1.0517791420244583E-4" />
+      <entry key="M2" value="0.013160280779756789" />
+      <entry key="M5" value="0.5815521379484271" />
+      <entry key="M10" value="2.6413123038983803" />
+      <entry key="M15" value="4.49482683606986" />
+      <entry key="M30" value="8.264943941026774" />
+      <entry key="H1" value="14.803482472107898" />
+      <entry key="H2" value="33.973551066500555" />
+      <entry key="H4" value="73.03177810950802" />
+      <entry key="D1" value="170.3106817950472" />
+      <entry key="W1" value="200.39735809072576" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="7.81904997290749E-14" />
-      <entry key="MS500" value="0.00239128201640665" />
-      <entry key="S2" value="0.22113510883288515" />
-      <entry key="S5" value="0.5468435320985323" />
-      <entry key="S10" value="0.7394890563217579" />
-      <entry key="S30" value="0.9114693452580866" />
-      <entry key="S60" value="1.0504918942805566" />
-      <entry key="M2" value="1.5282710766253558" />
-      <entry key="M5" value="3.1250278339303637" />
-      <entry key="M10" value="4.710656216785301" />
-      <entry key="M15" value="5.973899093706457" />
-      <entry key="M30" value="11.42448662245033" />
-      <entry key="H1" value="26.833565690420034" />
-      <entry key="H2" value="53.928894214086725" />
-      <entry key="H4" value="84.19693618078718" />
-      <entry key="D1" value="129.4110030538406" />
-      <entry key="W1" value="140.10904526188318" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0000081306741613" />
+      <entry key="S5" value="1.0102037257299428" />
+      <entry key="S10" value="1.1276956043008575" />
+      <entry key="S30" value="1.7785954571998719" />
+      <entry key="S60" value="2.334280858576434" />
+      <entry key="M2" value="3.1344899978129592" />
+      <entry key="M5" value="5.381896332303201" />
+      <entry key="M10" value="8.923968776398395" />
+      <entry key="M15" value="11.502719694733287" />
+      <entry key="M30" value="16.013225235041226" />
+      <entry key="H1" value="22.656099362809652" />
+      <entry key="H2" value="40.42955788731371" />
+      <entry key="H4" value="73.48117719394423" />
+      <entry key="D1" value="148.12407596104137" />
+      <entry key="W1" value="169.97674731340456" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.0013433025567770934" />
-      <entry key="MS500" value="0.26649332162382827" />
-      <entry key="S2" value="0.7934682996703576" />
-      <entry key="S5" value="1.2309497881646094" />
-      <entry key="S10" value="1.5316891127038232" />
-      <entry key="S30" value="1.826648274155791" />
-      <entry key="S60" value="2.031318809103202" />
-      <entry key="M2" value="2.826589607730428" />
-      <entry key="M5" value="5.579112821103456" />
-      <entry key="M10" value="8.381504296811096" />
-      <entry key="M15" value="10.884271037364007" />
-      <entry key="M30" value="22.348868904001577" />
-      <entry key="H1" value="54.606587051658835" />
-      <entry key="H2" value="113.37634869633676" />
-      <entry key="H4" value="182.9073614572904" />
-      <entry key="D1" value="293.1612012868301" />
-      <entry key="W1" value="320.18907477013477" />
+      <entry key="MS100" value="2.133906056709222E-7" />
+      <entry key="MS500" value="0.0463270940563386" />
+      <entry key="S2" value="0.4639401986497208" />
+      <entry key="S5" value="0.7428210436037321" />
+      <entry key="S10" value="0.9665489148469243" />
+      <entry key="S30" value="1.6898954527166872" />
+      <entry key="S60" value="2.2720981702657848" />
+      <entry key="M2" value="3.100006892496678" />
+      <entry key="M5" value="5.926217400209403" />
+      <entry key="M10" value="11.532772795357197" />
+      <entry key="M15" value="15.969166339818253" />
+      <entry key="M30" value="24.25766135487078" />
+      <entry key="H1" value="37.44420438117316" />
+      <entry key="H2" value="74.38887205169912" />
+      <entry key="H4" value="146.49942883779786" />
+      <entry key="D1" value="318.4298534160256" />
+      <entry key="W1" value="370.373287624593" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -353,30 +348,6 @@
       <workItem from="1778044574803" duration="6427000" />
       <workItem from="1778521368606" duration="98000" />
       <workItem from="1781126285405" duration="1433000" />
-    </task>
-    <task id="LOCAL-00054" summary="4.8.2&#10;Dependency update.">
-      <option name="closed" value="true" />
-      <created>1726585242904</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1726585242904</updated>
-    </task>
-    <task id="LOCAL-00055" summary="4.8.2&#10;Dependency update.">
-      <option name="closed" value="true" />
-      <created>1726585375790</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1726585375790</updated>
-    </task>
-    <task id="LOCAL-00056" summary="4.8.3&#10;Dependency update.">
-      <option name="closed" value="true" />
-      <created>1726585883708</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1726585883709</updated>
     </task>
     <task id="LOCAL-00057" summary="Update to version 4.8.4 and fix documentation&#10;&#10;Updated project version in pom.xml to 4.8.4. Fixed multiple typos and improved documentation across various classes, including StringUtility, TriFunction, and CheckWithPrevious. Enhanced consistency in internal code comments and formatting.">
       <option name="closed" value="true" />
@@ -746,14 +717,37 @@
       <option name="project" value="LOCAL" />
       <updated>1792831613766</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="Refine address handling, add NPAddress support, and upgrade version to 6.2.0&#10;&#10;Refactored `Address` class with extensible methods for country formatting and line building. Added `NPAddress` for Nepal-specific addresses with ward support. Updated `USAddress` line formatting and ZIP code handling. Simplified `StringUtility#toString()` with pattern matching. Upgraded project version to 6.2.0 in `pom.xml` and `README.md`.">
+      <option name="closed" value="true" />
+      <created>1795107361942</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1795107361942</updated>
+    </task>
+    <task id="LOCAL-00104" summary="Refine address handling, add NPAddress support, and upgrade version to 6.2.0&#10;&#10;Refactored `Address` class with extensible methods for country formatting and line building. Added `NPAddress` for Nepal-specific addresses with ward support. Updated `USAddress` line formatting and ZIP code handling. Simplified `StringUtility#toString()` with pattern matching. Upgraded project version to 6.2.0 in `pom.xml` and `README.md`.">
+      <option name="closed" value="true" />
+      <created>1795107449357</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1795107449357</updated>
+    </task>
+    <task id="LOCAL-00105" summary="Refine address handling, add NPAddress support, and upgrade version to 6.2.0&#10;&#10;Refactored `Address` class with extensible methods for country formatting and line building. Added `NPAddress` for Nepal-specific addresses with ward support. Updated `USAddress` line formatting and ZIP code handling. Simplified `StringUtility#toString()` with pattern matching. Upgraded project version to 6.2.0 in `pom.xml` and `README.md`.">
+      <option name="closed" value="true" />
+      <created>1795107506205</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1795107506205</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
     <MESSAGE value="Update project version to 6.0.2 and clean up configurations&#10;&#10;Bumped the project version from 6.0.1 to 6.0.2 across pom.xml and README.md. Removed unused Maven plugins and unnecessary tasks from `.idea/workspace.xml` to streamline project configuration." />
     <MESSAGE value="Update the project version to 6.0.3 and refine configurations&#10;&#10;Bumped the project version from 6.0.2 to 6.0.3 in pom.xml. Improved code clarity by fixing comments, trimming XML node logic, and refining JavaDocs. Cleaned up `.idea/workspace.xml` by removing obsolete tasks and dependencies to streamline the development setup." />
     <MESSAGE value="Update the project version to 6.0.4 and improve documentation&#10;&#10;Bumped the project version from 6.0.3 to 6.0.4 in pom.xml and README.md. Enhanced comments, fixed typos, and improved JavaDocs for better clarity. Refined `.idea/workspace.xml` by removing obsolete entries and updating index configurations." />
@@ -778,6 +772,7 @@
     <MESSAGE value="6.1.9  &#10;Refactored `JSON#getString()` methods to handle non-string values more effectively. Updated project version to 6.1.9 in `pom.xml` and adjusted `README.md` to reflect recent changes." />
     <MESSAGE value="Upgrade project version to 6.1.10, update parent POM to 1.1.16, and refactor `TriFunction` interface." />
     <MESSAGE value="Upgrade project version to 6.1.11 and update parent POM to 1.1.18." />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade project version to 6.1.11 and update parent POM to 1.1.18." />
+    <MESSAGE value="Refine address handling, add NPAddress support, and upgrade version to 6.2.0&#10;&#10;Refactored `Address` class with extensible methods for country formatting and line building. Added `NPAddress` for Nepal-specific addresses with ward support. Updated `USAddress` line formatting and ZIP code handling. Simplified `StringUtility#toString()` with pattern matching. Upgraded project version to 6.2.0 in `pom.xml` and `README.md`." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refine address handling, add NPAddress support, and upgrade version to 6.2.0&#10;&#10;Refactored `Address` class with extensible methods for country formatting and line building. Added `NPAddress` for Nepal-specific addresses with ward support. Updated `USAddress` line formatting and ZIP code handling. Simplified `StringUtility#toString()` with pattern matching. Upgraded project version to 6.2.0 in `pom.xml` and `README.md`." />
   </component>
 </project>
