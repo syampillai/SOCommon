@@ -16,6 +16,7 @@
 
 package com.storedobject.common;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -109,8 +110,23 @@ public class USAddress extends Address {
     }
 
     @Override
-    boolean streetNameFirst() {
-        return true;
+    protected void add(List<String> lines, String apartmentName, String buildingName, String streetName) {
+        StringBuilder s = new StringBuilder();
+        if(buildingName != null && !buildingName.isEmpty()) {
+            s.append(buildingName).append(' ');
+        }
+        if(streetName != null && !streetName.isEmpty()) {
+            s.append(streetName).append(' ');
+        }
+        if(apartmentName != null && !apartmentName.isEmpty()) {
+            s.append(apartmentName);
+        } else {
+            int poBox = getPOBox();
+            if(poBox > 0) {
+                s.append("#").append(poBox).append(' ');
+            }
+        }
+        lines.add(s.toString().trim());
     }
 
     @Override
@@ -273,6 +289,15 @@ public class USAddress extends Address {
     }
 
     /**
+     * Sets the ZIP code for this USAddress.
+     *
+     * @param zipCode The ZIP code to set.
+     */
+    public void setZIPCode(int zipCode) {
+        setPostalCode(String.valueOf(zipCode));
+    }
+
+    /**
      * Retrieves the ZIP code for this USAddress.
      *
      * @return The ZIP code.
@@ -281,12 +306,19 @@ public class USAddress extends Address {
         return getPostalCode();
     }
 
-    /**
-     * Retrieves the city name for this USAddress.
-     *
-     * @return The city name.
-     */
-    public String getCity() {
-        return getAreaName();
+    @Override
+    protected void blankApartment() throws SOException {
+        if(!buildingName.isBlank()) {
+            return;
+        }
+        super.blankApartment();
+    }
+
+    @Override
+    String apartmentName(String prefix) {
+        if(apartmentName == null || apartmentName.isBlank()) {
+            return "";
+        }
+        return super.apartmentName(prefix);
     }
 }

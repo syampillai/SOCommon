@@ -246,7 +246,7 @@ public abstract class Address {
             postalCode = "";
         }
         if(apartmentName.isBlank()) {
-            throw new SOException("Blank " + getTypeValue() + " Number/Name");
+            blankApartment();
         }
         valid = parse();
         if(!valid) {
@@ -255,6 +255,17 @@ public abstract class Address {
         if(!checkPC()) {
             valid = false;
             throw new SOException("Invalid " + getPostalCodeCaption() + " (" + postalCode + ")");
+        }
+    }
+
+    /**
+     * Check if apartment name is blank.
+     *
+     * @throws SOException Throws if apartment name is blank.
+     */
+    protected void blankApartment() throws SOException {
+        if(apartmentName.isBlank()) {
+            throw new SOException("Blank " + getTypeValue() + " Number/Name");
         }
     }
 
@@ -325,12 +336,25 @@ public abstract class Address {
     }
 
     /**
+     * Add apartment, building and street name to the list of lines under constuction in proper order.
+     *
+     * @param lines List of lines under construction.
+     * @param apartmentName Apartment name.
+     * @param buildingName Building name.
+     * @param streetName Street name.
+     */
+    protected void add(List<String> lines, String apartmentName, String buildingName, String streetName) {
+        lines.add(apartmentName + ", " + buildingName);
+        lines.add(streetName);
+    }
+
+    /**
      * Get address as a list of lines (Country line is not included).
      *
      * @return List of address lines (without country name).
      */
     private List<String> toStrings() {
-        ArrayList<String> slines = new ArrayList<>();
+        List<String> slines = new ArrayList<>();
         boolean v = valid;
         valid = false;
         if(!isValid() || !v) {
@@ -342,6 +366,9 @@ public abstract class Address {
             case '2', '3' -> "";
             default -> getTypeValue() + " ";
         };
+        add(slines, apartmentName(s), buildingName(), streetName());
+        String line;
+        /*
         boolean streetNameFirst = streetNameFirst();
         if(streetNameFirst) {
             slines.add(street());
@@ -369,6 +396,8 @@ public abstract class Address {
                 slines.add(sn);
             }
         }
+
+         */
         slines.add(areaName());
         for(int i = 0; i < lines.length; i++) {
             if(valid) {
@@ -432,11 +461,28 @@ public abstract class Address {
         if(!postalCode.isEmpty() && pinPos > 0) {
             list.add(postalCodePrefix() + postalCode() + postalCodeSuffix());
         }
-        if(country != null) {
-            list.add(country.getName());
+        if(country != null && isCountryNeeded()) {
+            String cName = country.getName();
+            list.add(isCountryUpperCase() ? cName.toUpperCase() : cName);
         }
         arrangeLines(list);
         return list.stream().filter(l -> l != null && !l.isEmpty()).collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Whether the country name is needed as the last line in the printable address. (Country name may be part of an earlier line).
+     * @return True if the country name is needed.
+     */
+    protected boolean isCountryNeeded() {
+        return true;
+    }
+
+    /**
+     * Whether the country name should be converted to upper case.
+     * @return True if the country name should be converted to upper case.
+     */
+    protected boolean isCountryUpperCase() {
+        return false;
     }
 
     /**
@@ -795,24 +841,6 @@ public abstract class Address {
     }
 
     /**
-     * Whether to have building name in a separate line or not. By default, it will be
-     * int the same line where apartment/villa/office number/name appears.
-     *
-     * @return True/false
-     */
-    boolean separateBuildingLine() {
-        return false;
-    }
-
-    /**
-     * Whether to have street name shown before apartment/villa/office or not.
-     * @return True/false.
-     */
-    boolean streetNameFirst() {
-        return false;
-    }
-
-    /**
      * Get street name.
      *
      * @return Street name.
@@ -846,6 +874,24 @@ public abstract class Address {
      */
     public void setAreaName(String areaName) {
         this.areaName = areaName == null ? "" : areaName;
+    }
+
+    /**
+     * Set city name (same as area name)
+     *
+     * @param city City name to set
+     */
+    public void setCity(String city) {
+        setAreaName(city);
+    }
+
+    /**
+     * Get city name (same as area name)
+     *
+     * @return City name.
+     */
+    public String getCity() {
+        return getAreaName();
     }
 
     /**
@@ -1126,5 +1172,14 @@ public abstract class Address {
      */
     public String getAreaCaption() {
         return "Area";
+    }
+
+    /**
+     * Get the caption for the "street" line.
+     *
+     * @return Default implementation returns "Street Number &amp; Name".
+     */
+    public String getStreetNameCaption() {
+        return "Street Number & Name";
     }
 }

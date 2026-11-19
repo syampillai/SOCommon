@@ -2256,45 +2256,27 @@ public class StringUtility {
      * @return the string representation of the provided object
      */
     public static String toString(Object message) {
-        if(message instanceof Displayable) {
-            return ((Displayable)message).toDisplay();
-        }
-        return toStringInt(message);
+        return message instanceof Displayable d ? d.toDisplay() : toStringInt(message);
     }
 
     static String toStringInt(Object message) {
-        switch (message) {
-            case null -> {
-                return "[No data]";
-            }
-            case Double v -> {
-                String s = v.toString();
-                if (s.endsWith(".0") && s.length() > 2) {
-                    s = s.substring(0, s.length() - 2);
-                }
-                return s;
-            }
-            case String s -> {
-                return s;
-            }
-            case java.sql.Time time -> {
-                return DateUtility.timeFormat24().format(time);
-            }
-            case Date date -> {
-                return DateUtility.format(date);
-            }
-            case Boolean b -> {
-                return b ? "Yes" : "No";
-            }
-            case EndUserMessage endUserMessage -> {
-                return endUserMessage.getEndUserMessage();
-            }
-            case Throwable throwable -> message = new SORuntimeException(throwable);
+        return switch (message) {
+            case null -> "[No data]";
+            case Double v -> format(v, -1, false);
+            case Float v -> format(v, -1, false);
+            case String s -> s;
+            case java.sql.Time time -> DateUtility.timeFormat24().format(time);
+            case Date date -> DateUtility.format(date);
+            case Boolean b -> b ? "Yes" : "No";
+            case EndUserMessage endUserMessage -> endUserMessage.getEndUserMessage();
+            case Throwable throwable -> toString(new SORuntimeException(throwable));
+            case Thread thread -> getTrace(thread);
+            case Class<?> clazz -> clazz.getName();
             default -> {
+                String m = message.toString();
+                yield m == null ? ("[NULL value] of " + message.getClass().getName()) : m;
             }
-        }
-        String m = message.toString();
-        return m == null ? ("[NULL value] of " + message.getClass()) : m;
+        };
     }
 
     /**

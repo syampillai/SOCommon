@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade project version to 6.1.10, update parent POM to 1.1.16, and refactor `TriFunction` interface.">
+    <list default="true" id="6819301b-b0eb-4636-aa7a-2fa7b299ba45" name="Changes" comment="Upgrade project version to 6.1.11 and update parent POM to 1.1.18.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/NPAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/Address.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/StringUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/storedobject/common/USAddress.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +26,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -49,60 +56,60 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.000003005424065" />
-      <entry key="S2" value="1.041793697547663" />
-      <entry key="S5" value="1.328797785199495" />
-      <entry key="S10" value="1.9106313885575927" />
-      <entry key="S30" value="3.605952823922603" />
-      <entry key="S60" value="5.002397483946539" />
-      <entry key="M2" value="6.811897091132562" />
-      <entry key="M5" value="9.927478219224472" />
-      <entry key="M10" value="12.694261224848862" />
-      <entry key="M15" value="14.500885167540094" />
-      <entry key="M30" value="18.763504012572348" />
-      <entry key="H1" value="25.1822368353498" />
-      <entry key="H2" value="31.94848199915201" />
-      <entry key="H4" value="37.08554607992199" />
-      <entry key="D1" value="42.697933757162154" />
-      <entry key="W1" value="43.809923721747765" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0000000000014229" />
+      <entry key="S30" value="1.0002308011976047" />
+      <entry key="S60" value="1.0291018074444067" />
+      <entry key="M2" value="1.336874900907127" />
+      <entry key="M5" value="2.49297113630245" />
+      <entry key="M10" value="3.701863273264559" />
+      <entry key="M15" value="4.935914913397076" />
+      <entry key="M30" value="10.944284034187817" />
+      <entry key="H1" value="27.792177220644575" />
+      <entry key="H2" value="59.466498956234226" />
+      <entry key="H4" value="98.72615778003308" />
+      <entry key="D1" value="163.75457769693043" />
+      <entry key="W1" value="180.08071861180832" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="2.153795712452535E-99" />
-      <entry key="S2" value="2.178450634387741E-25" />
-      <entry key="S5" value="1.5849226306355617E-10" />
-      <entry key="S10" value="1.6408777014044347E-5" />
-      <entry key="S30" value="0.0394849672511362" />
-      <entry key="S60" value="0.28023529025493776" />
-      <entry key="M2" value="0.7481323295751862" />
-      <entry key="M5" value="1.3594677798537267" />
-      <entry key="M10" value="1.7604052040260079" />
-      <entry key="M15" value="2.054166284494501" />
-      <entry key="M30" value="2.8649855315396624" />
-      <entry key="H1" value="4.158688438018006" />
-      <entry key="H2" value="5.5366133756573195" />
-      <entry key="H4" value="6.5857462598054965" />
-      <entry key="D1" value="7.733538071412439" />
-      <entry key="W1" value="7.961098155131575" />
+      <entry key="MS100" value="7.81904997290749E-14" />
+      <entry key="MS500" value="0.00239128201640665" />
+      <entry key="S2" value="0.22113510883288515" />
+      <entry key="S5" value="0.5468435320985323" />
+      <entry key="S10" value="0.7394890563217579" />
+      <entry key="S30" value="0.9114693452580866" />
+      <entry key="S60" value="1.0504918942805566" />
+      <entry key="M2" value="1.5282710766253558" />
+      <entry key="M5" value="3.1250278339303637" />
+      <entry key="M10" value="4.710656216785301" />
+      <entry key="M15" value="5.973899093706457" />
+      <entry key="M30" value="11.42448662245033" />
+      <entry key="H1" value="26.833565690420034" />
+      <entry key="H2" value="53.928894214086725" />
+      <entry key="H4" value="84.19693618078718" />
+      <entry key="D1" value="129.4110030538406" />
+      <entry key="W1" value="140.10904526188318" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.678302163723836" />
-      <entry key="MS500" value="0.9253072166911278" />
-      <entry key="S2" value="1.0217971580972482" />
-      <entry key="S5" value="1.3185226807542083" />
-      <entry key="S10" value="1.9030047880442003" />
-      <entry key="S30" value="3.6362155179255007" />
-      <entry key="S60" value="5.2638622273880795" />
-      <entry key="M2" value="7.536212000699242" />
-      <entry key="M5" value="11.267694395826581" />
-      <entry key="M10" value="14.440169584202993" />
-      <entry key="M15" value="16.54246260897936" />
-      <entry key="M30" value="21.617549809514923" />
-      <entry key="H1" value="29.3316573739072" />
-      <entry key="H2" value="37.47850273959916" />
-      <entry key="H4" value="43.6672703069492" />
-      <entry key="D1" value="50.4306717837076" />
-      <entry key="W1" value="51.770903951225264" />
+      <entry key="MS100" value="0.0013433025567770934" />
+      <entry key="MS500" value="0.26649332162382827" />
+      <entry key="S2" value="0.7934682996703576" />
+      <entry key="S5" value="1.2309497881646094" />
+      <entry key="S10" value="1.5316891127038232" />
+      <entry key="S30" value="1.826648274155791" />
+      <entry key="S60" value="2.031318809103202" />
+      <entry key="M2" value="2.826589607730428" />
+      <entry key="M5" value="5.579112821103456" />
+      <entry key="M10" value="8.381504296811096" />
+      <entry key="M15" value="10.884271037364007" />
+      <entry key="M30" value="22.348868904001577" />
+      <entry key="H1" value="54.606587051658835" />
+      <entry key="H2" value="113.37634869633676" />
+      <entry key="H4" value="182.9073614572904" />
+      <entry key="D1" value="293.1612012868301" />
+      <entry key="W1" value="320.18907477013477" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -117,44 +124,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.DateUtility.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HTMLText.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HTTP2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.IPLocation.executor&quot;: &quot;Run&quot;,
-    &quot;Application.JSON.executor&quot;: &quot;Run&quot;,
-    &quot;Application.StringList.executor&quot;: &quot;Run&quot;,
-    &quot;Application.StringUtility.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [deploy].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.so-common [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/syam/IdeaProjects/SOComponents&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.DateUtility.executor": "Run",
+    "Application.HTMLText.executor": "Run",
+    "Application.HTTP2.executor": "Run",
+    "Application.IPLocation.executor": "Run",
+    "Application.JSON.executor": "Run",
+    "Application.NPAddress.executor": "Run",
+    "Application.StringList.executor": "Run",
+    "Application.StringUtility.executor": "Run",
+    "Application.USAddress.executor": "Run",
+    "Maven.so-common [clean].executor": "Run",
+    "Maven.so-common [deploy].executor": "Run",
+    "Maven.so-common [install].executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/syam/IdeaProjects/SOComponents",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "show.migrate.to.gradle.popup": "false",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="SOCommon" />
@@ -186,8 +195,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-34e2839f716b-intellij.indexing.shared.core-IU-262.9437.185" />
-        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.9437.185" />
+        <option value="bundled-jdk-30f59d01ecdd-ac68fc9d2b05-intellij.indexing.shared.core-IU-263.7307.200" />
+        <option value="bundled-js-predefined-d6986cc7102b-56aff7b04f6f-JavaScript-IU-263.7307.200" />
       </set>
     </attachedChunks>
   </component>
@@ -344,14 +353,6 @@
       <workItem from="1778044574803" duration="6427000" />
       <workItem from="1778521368606" duration="98000" />
       <workItem from="1781126285405" duration="1433000" />
-    </task>
-    <task id="LOCAL-00053" summary="Update version to 4.8.1 and refactor DateUtility methods&#10;&#10;Updated project version in pom.xml to 4.8.1. Refactored InputOutputStream and made GMT conversion methods in DateUtility static. Enhanced workspace.xml with detailed change tracking.">
-      <option name="closed" value="true" />
-      <created>1725899833468</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1725899833468</updated>
     </task>
     <task id="LOCAL-00054" summary="4.8.2&#10;Dependency update.">
       <option name="closed" value="true" />
@@ -737,14 +738,21 @@
       <option name="project" value="LOCAL" />
       <updated>1791371419496</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="Upgrade project version to 6.1.11 and update parent POM to 1.1.18.">
+      <option name="closed" value="true" />
+      <created>1792831613766</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1792831613766</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Upgrade to version 6.0.1&#10;&#10;Hosting repository has changed and README is updated accordingly." />
     <MESSAGE value="Added exception handler to HTTP2 Builder and updated version&#10;&#10;Introduced an exception handler in the HTTP2 Builder for better error handling and improved error propagation. Various methods were adjusted to use this mechanism. Updated the project version to 6.0.1 and adjusted related metadata." />
     <MESSAGE value="Update project version to 6.0.2 and clean up configurations&#10;&#10;Bumped the project version from 6.0.1 to 6.0.2 across pom.xml and README.md. Removed unused Maven plugins and unnecessary tasks from `.idea/workspace.xml` to streamline project configuration." />
     <MESSAGE value="Update the project version to 6.0.3 and refine configurations&#10;&#10;Bumped the project version from 6.0.2 to 6.0.3 in pom.xml. Improved code clarity by fixing comments, trimming XML node logic, and refining JavaDocs. Cleaned up `.idea/workspace.xml` by removing obsolete tasks and dependencies to streamline the development setup." />
@@ -769,6 +777,7 @@
     <MESSAGE value="6.1.9  &#10;Refactored `JSON#getString()` methods to improve handling of non-string values. Incremented project version to 6.1.9 in `pom.xml`. Adjusted `.idea/workspace.xml` to reflect recent changes." />
     <MESSAGE value="6.1.9  &#10;Refactored `JSON#getString()` methods to handle non-string values more effectively. Updated project version to 6.1.9 in `pom.xml` and adjusted `README.md` to reflect recent changes." />
     <MESSAGE value="Upgrade project version to 6.1.10, update parent POM to 1.1.16, and refactor `TriFunction` interface." />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade project version to 6.1.10, update parent POM to 1.1.16, and refactor `TriFunction` interface." />
+    <MESSAGE value="Upgrade project version to 6.1.11 and update parent POM to 1.1.18." />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrade project version to 6.1.11 and update parent POM to 1.1.18." />
   </component>
 </project>
