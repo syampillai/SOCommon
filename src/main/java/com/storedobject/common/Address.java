@@ -366,7 +366,7 @@ public abstract class Address {
             case '2', '3' -> "";
             default -> getTypeValue() + " ";
         };
-        add(slines, apartmentName(s), buildingName(), streetName());
+        add(slines, apartmentName(s), buildingName(), street());
         String line;
         /*
         boolean streetNameFirst = streetNameFirst();
