@@ -368,36 +368,6 @@ public abstract class Address {
         };
         add(slines, apartmentName(s), buildingName(), street());
         String line;
-        /*
-        boolean streetNameFirst = streetNameFirst();
-        if(streetNameFirst) {
-            slines.add(street());
-        }
-        String line = apartmentName(s);
-        boolean separateBuilding = separateBuildingLine();
-        String bn = buildingName();
-        if(!separateBuilding && !bn.isBlank()) {
-            line = (line + ", " + bn).trim();
-        }
-        slines.add(line);
-        String sn = street();
-        if(separateBuilding) {
-            if(streetNameFirst) {
-                slines.add(bn);
-            } else if(apartmentCode == '1' || apartmentCode == '2') { // Office or house
-                slines.add(sn);
-                slines.add(bn);
-            } else {
-                slines.add(bn);
-                slines.add(sn);
-            }
-        } else {
-            if(!streetNameFirst) {
-                slines.add(sn);
-            }
-        }
-
-         */
         slines.add(areaName());
         for(int i = 0; i < lines.length; i++) {
             if(valid) {
